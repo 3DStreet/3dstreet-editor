@@ -1,18 +1,23 @@
 @import './lib';
 
 #toolbar
-  background-color $bg
+  position fixed
+  top 36px
+  right 40px
+  height 42px
+  width 96px
 
   .toolbarActions
-    padding 0 0 5px
+    width 96px
+    height 42px
+    display flex
+    justify-content space-between
 
     a.disabled
       color #666
       cursor default
 
 #scenegraph
-  background $bg
-  border-top 1px solid #111
   display flex
   flex-direction column
   overflow auto
@@ -70,6 +75,7 @@
       margin-left 6px
 
   .fa
+    display none
     color #CCC
 
   .entityActions .fa:hover
@@ -97,6 +103,7 @@
     color #fff
 
   .search
+    display none
     padding 5px
     font-size 16px
     position relative
@@ -120,6 +127,7 @@
       top 9px
 
   .outliner
+    display none
     background $bg
     color $white
     cursor default

@@ -5,8 +5,7 @@
   border-radius 0
   cursor pointer
   min-height 26px
-  font-family $monospace
-  font-size 13px
+  font-family $workssans
 
 .select__indicator
   height 26px
@@ -14,22 +13,37 @@
 .select__indicator-separator
   display none
 
-.select__control,
 .select__menu
-  background $bgdark
+  margin-top 18px
+  padding 0px
+  border 1px solid #6439AB
+  border-radius 10px
+  background $bggrey
+  font-family $workssans
+  font-size 18px !important
+  overflow hidden
+
+.select__menu-list
+  padding-top 0px
+  padding-bottom 0px
+
+.select__control
+  background $bgalphadark
 
 .select__option
-  padding 5px 10px
+  height 51px
+  padding 16px 20px
 
 .select__placeholder,
 .select__menu
-  color $white
+  color #FFF
 
 .select__single-value
   color $primary
 
 .select__control--is-focused
   box-shadow none !important
+  background $bgdark
 
 .select__option
   cursor pointer
@@ -41,17 +55,28 @@
   font-size 11px
 
 .select__option--is-focused
-  background #155373
+  background $black
 
 .select__value-container
   height 26px
   position static
+  padding 2px 8px
   &.select__value-container--is-multi
     height auto
     padding 6px
 
 .select__dropdown-indicator
   padding 3px 8px
+  background-image url("/assets/arrow_down.svg")
+  background-repeat no-repeat
+  background-position center
+  width 12px
+
+.select__dropdown-indicator:active
+  background-image url("/assets/arrow_up.svg")
+
+.select__dropdown-indicator svg
+  display none  
 
 .select__multi-value
   background $bg
