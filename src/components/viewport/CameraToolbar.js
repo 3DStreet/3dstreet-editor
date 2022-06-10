@@ -45,19 +45,9 @@ export default class CameraToolbar extends React.Component {
   }
 
   render() {
-    const customStyles = {
-      dropdownIndicator: (provided, state) => ({
-        backgroundImage: state.isSelected ? 'url("/assets/arrow_up.svg")': 'url("/assets/arrow_down.svg")'
-      }),
-      menuList: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected ? '#2D2D2D' : 'rgba(50,50,50,0.8)'
-      })
-    }
     return (
       <div id="cameraToolbar">
         <Select
-          styles={customStyles}
           id="cameraSelect"
           classNamePrefix="select"
           options={options}

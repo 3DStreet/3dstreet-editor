@@ -2,20 +2,19 @@
 
 #viewportBar
   align-items center
+  background-color $bg
   color $white
-  position fixed
   display flex
   flex-grow 2
-  height 48px
-  font-size 20px
-  justify-content center
+  height 32px
+  font-size 14px
+  justify-content space-between
   left 0
   margin 0 auto
   right 0
-  top 36px
+  top 0
 
 .toolbarButtons
-  display: none
   position relative
 
   *
@@ -47,32 +46,21 @@
 
 #cameraSelect
   cursor pointer
-  width 200px
+  width 110px
   .select__dropdown-indicator
     padding-left 3px
     padding-right 3px
-
-#cameraToolbar:has(> .select__menu)
-  background $bggrey !important
 
 #cameraToolbar
   margin-left 5px
   align-items center
   display flex
-  border 1px solid #6439AB
-  background rgba(50, 50, 50, 0.8)
-  height 48px
-  border-radius 10px
-  width 200px
   a
     margin-right 10px
   .select__control
     background none
-    font-size 18px
-    padding: 2px 15px 2px 6px
   .select__single-value
-    color #FFF
-    top 45%
+    color $white
     &:hover
       color $primary
 
