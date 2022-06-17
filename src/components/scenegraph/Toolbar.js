@@ -48,7 +48,9 @@ export default class Toolbar extends React.Component {
     const sceneElem = AFRAME.scenes[0];
     sceneElem.components.screenshot.capture('perspective');
   }
-
+  openViewMode() {
+    AFRAME.INSPECTOR.close();
+  }
   exportSceneToGLTF() {
     ga('send', 'event', 'SceneGraph', 'exportGLTF');
     const sceneName = getSceneName(AFRAME.scenes[0]);
@@ -128,7 +130,13 @@ export default class Toolbar extends React.Component {
             title="Export to GLTF"
             onClick={this.exportSceneToGLTF}>
             <div></div>
-          </a>       
+          </a>  
+          <a
+            className="viewButton"
+            title="View"
+            onClick={this.openViewMode}>
+            View
+          </a>                
           <a
             className={watcherClassNames}
             title={watcherTitle}
