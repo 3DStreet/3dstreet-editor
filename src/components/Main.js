@@ -153,7 +153,7 @@ export default class Main extends React.Component {
     return (
       <div>
         <a className="toggle-edit" onClick={this.toggleEdit}>
-          {toggleButtonText}
+          <div className="logo-img" alt="3DStreet Viewer"></div>
         </a>
 
         {this.renderSceneGraphToggle()}
@@ -171,7 +171,6 @@ export default class Main extends React.Component {
 
           <div id="viewportBar">
             <CameraToolbar />
-            <ViewportHUD />
             <TransformToolbar />
           </div>
 

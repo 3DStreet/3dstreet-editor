@@ -44,7 +44,13 @@ export default class Toolbar extends React.Component {
       isPlaying: false
     };
   }
-
+  makeScreenshot() {
+    const sceneElem = AFRAME.scenes[0];
+    sceneElem.components.screenshot.capture('perspective');
+  }
+  openViewMode() {
+    AFRAME.INSPECTOR.close();
+  }
   exportSceneToGLTF() {
     ga('send', 'event', 'SceneGraph', 'exportGLTF');
     const sceneName = getSceneName(AFRAME.scenes[0]);
@@ -114,11 +120,23 @@ export default class Toolbar extends React.Component {
             onClick={this.toggleScenePlaying}>
           </a>
           <a
+            className="screenshotIcon"
+            title="Make screenshot"
+            onClick={this.makeScreenshot}>
+            <div></div>
+          </a>
+          <a
             className="gltfIcon"
             title="Export to GLTF"
             onClick={this.exportSceneToGLTF}>
-            <img src={process.env.NODE_ENV === 'production' ? 'https://aframe.io/aframe-inspector/assets/gltf.svg' : '../assets/gltf.svg'} />
-          </a>
+            <div></div>
+          </a>  
+          <a
+            className="viewButton"
+            title="View"
+            onClick={this.openViewMode}>
+            View
+          </a>                
           <a
             className={watcherClassNames}
             title={watcherTitle}
