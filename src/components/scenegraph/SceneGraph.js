@@ -30,7 +30,8 @@ export default class SceneGraph extends React.Component {
       expandedElements: new WeakMap([[props.scene, true]]),
       filter: '',
       filteredEntities: [],
-      selectedIndex: -1
+      selectedIndex: -1,
+      leftBarHide: false
     };
 
     this.rebuildEntityOptions = debounce(
@@ -247,26 +248,52 @@ export default class SceneGraph extends React.Component {
     this.updateFilteredEntities('');
   };
 
+  toggleLeftBar = () => {
+    this.setState({ leftBarHide: !this.state.leftBarHide});
+  }
+
   renderEntities = () => {
-    return this.state.filteredEntities.map((entityOption, idx) => {
-      if (
-        !this.isVisibleInSceneGraph(entityOption.entity) &&
-        !this.state.filter
-      ) {
-        return null;
-      }
-      return (
-        <Entity
-          {...entityOption}
-          key={idx}
-          isFiltering={!!this.state.filter}
-          isExpanded={this.isExpanded(entityOption.entity)}
-          isSelected={this.props.selectedEntity === entityOption.entity}
-          selectEntity={this.selectEntity}
-          toggleExpandedCollapsed={this.toggleExpandedCollapsed}
-        />
-      );
+    let entityOptions = this.state.filteredEntities.filter(
+      (entityOption, idx) => {
+        if (
+          !this.isVisibleInSceneGraph(entityOption.entity) &&
+          !this.state.filter ||
+          !entityOption.entity.attributes.getNamedItem('data-layer-name')
+        ) {
+          return false;
+        } else {
+          return true;
+        }
     });
+
+    // wrap entities of layer level 1 in <div class="layer">
+    let layerEntities = [];
+    let resultEntities = [];
+    for (let i = 0; i < entityOptions.length; i++) {
+      const entityOption = entityOptions[i];
+      const entity = (
+            <Entity
+              {...entityOption}
+              key={i}
+              isFiltering={!!this.state.filter}
+              isExpanded={this.isExpanded(entityOption.entity)}
+              isSelected={this.props.selectedEntity === entityOption.entity}
+              selectEntity={this.selectEntity}
+              toggleExpandedCollapsed={this.toggleExpandedCollapsed}
+            />
+        )
+      layerEntities.push(entity);  
+      if (i == entityOptions.length - 1 ||
+          entityOptions[i+1].depth == 1) {
+        resultEntities.push(
+          <div className="layer" key={i}>
+            {layerEntities}
+          </div>
+        );
+        layerEntities = [];          
+      }
+    }
+    return resultEntities;
   };
 
   render() {
@@ -274,6 +301,12 @@ export default class SceneGraph extends React.Component {
     if (!this.props.visible) {
       return null;
     }
+
+    // Outliner class names.
+    const className = classnames({
+      outliner: true,
+      hide: this.state.leftBarHide
+    });
 
     const clearFilter = this.state.filter ? (
       <a onClick={this.clearFilter} className="button fa fa-times" />
@@ -296,11 +329,19 @@ export default class SceneGraph extends React.Component {
           </div>
         </div>
         <div
-          className="outliner"
+          className={className}
           tabIndex="0"
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
-        >
+        >          
+          <div id="layers-title">
+            <div 
+              id="toggle-leftbar" 
+              onClick={this.toggleLeftBar}
+              >
+            </div>
+            <span>Layers</span>
+          </div>
           {this.renderEntities()}
         </div>
       </div>

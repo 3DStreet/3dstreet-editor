@@ -69,10 +69,36 @@
           loader-3dtiles="url: https://assets.cesium.com/1054529/tileset.json?v=3;
           cesiumIONToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3YTYyYTIzNS0yODg0LTRhZWQtYjYxNS1iNWNhZGZhNmY3OTgiLCJpZCI6MTcwNjEsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzE1OTcxNzZ9.R8mKo-NizcmOjCN_4dQyd5xO4X655CZZMXa9B5sECyU;"
           scale="1 1 1"
-        ></a-entity>
+        >
+        <a-entity
+          data-layer-name="Map1"
+          id="map1"
+          geometry="primitive: plane; width: 512; height: 512;"
+          material="color: #ffffff; shader: flat; side: both; transparent: true;"
+          mapbox="center: -122.415126, 37.763699; zoom: 18; 
+            accessToken: pk.eyJ1IjoibWF0dHJlIiwiYSI6IjRpa3ItcWcifQ.s0AGgKi0ai23K5OJvkEFnA;
+            style: mapbox://styles/mapbox/satellite-streets-v11;
+            pxToWorldRatio: 4;"
+          position="0 0 0"
+          rotation="-90 0 0"
+        ></a-entity>          
+        <a-entity
+          data-layer-name="Map2"
+          id="map2"
+          geometry="primitive: plane; width: 512; height: 512;"
+          material="color: #ffffff; shader: flat; side: both; transparent: true;"
+          mapbox="center: -122.415126, 37.763699; zoom: 18; 
+            accessToken: pk.eyJ1IjoibWF0dHJlIiwiYSI6IjRpa3ItcWcifQ.s0AGgKi0ai23K5OJvkEFnA;
+            style: mapbox://styles/mapbox/satellite-streets-v11;
+            pxToWorldRatio: 4;"
+          position="0 0 0"
+          rotation="-90 0 0"
+        ></a-entity>          
+        </a-entity>
 
         <a-entity
           data-layer-name="Map"
+          id="map"
           geometry="primitive: plane; width: 512; height: 512;"
           material="color: #ffffff; shader: flat; side: both; transparent: true;"
           mapbox="center: -122.415126, 37.763699; zoom: 18; 

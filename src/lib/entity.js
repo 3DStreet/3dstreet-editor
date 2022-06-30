@@ -548,6 +548,8 @@ export function printEntity(entity, onDoubleClick) {
 
   // Name.
   let entityName = entity.id;
+  let layerName = entity.getAttribute('data-layer-name');
+  console.log(layerName)
   let type = 'id';
   if (!entity.isScene && !entityName && entity.getAttribute('class')) {
     entityName = entity.getAttribute('class').split(' ')[0];
@@ -556,15 +558,12 @@ export function printEntity(entity, onDoubleClick) {
     entityName = entity.getAttribute('mixin').split(' ')[0];
     type = 'mixin';
   }
-
+  console.log(layerName);
   return (
     <span className="entityPrint" onDoubleClick={onDoubleClick}>
-      <span className="entityTagName">
-        {'<' + entity.tagName.toLowerCase()}
-      </span>
       {entityName && (
         <span className="entityName" data-entity-name-type={type}>
-          &nbsp;{entityName}
+          &nbsp;{layerName}
         </span>
       )}
       {!!icons && (
@@ -573,7 +572,6 @@ export function printEntity(entity, onDoubleClick) {
           dangerouslySetInnerHTML={{ __html: icons }}
         />
       )}
-      <span className="entityCloseTag">{'>'}</span>
     </span>
   );
 }
