@@ -17,6 +17,9 @@
       color #666
       cursor default
 
+    .fa
+      display none
+
 #scenegraph
   display flex
   flex-direction column
@@ -24,8 +27,37 @@
   padding-top 32px
   width 230px
 
+  .layer 
+    width 340px
+    margin-top 20px
+    background #4b4b4b
+    border-radius 12px
+    display flex
+    flex-direction column
+    align-items center
+
+  .entity.option
+    display flex
+    flex-direction column
+    width 340px   
+    flex none
+    order 1
+    flex-grow 0
+    padding 16px 24px 16px 8px
+    box-sizing border-box
+
+    > span
+      display flex
+      justify-content flex-start
+      align-items center
+      flex-direction row
+      position relative
+
+      .entityPrint
+        flex-basis 237px
+        margin-left 15px
+
   .entity
-    background $bg
     cursor pointer
     display flex
     justify-content space-between
@@ -33,12 +65,14 @@
     width 100%
     white-space nowrap
 
-    &:hover
-      background #1d2f39
-
     &.active
-      background-color #155373
+      width 324px
+      height 52px
+      background #8941FF
+      border-radius 10px
       color #fff
+      padding 16px 16px 16px 0px
+      margin 8px auto
       .component:hover
         color #1888c1
       .entityActions
@@ -63,6 +97,7 @@
     color #1faaf2
 
   .entityIcons
+    display none
     margin-left 2px
 
   .entityActions
@@ -75,8 +110,11 @@
       margin-left 6px
 
   .fa
-    display none
     color #CCC
+
+  .fa-trash,
+  .fa-clone
+    display none
 
   .entityActions .fa:hover
     color $primary
@@ -95,9 +133,29 @@
     display inline-block
     text-align center
     width 14px
+    right 0px
+    position absolute
 
   .fa-eye
+    flex-shrink 0
     color #bbb
+    background-image url(/assets/checkbox_on.svg)
+    background-repeat no-repeat
+    background-position center 
+    width 17px
+    height 17px
+
+  .fa-eye:before,
+  .fa-eye-slash:before
+    content none
+
+  .fa-eye-slash
+    flex-shrink 0
+    background-image url(/assets/checkbox_off.svg) !important
+    background-repeat no-repeat
+    background-position center 
+    width 17px
+    height 17px
 
   .icons a.button
     color #fff
@@ -127,17 +185,66 @@
       top 9px
 
   .outliner
-    display none
-    background $bg
     color $white
     cursor default
     flex 1 1 auto
-    font-size 13px
-    height calc(100% - 98px)
+    font-size 16px
     outline none
     overflow-y auto
-    padding 0
-    width 230px
+    position absolute
+    top 80px
+    width 372px
+    height 584px
+    display flex
+    flex-direction column
+    align-items center
+    padding 0px
+    background #373737
+    border-radius 0px 12px 12px 0px
+
+    #layers-title
+      width 372px
+      background #373737
+      display flex
+      flex-direction row
+      justify-content flex-start
+      align-items center
+
+      #toggle-leftbar
+        width 56px
+        height 72px
+        background #323232 
+        background-image url(/assets/arrow_right.svg)
+        background-repeat no-repeat
+        background-position center 
+        cursor pointer    
+
+      span
+        font-size 24px
+        background url(/assets/layers.svg)
+        background-repeat no-repeat
+        background-position left
+        padding-left 36px
+        margin-left 20px
+
+  .outliner.hide,
+  .outliner.hide #layers-title
+    width 56px
+    height 72px
+
+  .outliner.hide #layers-title span
+    display none
+
+  .outliner.hide #toggle-leftbar
+    background rgba(50, 50, 50, 0.5) !important
+    backdrop-filter blur(24px)
+    background-image url(/assets/layers.svg) !important
+    background-repeat no-repeat !important
+    background-position center !important
+
+  .outliner.hide .entity,
+  .outliner.hide .layer
+    display none
 
 .scenegraph-bottom
   background-color #323232
