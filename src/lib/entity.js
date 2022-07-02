@@ -556,15 +556,19 @@ export function printEntity(entity, onDoubleClick) {
     entityName = entity.getAttribute('mixin').split(' ')[0];
     type = 'mixin';
   }
-
+  // Custom display name for a layer if available, otherwise use entity name or tag
+  let displayName = entity.getAttribute('data-layer-name');
+  if (!displayName) {
+    displayName = entityName;
+  }
+  if (!displayName) {
+    displayName = entity.tagName.toLowerCase();
+  }
   return (
     <span className="entityPrint" onDoubleClick={onDoubleClick}>
-      <span className="entityTagName">
-        {'<' + entity.tagName.toLowerCase()}
-      </span>
-      {entityName && (
+      {displayName && (
         <span className="entityName" data-entity-name-type={type}>
-          &nbsp;{entityName}
+          &nbsp;{displayName}
         </span>
       )}
       {!!icons && (
@@ -573,8 +577,6 @@ export function printEntity(entity, onDoubleClick) {
           dangerouslySetInnerHTML={{ __html: icons }}
         />
       )}
-      {/* TODO: This line isn't needed for Chrome, it is a hack for Safari to not cut off the left panel */} 
-      <span className="entityCloseTag">&nbsp;</span>
     </span>
   );
 }
