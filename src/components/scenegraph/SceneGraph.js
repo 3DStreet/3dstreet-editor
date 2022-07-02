@@ -253,26 +253,47 @@ export default class SceneGraph extends React.Component {
   }
 
   renderEntities = () => {
-    return this.state.filteredEntities.map((entityOption, idx) => {
-      if (
-        !this.isVisibleInSceneGraph(entityOption.entity) &&
-        !this.state.filter ||
-        !entityOption.entity.attributes.getNamedItem('data-layer-name')
-      ) {
-        return null;
-      }
-      return (
-        <Entity
-          {...entityOption}
-          key={idx}
-          isFiltering={!!this.state.filter}
-          isExpanded={this.isExpanded(entityOption.entity)}
-          isSelected={this.props.selectedEntity === entityOption.entity}
-          selectEntity={this.selectEntity}
-          toggleExpandedCollapsed={this.toggleExpandedCollapsed}
-        />
-      );
+    let entityOptions = this.state.filteredEntities.filter(
+      (entityOption, idx) => {
+        if (
+          !this.isVisibleInSceneGraph(entityOption.entity) &&
+          !this.state.filter ||
+          !entityOption.entity.attributes.getNamedItem('data-layer-name')
+        ) {
+          return false;
+        } else {
+          return true;
+        }
     });
+
+    // wrap entities of layer level 1 in <div class="layer">
+    let layerEntities = [];
+    let resultEntities = [];
+    for (let i = 0; i < entityOptions.length; i++) {
+      const entityOption = entityOptions[i];
+      const entity = (
+            <Entity
+              {...entityOption}
+              key={i}
+              isFiltering={!!this.state.filter}
+              isExpanded={this.isExpanded(entityOption.entity)}
+              isSelected={this.props.selectedEntity === entityOption.entity}
+              selectEntity={this.selectEntity}
+              toggleExpandedCollapsed={this.toggleExpandedCollapsed}
+            />
+        )
+      layerEntities.push(entity);  
+      if (i == entityOptions.length - 1 ||
+          entityOptions[i+1].depth == 1) {
+        resultEntities.push(
+          <div className="layer" key={i}>
+            {layerEntities}
+          </div>
+        );
+        layerEntities = [];          
+      }
+    }
+    return resultEntities;
   };
 
   render() {
