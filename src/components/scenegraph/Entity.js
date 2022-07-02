@@ -69,7 +69,7 @@ export default class Entity extends React.Component {
         <span
           onClick={() => this.props.toggleExpandedCollapsed(entity)}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-right'
+            isExpanded ? 'fa-caret-down' : 'fa-caret-up'
           }`}
         />
       );
@@ -101,13 +101,13 @@ export default class Entity extends React.Component {
     return (
       <div className={className} onClick={this.onClick}>
         <span>
-          {visibilityButton}
           <span
             className="entityChildPadding"
             dangerouslySetInnerHTML={{ __html: pad }}
           />
-          {collapse}
+          {visibilityButton}
           {printEntity(entity, this.onDoubleClick)}
+          {collapse}
         </span>
         <span className="entityActions">
           {cloneButton}

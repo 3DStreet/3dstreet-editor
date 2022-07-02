@@ -573,7 +573,8 @@ export function printEntity(entity, onDoubleClick) {
           dangerouslySetInnerHTML={{ __html: icons }}
         />
       )}
-      <span className="entityCloseTag">{'>'}</span>
+      {/* TODO: This line isn't needed for Chrome, it is a hack for Safari to not cut off the left panel */} 
+      <span className="entityCloseTag">&nbsp;</span>
     </span>
   );
 }
