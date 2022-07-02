@@ -30,7 +30,8 @@ export default class SceneGraph extends React.Component {
       expandedElements: new WeakMap([[props.scene, true]]),
       filter: '',
       filteredEntities: [],
-      selectedIndex: -1
+      selectedIndex: -1,
+      leftBarHide: false
     };
 
     this.rebuildEntityOptions = debounce(
@@ -247,6 +248,10 @@ export default class SceneGraph extends React.Component {
     this.updateFilteredEntities('');
   };
 
+  toggleLeftBar = () => {
+    this.setState({ leftBarHide: !this.state.leftBarHide});
+  }
+
   renderEntities = () => {
     return this.state.filteredEntities.map((entityOption, idx) => {
       if (
@@ -275,6 +280,12 @@ export default class SceneGraph extends React.Component {
       return null;
     }
 
+    // Outliner class names.
+    const className = classnames({
+      outliner: true,
+      hide: this.state.leftBarHide
+    });
+
     const clearFilter = this.state.filter ? (
       <a onClick={this.clearFilter} className="button fa fa-times" />
     ) : null;
@@ -296,11 +307,19 @@ export default class SceneGraph extends React.Component {
           </div>
         </div>
         <div
-          className="outliner"
+          className={className}
           tabIndex="0"
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
         >
+          <div id="layers-title">
+            <div 
+              id="toggle-leftbar" 
+              onClick={this.toggleLeftBar}
+            >
+            </div>
+            <span>Layers</span>
+          </div>
           {this.renderEntities()}
         </div>
       </div>
