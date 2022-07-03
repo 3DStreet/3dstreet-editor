@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "app3dstreet",
-    "public": "public",
+    "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
