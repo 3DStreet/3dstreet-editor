@@ -5,7 +5,8 @@
   "main": "dist/aframe-inspector.min.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
-    "deploy": "npm run ghpages",
+    "deploy": "npm run prefirebase && cd public && firebase deploy --only hosting:app3dstreet",
+    "deployghpages": "npm run ghpages",
     "dist": "npm run dist:max && npm run dist:min",
     "dist:max": "cross-env AFRAME_DIST=true npm run build",
     "dist:min": "cross-env MINIFY=true AFRAME_DIST=true npm run build",
@@ -13,6 +14,7 @@
     "lint": "npm run lintfile src/",
     "lint:css": "stylelint src/css/main.css",
     "lintfile": "node --harmony node_modules/.bin/eslint",
+    "prefirebase": "cp -R assets public && cp {index.html,favicon.ico} public && cp dist/3dstreet-editor.min.js public/dist/3dstreet-editor.js",
     "preghpages": "npm run dist && shx rm -rf gh-pages && shx mkdir gh-pages && shx cp -r assets dist examples index.html gh-pages && shx sed -i http://localhost:3333 .. gh-pages/examples/index.html",
     "prepublish": "npm run dist",
     "prettier": "prettier --single-quote es5 --write 'src/**/*.js'",
@@ -20,8 +22,8 @@
     "test": "jest --watch",
     "test:ci": "jest"
   },
-  "repository": "aframevr/aframe-inspector",
-  "license": "MIT",
+  "repository": "3dstreet/3dstreet-editor",
+  "license": "AGPLv3",
   "dependencies": {
     "autoprefixer": "^9.4.2",
     "babel-core": "^6.26.3",
