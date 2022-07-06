@@ -65,12 +65,12 @@ export default class Entity extends React.Component {
     const pad = (this.props.depth > 1)? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth):'';
 
     let collapse;
-    if (entity.children.length > 0 && !isFiltering) {
+    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
       collapse = (
         <span
           onClick={() => this.props.toggleExpandedCollapsed(entity)}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-up'
+            isExpanded ? 'fa-caret-down' : 'fa-caret-right'
           }`}
         />
       );
