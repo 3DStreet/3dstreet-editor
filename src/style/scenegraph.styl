@@ -36,6 +36,9 @@
     flex-direction column
     align-items center
 
+  .layer.active
+    background #8941FF
+
   .entity.option
     display flex
     flex-direction column
@@ -43,7 +46,7 @@
     flex none
     order 1
     flex-grow 0
-    padding 16px 24px 16px 8px
+    padding 16px 24px 16px 16px
     box-sizing border-box
 
     > span
@@ -57,6 +60,12 @@
         flex-basis 237px
         margin-left 15px
 
+  .entity:first-child
+    margin 0px !important
+
+  .entity:last-child
+      margin-bottom 8px
+
   .entity
     cursor pointer
     display flex
@@ -67,16 +76,22 @@
 
     &.active
       width 324px
+      margin 0 8px
       height 52px
       background #8941FF
       border-radius 10px
       color #fff
-      padding 16px 16px 16px 0px
-      margin 8px auto
+      padding 16px 16px 16px 8px
       .component:hover
         color #1888c1
       .entityActions
         display inline
+
+    &.active:last-child
+      margin-bottom 8px
+
+    &.active.novisible:first-child ~ .entity .entityName
+      color #999
 
     &.novisible
       &.active
@@ -241,6 +256,12 @@
     background-image url(/assets/layers.svg) !important
     background-repeat no-repeat !important
     background-position center !important
+
+  .outliner.hide #toggle-leftbar:hover  
+    background-color #6100FF !important
+
+  .outliner.hide #toggle-leftbar:active
+    background-color #4902BE !important
 
   .outliner.hide .entity,
   .outliner.hide .layer

@@ -269,6 +269,7 @@ export default class SceneGraph extends React.Component {
     // wrap entities of layer level 1 in <div class="layer">
     let layerEntities = [];
     let resultEntities = [];
+    //let activeLayer = false;
     for (let i = 0; i < entityOptions.length; i++) {
       const entityOption = entityOptions[i];
       const entity = (
@@ -285,12 +286,17 @@ export default class SceneGraph extends React.Component {
       layerEntities.push(entity);  
       if (i == entityOptions.length - 1 ||
           entityOptions[i+1].depth == 1) {
+        console.error(layerEntities[0].props)
+        const className = classnames({
+          layer: true,
+          active: layerEntities[0].props.isSelected
+        });            
         resultEntities.push(
-          <div className="layer" key={i}>
+          <div className={className} key={i}>
             {layerEntities}
           </div>
         );
-        layerEntities = [];          
+        layerEntities = [];
       }
     }
     return resultEntities;
