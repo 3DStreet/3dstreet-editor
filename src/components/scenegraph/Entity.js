@@ -21,17 +21,23 @@ export default class Entity extends React.Component {
     this.state = {};
   }
 
-  onClick = () => this.props.selectEntity(this.props.entity);
+  onClick = (evt) => {
+    if (!evt.target.classList.contains('fa')) {
+      this.props.selectEntity(this.props.entity);
+    }    
+  }
 
   onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
 
-  toggleVisibility = () => {
+  toggleVisibility = (evt) => {
     const entity = this.props.entity;
     const visible =
       entity.tagName.toLowerCase() === 'a-scene'
         ? entity.object3D.visible
         : entity.getAttribute('visible');
     entity.setAttribute('visible', !visible);
+    // manually call render function
+    this.forceUpdate();
   };
 
   render() {
@@ -68,9 +74,12 @@ export default class Entity extends React.Component {
     if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
       collapse = (
         <span
-          onClick={() => this.props.toggleExpandedCollapsed(entity)}
+          onClick={(evt) => {
+            evt.stopPropagation();
+            this.props.toggleExpandedCollapsed(entity);
+          }}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-right'
+            isExpanded ? 'fa-caret-down' : 'fa-caret-up'
           }`}
         />
       );

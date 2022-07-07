@@ -286,7 +286,6 @@ export default class SceneGraph extends React.Component {
       layerEntities.push(entity);  
       if (i == entityOptions.length - 1 ||
           entityOptions[i+1].depth == 1) {
-        console.error(layerEntities[0].props)
         const className = classnames({
           layer: true,
           active: layerEntities[0].props.isSelected

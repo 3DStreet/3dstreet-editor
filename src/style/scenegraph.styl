@@ -21,6 +21,7 @@
       display none
 
 #scenegraph
+  font-family $workssans
   display flex
   flex-direction column
   overflow auto
@@ -90,23 +91,20 @@
     &.active:last-child
       margin-bottom 8px
 
-    &.active.novisible:first-child ~ .entity .entityName
+    &.active.novisible:first-child ~ .entity .entityName,
+    &.novisible:first-child ~ .entity .entityName
       color #999
 
     &.novisible
       &.active
         span,
-        .fa,
-        .collapsespace,
         .id
           color #999
 
       &:not(.active)
         span,
-        .fa,
-        .collapsespace,
         .id
-          color #626262
+          color #999
 
   .component:hover
     color #1faaf2
@@ -144,7 +142,7 @@
     color #fff
 
   .collapsespace
-    color #eee
+    color #eee !important
     display inline-block
     text-align center
     width 14px
@@ -206,6 +204,7 @@
     font-size 16px
     outline none
     overflow-y auto
+    overflow-x hidden
     position absolute
     top 80px
     width 372px
@@ -235,7 +234,10 @@
         cursor pointer    
 
       span
+        font-weight 500
         font-size 24px
+        color #FFF
+        line-height 28px
         background url(/assets/layers.svg)
         background-repeat no-repeat
         background-position left
