@@ -21,17 +21,23 @@ export default class Entity extends React.Component {
     this.state = {};
   }
 
-  onClick = () => this.props.selectEntity(this.props.entity);
+  onClick = (evt) => {
+    if (!evt.target.classList.contains('fa')) {
+      this.props.selectEntity(this.props.entity);
+    }    
+  }
 
   onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
 
-  toggleVisibility = () => {
+  toggleVisibility = (evt) => {
     const entity = this.props.entity;
     const visible =
       entity.tagName.toLowerCase() === 'a-scene'
         ? entity.object3D.visible
         : entity.getAttribute('visible');
     entity.setAttribute('visible', !visible);
+    // manually call render function
+    this.forceUpdate();
   };
 
   render() {
@@ -62,14 +68,18 @@ export default class Entity extends React.Component {
       );
 
     // Add spaces depending on depth.
-    const pad = '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth);
+    const pad = (this.props.depth > 1)? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth):'';
+
     let collapse;
-    if (entity.children.length > 0 && !isFiltering) {
+    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
       collapse = (
         <span
-          onClick={() => this.props.toggleExpandedCollapsed(entity)}
+          onClick={(evt) => {
+            evt.stopPropagation();
+            this.props.toggleExpandedCollapsed(entity);
+          }}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-right'
+            isExpanded ? 'fa-caret-down' : 'fa-caret-up'
           }`}
         />
       );
@@ -101,13 +111,13 @@ export default class Entity extends React.Component {
     return (
       <div className={className} onClick={this.onClick}>
         <span>
-          {visibilityButton}
           <span
             className="entityChildPadding"
             dangerouslySetInnerHTML={{ __html: pad }}
           />
-          {collapse}
+          {visibilityButton}
           {printEntity(entity, this.onDoubleClick)}
+          {collapse}
         </span>
         <span className="entityActions">
           {cloneButton}
