@@ -47,12 +47,12 @@ if (process.env.MINIFY === 'true') {
 }
 
 // dist/
-var filename = 'aframe-inspector.js';
+var filename = '3dstreet-editor.js';
 var outPath = 'dist';
 if (process.env.AFRAME_DIST) {
   outPath = 'dist';
   if (process.env.MINIFY) {
-    filename = 'aframe-inspector.min.js';
+    filename = '3dstreet-editor.min.js';
   }
 }
 
