@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
+import classnames from 'classnames';
 
 export default class Sidebar extends React.Component {
   static propTypes = {
@@ -11,7 +12,10 @@ export default class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { open: false };
+    this.state = { 
+      open: false ,
+      rightBarHide: false
+    };
   }
 
   componentDidMount() {
@@ -24,6 +28,11 @@ export default class Sidebar extends React.Component {
     });
   }
 
+  // additional toggle for hide/show panel by clicking the button
+  toggleRightBar = () => {
+    this.setState({ rightBarHide: !this.state.rightBarHide});
+  }
+
   handleToggle = () => {
     this.setState({ open: !this.state.open });
     ga('send', 'event', 'Components', 'toggleSidebar');
@@ -32,9 +41,24 @@ export default class Sidebar extends React.Component {
   render() {
     const entity = this.props.entity;
     const visible = this.props.visible;
+
+    // Rightbar class names
+    const className = classnames({
+      hide: this.state.rightBarHide
+    });
+
     if (entity && visible) {
+      const entityName = entity.getDOMAttribute('data-layer-name');
       return (
-        <div id="sidebar">
+        <div id="sidebar" className={className}>
+            <div id="entity-name">
+              <span>{entityName}</span>
+              <div 
+                id="toggle-rightbar"
+                onClick={this.toggleRightBar}
+              >
+              </div>
+            </div>
           <ComponentsContainer entity={entity} />
         </div>
       );
