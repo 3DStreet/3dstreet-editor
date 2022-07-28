@@ -214,8 +214,9 @@ body.aframe-inspector-opened .toggle-edit .logo-img
     position absolute
     right 0px
     top 80px
+    padding-bottom: 32px;
     width 380px
-    height 356px
+    height auto
     display flex
     flex-direction column
     align-items center
@@ -253,6 +254,12 @@ body.aframe-inspector-opened .toggle-edit .logo-img
         background-repeat no-repeat
         background-position center 
         cursor pointer 
+
+      #toggle-rightbar:hover
+        background-color #6100FF 
+
+      #toggle-rightbar:active
+        background-color #4902BE
 
   #sidebar.hide,
   #sidebar.hide #entity-name
