@@ -2,11 +2,11 @@
 
 body.aframe-inspector-opened,
 .toggle-edit
-  font-family BlinkMacSystemFont, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif
+  font-family $workssans
 
 .wf-roboto-n4-active body.aframe-inspector-opened,
 .wf-roboto-n4-active .toggle-edit
-  font-family BlinkMacSystemFont, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif
+  font-family $workssans
 
 body.aframe-inspector-opened
   background $bgdark
@@ -27,6 +27,9 @@ body.aframe-inspector-opened .toggle-edit .logo-img
   @import './textureModal';
   @import './viewport';
   @import './widgets';
+
+  body
+    font-family $workssans !important
 
   .Select,
   code,
@@ -159,9 +162,6 @@ body.aframe-inspector-opened .toggle-edit .logo-img
     left 143px
     top 7px
 
-  .toggle-edithover
-    background-color rgb(228, 43, 90)
-
   input
     background-color transparent
     border 1px solid #555
@@ -187,7 +187,7 @@ body.aframe-inspector-opened .toggle-edit .logo-img
   input.number
     background-color transparent !important
     border 0
-    color #2cb7ff !important
+    color #2cb7ff
     cursor col-resize
     font-size 13px
     padding 2px
@@ -202,8 +202,88 @@ body.aframe-inspector-opened .toggle-edit .logo-img
     border 1px solid #a00
 
   #sidebar
-    background $bg
-    width 331px
+    justify-content flex-start
+    box-sizing border-box
+    color #c3c3c3
+    cursor default
+    flex 1 1 auto
+    font-size 16px
+    outline none
+    overflow-y auto
+    overflow-x hidden
+    position absolute
+    right 0px
+    top 80px
+    padding-bottom: 32px;
+    width 380px
+    height auto
+    display flex
+    flex-direction column
+    align-items center
+    background #373737
+    border-radius 12px 0px 0px 12px
+
+    #entity-name
+      width 380px
+      display flex
+      flex-direction row
+      justify-content space-between
+      align-items center
+
+      span
+        background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQgOEwxMiAzTDIwIDhWMTZMMTIgMjFMNCAxNlY4TDEyIDEyLjRWMjFWMTIuNEwyMCA4IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=")
+        width 252px
+        font-weight 500
+        font-size 24px
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
+        color #fff
+        height 28px
+        line-height 28px
+        background-repeat no-repeat
+        background-position left
+        padding-left 36px
+        margin-left 20px
+
+      #toggle-rightbar
+        width 56px
+        height 72px
+        background #323232 
+        background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDkuMzMzMzNMMTguNjY2NyAxNkwxMiAyMi42NjY3IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=")
+        background-repeat no-repeat
+        background-position center 
+        cursor pointer 
+
+      #toggle-rightbar:hover
+        background-color #6100FF 
+
+      #toggle-rightbar:active
+        background-color #4902BE
+
+  #sidebar.hide,
+  #sidebar.hide #entity-name
+    width 56px
+    height 72px
+    display block
+    overflow hidden
+
+  #sidebar.hide span,
+  #sidebar.hide components
+    display none
+
+  #sidebar.hide #toggle-rightbar
+    background rgba(50, 50, 50, 0.5) !important
+    backdrop-filter blur(24px)
+    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQgOEwxMiAzTDIwIDhWMTZMMTIgMjFMNCAxNlY4TDEyIDEyLjRWMjFWMTIuNEwyMCA4IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") !important
+    background-repeat no-repeat !important
+    background-position center !important
+
+  #sidebar.hide #toggle-rightbar:hover  
+    background-color #6100FF !important
+
+  #sidebar.hide #toggle-rightbar:active
+    background-color #4902BE !important
 
   #sidebar *
     vertical-align middle
@@ -267,7 +347,9 @@ body.aframe-inspector-opened .toggle-edit .logo-img
     cursor grabbing
 
   #rightPanel
-    display none
+    align-items stretch
+    display flex
+    justify-content flex-end
 
   #inspectorContainer
     display flex

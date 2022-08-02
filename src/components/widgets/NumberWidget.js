@@ -154,6 +154,8 @@ export default class NumberWidget extends React.Component {
 
   render() {
     return (
+      <div className="inputBlock">
+      <span className="axes">{this.props.name}</span>
       <input
         ref="input"
         className="number"
@@ -165,6 +167,7 @@ export default class NumberWidget extends React.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
       />
+      </div>
     );
   }
 }
