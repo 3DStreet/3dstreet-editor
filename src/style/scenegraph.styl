@@ -38,7 +38,7 @@
     align-items center
 
   .layer.active
-    background #8941FF
+    background $layerActive
 
   .entity.option
     display flex
@@ -79,7 +79,7 @@
       width 324px
       margin 0 8px
       height 52px
-      background #8941FF
+      background $layerActive
       border-radius 10px
       color #fff
       padding 16px 16px 16px 8px
@@ -232,10 +232,10 @@
         cursor pointer 
 
       #toggle-leftbar:hover
-        background-color #6100FF
+        background-color $buttonHover
         
       #toggle-leftbar:active
-        background-color #4902BE
+        background-color $buttonPressed
 
       span
         font-weight 500
@@ -264,10 +264,10 @@
     background-position center !important
 
   .outliner.hide #toggle-leftbar:hover  
-    background-color #6100FF !important
+    background-color $buttonHover !important
 
   .outliner.hide #toggle-leftbar:active
-    background-color #4902BE !important
+    background-color $buttonPressed !important
 
   .outliner.hide .entity,
   .outliner.hide .layer

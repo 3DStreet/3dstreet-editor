@@ -150,10 +150,14 @@ export default class Main extends React.Component {
       ? 'Back to Scene'
       : 'Inspect Scene';
 
+    const logoText = this.state.inspectorEnabled
+      ? 'editor' 
+      : 'viewer';
+
     return (
       <div>
         <a className="toggle-edit" onClick={this.toggleEdit}>
-          <div className="logo-img" alt="3DStreet Viewer"></div>
+          <div className="logo-img" alt="3DStreet Viewer">{logoText}</div>
         </a>
 
         {this.renderSceneGraphToggle()}
