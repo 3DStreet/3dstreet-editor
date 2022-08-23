@@ -7,12 +7,10 @@ propertyRowDefined() {
 }
 
 .components
-  background-color $bg
   color $white
   height 100%
   overflow auto
-  position fixed
-  width 331px
+  width 348px
 
 div.vec2,
 div.vec3,
@@ -27,14 +25,12 @@ div.vec4
   width 34px
 
 .collapsible-header
+  display none !important
   align-items center
   display flex
   justify-content space-between
   .entityPrint
     color #fff
-
-.collapsible-content
-  padding 5px 0
 
 .componentTitle span
   max-width 200px
@@ -95,21 +91,55 @@ div.vec4
   border-top-color $white
   margin-top 7px
 
-.propertyRow
-  align-items center
-  display flex
-  font-size 13px
+.propertyRow  
+  font-size 14px
   min-height 30px
-  padding 2px 15px
+  margin-top 20px
 
   .text
-    cursor default
-    display inline-block
-    overflow hidden
-    padding-right 10px
-    text-overflow ellipsis
-    vertical-align middle
-    width 118px
+    color $lightColor !important
+    font-weight 500
+    font-size 14px
+    text-transform capitalize
+
+  .vec3
+    width 348px
+    display flex
+    flex-direction row
+    justify-content space-between
+    align-content center
+    align-items center
+    margin-top 4px
+
+    .inputBlock
+      width 108px 
+      height 48px
+      padding 12px 16px
+      background rgba(50, 50, 50, 0.8)
+      border 1px solid #543E79
+      border-radius 10px
+      box-sizing border-box
+      white-space nowrap
+
+      span
+        width 9px
+        height 19px
+        margin-right 8px
+        font-weight 400
+        font-size 16px
+        color #B6B6B6
+        text-transform uppercase
+
+      .text
+        color $lightColor
+        font-weight 500
+        overflow hidden
+        text-overflow ellipsis
+        cursor default
+        display inline-block
+        padding 0px
+        vertical-align middle        
+        margin-bottom 4px
 
   .map_value
     margin 0 0 0 5px
@@ -130,11 +160,19 @@ div.vec4
   input[type=number],
   input.string,
   input.number
-    background $bgdark
-    color #1faaf2
-    min-height 26px
-    padding-left 5px
-    padding-right 5px
+    padding 0px !important
+    box-sizing border-box
+    width 56px
+    align-items center
+    font-style normal
+    font-weight 400
+    font-size 16px
+    line-height 19px
+    color #FFF
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+
     &:last-child
       padding-right 0
 
@@ -155,6 +193,9 @@ div.vec4
 .components *
   vertical-align middle
 
+.components > *
+  display none
+
 span.subcomponent
   color #999
   float none !important
@@ -169,7 +210,7 @@ a.help-linkhover
 
 #addComponentContainer
   align-items center
-  display flex
+  display none
   flex-direction column
   justify-content center
   padding 20px 10px
@@ -188,8 +229,6 @@ a.help-linkhover
       span
         color $primary
 
-
-
   #addComponentHeader
     font-size 15px
     margin 5px 0 10px 0
@@ -202,6 +241,8 @@ a.help-linkhover
   display flex
 
 #componentEntityHeader
+  display block !important
+
   .collapsible-header
     bottom 4px
     position relative
@@ -209,6 +250,7 @@ a.help-linkhover
     display none
   .static
     height 13px
+    display none
   .entityPrint
     font-size 15px
     padding-left 5px

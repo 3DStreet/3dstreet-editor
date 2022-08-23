@@ -17,15 +17,57 @@
       color #666
       cursor default
 
+    .fa
+      display none
+
 #scenegraph
+  font-family $workssans
   display flex
   flex-direction column
   overflow auto
   padding-top 32px
-  width 230px
+  width auto
+
+  .layer 
+    width 340px
+    margin-top 20px
+    background #4b4b4b
+    border-radius 12px
+    display flex
+    flex-direction column
+    align-items center
+
+  .layer.active
+    background #8941FF
+
+  .entity.option
+    display flex
+    flex-direction column
+    width 340px   
+    flex none
+    order 1
+    flex-grow 0
+    padding 16px 24px 16px 16px
+    box-sizing border-box
+
+    > span
+      display flex
+      justify-content flex-start
+      align-items center
+      flex-direction row
+      position relative
+
+      .entityPrint
+        flex-basis 237px
+        margin-left 15px
+
+  .entity:first-child
+    margin 0px !important
+
+  .entity:last-child
+      margin-bottom 8px
 
   .entity
-    background $bg
     cursor pointer
     display flex
     justify-content space-between
@@ -33,36 +75,42 @@
     width 100%
     white-space nowrap
 
-    &:hover
-      background #1d2f39
-
     &.active
-      background-color #155373
+      width 324px
+      margin 0 8px
+      height 52px
+      background #8941FF
+      border-radius 10px
       color #fff
+      padding 16px 16px 16px 8px
       .component:hover
         color #1888c1
       .entityActions
         display inline
 
+    &.active:last-child
+      margin-bottom 8px
+
+    &.active.novisible:first-child ~ .entity .entityName,
+    &.novisible:first-child ~ .entity .entityName
+      color #999
+
     &.novisible
       &.active
         span,
-        .fa,
-        .collapsespace,
         .id
           color #999
 
       &:not(.active)
         span,
-        .fa,
-        .collapsespace,
         .id
-          color #626262
+          color #999
 
   .component:hover
     color #1faaf2
 
   .entityIcons
+    display none
     margin-left 2px
 
   .entityActions
@@ -75,8 +123,11 @@
       margin-left 6px
 
   .fa
-    display none
     color #CCC
+
+  .fa-trash,
+  .fa-clone
+    display none
 
   .entityActions .fa:hover
     color $primary
@@ -91,13 +142,31 @@
     color #fff
 
   .collapsespace
-    color #eee
+    color #eee !important
     display inline-block
     text-align center
     width 14px
+    right 0px
+    position absolute
 
-  .fa-eye
+  .fa-eye,
+  .fa-eye-slash
     color #bbb
+    background-repeat no-repeat
+    background-size contain
+    background-position center 
+    width 15px
+    height 15px
+
+  .fa-eye      
+    background-image url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIiA/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwLjc1IDAuNzUgMTYuNSAxNi41IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGRlc2M+Q3JlYXRlZCB3aXRoIEZhYnJpYy5qcyA0LjYuMDwvZGVzYz4KPGRlZnM+CjwvZGVmcz4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSA5IDkpIiBpZD0iWnI0bDVCNXh0alJyZTVfd2QwWGVKIiAgPgo8ZyBzdHlsZT0iIiB2ZWN0b3ItZWZmZWN0PSJub24tc2NhbGluZy1zdHJva2UiICAgPgoJCTxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgMCAwKSIgaWQ9IkF4SUpwOTNSRjZCeGZaMXZhcDgwaSIgID4KPHBhdGggc3R5bGU9InN0cm9rZTogcmdiKDIxOSwyMTksMjE5KTsgc3Ryb2tlLXdpZHRoOiAxLjU7IHN0cm9rZS1kYXNoYXJyYXk6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiByb3VuZDsgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7IHN0cm9rZS1saW5lam9pbjogcm91bmQ7IHN0cm9rZS1taXRlcmxpbWl0OiA0OyBmaWxsOiBub25lOyBmaWxsLXJ1bGU6IG5vbnplcm87IG9wYWNpdHk6IDE7IiB2ZWN0b3ItZWZmZWN0PSJub24tc2NhbGluZy1zdHJva2UiICB0cmFuc2Zvcm09IiB0cmFuc2xhdGUoLTQuMTcsIC0zLjMzKSIgZD0iTSAxLjI1IDMuNSBMIDMuMDgzMzMgNS4zMzMzMyBMIDcuMDgzMzMgMS4zMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgo8L2c+CgkJPGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAwIDApIiBpZD0iU3prODVZbXhXc29wOGdHSE9yMGlYIiAgPgo8cGF0aCBzdHlsZT0ic3Ryb2tlOiByZ2IoMjE5LDIxOSwyMTkpOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWRhc2hhcnJheTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyBzdHJva2UtZGFzaG9mZnNldDogMDsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLW1pdGVybGltaXQ6IDQ7IGZpbGw6IG5vbmU7IGZpbGwtcnVsZTogZXZlbm9kZDsgb3BhY2l0eTogMTsiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgIHRyYW5zZm9ybT0iIHRyYW5zbGF0ZSgtOSwgLTkpIiBkPSJNIDE0LjgzMzMgMTYuNSBMIDMuMTY2NjcgMTYuNSBDIDIuMjUgMTYuNSAxLjUgMTUuNzUgMS41IDE0LjgzMzMgTCAxLjUgMy4xNjY2NyBDIDEuNSAyLjI1IDIuMjUgMS41IDMuMTY2NjcgMS41IEwgMTQuODMzMyAxLjUgQyAxNS43NSAxLjUgMTYuNSAyLjI1IDE2LjUgMy4xNjY2NyBMIDE2LjUgMTQuODMzMyBDIDE2LjUgMTUuNzUgMTUuNzUgMTYuNSAxNC44MzMzIDE2LjUgWiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgo8L2c+CjwvZz4KPC9nPgo8L3N2Zz4=")
+
+  .fa-eye:before,
+  .fa-eye-slash:before
+    content none
+
+  .fa-eye-slash
+    background-image url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIiA/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwLjc1IDAuNzUgMTYuNSAxNi41IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGRlc2M+Q3JlYXRlZCB3aXRoIEZhYnJpYy5qcyA0LjYuMDwvZGVzYz4KPGRlZnM+CjwvZGVmcz4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSA5IDkpIiBpZD0iSExtNjhkZkRiMjFWUDdYcFROWTFBIiAgPgo8cGF0aCBzdHlsZT0ic3Ryb2tlOiByZ2IoMjE5LDIxOSwyMTkpOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWRhc2hhcnJheTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyBzdHJva2UtZGFzaG9mZnNldDogMDsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLW1pdGVybGltaXQ6IDQ7IGZpbGw6IG5vbmU7IGZpbGwtcnVsZTogZXZlbm9kZDsgb3BhY2l0eTogMTsiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgIHRyYW5zZm9ybT0iIHRyYW5zbGF0ZSgtOSwgLTkpIiBkPSJNIDE0LjgzMzMgMTYuNSBMIDMuMTY2NjcgMTYuNSBDIDIuMjUgMTYuNSAxLjUgMTUuNzUgMS41IDE0LjgzMzMgTCAxLjUgMy4xNjY2NyBDIDEuNSAyLjI1IDIuMjUgMS41IDMuMTY2NjcgMS41IEwgMTQuODMzMyAxLjUgQyAxNS43NSAxLjUgMTYuNSAyLjI1IDE2LjUgMy4xNjY2NyBMIDE2LjUgMTQuODMzMyBDIDE2LjUgMTUuNzUgMTUuNzUgMTYuNSAxNC44MzMzIDE2LjUgWiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgo8L2c+Cjwvc3ZnPg==") !important
 
   .icons a.button
     color #fff
@@ -127,17 +196,82 @@
       top 9px
 
   .outliner
-    display none
-    background $bg
     color $white
     cursor default
     flex 1 1 auto
-    font-size 13px
-    height calc(100% - 98px)
+    font-size 16px
     outline none
     overflow-y auto
-    padding 0
-    width 230px
+    overflow-x hidden
+    position absolute
+    top 80px
+    width 372px
+    height 584px
+    display flex
+    flex-direction column
+    align-items center
+    padding 0px
+    background #373737
+    border-radius 0px 12px 12px 0px
+
+    #layers-title
+      width 372px
+      background #373737
+      display flex
+      flex-direction row
+      justify-content flex-start
+      align-items center
+
+      #toggle-leftbar
+        width 56px
+        height 72px
+        background #323232 
+        background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4LjY2NjcgMjIuNjY2N0wxMiAxNkwxOC42NjY3IDkuMzMzMzQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
+        background-repeat no-repeat
+        background-position center 
+        cursor pointer 
+
+      #toggle-leftbar:hover
+        background-color #6100FF
+        
+      #toggle-leftbar:active
+        background-color #4902BE
+
+      span
+        font-weight 500
+        font-size 24px
+        color #FFF
+        line-height 28px
+        background url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
+        background-repeat no-repeat
+        background-position left
+        padding-left 36px
+        margin-left 20px
+
+  .outliner.hide,
+  .outliner.hide #layers-title
+    width 56px
+    height 72px
+
+  .outliner.hide #layers-title span
+    display none
+
+  .outliner.hide #toggle-leftbar
+    background rgba(50, 50, 50, 0.5) !important
+    backdrop-filter blur(24px)
+    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==") !important
+    background-repeat no-repeat !important
+    background-position center !important
+
+  .outliner.hide #toggle-leftbar:hover  
+    background-color #6100FF !important
+
+  .outliner.hide #toggle-leftbar:active
+    background-color #4902BE !important
+
+  .outliner.hide .entity,
+  .outliner.hide .layer
+    display none
 
 .scenegraph-bottom
   background-color #323232

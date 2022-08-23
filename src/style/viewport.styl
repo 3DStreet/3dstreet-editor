@@ -2,19 +2,20 @@
 
 #viewportBar
   align-items center
-  background-color $bg
   color $white
+  position fixed
   display flex
   flex-grow 2
-  height 32px
-  font-size 14px
-  justify-content space-between
+  height 48px
+  font-size 20px
+  justify-content center
   left 0
   margin 0 auto
   right 0
-  top 0
+  top 36px
 
 .toolbarButtons
+  display: none
   position relative
 
   *
@@ -46,21 +47,35 @@
 
 #cameraSelect
   cursor pointer
-  width 110px
+  width 200px
   .select__dropdown-indicator
     padding-left 3px
     padding-right 3px
+
+#cameraToolbar:has(> .select__menu)
+  background $bggrey !important
+
+#cameraToolbar.open .select__dropdown-indicator
+  background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEyIDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjgzMzM3IDUuNjY2NjZMNi4wMDAwNCAxLjQ5OTk5TDEwLjE2NjcgNS42NjY2NiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
 
 #cameraToolbar
   margin-left 5px
   align-items center
   display flex
+  border 1px solid #6439AB
+  background rgba(50, 50, 50, 0.8)
+  height 48px
+  border-radius 10px
+  width 200px
   a
     margin-right 10px
   .select__control
     background none
+    font-size 18px
+    padding: 2px 15px 2px 6px
   .select__single-value
-    color $white
+    color #FFF
+    top 45%
     &:hover
       color $primary
 

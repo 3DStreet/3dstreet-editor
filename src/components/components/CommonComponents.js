@@ -5,6 +5,7 @@ import DEFAULT_COMPONENTS from './DefaultComponents';
 import PropertyRow from './PropertyRow';
 import Collapsible from '../Collapsible';
 import Mixins from './Mixins';
+import classnames from 'classnames';
 import {
   updateEntity,
   getEntityClipboardRepresentation,
@@ -55,7 +56,8 @@ export default class CommonComponents extends React.Component {
   renderCommonAttributes() {
     const entity = this.props.entity;
     const components = entity ? entity.components : {};
-    return ['position', 'rotation', 'scale', 'visible'].map(componentName => {
+    // return ['position', 'rotation', 'scale', 'visible']
+    return ['position', 'rotation', 'scale'].map(componentName => {
       const schema = AFRAME.components[componentName].schema;
       var data = entity.object3D[componentName];
       if (componentName === 'rotation') {
@@ -119,6 +121,16 @@ export default class CommonComponents extends React.Component {
       </div>
     );
 
+    const classNameID = classnames({
+      propertyRow: true,
+      hide: true
+    });
+
+    const classNameClass = classnames({
+      propertyRow: true,
+      hide: true
+    });
+
     return (
       <Collapsible id="componentEntityHeader" className="commonComponents">
         <div className="collapsible-header">
@@ -126,7 +138,7 @@ export default class CommonComponents extends React.Component {
           {entityButtons}
         </div>
         <div className="collapsible-content">
-          <div className="propertyRow">
+          <div className={classNameID}>
             <label htmlFor="id" className="text">
               ID
             </label>
@@ -137,12 +149,11 @@ export default class CommonComponents extends React.Component {
               value={entity.id}
             />
           </div>
-          <div className="propertyRow">
+          <div className={classNameClass}>
             <label className="text">class</label>
             <span>{entity.getAttribute('class')}</span>
           </div>
           {this.renderCommonAttributes()}
-          <Mixins entity={entity} />
         </div>
       </Collapsible>
     );
