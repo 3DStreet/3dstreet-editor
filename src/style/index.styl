@@ -2,11 +2,11 @@
 
 body.aframe-inspector-opened,
 .toggle-edit
-  font-family $workssans
+  font-family $mainFont
 
 .wf-roboto-n4-active body.aframe-inspector-opened,
 .wf-roboto-n4-active .toggle-edit
-  font-family $workssans
+  font-family $mainFont
 
 body.aframe-inspector-opened
   background $bgdark
@@ -26,7 +26,7 @@ body.aframe-inspector-opened
   @import './widgets';
 
   body
-    font-family $workssans !important
+    font-family $mainFont !important
 
   .Select,
   code,
@@ -76,7 +76,6 @@ body.aframe-inspector-opened
 
   .viewButton
     box-sizing border-box
-    font-family 'Work Sans', sans-serif
     font-weight 500
     font-size 16px
     width 70px
@@ -185,13 +184,10 @@ body.aframe-inspector-opened
     outline none
 
   input[type="checkbox"]
-    cursor pointer
-    margin 0
-    height 18px
-    width 18px
+    visibility hidden         
 
   input.number
-    background-color transparent !important
+    background-color transparent
     border 0
     color #2cb7ff
     cursor col-resize
@@ -220,17 +216,18 @@ body.aframe-inspector-opened
     position absolute
     right 0px
     top 80px
-    padding-bottom: 32px;
+    padding-bottom 32px
+    padding-left 16px
     width 380px
-    height 80%
+    height 584px
     display flex
     flex-direction column
-    align-items center
+    align-items flex-start
     background #373737
     border-radius 12px 0px 0px 12px
 
     #entity-name
-      width 380px
+      width 364px
       display flex
       flex-direction row
       justify-content space-between
@@ -250,7 +247,7 @@ body.aframe-inspector-opened
         background-repeat no-repeat
         background-position left
         padding-left 36px
-        margin-left 20px
+        margin-left 8px
 
       #toggle-rightbar
         width 56px
@@ -269,6 +266,7 @@ body.aframe-inspector-opened
 
   #sidebar.hide,
   #sidebar.hide #entity-name
+    padding 0px
     width 56px
     height 72px
     display block

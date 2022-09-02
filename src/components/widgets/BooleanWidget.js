@@ -1,5 +1,6 @@
 var React = require('react');
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 export default class BooleanWidget extends React.Component {
   static propTypes = {
@@ -36,15 +37,23 @@ export default class BooleanWidget extends React.Component {
   render() {
     var id = this.props.componentname + '.' + this.props.name;
 
+    const checkboxClasses = classnames({
+      checkboxAnim: true,
+      checked: this.state.value
+    });
+
     return (
-      <input
-        id={id}
-        ref="input"
-        type="checkbox"
-        checked={this.state.value}
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <div className={checkboxClasses}>        
+        <input
+          id={id}
+          ref="input"
+          type="checkbox"
+          checked={this.state.value}
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+        <label htmlFor={id}></label>
+      </div>
     );
   }
 }

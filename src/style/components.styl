@@ -11,7 +11,7 @@ propertyRowDefined() {
   height 100%
   overflow-y auto
   overflow-x hidden
-  width 348px
+  width 364px
 
 div.vec2,
 div.vec3,
@@ -26,7 +26,6 @@ div.vec4
   width 34px
 
 .collapsible-header
-  display none !important
   align-items center
   display flex
   justify-content space-between
@@ -37,20 +36,18 @@ div.vec4
   max-width 200px
   overflow hidden
   text-overflow ellipsis
-  text-transform uppercase
+  text-transform capitalize
   white-space nowrap
   color #fff
   font-weight 600
   vertical-align bottom !important
 
 .collapsible .static
-  background $bglight
-  border-bottom 2px solid $bg
   cursor pointer
   height 16px
-  padding 8px 10px 12px 10px
+  padding 20px 10px 12px 0px
   vertical-align bottom
-  font-size 13px
+  font-size 16px
   &:hover
     background $bglighter
 /*
@@ -63,6 +60,13 @@ div.vec4
     &:hover
       background-color $grayhover
 */
+
+.collapsible.component ~ .collapsible.component
+  border-top 1px solid #4B4B4B
+
+.collapsible:first-child
+  border-bottom 1px solid #B6B6B6
+
 .collapsible .menu
   text-align right
 
@@ -75,6 +79,9 @@ div.vec4
 
 .collapsible .static
   margin 0
+
+.collapsible .content
+  margin-bottom 20px
 
 .collapsible .static .collapse-button
   border 6px solid transparent
@@ -97,11 +104,87 @@ div.vec4
   min-height 30px
   margin-top 20px
 
+  > input.string,
+  > input.number,
+  > .inputBlock > input.number,
+  .texture input  
+    padding-left 8px
+    box-sizing border-box
+    padding 12px 16px !important
+    background rgba(50, 50, 50, 0.8) 
+    border 1px solid #543E79
+    border-radius 10px
+    box-sizing border-box
+    white-space nowrap
+
+  > input.number,
+  > .inputBlock > input.number
+    width 228px
+
+  > input.string,
+  .texture input
+    width 348px
+
+  .select__menu
+    margin-top 8px
+
+  .select-widget
+    display block
+
+  .select__single-value
+    color #FFF
+
+  .select__control
+    padding 12px 16px !important
+    background rgba(50,50,50,0.8)
+    border 1px solid #543e79
+    border-radius 10px
+    box-sizing border-box
+    white-space nowrap
+
+  .checkboxAnim
+    background #555
+    position relative
+    display inline-block
+    float right
+    right 90px
+    top -25px
+    width 40px
+    height 20px
+    margin 2px 5px
+    border 1px solid #DBDBDB
+    border-radius 10px
+    box-sizing border-box
+
+    &.checked
+      background #DBDBDB 
+
+    input
+      background none
+
+    label 
+      display block
+      width 13.3px
+      height 13.3px
+      border-radius 50%
+      transition all .5s ease
+      cursor pointer
+      position absolute
+      top 2.3px
+      left 2.3px
+      background #DBDBDB
+
+    input[type=checkbox]:checked+label 
+      left 22px  
+      background #373737
+
   .text
-    color $lightColor !important
-    font-weight 500
-    font-size 14px
+    color #FFF !important
+    font-weight 400
+    font-size 16px
     text-transform capitalize
+    margin-bottom 4px
+    display block
 
   .vec3
     width 348px
@@ -131,16 +214,16 @@ div.vec4
         color #B6B6B6
         text-transform uppercase
 
-      .text
+      .number
+        width 56px
         color $lightColor
         font-weight 500
         overflow hidden
         text-overflow ellipsis
-        cursor default
         display inline-block
-        padding 0px
         vertical-align middle        
         margin-bottom 4px
+        padding 0px
 
   .map_value
     margin 0 0 0 5px
@@ -161,9 +244,7 @@ div.vec4
   input[type=number],
   input.string,
   input.number
-    padding 0px !important
     box-sizing border-box
-    width 56px
     align-items center
     font-style normal
     font-weight 400
@@ -176,11 +257,6 @@ div.vec4
 
     &:last-child
       padding-right 0
-
-  input.string
-    padding-left 8px
-    box-sizing border-box
-    width 165px
 
   .color_value
     margin 0 0 0 5px
@@ -240,6 +316,7 @@ a.help-linkhover
 
 #componentEntityHeader
   display block !important
+  width 348px
 
   .collapsible-header
     bottom 4px
@@ -274,3 +351,7 @@ a.help-linkhover
   color $white
   &:hover
     color $primary
+
+.fa-clipboard,
+.fa-trash-o
+  display none
