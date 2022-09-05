@@ -39,7 +39,7 @@ export function initCameras (inspector) {
   const perspectiveCamera = inspector.camera = new THREE.PerspectiveCamera();
   perspectiveCamera.far = 10000;
   perspectiveCamera.near = 0.01;
-  perspectiveCamera.position.set(0, 1.6, 2);
+  perspectiveCamera.position.set(0, 15, 30);
   perspectiveCamera.lookAt(new THREE.Vector3(0, 1.6, -1));
   perspectiveCamera.updateMatrixWorld();
   sceneEl.object3D.add(perspectiveCamera);
