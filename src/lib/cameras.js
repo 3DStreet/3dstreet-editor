@@ -39,14 +39,14 @@ export function initCameras (inspector) {
   const perspectiveCamera = inspector.camera = new THREE.PerspectiveCamera();
   perspectiveCamera.far = 10000;
   perspectiveCamera.near = 0.01;
-  perspectiveCamera.position.set(0, 1.6, 2);
+  perspectiveCamera.position.set(0, 15, 30);
   perspectiveCamera.lookAt(new THREE.Vector3(0, 1.6, -1));
   perspectiveCamera.updateMatrixWorld();
   sceneEl.object3D.add(perspectiveCamera);
   sceneEl.camera = perspectiveCamera;
 
   const ratio = sceneEl.canvas.width / sceneEl.canvas.height;
-  const orthoCamera = new THREE.OrthographicCamera(-10 * ratio, 10 * ratio, 10, -10);
+  const orthoCamera = new THREE.OrthographicCamera(-40 * ratio, 40 * ratio, 40, -40);
   sceneEl.object3D.add(orthoCamera);
 
   const cameras = inspector.cameras = {
@@ -93,10 +93,10 @@ function saveOrthoCamera (camera, dir) {
 
 function setOrthoCamera (camera, dir, ratio) {
   const info = orthoCameraMemory[dir];
-  camera.left = info.left || (-10 * ratio);
-  camera.right = info.right || (10 * ratio);
-  camera.top = info.top || 10;
-  camera.bottom = info.bottom || -10;
+  camera.left = info.left || (-40 * ratio);
+  camera.right = info.right || (40 * ratio);
+  camera.top = info.top || 40;
+  camera.bottom = info.bottom || -40;
   camera.position.copy(info.position);
   camera.rotation.copy(info.rotation);
 }
