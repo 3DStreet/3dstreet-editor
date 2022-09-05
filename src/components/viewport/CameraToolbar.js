@@ -4,13 +4,13 @@ var classNames = require('classnames');
 import Select from 'react-select';
 
 const options = [
-  { value: 'perspective', event: 'cameraperspectivetoggle', payload: null, label: 'Perspective' },
-  { value: 'ortholeft', event: 'cameraorthographictoggle', payload: 'left', label: 'Left View' },
-  { value: 'orthoright', event: 'cameraorthographictoggle', payload: 'right', label: 'Right View' },
-  { value: 'orthotop', event: 'cameraorthographictoggle', payload: 'top', label: 'Top View' },
-  { value: 'orthobottom', event: 'cameraorthographictoggle', payload: 'bottom', label: 'Bottom View' },
-  { value: 'orthoback', event: 'cameraorthographictoggle', payload: 'back', label: 'Back View' },
-  { value: 'orthofront', event: 'cameraorthographictoggle', payload: 'front', label: 'Front View' },
+  { value: 'perspective', event: 'cameraperspectivetoggle', payload: null, label: '3D View' },
+  // { value: 'ortholeft', event: 'cameraorthographictoggle', payload: 'left', label: 'Left View' },
+  // { value: 'orthoright', event: 'cameraorthographictoggle', payload: 'right', label: 'Right View' },
+  { value: 'orthotop', event: 'cameraorthographictoggle', payload: 'top', label: 'Plan View' },
+  // { value: 'orthobottom', event: 'cameraorthographictoggle', payload: 'bottom', label: 'Bottom View' },
+  // { value: 'orthoback', event: 'cameraorthographictoggle', payload: 'back', label: 'Back View' },
+  { value: 'orthofront', event: 'cameraorthographictoggle', payload: 'front', label: 'Cross Section' },
 ];
 
 function getOption (value) {
