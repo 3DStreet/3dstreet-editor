@@ -51,11 +51,12 @@ export default class Sidebar extends React.Component {
       const entityName = entity.getDOMAttribute('data-layer-name');
       return (
         <div id="sidebar" className={className}>
-            <div id="entity-name">
+            <div id="entity-name" 
+              onClick={this.toggleRightBar}
+              >
               <span>{entityName}</span>
               <div 
-                id="toggle-rightbar"
-                onClick={this.toggleRightBar}
+                id="toggle-rightbar"                
               >
               </div>
             </div>

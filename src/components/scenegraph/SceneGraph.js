@@ -339,10 +339,11 @@ export default class SceneGraph extends React.Component {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
         >
-          <div id="layers-title">
+          <div id="layers-title"
+            onClick={this.toggleLeftBar}
+          >
             <div 
-              id="toggle-leftbar" 
-              onClick={this.toggleLeftBar}
+              id="toggle-leftbar"             
             >
             </div>
             <span>Layers</span>

@@ -88,8 +88,8 @@ body.aframe-inspector-opened
     background $buttonHover
 
   .viewButton:active
-    background $buttonPressed
-    color #B6B6B6
+    background-color $buttonPressed
+    color $colorPressed
 
   .gltfIcon,
   .screenshotIcon
@@ -272,9 +272,37 @@ body.aframe-inspector-opened
     display block
     overflow hidden
 
-  #sidebar.hide span,
-  #sidebar.hide components
+  #sidebar.hide:hover
+    width auto
+    max-width 380px
+
+    .components
+      display none
+
+    #entity-name
+      width auto
+      background-color $buttonHover
+      cursor pointer
+      padding-right 17px
+
+      span
+        width auto
+        display block !important
+        margin-top 20px
+        background-position right
+        padding-left 4px
+        padding-right 36px
+        max-width 336px
+
+      #toggle-rightbar
+        display none
+
+  #sidebar.hide span  
     display none
+
+  #sidebar.hide:active
+    background-color $buttonPressed
+    color $colorPressed
 
   #sidebar.hide #toggle-rightbar
     background rgba(50, 50, 50, 0.5) !important
