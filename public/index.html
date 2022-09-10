@@ -6,7 +6,7 @@
 
     <!-- user controls -->
     <script src="https://raw.githack.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
-    <script src="https://github.3dstreet.org/src/lib/aframe-orbit-controls.min.js"></script>
+    <script src="./dist/aframe-cursor-teleport-component.min.js"></script>
 
     <!-- 3dtiles -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.133.0/examples/js/utils/WorkerPool.js"></script>
@@ -37,19 +37,18 @@
       <a-assets>
       </a-assets>
   
-      <a-entity id="cameraRig">
-        <a-entity id="camera" camera="far: 1000" wasd-controls="enabled: false" orbit-controls="autoRotate: true;autoRotateSpeed:0.01;target: 0 0 0;initialPosition:0 4 15;minDistance:3;maxDistance:100;enableKeys:false"></a-entity>
+      <a-entity id="cameraRig" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
+        <a-entity id="camera" camera="far: 1000" position="0 1.6 0"></a-entity>
         <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
         <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
       </a-entity>
-  
-      <a-entity light="type: ambient; color: #FFF; intensity: 2"></a-entity>
-      <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="0.5 1 -1"></a-entity>
+
+      <a-entity street-environment="preset: day;"></a-entity>
 
       <a-entity id="streets" data-layer-name="Street Segments" data-layer-show-children>
         <a-entity
           data-layer-name="16th Street West of SVN"
-          position="-96.980 0.591 -4.17918"
+          position="-96.980 0 -4.17918"
           rotation="0 90 0"
           id="east_street"
           street="length: 150"
@@ -57,14 +56,14 @@
         ></a-entity>
         <a-entity
           data-layer-name="16th Street East of SVN"
-          position="78.165 0.591 -4.17918"
+          position="78.165 0 -4.17918"
           rotation="0 90 0"
           id="west_street"
           street="length: 150"
           streetmix-loader="streetmixStreetURL: https://streetmix.net/kfarr/82/16th-st-harrison-st-sf-ca; showBuildings: false;"
         ></a-entity>
 
-        <a-entity data-layer-name="16th & Harrison St Intersection" id="intersection" position="-9.917 0.591 -4.057">
+        <a-entity data-layer-name="16th & Harrison St Intersection" id="intersection" position="-9.917 0 -4.057">
           <a-entity
             intersection="dimensions: 27.5 24.384;northeastcurb: 4.572 4.572;southwestcurb: 4.572 4.572;southeastcurb: 4.572 4.572;northwestcurb: 4.572 4.572;trafficsignal: 1 1 1 1;crosswalk: 1 1 1 1"
           ></a-entity>
@@ -72,7 +71,7 @@
 
         <a-entity
           data-layer-name="SVN North of 16th St"
-          position="-9.23383 0.591 -31.340"
+          position="-9.23383 0 -31.340"
           rotation="0 0 0"
           id="south_street"
           street="length: 30"
@@ -81,7 +80,7 @@
 
         <a-entity
           data-layer-name="SVN South of 16th St"
-          position="-9.23383 0.591 23.009"
+          position="-9.23383 0 23.009"
           rotation="0 180 0"
           id="north_street"
           street="length: 30"
@@ -93,6 +92,7 @@
       <a-entity id="imagery" data-layer-name="Imagery" data-layer-show-children>
         <a-entity
           data-layer-name="3D Scan - 16th and SVN June 2022"
+          visible="false"
           id="cesium-ion-scan"
           position="-2.5 12.7 -9"
           rotation="-90 180 -0.82"
@@ -109,7 +109,7 @@
             accessToken: pk.eyJ1IjoibWF0dHJlIiwiYSI6IjRpa3ItcWcifQ.s0AGgKi0ai23K5OJvkEFnA;
             style: mapbox://styles/mapbox/satellite-streets-v11;
             pxToWorldRatio: 4;"
-          position="-7 0 -2"
+          position="-7 -1 -2"
           rotation="-90 -4.25 0"
         ></a-entity>
       </a-entity>
