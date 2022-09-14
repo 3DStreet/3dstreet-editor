@@ -231,6 +231,9 @@
         background-position center 
         cursor pointer 
         
+      #toggle-leftbar:hover
+        background-color $buttonHover
+
       #toggle-leftbar:active
         background-color $buttonPressed
 
@@ -260,14 +263,21 @@
     display none
 
   .outliner.hide #layers-title:active
-    background-color $buttonPressed
-    color $colorPressed
+    background-color $buttonPressed    
+
+    span
+      display block
+      font-size 18px
+      color $colorPressed
+      background-position left
+      background-image url($iconLayersActive) !important
 
   .outliner.hide #layers-title:hover span
     display block
     font-size 18px
-    margin-left 15px
+    margin-left 17px
     padding-left 32px
+    background-image url($iconLayers)
 
   .outliner.hide #layers-title:hover #toggle-leftbar
     display none
@@ -275,7 +285,7 @@
   .outliner.hide #toggle-leftbar
     background rgba(50, 50, 50, 0.5) !important
     backdrop-filter blur(24px)
-    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==") !important
+    background-image url($iconLayers) !important
     background-repeat no-repeat !important
     background-position center !important
 

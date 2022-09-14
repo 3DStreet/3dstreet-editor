@@ -34,7 +34,7 @@ body.aframe-inspector-opened
   input,
   textarea,
   select
-    font-family $monospace
+    font-family $mainFont
     font-size 13px
 
   .wf-robotomono-n4-active .Select,
@@ -43,7 +43,7 @@ body.aframe-inspector-opened
   .wf-robotomono-n4-active input,
   .wf-robotomono-n4-active textarea,
   .wf-robotomono-n4-active select
-    font-family Roboto Mono, Consolas, Andale Mono, Monaco, Courier New, monospace
+    font-family mainFont
 
   hr
     border 0
@@ -283,12 +283,15 @@ body.aframe-inspector-opened
       width auto
       background-color $buttonHover
       cursor pointer
-      padding-right 17px
+      padding-right 16px
 
       span
+        font-size 18px
+        font-weight 500
         width auto
         display block !important
-        margin-top 20px
+        margin-top 22px
+        background-image url($iconProps)
         background-position right
         padding-left 4px
         padding-right 36px
@@ -300,14 +303,17 @@ body.aframe-inspector-opened
   #sidebar.hide span  
     display none
 
-  #sidebar.hide:active
+  #sidebar.hide:active #entity-name
     background-color $buttonPressed
-    color $colorPressed
+
+    span      
+      color $colorPressed !important
+      background-image url($iconPropsActive)
 
   #sidebar.hide #toggle-rightbar
     background rgba(50, 50, 50, 0.5) !important
     backdrop-filter blur(24px)
-    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQgOEwxMiAzTDIwIDhWMTZMMTIgMjFMNCAxNlY4TDEyIDEyLjRWMjFWMTIuNEwyMCA4IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") !important
+    background-image url($iconProps) !important
     background-repeat no-repeat !important
     background-position center !important
 
