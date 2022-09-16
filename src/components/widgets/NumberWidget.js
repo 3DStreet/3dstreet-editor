@@ -153,9 +153,12 @@ export default class NumberWidget extends React.Component {
   };
 
   render() {
+    const helpString = ['x', 'y', 'z'].indexOf(this.props.name) !== -1 
+      ? <span className="axes"> {this.props.name}</span>
+      : '';
     return (
       <div className="inputBlock">
-      <span className="axes">{this.props.name}</span>
+      {helpString}
       <input
         ref="input"
         className="number"

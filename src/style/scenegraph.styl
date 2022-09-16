@@ -21,7 +21,6 @@
       display none
 
 #scenegraph
-  font-family $workssans
   display flex
   flex-direction column
   overflow auto
@@ -38,7 +37,7 @@
     align-items center
 
   .layer.active
-    background #8941FF
+    background $layerActive
 
   .entity.option
     display flex
@@ -79,7 +78,7 @@
       width 324px
       margin 0 8px
       height 52px
-      background #8941FF
+      background $layerActive
       border-radius 10px
       color #fff
       padding 16px 16px 16px 8px
@@ -221,6 +220,7 @@
       flex-direction row
       justify-content flex-start
       align-items center
+      align-self start
 
       #toggle-leftbar
         width 56px
@@ -230,12 +230,12 @@
         background-repeat no-repeat
         background-position center 
         cursor pointer 
-
-      #toggle-leftbar:hover
-        background-color #6100FF
         
+      #toggle-leftbar:hover
+        background-color $buttonHover
+
       #toggle-leftbar:active
-        background-color #4902BE
+        background-color $buttonPressed
 
       span
         font-weight 500
@@ -253,21 +253,45 @@
     width 56px
     height 72px
 
+  .outliner.hide:hover,
+  .outliner.hide #layers-title:hover
+    width 115px
+    background-color $buttonHover
+    cursor pointer
+
   .outliner.hide #layers-title span
+    display none
+
+  .outliner.hide #layers-title:active
+    background-color $buttonPressed    
+
+    span
+      display block
+      font-size 18px
+      color $colorPressed
+      background-position left
+      background-image url($iconLayersActive) !important
+
+  .outliner.hide #layers-title:hover span
+    display block
+    font-size 18px
+    margin-left 12px
+    padding-left 40px
+    line-height 29px
+    background-image url($iconLayers)
+
+  .outliner.hide #layers-title:hover #toggle-leftbar
     display none
 
   .outliner.hide #toggle-leftbar
     background rgba(50, 50, 50, 0.5) !important
     backdrop-filter blur(24px)
-    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==") !important
+    background-image url($iconLayers) !important
     background-repeat no-repeat !important
     background-position center !important
 
-  .outliner.hide #toggle-leftbar:hover  
-    background-color #6100FF !important
-
   .outliner.hide #toggle-leftbar:active
-    background-color #4902BE !important
+    background-color $buttonPressed !important
 
   .outliner.hide .entity,
   .outliner.hide .layer
