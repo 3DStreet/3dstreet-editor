@@ -1,7 +1,5 @@
 # 3DStreet Editor
 
-[![build status][travis-image]][travis-url]
-
 An editor tool for 3DStreet scenes.
 
 ## License and Source
