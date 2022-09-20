@@ -62,11 +62,24 @@
   margin-left 5px
   align-items center
   display flex
-  border 1px solid #6439AB
-  background rgba(50, 50, 50, 0.8)
-  height 48px
-  border-radius 10px
-  width 200px
+  column-gap 8px
+  background rgba(50, 50, 50, 0.4)
+  border-radius 16px
+  padding 10px
+
+  button
+    border unset
+    outline unset
+    background-color transparent
+    padding 10px
+    color #ffffff
+    border-radius 10px
+    transition all 0.3s
+
+  .selectedCamera 
+    background-color rgba(50, 50, 50, 0.8)
+    transition all 0.3s
+
   a
     margin-right 10px
   .select__control
