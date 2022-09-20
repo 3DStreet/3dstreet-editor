@@ -46,9 +46,10 @@ export default class Toolbar extends Component {
     const sceneElem = AFRAME.scenes[0];
     sceneElem.components.screenshot.capture("perspective");
   }
-  openViewMode() {
-    AFRAME.INSPECTOR.close();
-  }
+  // openViewMode() {
+  //   AFRAME.INSPECTOR.close();
+  // }
+
   exportSceneToGLTF() {
     ga("send", "event", "SceneGraph", "exportGLTF");
     const sceneName = getSceneName(AFRAME.scenes[0]);
@@ -157,13 +158,14 @@ export default class Toolbar extends Component {
             </div>
           )}
 
-          <button
+          {/* not is use */}
+          {/* <button
             className={"viewButton"}
             type={"button"}
             onClick={this.openViewMode}
           >
             View
-          </button>
+          </button> */}
 
           {/* not in use */}
           {/* <a
