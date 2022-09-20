@@ -1,5 +1,7 @@
-var React = require('react');
-import PropTypes from 'prop-types';
+var React = require("react");
+
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 export default class Modal extends React.Component {
   static propTypes = {
@@ -10,7 +12,8 @@ export default class Modal extends React.Component {
     extraCloseKeyCode: PropTypes.number,
     closeOnClickOutside: PropTypes.bool,
     onClose: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
+    titleElement: PropTypes.element
   };
 
   static defaultProps = {
@@ -23,8 +26,8 @@ export default class Modal extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.handleGlobalKeydown);
-    document.addEventListener('mousedown', this.handleGlobalMousedown);
+    document.addEventListener("keyup", this.handleGlobalKeydown);
+    document.addEventListener("mousedown", this.handleGlobalMousedown);
   }
 
   handleGlobalKeydown = event => {
@@ -45,7 +48,7 @@ export default class Modal extends React.Component {
     var target = event.target;
     // This piece of code isolates targets which are fake clicked by things
     // like file-drop handlers
-    if (target.tagName === 'INPUT' && target.type === 'file') {
+    if (target.tagName === "INPUT" && target.type === "file") {
       return false;
     }
     if (target === this.refs.self || this.refs.self.contains(target))
@@ -59,15 +62,15 @@ export default class Modal extends React.Component {
       this.state.isOpen &&
       this.shouldClickDismiss(event)
     ) {
-      if (typeof this.props.onClose === 'function') {
+      if (typeof this.props.onClose === "function") {
         this.props.onClose();
       }
     }
   };
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.handleGlobalKeydown);
-    document.removeEventListener('mousedown', this.handleGlobalMousedown);
+    document.removeEventListener("keyup", this.handleGlobalKeydown);
+    document.removeEventListener("mousedown", this.handleGlobalMousedown);
   }
 
   componentWillReceiveProps(newProps) {
@@ -84,19 +87,25 @@ export default class Modal extends React.Component {
   };
 
   render() {
+    const { children, id, title, titleElement } = this.props;
+
     return (
       <div
-        id={this.props.id}
-        className={this.state.isOpen ? 'modal' : 'modal hide'}
+        id={id}
+        className={classNames("modal", !this.state.isOpen && "hide")}
       >
         <div className="modal-content" ref="self">
           <div className="modal-header">
             <span className="close" onClick={this.close}>
               ×
             </span>
-            <h3>{this.props.title}</h3>
+            {typeof titleElement !== "undefined" ? (
+              titleElement
+            ) : (
+              <h3>{title}</h3>
+            )}
           </div>
-          <div className="modal-body">{this.props.children}</div>
+          <div className="modal-body">{children}</div>
         </div>
       </div>
     );
