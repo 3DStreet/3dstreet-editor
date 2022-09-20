@@ -1,19 +1,21 @@
-import React from 'react';
+import CameraToolbar from "./viewport/CameraToolbar";
+import ComponentsSidebar from "./components/Sidebar";
+import ModalHelp from "./modals/ModalHelp";
+import ModalTextures from "./modals/ModalTextures";
+import React from "react";
+import SceneGraph from "./scenegraph/SceneGraph";
+import TransformToolbar from "./viewport/TransformToolbar";
+import ViewportHUD from "./viewport/ViewportHUD";
+import { injectCSS } from "../lib/utils";
 
-THREE.ImageUtils.crossOrigin = '';
+THREE.ImageUtils.crossOrigin = "";
 
-const Events = require('../lib/Events.js');
-import ComponentsSidebar from './components/Sidebar';
-import ModalTextures from './modals/ModalTextures';
-import ModalHelp from './modals/ModalHelp';
-import SceneGraph from './scenegraph/SceneGraph';
-import CameraToolbar from './viewport/CameraToolbar';
-import TransformToolbar from './viewport/TransformToolbar';
-import ViewportHUD from './viewport/ViewportHUD';
-import { injectCSS } from '../lib/utils';
+const Events = require("../lib/Events.js");
 
 // Megahack to include font-awesome.
-injectCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+injectCSS(
+  "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+);
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -30,8 +32,8 @@ export default class Main extends React.Component {
       }
     };
 
-    Events.on('togglesidebar', event => {
-      if (event.which === 'all') {
+    Events.on("togglesidebar", event => {
+      if (event.which === "all") {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
             visible: {
@@ -47,13 +49,13 @@ export default class Main extends React.Component {
             }
           });
         }
-      } else if (event.which === 'attributes') {
+      } else if (event.which === "attributes") {
         this.setState(prevState => ({
           visible: {
             attributes: !prevState.visible.attributes
           }
         }));
-      } else if (event.which === 'scenegraph') {
+      } else if (event.which === "scenegraph") {
         this.setState(prevState => ({
           visible: {
             scenegraph: !prevState.visible.scenegraph
@@ -67,7 +69,7 @@ export default class Main extends React.Component {
 
   componentDidMount() {
     Events.on(
-      'opentexturesmodal',
+      "opentexturesmodal",
       function(selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
@@ -77,15 +79,15 @@ export default class Main extends React.Component {
       }.bind(this)
     );
 
-    Events.on('entityselect', entity => {
+    Events.on("entityselect", entity => {
       this.setState({ entity: entity });
     });
 
-    Events.on('inspectortoggle', enabled => {
+    Events.on("inspectortoggle", enabled => {
       this.setState({ inspectorEnabled: enabled });
     });
 
-    Events.on('openhelpmodal', () => {
+    Events.on("openhelpmodal", () => {
       this.setState({ isHelpOpen: true });
     });
   }
@@ -147,17 +149,17 @@ export default class Main extends React.Component {
   render() {
     const scene = this.state.sceneEl;
     const toggleButtonText = this.state.inspectorEnabled
-      ? 'Back to Scene'
-      : 'Inspect Scene';
+      ? "Back to Scene"
+      : "Inspect Scene";
 
-    const logoText = this.state.inspectorEnabled
-      ? 'editor' 
-      : 'viewer';
+    const logoText = this.state.inspectorEnabled ? "editor" : "viewer";
 
     return (
       <div>
         <a className="toggle-edit" onClick={this.toggleEdit}>
-          <div className="logo-img" alt="3DStreet Viewer">{logoText}</div>
+          <div className="logo-img" alt="3DStreet Viewer">
+            {logoText}
+          </div>
         </a>
 
         {this.renderSceneGraphToggle()}
@@ -165,7 +167,7 @@ export default class Main extends React.Component {
 
         <div
           id="inspectorContainer"
-          className={this.state.inspectorEnabled ? '' : 'hidden'}
+          className={this.state.inspectorEnabled ? "" : "hidden"}
         >
           <SceneGraph
             scene={scene}

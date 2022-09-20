@@ -1,13 +1,13 @@
-import classnames from 'classnames';
-import React from 'react';
-import Events from '../../lib/Events.js';
-import { saveBlob, saveString } from '../../lib/utils';
+import React, { Component } from "react";
 
-const LOCALSTORAGE_MOCAP_UI = 'aframeinspectormocapuienabled';
+import Events from "../../lib/Events.js";
+import { saveBlob } from "../../lib/utils";
+
+// const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
 function filterHelpers(scene, visible) {
   scene.traverse(o => {
-    if (o.userData.source === 'INSPECTOR') {
+    if (o.userData.source === "INSPECTOR") {
       o.visible = visible;
     }
   });
@@ -26,33 +26,31 @@ function slugify(text) {
   return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w\-]+/g, '-') // Replace all non-word chars with -
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w\-]+/g, "-") // Replace all non-word chars with -
+    .replace(/\-\-+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, ""); // Trim - from end of text
 }
 
 /**
  * Tools and actions.
  */
-export default class Toolbar extends React.Component {
-  constructor(props) {
-    super(props);
+export default class Toolbar extends Component {
+  state = {
+    // isPlaying: false,
+    isSaveActionActive: false
+  };
 
-    this.state = {
-      isPlaying: false
-    };
-  }
   makeScreenshot() {
     const sceneElem = AFRAME.scenes[0];
-    sceneElem.components.screenshot.capture('perspective');
+    sceneElem.components.screenshot.capture("perspective");
   }
   openViewMode() {
     AFRAME.INSPECTOR.close();
   }
   exportSceneToGLTF() {
-    ga('send', 'event', 'SceneGraph', 'exportGLTF');
+    ga("send", "event", "SceneGraph", "exportGLTF");
     const sceneName = getSceneName(AFRAME.scenes[0]);
     const scene = AFRAME.scenes[0].object3D;
     filterHelpers(scene, false);
@@ -60,15 +58,15 @@ export default class Toolbar extends React.Component {
       scene,
       function(buffer) {
         filterHelpers(scene, true);
-        const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        saveBlob(blob, sceneName + '.glb');
+        const blob = new Blob([buffer], { type: "application/octet-stream" });
+        saveBlob(blob, sceneName + ".glb");
       },
       { binary: true }
     );
   }
 
   addEntity() {
-    Events.emit('entitycreate', { element: 'a-entity', components: {} });
+    Events.emit("entitycreate", { element: "a-entity", components: {} });
   }
 
   /**
@@ -76,72 +74,103 @@ export default class Toolbar extends React.Component {
    */
   writeChanges = () => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:51234/save');
+    xhr.open("POST", "http://localhost:51234/save");
     xhr.onerror = () => {
-      alert('aframe-watcher not running. This feature requires a companion service running locally. npm install aframe-watcher to save changes back to file. Read more at supermedium.com/aframe-watcher');
+      alert(
+        "aframe-watcher not running. This feature requires a companion service running locally. npm install aframe-watcher to save changes back to file. Read more at supermedium.com/aframe-watcher"
+      );
     };
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(AFRAME.INSPECTOR.history.updates));
   };
 
   toggleScenePlaying = () => {
     if (this.state.isPlaying) {
       AFRAME.scenes[0].pause();
-      this.setState({isPlaying: false});
+      this.setState(prevState => ({ ...prevState, isPlaying: false }));
       AFRAME.scenes[0].isPlaying = true;
-      document.getElementById('aframeInspectorMouseCursor').play();
+      document.getElementById("aframeInspectorMouseCursor").play();
       return;
     }
     AFRAME.scenes[0].isPlaying = false;
     AFRAME.scenes[0].play();
-    this.setState({isPlaying: true});
-  }
+    this.setState(prevState => ({ ...prevState, isPlaying: true }));
+  };
+
+  toggleSaveActionState = () =>
+    this.setState(prevState => ({
+      ...prevState,
+      isSaveActionActive: !this.state.isSaveActionActive
+    }));
 
   render() {
-    const watcherClassNames = classnames({
-      button: true,
-      fa: true,
-      'fa-save': true
-    });
-    const watcherTitle = 'Write changes with aframe-watcher.';
+    // const watcherClassNames = classnames({
+    //   button: true,
+    //   fa: true,
+    //   'fa-save': true
+    // });
+    // const watcherTitle = 'Write changes with aframe-watcher.';
 
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          <a
+          {/* not in use */}
+          {/* <a
             className="button fa fa-plus"
             title="Add a new entity"
             onClick={this.addEntity}
           />
           <a
             id="playPauseScene"
-            className={'button fa ' + (this.state.isPlaying ? 'fa-pause' : 'fa-play')}
+            className={
+              'button fa ' + (this.state.isPlaying ? 'fa-pause' : 'fa-play')
+            }
             title={this.state.isPlaying ? 'Pause scene' : 'Resume scene'}
-            onClick={this.toggleScenePlaying}>
-          </a>
-          <a
-            className="screenshotIcon"
-            title="Make screenshot"
-            onClick={this.makeScreenshot}>
-            <div></div>
-          </a>
-          <a
-            className="gltfIcon"
-            title="Export to GLTF"
-            onClick={this.exportSceneToGLTF}>
-            <div></div>
-          </a>  
-          <a
-            className="viewButton"
-            title="View"
-            onClick={this.openViewMode}>
+            onClick={this.toggleScenePlaying}
+          /> */}
+
+          {!this.state.isSaveActionActive ? (
+            <button
+              className={"gltfIcon"}
+              type={"button"}
+              onClick={this.toggleSaveActionState.bind(this)}
+            >
+              <div />
+              <span>Save</span>
+            </button>
+          ) : (
+            <div className={"saveActions"}>
+              <button type={"button"} onClick={this.exportSceneToGLTF}>
+                glTF 3D Model
+              </button>
+              <button type={"button"} onClick={this.makeScreenshot}>
+                PNG Screenshot
+              </button>
+              <button
+                type={"button"}
+                className={"closeButton"}
+                onClick={this.toggleSaveActionState.bind(this)}
+              >
+                <span />
+                <span />
+              </button>
+            </div>
+          )}
+
+          <button
+            className={"viewButton"}
+            type={"button"}
+            onClick={this.openViewMode}
+          >
             View
-          </a>                
-          <a
+          </button>
+
+          {/* not in use */}
+          {/* <a
             className={watcherClassNames}
             title={watcherTitle}
             onClick={this.writeChanges}
-          />
+          /> */}
         </div>
       </div>
     );

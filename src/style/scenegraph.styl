@@ -5,17 +5,67 @@
   top 36px
   right 40px
   height 43px
-  width 188px
+  width fit-content
 
   .toolbarActions
-    width 188px
+    width fit-content
     height 43px
     display flex
     justify-content space-between
+    align-items center
+    column-gap 16px
 
-    a.disabled
+    .saveActions 
+      display flex
+      align-items center
+      column-gap 16px
+
+    button 
+      display flex
+      align-items center
+      column-gap 8px
+      width fit-content
+      padding 12px 16px
+      border unset
+      outline unset
+      background-color #774dee
+      border-radius 18px
+      font-size 16px
+      color #fff
+      transition all 0.3s
+
+      div 
+        display block
+        width 16px
+        height 16px
+        background-size contain
+
+    button:hover 
+      background-color #6439df
+      transition all 0.3s
+      cursor pointer
+
+    button.disabled
       color #666
       cursor default
+
+    .closeButton
+      padding 21px
+      trasnsition all 0.3s
+
+      span
+        display block
+        width 2px
+        height 16px
+        background-color #ffffff
+        position absolute
+        left calc(50% - 1px)
+      
+      span:first-child 
+        transform rotateZ(-45deg)
+
+      span:last-child 
+        transform rotateZ(45deg)
 
     .fa
       display none
