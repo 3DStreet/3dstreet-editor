@@ -5,7 +5,7 @@ import ModalTextures from "./modals/ModalTextures";
 import React from "react";
 import SceneGraph from "./scenegraph/SceneGraph";
 import TransformToolbar from "./viewport/TransformToolbar";
-import ViewportHUD from "./viewport/ViewportHUD";
+// import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from "../lib/utils";
 
 THREE.ImageUtils.crossOrigin = "";
@@ -148,9 +148,9 @@ export default class Main extends React.Component {
 
   render() {
     const scene = this.state.sceneEl;
-    const toggleButtonText = this.state.inspectorEnabled
-      ? "Back to Scene"
-      : "Inspect Scene";
+    // const toggleButtonText = this.state.inspectorEnabled
+    //   ? "Back to Scene"
+    //   : "Inspect Scene";
 
     const logoText = this.state.inspectorEnabled
       ? "Enter Editor mode"
