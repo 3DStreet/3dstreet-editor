@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import CameraToolbar from "./viewport/CameraToolbar";
+import { CameraToolbar } from "./viewport";
 import ComponentsSidebar from "./components/Sidebar";
 import ModalHelp from "./modals/ModalHelp";
 import ModalTextures from "./modals/ModalTextures";
