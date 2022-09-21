@@ -1,6 +1,6 @@
 import CameraToolbar from "./viewport/CameraToolbar";
 import ComponentsSidebar from "./components/Sidebar";
-import ModalHelp from "./modals/ModalHelp";
+import { ModalHelp } from "./modals/ModalHelp";
 import ModalTextures from "./modals/ModalTextures";
 import React from "react";
 import SceneGraph from "./scenegraph/SceneGraph";

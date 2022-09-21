@@ -1,1 +1,1 @@
-export { Tabs } from "./Tabs.component";
+export { Tabs } from "./Tabs.component.jsx";

@@ -1,9 +1,8 @@
-var React = require("react");
-
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-export default class Modal extends React.Component {
+export default class Modal extends Component {
   static propTypes = {
     id: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element])
@@ -97,7 +96,8 @@ export default class Modal extends React.Component {
         <div className="modal-content" ref="self">
           <div className="modal-header">
             <span className="close" onClick={this.close}>
-              ×
+              <span />
+              <span />
             </span>
             {typeof titleElement !== "undefined" ? (
               titleElement

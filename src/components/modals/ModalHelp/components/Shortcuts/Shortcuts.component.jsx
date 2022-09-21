@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
-import Modal from "./Modal";
-import PropTypes from "prop-types";
+import "./Shortcuts.styles.styl";
 
 const shortcuts = [
   [
@@ -34,55 +32,34 @@ const shortcuts = [
   ]
 ];
 
-export default class ModalHelp extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool,
-    onClose: PropTypes.func.isRequired
-  };
-
-  // state = {
-  //   isOpen: this.props.isOpen
-  // };
-
-  // componentWillReceiveProps = (newProps) => {
-  //   if (this.state.isOpen !== newProps.isOpen) {
-  //     this.setState({ isOpen: newProps.isOpen });
-  //   }
-  // }
-
-  // onClose = () => {
-  //   if (this.props.onClose) {
-  //     this.props.onClose();
-  //   }
-  // };
-
+/**
+ * Shortcuts component.
+ * Exclusively for the ModalHelp component as a 'Shortcuts' tab content.
+ *
+ * @author Oleksii Medvediev
+ * @category Components.
+ */
+class Shortcuts extends Component {
   render() {
-    const { isOpen, onClose } = this.props;
-
     return (
-      <Modal
-        title="Shortcuts"
-        isOpen={isOpen}
-        onClose={onClose}
-        extraCloseKeyCode={72}
-      >
-        <div className="help-lists">
-          {shortcuts.map((column, idx) => (
-            <ul className="help-list" key={idx}>
-              {column.map(({ description, key }) => (
-                <li key={key} className="help-key-unit">
-                  {key.map(item => (
-                    <kbd key={item} className="help-key">
-                      <span>{item}</span>
-                    </kbd>
-                  ))}
-                  <span className="help-key-def">{description}</span>
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </Modal>
+      <div className="help-lists">
+        {shortcuts.map((column, idx) => (
+          <ul className="help-list" key={idx}>
+            {column.map(({ description, key }) => (
+              <li key={key} className="help-key-unit">
+                {key.map(item => (
+                  <kbd key={item} className="help-key">
+                    <span>{item}</span>
+                  </kbd>
+                ))}
+                <span className="help-key-def">{description}</span>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
     );
   }
 }
+
+export { Shortcuts };

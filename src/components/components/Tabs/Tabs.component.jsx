@@ -1,26 +1,47 @@
 import React, { Component } from "react";
-import "./Tabs.styl";
+import "./Tabs.styles.styl";
+import { Hint } from "./components";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
+/**
+ * Tabs component.
+ *
+ * @author Oleksii Medvediev
+ * @category Components.
+ */
 class Tabs extends Component {
   render() {
+    const { tabs } = this.props;
+
     return (
-      <div id={"cameraToolbar"} className={className}>
-        {options.map(({ label, value, event, payload, hint }) => (
+      <div id={"tabsWrapper"} className={"tabsWrapper"}>
+        {tabs.map(({ label, value, onClick, isSelected, hint }) => (
           <button
-            className={classNames(
-              this.state.selectedCamera === value && "selectedCamera"
-            )}
+            className={classNames("tabButton", isSelected && "selectedTab")}
             type={"button"}
-            onClick={() => this.handleCameraChange({ value, event, payload })}
+            onClick={onClick}
             key={value}
           >
             {label}
-            <Hint hint={hint} tab={value} />
+            {hint && <Hint hint={hint} tab={value} />}
           </button>
         ))}
       </div>
     );
   }
 }
+
+Tabs.propTypes = {
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      isSelected: PropTypes.bool.isRequired,
+      onClick: PropTypes.func.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      hint: PropTypes.string
+    })
+  )
+};
 
 export { Tabs };
