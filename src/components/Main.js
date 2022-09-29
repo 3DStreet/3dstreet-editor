@@ -153,8 +153,8 @@ export default class Main extends React.Component {
     //   : "Inspect Scene";
 
     const logoText = this.state.inspectorEnabled
-      ? "Enter Editor mode"
-      : "Enter Viewer mode";
+      ? "Enter Viewer mode"
+      : "Enter Editor mode";
 
     return (
       <div>
