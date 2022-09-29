@@ -12,7 +12,7 @@ const options = [
     event: "cameraperspectivetoggle",
     payload: null,
     label: "3D View",
-    hint: "3D View tab hint text"
+    hint: "3D perspective camera with click and drag rotation"
   },
   // { value: 'ortholeft', event: 'cameraorthographictoggle', payload: 'left', label: 'Left View' },
   // { value: 'orthoright', event: 'cameraorthographictoggle', payload: 'right', label: 'Right View' },
@@ -21,7 +21,7 @@ const options = [
     event: "cameraorthographictoggle",
     payload: "top",
     label: "Plan View",
-    hint: "Plan View tab hint text"
+    hint: "Down facing orthographic camera"
   },
   // { value: 'orthobottom', event: 'cameraorthographictoggle', payload: 'bottom', label: 'Bottom View' },
   // { value: 'orthoback', event: 'cameraorthographictoggle', payload: 'back', label: 'Back View' },
@@ -30,23 +30,32 @@ const options = [
     event: "cameraorthographictoggle",
     payload: "front",
     label: "Cross Section",
-    hint: "Cross Section tab hint text"
+    hint: "Front facing orthographic camera"
   }
 ];
 
 class CameraToolbar extends Component {
   state = {
-    selectedCamera: "perspective"
+    selectedCamera: "orthotop",
+    areChangesEmitted: false
   };
 
   componentDidMount() {
+    if (!this.state.areChangesEmitted) {
+      const selectedOption = options.find(
+        ({ value }) => this.state.selectedCamera === value
+      );
+
+      this.handleCameraChange(selectedOption);
+    }
+
     Events.on("cameratoggle", data =>
       this.setState({ selectedCamera: data.value })
     );
   }
 
   handleCameraChange(option) {
-    this.setState({ selectedCamera: option.value });
+    this.setState({ selectedCamera: option.value, areChangesEmitted: true });
     Events.emit(option.event, option.payload);
   }
 
