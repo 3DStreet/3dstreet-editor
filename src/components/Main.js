@@ -1,8 +1,9 @@
-import CameraToolbar from "./viewport/CameraToolbar";
+import React, { Component } from "react";
+
+import { CameraToolbar } from "./viewport";
 import ComponentsSidebar from "./components/Sidebar";
 import ModalHelp from "./modals/ModalHelp";
 import ModalTextures from "./modals/ModalTextures";
-import React from "react";
 import SceneGraph from "./scenegraph/SceneGraph";
 import TransformToolbar from "./viewport/TransformToolbar";
 // import ViewportHUD from "./viewport/ViewportHUD";
@@ -17,7 +18,7 @@ injectCSS(
   "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
 );
 
-export default class Main extends React.Component {
+export default class Main extends Component {
   constructor(props) {
     super(props);
 
@@ -167,28 +168,27 @@ export default class Main extends React.Component {
         {this.renderSceneGraphToggle()}
         {this.renderComponentsToggle()}
 
-        <div
-          id="inspectorContainer"
-          className={this.state.inspectorEnabled ? "" : "hidden"}
-        >
-          <SceneGraph
-            scene={scene}
-            selectedEntity={this.state.entity}
-            visible={this.state.visible.scenegraph}
-          />
-
-          <div id="viewportBar">
-            <CameraToolbar />
-            <TransformToolbar />
-          </div>
-
-          <div id="rightPanel">
-            <ComponentsSidebar
-              entity={this.state.entity}
-              visible={this.state.visible.attributes}
+        {this.state.inspectorEnabled && (
+          <div id="inspectorContainer">
+            <SceneGraph
+              scene={scene}
+              selectedEntity={this.state.entity}
+              visible={this.state.visible.scenegraph}
             />
+
+            <div id="viewportBar">
+              <CameraToolbar />
+              <TransformToolbar />
+            </div>
+
+            <div id="rightPanel">
+              <ComponentsSidebar
+                entity={this.state.entity}
+                visible={this.state.visible.attributes}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <ModalHelp
           isOpen={this.state.isHelpOpen}
