@@ -149,9 +149,6 @@ export default class Main extends Component {
 
   render() {
     const scene = this.state.sceneEl;
-    // const toggleButtonText = this.state.inspectorEnabled
-    //   ? "Back to Scene"
-    //   : "Inspect Scene";
 
     const logoText = this.state.inspectorEnabled
       ? "Enter Viewer mode"
