@@ -6,6 +6,7 @@ import ModalHelp from "./modals/ModalHelp";
 import ModalTextures from "./modals/ModalTextures";
 import SceneGraph from "./scenegraph/SceneGraph";
 import TransformToolbar from "./viewport/TransformToolbar";
+// import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from "../lib/utils";
 
 THREE.ImageUtils.crossOrigin = "";
@@ -153,8 +154,8 @@ export default class Main extends Component {
     //   : "Inspect Scene";
 
     const logoText = this.state.inspectorEnabled
-      ? "Enter Editor mode"
-      : "Enter Viewer mode";
+      ? "Enter Viewer mode"
+      : "Enter Editor mode";
 
     return (
       <div>
