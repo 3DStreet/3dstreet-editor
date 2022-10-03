@@ -36,11 +36,23 @@ const options = [
 
 class CameraToolbar extends Component {
   state = {
-    selectedCamera: "perspective",
+    selectedCamera: "orthotop",
     areChangesEmitted: false
   };
 
   componentDidMount() {
+    setTimeout(() => {
+      this.setInitialCamera();
+    }, 1);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(() => {
+      this.setInitialCamera();
+    }, 1);
+  }
+
+  setInitialCamera = () => {
     if (!this.state.areChangesEmitted) {
       const selectedOption = options.find(
         ({ value }) => this.state.selectedCamera === value
@@ -52,7 +64,7 @@ class CameraToolbar extends Component {
     Events.on("cameratoggle", data =>
       this.setState({ selectedCamera: data.value })
     );
-  }
+  };
 
   handleCameraChange(option) {
     this.setState({ selectedCamera: option.value, areChangesEmitted: true });
