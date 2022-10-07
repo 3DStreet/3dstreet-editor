@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { printEntity, removeEntity, cloneEntity } from '../../lib/entity';
+import React from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import { printEntity, removeEntity, cloneEntity } from "../../lib/entity";
 
-const Events = require('../../lib/Events.js');
+const Events = require("../../lib/Events.js");
 
 export default class Entity extends React.Component {
   static propTypes = {
@@ -21,21 +21,30 @@ export default class Entity extends React.Component {
     this.state = {};
   }
 
-  onClick = (evt) => {
-    if (!evt.target.classList.contains('fa')) {
+  componentDidMount = () => {
+    if (
+      this.props.entity.id === "streets" ||
+      this.props.entity.id === "imagery"
+    ) {
+      this.props.toggleExpandedCollapsed(this.props.entity);
+    }
+  };
+
+  onClick = evt => {
+    if (!evt.target.classList.contains("fa")) {
       this.props.selectEntity(this.props.entity);
-    }    
-  }
+    }
+  };
 
-  onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
+  onDoubleClick = () => Events.emit("objectfocus", this.props.entity.object3D);
 
-  toggleVisibility = (evt) => {
+  toggleVisibility = evt => {
     const entity = this.props.entity;
     const visible =
-      entity.tagName.toLowerCase() === 'a-scene'
+      entity.tagName.toLowerCase() === "a-scene"
         ? entity.object3D.visible
-        : entity.getAttribute('visible');
-    entity.setAttribute('visible', !visible);
+        : entity.getAttribute("visible");
+    entity.setAttribute("visible", !visible);
     // manually call render function
     this.forceUpdate();
   };
@@ -48,7 +57,7 @@ export default class Entity extends React.Component {
 
     // Clone and remove buttons if not a-scene.
     const cloneButton =
-      tagName === 'a-scene' ? null : (
+      tagName === "a-scene" ? null : (
         <a
           onClick={() => cloneEntity(entity)}
           title="Clone entity"
@@ -56,7 +65,7 @@ export default class Entity extends React.Component {
         />
       );
     const removeButton =
-      tagName === 'a-scene' ? null : (
+      tagName === "a-scene" ? null : (
         <a
           onClick={event => {
             event.stopPropagation();
@@ -68,18 +77,25 @@ export default class Entity extends React.Component {
       );
 
     // Add spaces depending on depth.
-    const pad = (this.props.depth > 1)? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth):'';
+    const pad =
+      this.props.depth > 1
+        ? "&nbsp;&nbsp;&nbsp;&nbsp;".repeat(this.props.depth)
+        : "";
 
     let collapse;
-    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
+    if (
+      entity.children.length > 0 &&
+      !isFiltering &&
+      !!entity.hasAttribute("data-layer-show-children")
+    ) {
       collapse = (
         <span
-          onClick={(evt) => {
+          onClick={evt => {
             evt.stopPropagation();
             this.props.toggleExpandedCollapsed(entity);
           }}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-up'
+            isExpanded ? "fa-caret-down" : "fa-caret-up"
           }`}
         />
       );
@@ -89,13 +105,13 @@ export default class Entity extends React.Component {
 
     // Visibility button.
     const visible =
-      tagName === 'a-scene'
+      tagName === "a-scene"
         ? entity.object3D.visible
-        : entity.getAttribute('visible');
+        : entity.getAttribute("visible");
     const visibilityButton = (
       <i
         title="Toggle entity visibility"
-        className={'fa ' + (visible ? 'fa-eye' : 'fa-eye-slash')}
+        className={"fa " + (visible ? "fa-eye" : "fa-eye-slash")}
         onClick={this.toggleVisibility}
       />
     );

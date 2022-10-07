@@ -33691,11 +33691,11 @@ module.exports = exports["default"];
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
-    "default": obj
+    default: obj
   };
 }
 
-module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+module.exports = _interopRequireDefault;
 
 /***/ }),
 /* 230 */
@@ -36334,20 +36334,26 @@ class Entity extends _react2.default.Component {
 
     _this = super(props);
 
+    this.componentDidMount = function () {
+      if (_this.props.entity.id === "streets" || _this.props.entity.id === "imagery") {
+        _this.props.toggleExpandedCollapsed(_this.props.entity);
+      }
+    };
+
     this.onClick = function (evt) {
-      if (!evt.target.classList.contains('fa')) {
+      if (!evt.target.classList.contains("fa")) {
         _this.props.selectEntity(_this.props.entity);
       }
     };
 
     this.onDoubleClick = function () {
-      return Events.emit('objectfocus', _this.props.entity.object3D);
+      return Events.emit("objectfocus", _this.props.entity.object3D);
     };
 
     this.toggleVisibility = function (evt) {
       var entity = _this.props.entity;
-      var visible = entity.tagName.toLowerCase() === 'a-scene' ? entity.object3D.visible : entity.getAttribute('visible');
-      entity.setAttribute('visible', !visible);
+      var visible = entity.tagName.toLowerCase() === "a-scene" ? entity.object3D.visible : entity.getAttribute("visible");
+      entity.setAttribute("visible", !visible);
       // manually call render function
       _this.forceUpdate();
     };
@@ -36364,43 +36370,43 @@ class Entity extends _react2.default.Component {
     var tagName = entity.tagName.toLowerCase();
 
     // Clone and remove buttons if not a-scene.
-    var cloneButton = tagName === 'a-scene' ? null : _react2.default.createElement('a', {
+    var cloneButton = tagName === "a-scene" ? null : _react2.default.createElement("a", {
       onClick: function onClick() {
         return (0, _entity.cloneEntity)(entity);
       },
-      title: 'Clone entity',
-      className: 'button fa fa-clone'
+      title: "Clone entity",
+      className: "button fa fa-clone"
     });
-    var removeButton = tagName === 'a-scene' ? null : _react2.default.createElement('a', {
+    var removeButton = tagName === "a-scene" ? null : _react2.default.createElement("a", {
       onClick: function onClick(event) {
         event.stopPropagation();
         (0, _entity.removeEntity)(entity);
       },
-      title: 'Remove entity',
-      className: 'button fa fa-trash'
+      title: "Remove entity",
+      className: "button fa fa-trash"
     });
 
     // Add spaces depending on depth.
-    var pad = this.props.depth > 1 ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth) : '';
+    var pad = this.props.depth > 1 ? "&nbsp;&nbsp;&nbsp;&nbsp;".repeat(this.props.depth) : "";
 
     var collapse = void 0;
-    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
-      collapse = _react2.default.createElement('span', {
+    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute("data-layer-show-children")) {
+      collapse = _react2.default.createElement("span", {
         onClick: function onClick(evt) {
           evt.stopPropagation();
           _this2.props.toggleExpandedCollapsed(entity);
         },
-        className: 'collapsespace fa ' + (isExpanded ? 'fa-caret-down' : 'fa-caret-up')
+        className: "collapsespace fa " + (isExpanded ? "fa-caret-down" : "fa-caret-up")
       });
     } else {
-      collapse = _react2.default.createElement('span', { className: 'collapsespace' });
+      collapse = _react2.default.createElement("span", { className: "collapsespace" });
     }
 
     // Visibility button.
-    var visible = tagName === 'a-scene' ? entity.object3D.visible : entity.getAttribute('visible');
-    var visibilityButton = _react2.default.createElement('i', {
-      title: 'Toggle entity visibility',
-      className: 'fa ' + (visible ? 'fa-eye' : 'fa-eye-slash'),
+    var visible = tagName === "a-scene" ? entity.object3D.visible : entity.getAttribute("visible");
+    var visibilityButton = _react2.default.createElement("i", {
+      title: "Toggle entity visibility",
+      className: "fa " + (visible ? "fa-eye" : "fa-eye-slash"),
       onClick: this.toggleVisibility
     });
 
@@ -36413,13 +36419,13 @@ class Entity extends _react2.default.Component {
     });
 
     return _react2.default.createElement(
-      'div',
+      "div",
       { className: className, onClick: this.onClick },
       _react2.default.createElement(
-        'span',
+        "span",
         null,
-        _react2.default.createElement('span', {
-          className: 'entityChildPadding',
+        _react2.default.createElement("span", {
+          className: "entityChildPadding",
           dangerouslySetInnerHTML: { __html: pad }
         }),
         visibilityButton,
@@ -36427,8 +36433,8 @@ class Entity extends _react2.default.Component {
         collapse
       ),
       _react2.default.createElement(
-        'span',
-        { className: 'entityActions' },
+        "span",
+        { className: "entityActions" },
         cloneButton,
         removeButton
       )
