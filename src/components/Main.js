@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { CameraToolbar } from "./viewport";
 import ComponentsSidebar from "./components/Sidebar";
-import ModalHelp from "./modals/ModalHelp";
+import { ModalHelp } from "./modals/ModalHelp";
 import ModalTextures from "./modals/ModalTextures";
 import SceneGraph from "./scenegraph/SceneGraph";
 import TransformToolbar from "./viewport/TransformToolbar";

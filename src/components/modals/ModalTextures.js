@@ -1,11 +1,11 @@
-import Events from '../../lib/Events';
-import React from 'react';
-import PropTypes from 'prop-types';
-import Modal from './Modal';
-var insertNewAsset = require('../../lib/assetsUtils').insertNewAsset;
+import Events from "../../lib/Events";
+import React from "react";
+import PropTypes from "prop-types";
+import Modal from "./Modal.jsx";
+import { insertNewAsset } from "../../lib/assetsUtils";
 
 function getFilename(url, converted = false) {
-  var filename = url.split('/').pop();
+  var filename = url.split("/").pop();
   if (converted) {
     filename = getValidId(filename);
   }
@@ -21,11 +21,11 @@ function isValidId(id) {
 function getValidId(name) {
   // info.name.replace(/\.[^/.]+$/, '').replace(/\s+/g, '')
   return name
-    .split('.')
+    .split(".")
     .shift()
-    .replace(/\s/, '-')
-    .replace(/^\d+\s*/, '')
-    .replace(/[\W]/, '')
+    .replace(/\s/, "-")
+    .replace(/^\d+\s*/, "")
+    .replace(/[\W]/, "")
     .toLowerCase();
 }
 
@@ -39,29 +39,29 @@ export default class ModalTextures extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterText: '',
+      filterText: "",
       isOpen: this.props.isOpen,
       loadedTextures: [],
       assetsImages: [],
       registryImages: [],
       addNewDialogOpened: false,
-      newUrl: '',
+      newUrl: "",
       preview: {
         width: 0,
         height: 0,
-        src: '',
-        id: '',
-        name: '',
-        filename: '',
-        type: '',
-        value: '',
+        src: "",
+        id: "",
+        name: "",
+        filename: "",
+        type: "",
+        value: "",
         loaded: false
       }
     };
   }
 
   componentDidMount() {
-    Events.on('assetsimagesload', images => {
+    Events.on("assetsimagesload", images => {
       this.generateFromRegistry();
     });
 
@@ -99,16 +99,16 @@ export default class ModalTextures extends React.Component {
     var self = this;
     AFRAME.INSPECTOR.assetsLoader.images.forEach(imageData => {
       var image = new Image();
-      image.addEventListener('load', () => {
+      image.addEventListener("load", () => {
         self.state.registryImages.push({
           id: imageData.id,
           src: imageData.fullPath,
           width: imageData.width,
           height: imageData.height,
           name: imageData.id,
-          type: 'registry',
+          type: "registry",
           tags: imageData.tags,
-          value: 'url(' + imageData.fullPath + ')'
+          value: "url(" + imageData.fullPath + ")"
         });
         self.setState({ registryImages: self.state.registryImages.slice() });
       });
@@ -121,18 +121,18 @@ export default class ModalTextures extends React.Component {
 
     var self = this;
     Array.prototype.slice
-      .call(document.querySelectorAll('a-assets img'))
+      .call(document.querySelectorAll("a-assets img"))
       .map(asset => {
         var image = new Image();
-        image.addEventListener('load', () => {
+        image.addEventListener("load", () => {
           self.state.assetsImages.push({
             id: asset.id,
             src: image.src,
             width: image.width,
             height: image.height,
             name: asset.id,
-            type: 'asset',
-            value: '#' + asset.id
+            type: "asset",
+            value: "#" + asset.id
           });
           self.setState({ assetsImages: self.state.assetsImages });
         });
@@ -153,17 +153,17 @@ export default class ModalTextures extends React.Component {
           width: self.refs.preview.naturalWidth,
           height: self.refs.preview.naturalHeight,
           src: src,
-          id: '',
+          id: "",
           name: getFilename(src, true),
           filename: getFilename(src),
-          type: 'new',
+          type: "new",
           loaded: true,
-          value: 'url(' + src + ')'
+          value: "url(" + src + ")"
         }
       });
-      self.refs.preview.removeEventListener('load', onImageLoaded);
+      self.refs.preview.removeEventListener("load", onImageLoaded);
     }
-    this.refs.preview.addEventListener('load', onImageLoaded);
+    this.refs.preview.addEventListener("load", onImageLoaded);
     this.refs.preview.src = event.target.value;
 
     this.refs.imageName.focus();
@@ -190,15 +190,15 @@ export default class ModalTextures extends React.Component {
       preview: {
         width: 0,
         height: 0,
-        src: '',
-        id: '',
-        filename: '',
-        name: '',
-        type: '',
+        src: "",
+        id: "",
+        filename: "",
+        name: "",
+        type: "",
         loaded: false,
-        value: ''
+        value: ""
       },
-      newUrl: ''
+      newUrl: ""
     });
   }
 
@@ -215,7 +215,7 @@ export default class ModalTextures extends React.Component {
   addNewAsset = () => {
     var self = this;
     insertNewAsset(
-      'img',
+      "img",
       this.state.preview.name,
       this.state.preview.src,
       true,
@@ -239,12 +239,12 @@ export default class ModalTextures extends React.Component {
           width: image.width,
           height: image.height,
           src: image.src,
-          id: '',
+          id: "",
           name: getFilename(image.name, true),
           filename: getFilename(image.src),
-          type: 'registry',
+          type: "registry",
           loaded: true,
-          value: 'url(' + image.src + ')'
+          value: "url(" + image.src + ")"
         }
       });
       self.refs.imageName.focus();
@@ -286,8 +286,8 @@ export default class ModalTextures extends React.Component {
     let validAsset = this.isValidAsset();
 
     let addNewAssetButton = this.state.addNewDialogOpened
-      ? 'BACK'
-      : 'LOAD TEXTURE';
+      ? "BACK"
+      : "LOAD TEXTURE";
 
     return (
       <Modal
@@ -298,13 +298,13 @@ export default class ModalTextures extends React.Component {
         closeOnClickOutside={false}
       >
         <button onClick={this.toggleNewDialog}>{addNewAssetButton}</button>
-        <div className={this.state.addNewDialogOpened ? '' : 'hide'}>
+        <div className={this.state.addNewDialogOpened ? "" : "hide"}>
           <div className="newimage">
             <div className="new_asset_options">
               <span>Load a new texture from one of these sources:</span>
               <ul>
                 <li>
-                  <span>From URL (and press Enter):</span>{' '}
+                  <span>From URL (and press Enter):</span>{" "}
                   <input
                     type="text"
                     className="imageUrl"
@@ -330,11 +330,11 @@ export default class ModalTextures extends React.Component {
               </ul>
             </div>
             <div className="preview">
-              Name:{' '}
+              Name:{" "}
               <input
                 ref="imageName"
                 className={
-                  this.state.preview.name.length > 0 && !validUrl ? 'error' : ''
+                  this.state.preview.name.length > 0 && !validUrl ? "error" : ""
                 }
                 type="text"
                 value={this.state.preview.name}
@@ -367,7 +367,7 @@ export default class ModalTextures extends React.Component {
             </div>
           </div>
         </div>
-        <div className={this.state.addNewDialogOpened ? 'hide' : ''}>
+        <div className={this.state.addNewDialogOpened ? "hide" : ""}>
           <ul className="gallery">
             {this.state.assetsImages
               .sort(function(a, b) {
@@ -377,9 +377,9 @@ export default class ModalTextures extends React.Component {
                 function(image) {
                   let textureClick = this.selectTexture.bind(this, image);
                   var selectedClass =
-                    this.props.selectedTexture === '#' + image.id
-                      ? 'selected'
-                      : '';
+                    this.props.selectedTexture === "#" + image.id
+                      ? "selected"
+                      : "";
                   return (
                     <li
                       key={image.id}
@@ -405,9 +405,9 @@ export default class ModalTextures extends React.Component {
                 <li key={texture.uuid} onClick={textureClick}>
                   <img width="155px" height="155px" src={image.src} />
                   <div className="detail">
-                    <span className="title">Name:</span>{' '}
+                    <span className="title">Name:</span>{" "}
                     <span>{image.name}</span>
-                    <span className="title">Filename:</span>{' '}
+                    <span className="title">Filename:</span>{" "}
                     <span>{getFilename(image.src)}</span>
                     <span>
                       {image.width} x {image.height}
