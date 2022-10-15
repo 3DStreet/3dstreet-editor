@@ -1,11 +1,11 @@
-import Entity from "./Entity";
-import PropTypes from "prop-types";
-import React from "react";
-import Toolbar from "./Toolbar";
-import classnames from "classnames";
-import debounce from "lodash.debounce";
+import Entity from './Entity';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Toolbar from './Toolbar';
+import classnames from 'classnames';
+import debounce from 'lodash.debounce';
 
-const Events = require("../../lib/Events.js");
+const Events = require('../../lib/Events.js');
 
 export default class SceneGraph extends React.Component {
   static propTypes = {
@@ -17,9 +17,9 @@ export default class SceneGraph extends React.Component {
   };
 
   static defaultProps = {
-    selectedEntity: "",
+    selectedEntity: '',
     index: -1,
-    id: "left-sidebar"
+    id: 'left-sidebar'
   };
 
   constructor(props) {
@@ -27,7 +27,7 @@ export default class SceneGraph extends React.Component {
     this.state = {
       entities: [],
       expandedElements: new WeakMap([[props.scene, true]]),
-      filter: "",
+      filter: '',
       filteredEntities: [],
       selectedIndex: -1,
       leftBarHide: false
@@ -45,8 +45,8 @@ export default class SceneGraph extends React.Component {
 
   componentDidMount() {
     this.rebuildEntityOptions();
-    Events.on("entityidchange", this.rebuildEntityOptions);
-    Events.on("entitycreated", this.rebuildEntityOptions);
+    Events.on('entityidchange', this.rebuildEntityOptions);
+    Events.on('entitycreated', this.rebuildEntityOptions);
   }
 
   /**
@@ -69,7 +69,7 @@ export default class SceneGraph extends React.Component {
         if (this.props.onChange) {
           this.props.onChange(entity);
         }
-        Events.emit("entityselect", entity, true);
+        Events.emit('entityselect', entity, true);
         found = true;
       }
     }
@@ -95,7 +95,7 @@ export default class SceneGraph extends React.Component {
           entity.dataset.isInspector ||
           !entity.isEntity ||
           entity.isInspector ||
-          "aframeInspector" in entity.dataset
+          'aframeInspector' in entity.dataset
         ) {
           continue;
         }
@@ -243,8 +243,8 @@ export default class SceneGraph extends React.Component {
   }
 
   clearFilter = () => {
-    this.setState({ filter: "" });
-    this.updateFilteredEntities("");
+    this.setState({ filter: '' });
+    this.updateFilteredEntities('');
   };
 
   toggleLeftBar = () => {
@@ -256,7 +256,7 @@ export default class SceneGraph extends React.Component {
       if (
         (!this.isVisibleInSceneGraph(entityOption.entity) &&
           !this.state.filter) ||
-        !entityOption.entity.attributes.getNamedItem("data-layer-name")
+        !entityOption.entity.attributes.getNamedItem('data-layer-name')
       ) {
         return false;
       } else {
