@@ -43,7 +43,7 @@ export default class BooleanWidget extends React.Component {
     });
 
     return (
-      <div className={checkboxClasses}>        
+      <div className={checkboxClasses}>
         <input
           id={id}
           ref="input"
@@ -52,7 +52,7 @@ export default class BooleanWidget extends React.Component {
           value={this.state.value}
           onChange={this.onChange}
         />
-        <label htmlFor={id}></label>
+        <label htmlFor={id} />
       </div>
     );
   }
