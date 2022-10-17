@@ -38,7 +38,7 @@
       </a-assets>
   
       <a-entity id="cameraRig" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
-        <a-entity id="camera" camera="far: 1000" position="0 1.6 0"></a-entity>
+        <a-entity id="camera" camera="near: 1; far: 1000" position="0 1.6 0"></a-entity>
         <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
         <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
       </a-entity>
