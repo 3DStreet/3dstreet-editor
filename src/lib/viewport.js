@@ -218,14 +218,28 @@ function Viewport(inspector) {
         .forEach(element => {
           element.style.display = 'none';
         });
-    } else {
+    } else if (AFRAME.utils.device.checkHeadsetConnected()) {
+      // } else {
       disableControls();
       inspector.cameras.original.setAttribute('camera', 'active', 'true');
-      AFRAME.scenes[0].camera = inspector.cameras.original.getObject3D('camera');
+      AFRAME.scenes[0].camera = inspector.cameras.original.getObject3D(
+        'camera'
+      );
       Array.prototype.slice
         .call(document.querySelectorAll('.a-enter-vr,.rs-base'))
         .forEach(element => {
           element.style.display = 'block';
+        });
+    } else {
+      disableControls();
+      inspector.cameras.original.setAttribute('camera', 'active', 'true');
+      AFRAME.scenes[0].camera = inspector.cameras.original.getObject3D(
+        'camera'
+      );
+      Array.prototype.slice
+        .call(document.querySelectorAll('.a-enter-vr,.rs-base'))
+        .forEach(element => {
+          element.style.display = 'none';
         });
     }
     ga('send', 'event', 'Viewport', 'toggleEditor', active);
