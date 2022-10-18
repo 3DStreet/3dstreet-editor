@@ -212,11 +212,11 @@ THREE.EditorControls = function(_object, domElement) {
     if (scope.enabled === false) return;
 
     if (event.button === 0) {
-      state = STATE.ROTATE;
+      state = STATE.PAN;
     } else if (event.button === 1) {
       state = STATE.ZOOM;
     } else if (event.button === 2) {
-      state = STATE.PAN;
+      state = STATE.ROTATE;
     }
 
     pointerOld.set(event.clientX, event.clientY);
