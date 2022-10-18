@@ -33,7 +33,7 @@
   </head>
 
   <body>
-    <a-scene renderer="colorManagement: true; physicallyCorrectLights: true;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/">
+    <a-scene vr-mode-ui-if-headset renderer="colorManagement: true; physicallyCorrectLights: true;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/">
       <a-assets>
       </a-assets>
   
@@ -123,6 +123,16 @@
     </script>
   </body>
   <script>
+          // only show VR button if headset connected
+      AFRAME.registerComponent('vr-mode-ui-if-headset', {
+        dependencies: ['vr-mode-ui'],
+        init: function () {
+          if (!AFRAME.utils.device.checkHeadsetConnected()) {
+            this.el.setAttribute('vr-mode-ui', 'enabled', false);
+          }
+        }
+      })
+
     AFRAME.registerComponent('set-loader-from-hash', {
       dependencies: ['streetmix-loader'],
       schema: {
