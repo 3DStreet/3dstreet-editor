@@ -199,9 +199,11 @@ export default class Main extends Component {
           onClose={this.onModalTextureOnClose}
         />
 
-        <div id="help">
-          <HelpButton />
-        </div>
+        {this.state.inspectorEnabled && (
+          <div id="help">
+            <HelpButton />
+          </div>
+        )}
       </div>
     );
   }
