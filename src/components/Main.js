@@ -9,6 +9,7 @@ import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
 import classNames from 'classnames';
+import { HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -203,6 +204,10 @@ export default class Main extends Component {
           selectedTexture={this.state.selectedTexture}
           onClose={this.onModalTextureOnClose}
         />
+
+        <div id="help">
+          <HelpButton />
+        </div>
       </div>
     );
   }
