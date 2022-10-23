@@ -1,21 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { CameraToolbar } from "./viewport";
-import ComponentsSidebar from "./components/Sidebar";
-import ModalHelp from "./modals/ModalHelp";
-import ModalTextures from "./modals/ModalTextures";
-import SceneGraph from "./scenegraph/SceneGraph";
-import TransformToolbar from "./viewport/TransformToolbar";
+import { CameraToolbar } from './viewport';
+import ComponentsSidebar from './components/Sidebar';
+import { ModalHelp } from './modals/ModalHelp';
+import ModalTextures from './modals/ModalTextures';
+import SceneGraph from './scenegraph/SceneGraph';
+import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
-import { injectCSS } from "../lib/utils";
+import { injectCSS } from '../lib/utils';
+import { HelpButton } from './components';
 
-THREE.ImageUtils.crossOrigin = "";
+THREE.ImageUtils.crossOrigin = '';
 
-const Events = require("../lib/Events.js");
+const Events = require('../lib/Events.js');
 
 // Megahack to include font-awesome.
 injectCSS(
-  "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+  'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'
 );
 
 export default class Main extends Component {
@@ -33,8 +34,8 @@ export default class Main extends Component {
       }
     };
 
-    Events.on("togglesidebar", event => {
-      if (event.which === "all") {
+    Events.on('togglesidebar', event => {
+      if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
             visible: {
@@ -50,13 +51,13 @@ export default class Main extends Component {
             }
           });
         }
-      } else if (event.which === "attributes") {
+      } else if (event.which === 'attributes') {
         this.setState(prevState => ({
           visible: {
             attributes: !prevState.visible.attributes
           }
         }));
-      } else if (event.which === "scenegraph") {
+      } else if (event.which === 'scenegraph') {
         this.setState(prevState => ({
           visible: {
             scenegraph: !prevState.visible.scenegraph
@@ -70,7 +71,7 @@ export default class Main extends Component {
 
   componentDidMount() {
     Events.on(
-      "opentexturesmodal",
+      'opentexturesmodal',
       function(selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
@@ -80,15 +81,15 @@ export default class Main extends Component {
       }.bind(this)
     );
 
-    Events.on("entityselect", entity => {
+    Events.on('entityselect', entity => {
       this.setState({ entity: entity });
     });
 
-    Events.on("inspectortoggle", enabled => {
+    Events.on('inspectortoggle', enabled => {
       this.setState({ inspectorEnabled: enabled });
     });
 
-    Events.on("openhelpmodal", () => {
+    Events.on('openhelpmodal', () => {
       this.setState({ isHelpOpen: true });
     });
   }
@@ -151,8 +152,8 @@ export default class Main extends Component {
     const scene = this.state.sceneEl;
 
     const logoText = this.state.inspectorEnabled
-      ? "Enter Viewer mode"
-      : "Enter Editor mode";
+      ? 'Enter Viewer mode'
+      : 'Enter Editor mode';
 
     return (
       <div>
@@ -197,6 +198,10 @@ export default class Main extends Component {
           selectedTexture={this.state.selectedTexture}
           onClose={this.onModalTextureOnClose}
         />
+
+        <div id="help">
+          <HelpButton />
+        </div>
       </div>
     );
   }

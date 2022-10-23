@@ -14,7 +14,7 @@
     "lintfile": "node --harmony node_modules/.bin/eslint",
     "prefirebase": "cp -R assets public && cp {index.html,favicon.ico} public && cp dist/3dstreet-editor.min.js public/dist/3dstreet-editor.js && cp dist/aframe-cursor-teleport-component.min.js public/dist/aframe-cursor-teleport-component.min.js",
     "prepublish": "npm run dist",
-    "prettier": "prettier --single-quote es5 --write 'src/**/*.js'",
+    "prettier": "prettier --write 'src/**/*.js'",
     "start": "cross-env NODE_ENV=dev webpack-dev-server --progress --colors -d --host 0.0.0.0",
     "test": "jest --watch",
     "test:ci": "jest"

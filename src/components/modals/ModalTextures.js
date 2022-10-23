@@ -1,8 +1,8 @@
 import Events from '../../lib/Events';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
-var insertNewAsset = require('../../lib/assetsUtils').insertNewAsset;
+import Modal from './Modal.jsx';
+import { insertNewAsset } from '../../lib/assetsUtils';
 
 function getFilename(url, converted = false) {
   var filename = url.split('/').pop();
