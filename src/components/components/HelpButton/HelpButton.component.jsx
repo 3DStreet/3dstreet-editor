@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./HelpButton.styles.styl";
-import classNames from "classnames";
 import {QuestionMark} from './icons.jsx';
 import Events from '../../../lib/Events.js';
 
@@ -17,7 +16,7 @@ class HelpButton extends Component {
     return (
           <button
             id="helpButton"
-            className={classNames("helpButton")}
+            className={"helpButton"}
             type="button"
             onClick={onClick}
             key="helpButton"
