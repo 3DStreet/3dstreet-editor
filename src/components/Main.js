@@ -8,6 +8,7 @@ import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
+import classNames from 'classnames';
 import { HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
@@ -150,15 +151,20 @@ export default class Main extends Component {
 
   render() {
     const scene = this.state.sceneEl;
+    const isEditor = !!this.state.inspectorEnabled;
 
-    const logoText = this.state.inspectorEnabled
-      ? 'Enter Viewer mode'
-      : 'Enter Editor mode';
+    const logoText = isEditor ? 'Enter Viewer mode' : 'Enter Editor mode';
 
     return (
       <div>
-        <a className="toggle-edit" onClick={this.toggleEdit}>
-          <div className="logo-img" alt="3DStreet Viewer">
+        <a
+          className={classNames(
+            'toggle-edit',
+            isEditor ? 'logo-editor' : 'logo-viewer'
+          )}
+          onClick={this.toggleEdit}
+        >
+          <div className="logo-img" alt="3DStreet">
             {logoText}
           </div>
         </a>
@@ -166,7 +172,7 @@ export default class Main extends Component {
         {this.renderSceneGraphToggle()}
         {this.renderComponentsToggle()}
 
-        {this.state.inspectorEnabled && (
+        {isEditor && (
           <div id="inspectorContainer">
             <SceneGraph
               scene={scene}
