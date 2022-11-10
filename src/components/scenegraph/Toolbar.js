@@ -33,6 +33,85 @@ function slugify(text) {
     .replace(/-+$/, ''); // Trim - from end of text
 }
 
+function getElementData(entity) {
+  const elementTree = getAttributes(entity);
+  const children = entity.childNodes;
+  if (children.length) {
+    elementTree['children'] = [];
+    for (const child of children) {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        elementTree['children'].push(getElementData(child));
+      }
+    }
+  }
+  return elementTree;
+}
+
+function getAttributes(entity) {
+  const elemObj = {};
+  elemObj['element'] = entity.tagName.toLowerCase();
+
+  if (entity.id) {
+    elemObj['id'] = entity.id;
+  }
+  if (entity.className) {
+    // convert from DOMTokenList to Array
+    elemObj['class'] = Array.from(entity.classList);
+  }
+  if (entity.getAttribute('mixin')) {
+    elemObj['mixin'] = entity.getAttribute('mixin');
+  }
+
+  const entityComponents = entity.components;
+  if (entityComponents) {
+    elemObj['components'] = {};
+    for (const componentName in entityComponents) {
+      const modifiedProperty = getModifiedProperties(entity, componentName);
+      if (!isEmpty(modifiedProperty)) {
+        elemObj['components'][componentName] = modifiedProperty;
+      }
+    }
+  }
+  return elemObj;
+}
+
+function isEmpty(object) {
+  return object ? Object.keys(object).length === 0 : true;
+}
+
+function getModifiedProperties(entity, componentName) {
+  const data = entity.components[componentName].data;
+  const defaultData = entity.components[componentName].schema;
+
+  // If its single-property like position, rotation, etc
+  if (isSingleProperty(defaultData)) {
+    const defaultValue = defaultData.default;
+    const currentValue = data;
+    if ((currentValue || defaultValue) && currentValue !== defaultValue) {
+      return data;
+    }
+  }
+
+  const diff = {};
+  for (const key in data) {
+    const defaultValue = defaultData[key].default;
+    const currentValue = data[key];
+
+    // Some parameters could be null and '' like mergeTo
+    if (
+      (currentValue || defaultValue) &&
+      !AFRAME.utils.deepEqual(currentValue, defaultValue)
+    ) {
+      diff[key] = data[key];
+    }
+  }
+  return diff;
+}
+
+function isSingleProperty(schema) {
+  return AFRAME.schema.isSingleProperty(schema);
+}
+
 /**
  * Tools and actions.
  */
@@ -104,6 +183,27 @@ export default class Toolbar extends Component {
       isSaveActionActive: !this.state.isSaveActionActive
     }));
 
+  convertToObject = () => {
+    const entities = document.querySelectorAll('a-entity');
+
+    const data = [];
+    if (entities.length) {
+      for (const entry of entities) {
+        data.push(getElementData(entry));
+      }
+    }
+
+    // const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+    //   stringify({ data: data })
+    // )}`;
+    // const link = document.createElement('a');
+    // link.href = jsonString;
+    // link.download = 'data.json';
+
+    // link.click();
+    // link.remove();
+  };
+
   render() {
     // const watcherClassNames = classnames({
     //   button: true,
@@ -144,8 +244,8 @@ export default class Toolbar extends Component {
               <button type={'button'} onClick={this.exportSceneToGLTF}>
                 glTF 3D Model
               </button>
-              <button type={'button'} onClick={this.makeScreenshot}>
-                PNG Screenshot
+              <button type={'button'} onClick={this.convertToObject}>
+                3DStreet JSON
               </button>
               <button
                 type={'button'}
