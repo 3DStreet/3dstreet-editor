@@ -1,3 +1,4 @@
+import { HelpButton, ZoomButtons } from './components';
 import React, { Component } from 'react';
 
 import { CameraToolbar } from './viewport';
@@ -6,10 +7,9 @@ import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
+import classNames from 'classnames';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
-import classNames from 'classnames';
-import { HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -208,6 +208,12 @@ export default class Main extends Component {
         {this.state.inspectorEnabled && (
           <div id="help">
             <HelpButton />
+          </div>
+        )}
+
+        {this.state.inspectorEnabled && (
+          <div id={'zoom-buttons'}>
+            <ZoomButtons />
           </div>
         )}
       </div>
