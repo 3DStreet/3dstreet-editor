@@ -6,13 +6,14 @@ var Viewport = require('./lib/viewport');
 var AssetsLoader = require('./lib/assetsLoader');
 var Shortcuts = require('./lib/shortcuts');
 
+import { injectCSS, injectJS } from './lib/utils';
+
+import { GLTFExporter } from '../vendor/GLTFExporter'; // eslint-disable-line no-unused-vars
+import Main from './components/Main';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from './components/Main';
-import { initCameras } from './lib/cameras';
-import { injectCSS, injectJS } from './lib/utils';
 import { createEntity } from './lib/entity';
-import { GLTFExporter } from '../vendor/GLTFExporter'; // eslint-disable-line no-unused-vars
+import { initCameras } from './lib/cameras';
 
 require('./style/index.styl');
 
@@ -304,3 +305,5 @@ Inspector.prototype = {
 };
 
 const inspector = (AFRAME.INSPECTOR = new Inspector());
+
+export { inspector };
