@@ -30,7 +30,8 @@ export default class SceneGraph extends React.Component {
       filter: '',
       filteredEntities: [],
       selectedIndex: -1,
-      leftBarHide: false
+      leftBarHide: false,
+      initiallyExpandedEntities: []
     };
 
     this.rebuildEntityOptions = debounce(
@@ -279,6 +280,21 @@ export default class SceneGraph extends React.Component {
           isSelected={this.props.selectedEntity === entityOption.entity}
           selectEntity={this.selectEntity}
           toggleExpandedCollapsed={this.toggleExpandedCollapsed}
+          isInitiallyExpanded={this.state.initiallyExpandedEntities.some(
+            item => item === entityOption.entity.id
+          )}
+          initiallyExpandEntity={() => {
+            this.toggleExpandedCollapsed(entityOption.entity);
+            this.setState(prevState => ({
+              ...prevState,
+              initiallyExpandedEntities: [
+                ...prevState.initiallyExpandedEntities.filter(
+                  item => item !== entityOption.entity.id
+                ),
+                entityOption.entity.id
+              ]
+            }));
+          }}
         />
       );
       layerEntities.push(entity);
