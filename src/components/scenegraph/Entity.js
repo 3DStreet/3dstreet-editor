@@ -1,7 +1,8 @@
-import React from 'react';
+import { cloneEntity, printEntity, removeEntity } from '../../lib/entity';
+
 import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
-import { printEntity, removeEntity, cloneEntity } from '../../lib/entity';
 
 const Events = require('../../lib/Events.js');
 
@@ -13,7 +14,9 @@ export default class Entity extends React.Component {
     isFiltering: PropTypes.bool,
     isSelected: PropTypes.bool,
     selectEntity: PropTypes.func,
-    toggleExpandedCollapsed: PropTypes.func
+    toggleExpandedCollapsed: PropTypes.func,
+    isInitiallyExpanded: PropTypes.bool,
+    initiallyExpandEntity: PropTypes.func
   };
 
   constructor(props) {
@@ -21,15 +24,19 @@ export default class Entity extends React.Component {
     this.state = {};
   }
 
-  onClick = (evt) => {
+  componentDidMount() {
+    !this.props.isInitiallyExpanded && this.props.initiallyExpandEntity();
+  }
+
+  onClick = evt => {
     if (!evt.target.classList.contains('fa')) {
       this.props.selectEntity(this.props.entity);
-    }    
-  }
+    }
+  };
 
   onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
 
-  toggleVisibility = (evt) => {
+  toggleVisibility = evt => {
     const entity = this.props.entity;
     const visible =
       entity.tagName.toLowerCase() === 'a-scene'
@@ -68,13 +75,20 @@ export default class Entity extends React.Component {
       );
 
     // Add spaces depending on depth.
-    const pad = (this.props.depth > 1)? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth):'';
+    const pad =
+      this.props.depth > 1
+        ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth)
+        : '';
 
     let collapse;
-    if (entity.children.length > 0 && !isFiltering && !!entity.hasAttribute('data-layer-show-children')) {
+    if (
+      entity.children.length > 0 &&
+      !isFiltering &&
+      !!entity.hasAttribute('data-layer-show-children')
+    ) {
       collapse = (
         <span
-          onClick={(evt) => {
+          onClick={evt => {
             evt.stopPropagation();
             this.props.toggleExpandedCollapsed(entity);
           }}
