@@ -157,7 +157,9 @@ export default class Toolbar extends Component {
               </button>
             </div>
           )}
-
+          {!this.state.isSaveActionActive && (
+            <button className={'cameraButton'} onClick={this.makeScreenshot} />
+          )}
           {/* not is use */}
           {/* <button
             className={"viewButton"}
