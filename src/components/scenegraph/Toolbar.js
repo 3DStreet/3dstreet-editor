@@ -184,24 +184,20 @@ export default class Toolbar extends Component {
     }));
 
   convertToObject = () => {
-    const entities = document.querySelectorAll('a-entity');
+    const entity = document.getElementById('streets');
 
-    const data = [];
-    if (entities.length) {
-      for (const entry of entities) {
-        data.push(getElementData(entry));
-      }
-    }
+    const data = getElementData(entity);
 
-    // const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    //   stringify({ data: data })
-    // )}`;
-    // const link = document.createElement('a');
-    // link.href = jsonString;
-    // link.download = 'data.json';
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify({ data: data })
+    )}`;
 
-    // link.click();
-    // link.remove();
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = 'data.json';
+
+    link.click();
+    link.remove();
   };
 
   render() {
