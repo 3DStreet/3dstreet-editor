@@ -7,23 +7,16 @@
     <!-- 3dstreet -->
     <script src="https://github.3dstreet.org/dist/aframe-street-component.js"></script>
 
-    <!-- user controls - vr teleport -->
+    <!-- user controls -->
     <script src="https://raw.githack.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
- 
-    <!-- user controls - cursor teleport -->
     <script src="./dist/aframe-cursor-teleport-component.min.js"></script>
 
-    <!-- gltf-animation -->
-    <script src="//cdn.8thwall.com/web/aframe/aframe-extras-6.1.1.min.js"></script>
+    <!-- 3dtiles -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.133.0/examples/js/utils/WorkerPool.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.133.0/examples/js/loaders/KTX2Loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-loader-3dtiles-component/dist/aframe-loader-3dtiles-component.min.js"></script>
 
-    <!-- mapbox -->
     <script src="https://unpkg.com/aframe-mapbox-component/dist/aframe-mapbox-component.min.js"></script>
-
-    <!-- save / load -->
-    <script src="https://github.3dstreet.org/src/json-utils.js"></script>
-    
-    <!-- ocean -->
-    <script src="./src/components/ocean-plane.js"></script>
 
     <!-- Google Analytics - Global site tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T65XPDLZ3F"></script>
@@ -37,59 +30,25 @@
       gtag('event', 'ga_init');
     </script>
 
-    <title>3DStreet</title>
+    <title>3DStreet • 16th and South Van Ness, San Francisco, CA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/ui_assets/favicon.ico">
-    <!-- <link rel="stylesheet" href="https://github.3dstreet.org/src/style.css"> -->
-    <link rel="stylesheet" href="src/viewer-styles.css">
   </head>
 
   <body>
-    <!-- viewer ui start -->
-    <header class="header">
-      <div class="header-wrapper">
-          <div class="logo-wrapper">
-              <a class="logo-link" href="https://www.3dstreet.org/" id="3dstreet-logo-length">
-                  <img class="logo-img" alt="3DStreet Viewer" src="//github.3dstreet.org/ui_assets/logo-viewer.svg">
-              </a>
-          </div>
-      </div>
-    </header>
-
-    <div class="right-fixed">
-      <ul class="right-menu">
-        <li onclick="screenshot()"> <a class="camera"  href="#"> <span> Capture image as PNG </span> <img src="//github.3dstreet.org/ui_assets/camera-icon.svg"> </a></li>
-        <li onclick="inputStreetmix()"> <a class="load"  href="#"> <span> Load Streetmix URL </span> <img src="//github.3dstreet.org/ui_assets/streetmix-logo.svg"> </a></li>
-        <!-- <li onclick="inputJSON()"> <a class="load"  href="#"> <span> Load JSON String </span> <img src="assets/ui_assets/upload-icon.svg"> </a></li> -->
-        <li><a class="load"> <label for="inputfile" style="display: inherit; align-items: center; cursor: pointer"> <input type="file" id="inputfile" style="display:none" accept=".js, .json, .txt"> <span> Load JSON File </span> <img src="//github.3dstreet.org/ui_assets/upload-icon.svg"></label></a></li>
-        <li> <a id="custom-enter-vr-button" class="vr" href="#"> <span class="vr">Enter VR mode</span> <img src="//github.3dstreet.org/ui_assets/vr-icon.svg"> </a></li>
-      </ul>
-    </div>
-
-    <script>
-
-
-      function screenshot() {
-        AFRAME.scenes[0].setAttribute('screenshot','width',AFRAME.scenes[0].canvas.width)
-        AFRAME.scenes[0].setAttribute('screenshot','height',AFRAME.scenes[0].canvas.height)
-        document.querySelector('a-scene').components.screenshot.capture('perspective');
-      }
-    </script>
-
-<div class="content">
-  <a-scene vr-mode-ui-if-headset renderer="colorManagement: true; physicallyCorrectLights: true;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/">
+    <a-scene vr-mode-ui-if-headset renderer="colorManagement: true; physicallyCorrectLights: true;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/">
       <a-assets>
       </a-assets>
   
       <a-entity id="cameraRig" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
         <a-entity id="camera" camera="near: 1; far: 1000" position="0 1.6 0"></a-entity>
-        <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
-        <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
+        <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
+        <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ccffcc" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
       </a-entity>
 
       <a-entity street-environment="preset: day;"></a-entity>
 
-      <a-entity id="street-container" data-layer-name="Street Segments" data-layer-show-children>
+      <a-entity id="streets" data-layer-name="Street Segments" data-layer-show-children>
         <a-entity
           data-layer-name="16th Street West of SVN"
           position="-96.980 0 -4.17918"
@@ -133,7 +92,17 @@
 
       </a-entity>
 
-      <a-entity id="maps" data-layer-name="Maps" data-layer-show-children>
+      <a-entity id="imagery" data-layer-name="Imagery" data-layer-show-children>
+        <a-entity
+          data-layer-name="3D Scan - 16th and SVN June 2022"
+          visible="false"
+          id="cesium-ion-scan"
+          position="-2.5 12.7 -9"
+          rotation="-90 180 -0.82"
+          loader-3dtiles="url: https://assets.cesium.com/1149944/tileset.json?v=3;
+          cesiumIONToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3YTYyYTIzNS0yODg0LTRhZWQtYjYxNS1iNWNhZGZhNmY3OTgiLCJpZCI6MTcwNjEsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzE1OTcxNzZ9.R8mKo-NizcmOjCN_4dQyd5xO4X655CZZMXa9B5sECyU;"
+          scale="1.33 1.33 1.33"
+        ></a-entity>
 
         <a-entity
           data-layer-name="Map"
@@ -147,8 +116,10 @@
           rotation="-90 -4.25 0"
         ></a-entity>
       </a-entity>
+      
+      <!-- <a-entity id="street-parent" street streetmix-loader set-loader-from-hash="defaultURL: https://streetmix.net/kfarr/3"></a-entity> -->
     </a-scene>
-</div>
+
     <script>
       var locationString = (location.href.split("#")[1] != undefined) ? location.href.split("#")[1] : "https://streetmix.net/kfarr/3";
       document.getElementById("location").innerHTML += locationString;
