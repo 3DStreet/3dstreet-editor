@@ -81,15 +81,15 @@
       <a-assets>
       </a-assets>
   
-      <a-entity id="cameraRig" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
+      <a-entity id="cameraRig" data-layer-name="Viewer" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
         <a-entity id="camera" camera="near: 1; far: 1000" position="0 1.6 0"></a-entity>
         <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
         <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
       </a-entity>
 
-      <a-entity street-environment="preset: day;"></a-entity>
+      <a-entity id="environment" data-layer-name="Environment" street-environment="preset: day;"></a-entity>
 
-      <a-entity id="street-container" data-layer-name="Street Segments" data-layer-show-children>
+      <a-entity id="street-container" data-layer-name="3D Street Layers" data-layer-show-children>
         <a-entity
           data-layer-name="16th Street West of SVN"
           position="-96.980 0 -4.17918"
@@ -133,10 +133,10 @@
 
       </a-entity>
 
-      <a-entity id="maps" data-layer-name="Maps" data-layer-show-children>
+      <a-entity id="layers-2d" data-layer-name="2D Street Layers" data-layer-show-children>
 
         <a-entity
-          data-layer-name="Map"
+          data-layer-name="Mapbox Satellite Streets"
           geometry="primitive: plane; width: 512; height: 512;"
           material="color: #ffffff; shader: flat; side: both; transparent: true;"
           mapbox="center: -122.417490, 37.765190; zoom: 18; 
