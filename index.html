@@ -33,15 +33,11 @@
 
   <body>
     <!-- viewer ui start -->
-    <header class="header">
-      <div class="header-wrapper">
-          <div class="logo-wrapper">
-              <a class="logo-link" href="https://www.3dstreet.org/" id="3dstreet-logo-length">
-                  <img class="logo-img" alt="3DStreet Viewer" src="//github.3dstreet.org/ui_assets/logo-viewer.svg">
-              </a>
-          </div>
-      </div>
-    </header>
+    <div class="viewer-header-wrapper">
+      <button class="viewer-logo-start-editor-button" onclick="startEditor()">
+        <img class="viewer-logo-img" alt="3DStreet Viewer" src="./assets/3DStreet-Viewer-Start-Editor.svg">
+      </button>
+    </div>
 
     <div class="right-fixed">
       <ul class="right-menu">
@@ -53,8 +49,16 @@
       </ul>
     </div>
 
-    <a-scene vr-mode-ui="enterVRButton: #custom-enter-vr-button;" vr-mode-ui-if-headset renderer="colorManagement: true; physicallyCorrectLights: true;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/">
+    <a-scene
+      vr-mode-ui="enterVRButton: #custom-enter-vr-button;"
+      vr-mode-ui-if-headset
+      renderer="colorManagement: true; physicallyCorrectLights: true;"
+      gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/"
+      inspector="url: ./dist/3dstreet-editor.js"
+      >
       <a-assets>
+        <!-- you can specify a custom asset path using below syntax  -->
+        <!-- <streetmix-assets url="./assets/"></streetmix-assets> -->
       </a-assets>
   
       <a-entity id="cameraRig" data-layer-name="Viewer" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
@@ -123,8 +127,7 @@
         ></a-entity>
       </a-entity>
     </a-scene>
-
-    </body>
+  </body>
   <script>
     // only show VR button if headset connected
     AFRAME.registerComponent('vr-mode-ui-if-headset', {
@@ -161,8 +164,64 @@
       document.querySelector('a-scene').components.screenshot.capture('perspective');
     }
 
+    function startEditor() {
+      var sceneEl = document.querySelector('a-scene');
+      sceneEl.components.inspector.openInspector();
+      document.querySelector('.viewer-header-wrapper').style.display = 'none';
+    }
+    // uncomment the below to autostart the editor within 2 seconds of page load
+    setTimeout(() => {
+      startEditor();
+    }, "2000")
+
+    function inputStreetmix() {
+      streetmixURL = prompt("Please enter a Streetmix URL", "https://streetmix.net/kfarr/3/example-street");
+      setTimeout(function() { window.location.hash = streetmixURL; });
+      streetContainerEl = document.getElementById('street-container');
+      while (streetContainerEl.firstChild) {
+        streetContainerEl.removeChild(streetContainerEl.lastChild);
+      }
+      streetContainerEl.innerHTML = '<a-entity street streetmix-loader="streetmixStreetURL: '+streetmixURL+'""></a-entity>';
+    }
+
+    // JSON loading starts here
+    function getValidJSON(stringJSON) {
+      // Preserve newlines, etc. - use valid JSON
+      // Remove non-printable and other non-valid JSON characters
+      return stringJSON.replace(/\'/g, "")
+                       .replace(/\n/g, "")
+                       .replace(/[\u0000-\u0019]+/g,"");
+    }
+    
+    function createElementsFromJSON(streetJSONString) {
+      const validJSONString = getValidJSON(streetJSONString);
+      streetContainerEl = document.getElementById('street-container');
+      while (streetContainerEl.firstChild) {
+        streetContainerEl.removeChild(streetContainerEl.lastChild);
+      }
+      var streetObject = JSON.parse(validJSONString);
+      createEntities(streetObject.data, streetContainerEl);
+    }
+
+    function inputJSON() {
+      const stringJSON = prompt("Please paste 3DStreet JSON string");
+      if (stringJSON) {
+        createElementsFromJSON(stringJSON);
+      }      
+    }
+
+    function fileJSON() {
+      let reader=new FileReader();
+      reader.onload=function(){
+        createElementsFromJSON(reader.result);
+      }
+      reader.readAsText(this.files[0]);
+    }
+
+    document.getElementById('inputfile')
+            .addEventListener('change', fileJSON);
   </script>
-  <script src="./dist/3dstreet-editor.js"></script>
+  <!-- <script src="./dist/3dstreet-editor.js"></script> -->
 
   <!-- Google Analytics - Global site tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T65XPDLZ3F"></script>
