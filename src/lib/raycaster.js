@@ -20,7 +20,9 @@ function initRaycaster(inspector) {
     const objects = raycaster.objects;
     raycaster.objects = objects.filter(node => {
       while (node) {
-        if (!node.visible) { return false; }
+        if (!node.visible) {
+          return false;
+        }
         node = node.parent;
       }
       return true;
@@ -43,7 +45,7 @@ function initRaycaster(inspector) {
   mouseCursor.addEventListener('mouseleave', onMouseLeave);
   inspector.container.addEventListener('mousedown', onMouseDown);
   inspector.container.addEventListener('mouseup', onMouseUp);
-  inspector.container.addEventListener('dblclick', onDoubleClick);
+  // inspector.container.addEventListener('dblclick', onDoubleClick);
 
   inspector.sceneEl.canvas.addEventListener('mouseleave', () => {
     setTimeout(() => {
@@ -56,7 +58,10 @@ function initRaycaster(inspector) {
   const onDoubleClickPosition = new THREE.Vector2();
 
   function onMouseEnter() {
-    Events.emit('raycastermouseenter', mouseCursor.components.cursor.intersectedEl);
+    Events.emit(
+      'raycastermouseenter',
+      mouseCursor.components.cursor.intersectedEl
+    );
   }
 
   function onMouseLeave() {

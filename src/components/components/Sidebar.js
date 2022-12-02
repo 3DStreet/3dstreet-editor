@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { capitalize } from 'lodash';
 import classnames from 'classnames';
 
 export default class Sidebar extends React.Component {
@@ -12,8 +13,8 @@ export default class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-      open: false ,
+    this.state = {
+      open: false,
       rightBarHide: false
     };
   }
@@ -30,8 +31,8 @@ export default class Sidebar extends React.Component {
 
   // additional toggle for hide/show panel by clicking the button
   toggleRightBar = () => {
-    this.setState({ rightBarHide: !this.state.rightBarHide});
-  }
+    this.setState({ rightBarHide: !this.state.rightBarHide });
+  };
 
   handleToggle = () => {
     this.setState({ open: !this.state.open });
@@ -49,17 +50,17 @@ export default class Sidebar extends React.Component {
 
     if (entity && visible) {
       const entityName = entity.getDOMAttribute('data-layer-name');
+      const entityMixin = entity.getDOMAttribute('mixin');
+      const formattedMixin = entityMixin
+        ? capitalize(entityMixin.replaceAll('-', ' ').replaceAll('_', ' '))
+        : null;
+
       return (
         <div id="sidebar" className={className}>
-            <div id="entity-name" 
-              onClick={this.toggleRightBar}
-              >
-              <span>{entityName}</span>
-              <div 
-                id="toggle-rightbar"                
-              >
-              </div>
-            </div>
+          <div id="entity-name" onClick={this.toggleRightBar}>
+            <span>{entityName || formattedMixin}</span>
+            <div id="toggle-rightbar" />
+          </div>
           <ComponentsContainer entity={entity} />
         </div>
       );
