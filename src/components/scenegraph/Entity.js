@@ -74,12 +74,6 @@ export default class Entity extends React.Component {
         />
       );
 
-    // Add spaces depending on depth.
-    const pad =
-      this.props.depth > 1
-        ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(this.props.depth)
-        : '';
-
     let collapse;
     if (
       entity.children.length > 0 &&
@@ -126,8 +120,9 @@ export default class Entity extends React.Component {
       <div className={className} onClick={this.onClick}>
         <span>
           <span
-            className="entityChildPadding"
-            dangerouslySetInnerHTML={{ __html: pad }}
+            style={{
+              width: `${30 * (this.props.depth - 1)}px`
+            }}
           />
           {visibilityButton}
           {printEntity(entity, this.onDoubleClick)}
