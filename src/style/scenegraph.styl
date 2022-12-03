@@ -89,14 +89,13 @@
   width auto
 
   .layer 
-    width 340px
-    margin-top 20px
-    background #4b4b4b
+    width 100%
+    margin-top 12px
     border-radius 12px
     overflow: hidden
     display flex
     flex-direction column
-    align-items center
+    align-items flex-start
 
   .layer.active
     background $layerActive
@@ -104,7 +103,7 @@
   .entity.option
     display flex
     flex-direction column
-    width 340px   
+    width 100%   
     flex none
     order 1
     flex-grow 0
@@ -120,7 +119,7 @@
 
       .entityPrint
         flex-basis 237px
-        margin-left 15px
+        margin-left 10.5px
 
   .entity:first-child
     margin 0px !important
@@ -138,7 +137,6 @@
 
     &.active
       // width 324px
-      margin 0 8px
       // height 52px
       background $layerActive
       // border-radius 10px
