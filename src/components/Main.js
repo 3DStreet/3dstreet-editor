@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import { CameraToolbar } from './viewport';
 import ComponentsSidebar from './components/Sidebar';
+import { HelpButton } from './components';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
+import classNames from 'classnames';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
-import classNames from 'classnames';
-import { HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -157,23 +157,22 @@ export default class Main extends Component {
 
     return (
       <div>
-        <a
-          className={classNames(
-            'toggle-edit',
-            isEditor ? 'logo-editor' : 'logo-viewer'
-          )}
-          onClick={this.toggleEdit}
-        >
-          <div className="logo-img" alt="3DStreet">
-            {logoText}
-          </div>
-        </a>
-
         {this.renderSceneGraphToggle()}
         {this.renderComponentsToggle()}
 
         {isEditor && (
           <div id="inspectorContainer">
+            <a
+              className={classNames(
+                'toggle-edit',
+                isEditor ? 'logo-editor' : 'logo-viewer'
+              )}
+              onClick={this.toggleEdit}
+            >
+              <div className="logo-img" alt="3DStreet">
+                {logoText}
+              </div>
+            </a>
             <SceneGraph
               scene={scene}
               selectedEntity={this.state.entity}
