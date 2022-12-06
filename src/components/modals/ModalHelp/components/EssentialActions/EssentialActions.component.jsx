@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./EssentialActions.styles.styl";
+import './EssentialActions.styles.styl';
+
 import {
   Angle,
   Drag,
@@ -9,31 +9,26 @@ import {
   View,
   ZoomIn,
   ZoomOut
-} from "./icons.jsx";
+} from './icons.jsx';
+import React, { Component } from 'react';
 
 const actions = [
   {
-    title: "Move the map by dragging",
+    title: 'Move around the map',
     description:
-      "Use the left mouse button (or press a touchpad) and drag to pan the map view.",
-      items: [[Angle, Drag]]
-  },
-  {
-    title: "Zoom the map by scrolling",
-    description:
-      "Use the mouse scrollwheel (or use a touchpad scrolling motion) to zoom in and out.",
-      items: [[ZoomIn, ZoomOut, "or", Scroll]]
-  },
-  {
-    title: "Rotate the map by right-clicking and dragging",
-    description: "Right-click and drag to rotate the map while staying in place.",
+      'You have the ability to move in all directions (up, down, left, right, diagonal)',
     items: [[RButton, Drag]]
   },
   {
-    title: "Switch modes",
+    title: 'Look around',
+    description: 'Viewing the map while staying in place',
+    items: [[Angle, Drag], ['/'], [ZoomOut, ZoomIn, 'or', Scroll]]
+  },
+  {
+    title: 'Mode switch',
     description:
-      'Switch between "Editor" and first-person "Street Viewer" modes by clicking the button in the upper-left corner.',
-    items: [[View], [Edit]]
+      'To switch between the "View" and "Edit" modes, click the button in the upper right corner.',
+    items: [[View, Edit]]
   }
 ];
 
@@ -49,7 +44,7 @@ class EssentialActions extends Component {
     return (
       <div className="essentialActionsWrapper">
         {actions.map(({ title, description, items }) => (
-          <div className="row" key={title}>
+          <div className="action" key={title}>
             <div className="text">
               <h3 className="actionTitle">{title}</h3>
               <p className="actionDescription">{description}</p>
