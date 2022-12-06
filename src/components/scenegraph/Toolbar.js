@@ -42,6 +42,23 @@ export default class Toolbar extends Component {
     isSaveActionActive: false
   };
 
+  convertToObject = () => {
+    const entity = document.getElementById('street-container');
+
+    const data = getElementData(entity);
+
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify({ data: data })
+    )}`;
+
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = 'data.json';
+
+    link.click();
+    link.remove();
+  };
+
   makeScreenshot() {
     const sceneElem = AFRAME.scenes[0];
     sceneElem.components.screenshot.capture('perspective');
@@ -144,8 +161,8 @@ export default class Toolbar extends Component {
               <button type={'button'} onClick={this.exportSceneToGLTF}>
                 glTF 3D Model
               </button>
-              <button type={'button'} onClick={this.makeScreenshot}>
-                PNG Screenshot
+              <button type={'button'} onClick={this.convertToObject}>
+                3DStreet JSON
               </button>
               <button
                 type={'button'}
