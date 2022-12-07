@@ -14,15 +14,20 @@ import React, { Component } from 'react';
 
 const actions = [
   {
-    title: 'Move around the map',
+    title: 'Move the map by dragging',
     description:
-      'You have the ability to move in all directions (up, down, left, right, diagonal)',
-    items: [[RButton, Drag]]
+      'Click and drag to pan the map view.',
+    items: [[Angle, Drag]]
   },
   {
-    title: 'Look around',
-    description: 'Viewing the map while staying in place',
-    items: [[Angle, Drag], ['/'], [ZoomOut, ZoomIn, 'or', Scroll]]
+    title: 'Zoom the map by scrolling',
+    description: 'Use the mouse scrollwheel (or touchpad scrolling motion) to zoom in and out.',
+    items: [[Scroll, 'or', ZoomOut, ZoomIn]]
+  },
+  {
+    title: 'Rotate the map by right-clicking and dragging',
+    description: 'Right-click and drag to rotate the map while staying in place.',
+    items: [[RButton, Drag]]
   },
   {
     title: 'Mode switch',
