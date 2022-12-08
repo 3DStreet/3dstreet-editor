@@ -11,7 +11,7 @@ const shortcuts = [
     { key: ["g"], description: "Toggle grid visibility" },
     { key: ["n"], description: "Add new entity" },
     { key: ["o"], description: "Toggle local between global transform" },
-    { key: ["supr | backspace"], description: "Delete selected entity" }
+    { key: ["del | backspace"], description: "Delete selected entity" }
   ],
   [
     { key: ["0"], description: "Toggle panels" },

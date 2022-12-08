@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import "./Tabs.styles.styl";
-import { Hint } from "./components";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import './Tabs.styles.styl';
+
+import React, { Component } from 'react';
+
+import { Hint } from './components';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 /**
  * Tabs component.
@@ -12,14 +14,17 @@ import classNames from "classnames";
  */
 class Tabs extends Component {
   render() {
-    const { tabs } = this.props;
+    const { tabs, selectedTabClassName } = this.props;
 
     return (
-      <div id={"tabsWrapper"} className={"tabsWrapper"}>
+      <div id={'tabsWrapper'} className={'tabsWrapper'}>
         {tabs.map(({ label, value, onClick, isSelected, hint }) => (
           <button
-            className={classNames("tabButton", isSelected && "selectedTab")}
-            type={"button"}
+            className={classNames(
+              'tabButton',
+              isSelected && (selectedTabClassName || 'selectedTab')
+            )}
+            type={'button'}
             onClick={onClick}
             key={value}
           >
@@ -41,7 +46,8 @@ Tabs.propTypes = {
       value: PropTypes.string.isRequired,
       hint: PropTypes.string
     })
-  )
+  ),
+  selectedTabClassName: PropTypes.string
 };
 
 export { Tabs };
