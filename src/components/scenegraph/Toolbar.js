@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Events from '../../lib/Events.js';
-import { PreloaderModal } from '../modals/PreloaderModal';
+import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
@@ -48,7 +48,7 @@ export default class Toolbar extends Component {
     new Promise(resolve => {
       const sceneElem = AFRAME.scenes[0];
       sceneElem.components.screenshot.capture('perspective');
-      setTimeout(() => resolve(), 2500);
+      setTimeout(() => resolve(), 1000);
     }).then(() => {
       component &&
         component.setState(prevState => ({
@@ -59,9 +59,7 @@ export default class Toolbar extends Component {
 
   componentDidUpdate() {
     if (this.state.isCapturingScreen) {
-      setTimeout(() => {
-        this.makeScreenshot(this);
-      }, 1);
+      this.makeScreenshot(this);
     }
   }
   // openViewMode() {
@@ -210,9 +208,7 @@ export default class Toolbar extends Component {
             onClick={this.writeChanges}
           /> */}
 
-          {this.state.isCapturingScreen && (
-            <PreloaderModal actionDisplayName={'Saving'} />
-          )}
+          {this.state.isCapturingScreen && <SavingModal />}
         </div>
       </div>
     );

@@ -1,21 +1,17 @@
-import './PreloaderModal.styles.styl';
+import './SavingModal.styles.styl';
 
 import React, { Component } from 'react';
 
-import PropTypes from 'prop-types';
-
 /**
- * PreloaderModal component.
+ * SavingModal component.
  *
  * @author Oleksii Medvediev
  * @category Components
  */
-class PreloaderModal extends Component {
+class SavingModal extends Component {
   render() {
-    const { actionDisplayName } = this.props;
-
     return (
-      <div className="preloaderModalWrapper">
+      <div className="savingModalWrapper">
         <div className="preloaderBox">
           <svg
             className={'preloader'}
@@ -38,15 +34,10 @@ class PreloaderModal extends Component {
             </defs>
           </svg>
         </div>
-        <span className="action">{actionDisplayName} ...</span>
+        <span className="action">Saving ...</span>
       </div>
     );
   }
 }
 
-PreloaderModal.propTypes = {
-  // Specifies the current running action name. E.g 'saving', 'loading', etc.
-  actionDisplayName: PropTypes.string
-};
-
-export { PreloaderModal };
+export { SavingModal };
