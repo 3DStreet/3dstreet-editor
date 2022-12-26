@@ -9,13 +9,13 @@
     "dist": "npm run dist:max && npm run dist:min",
     "dist:max": "npm run build",
     "dist:min": "cross-env MINIFY=true npm run build",
-    "lint": "npm run lintfile src/",
+    "lint": "npm run lintfile 'src/**/*.js*'",
     "lint:css": "stylelint src/css/main.css",
     "lintfile": "eslint",
     "prefirebase": "cp -R assets public && cp {index.html,favicon.ico} public && cp dist/3dstreet-editor.min.js public/dist/3dstreet-editor.js && cp dist/aframe-cursor-teleport-component.min.js public/dist/aframe-cursor-teleport-component.min.js",
     "prepare": "husky install",
     "prepublish": "npm run dist",
-    "prettier": "prettier --write 'src/**/*.js'",
+    "prettier": "prettier --write 'src/**/*.js*'",
     "start": "webpack serve --progress -d eval-source-map",
     "test": "jest --watch",
     "test:ci": "jest"
@@ -75,6 +75,6 @@
     "wysiwyg"
   ],
   "lint-staged": {
-    "*.js": "prettier --write"
+    "*.js*": "prettier --write"
   }
 }
