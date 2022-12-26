@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
 // import GLTFIcon from '../../../assets/gltf.svg';

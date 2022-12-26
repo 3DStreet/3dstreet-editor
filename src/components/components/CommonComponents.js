@@ -4,7 +4,6 @@ import { InputWidget } from '../widgets';
 import DEFAULT_COMPONENTS from './DefaultComponents';
 import PropertyRow from './PropertyRow';
 import Collapsible from '../Collapsible';
-import Mixins from './Mixins';
 import classnames from 'classnames';
 import {
   updateEntity,
