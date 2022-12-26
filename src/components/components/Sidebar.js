@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
 
 export default class Sidebar extends React.Component {
