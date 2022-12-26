@@ -2,7 +2,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 import Events from '../../lib/Events';
 
 import BooleanWidget from '../widgets/BooleanWidget';

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, react/no-danger */
 import PropTypes from 'prop-types';
 import React from 'react';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 import classNames from 'classnames';
 
 import Entity from './Entity';
@@ -255,7 +255,7 @@ export default class SceneGraph extends React.Component {
   };
 
   renderEntities = () => {
-    let entityOptions = this.state.filteredEntities.filter(entityOption => {
+    let entityOptions = this.state.filteredEntities.filter((entityOption) => {
       if (
         (!this.isVisibleInSceneGraph(entityOption.entity) &&
           !this.state.filter) ||
@@ -283,15 +283,15 @@ export default class SceneGraph extends React.Component {
           selectEntity={this.selectEntity}
           toggleExpandedCollapsed={this.toggleExpandedCollapsed}
           isInitiallyExpanded={this.state.initiallyExpandedEntities.some(
-            item => item === entityOption.entity.id
+            (item) => item === entityOption.entity.id
           )}
           initiallyExpandEntity={() => {
             this.toggleExpandedCollapsed(entityOption.entity);
-            this.setState(prevState => ({
+            this.setState((prevState) => ({
               ...prevState,
               initiallyExpandedEntities: [
                 ...prevState.initiallyExpandedEntities.filter(
-                  item => item !== entityOption.entity.id
+                  (item) => item !== entityOption.entity.id
                 ),
                 entityOption.entity.id
               ]

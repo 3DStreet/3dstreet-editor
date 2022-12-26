@@ -1,4 +1,4 @@
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 
 THREE.Box3.prototype.expandByObject = (function () {
   // Computes the world-axis-aligned bounding box of an object (including its children),

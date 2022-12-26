@@ -1,5 +1,5 @@
 import Events from './Events';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 
 export function initRaycaster(inspector) {
   // Use cursor="rayOrigin: mouse".
