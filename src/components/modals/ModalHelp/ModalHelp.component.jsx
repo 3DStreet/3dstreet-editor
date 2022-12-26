@@ -1,7 +1,7 @@
 import './ModalHelp.styles.styl';
 
 import { EssentialActions, Shortcuts } from './components/index.js';
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import Modal from '../Modal.jsx';
 import PropTypes from 'prop-types';

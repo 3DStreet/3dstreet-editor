@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './HelpButton.styles.styl';
 import { QuestionMark } from './icons.jsx';
 import Events from '../../../lib/Events.js';

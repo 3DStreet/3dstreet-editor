@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 // import classNames from 'classnames';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';

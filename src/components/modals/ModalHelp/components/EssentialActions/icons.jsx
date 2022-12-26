@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Drag = (
   <svg
     width="53"

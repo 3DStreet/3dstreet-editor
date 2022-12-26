@@ -10,7 +10,7 @@ import {
   ZoomIn,
   ZoomOut
 } from './icons.jsx';
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 const actions = [
   {

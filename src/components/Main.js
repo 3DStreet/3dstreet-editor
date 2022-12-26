@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Events from '../lib/Events';
 import { CameraToolbar } from './viewport';
 import ComponentsSidebar from './components/Sidebar';

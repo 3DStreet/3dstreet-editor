@@ -1,6 +1,6 @@
 import './CameraToolbar.styl';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import Events from '../../../lib/Events.js';
 import { Hint } from './components';
