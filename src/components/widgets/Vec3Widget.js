@@ -28,8 +28,19 @@ export default class Vec3Widget extends React.Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value);
+  componentDidUpdate() {
+    const props = this.props;
+    if (
+      props.value.x !== this.state.x ||
+      props.value.y !== this.state.y ||
+      props.value.z !== this.state.z
+    ) {
+      this.setState({
+        x: props.value.x,
+        y: props.value.y,
+        z: props.value.z
+      });
+    }
   }
 
   render() {

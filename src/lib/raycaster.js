@@ -1,7 +1,7 @@
-const Events = require('./Events');
-const debounce = require('lodash.debounce');
+import Events from './Events';
+import debounce from 'lodash.debounce';
 
-function initRaycaster(inspector) {
+export function initRaycaster(inspector) {
   // Use cursor="rayOrigin: mouse".
   const mouseCursor = document.createElement('a-entity');
   mouseCursor.setAttribute('id', 'aframeInspectorMouseCursor');
@@ -18,7 +18,7 @@ function initRaycaster(inspector) {
   const overrideRefresh = () => {
     refreshObjects.call(raycaster);
     const objects = raycaster.objects;
-    raycaster.objects = objects.filter(node => {
+    raycaster.objects = objects.filter((node) => {
       while (node) {
         if (!node.visible) {
           return false;
@@ -35,7 +35,7 @@ function initRaycaster(inspector) {
 
   inspector.sceneEl.addEventListener(
     'child-attached',
-    debounce(function() {
+    debounce(function () {
       mouseCursor.components.raycaster.refreshObjects();
     }, 250)
   );
@@ -106,26 +106,6 @@ function initRaycaster(inspector) {
     onUpPosition.fromArray(array);
   }
 
-  function onTouchStart(event) {
-    const touch = event.changedTouches[0];
-    const array = getMousePosition(
-      inspector.container,
-      touch.clientX,
-      touch.clientY
-    );
-    onDownPosition.fromArray(array);
-  }
-
-  function onTouchEnd(event) {
-    const touch = event.changedTouches[0];
-    const array = getMousePosition(
-      inspector.container,
-      touch.clientX,
-      touch.clientY
-    );
-    onUpPosition.fromArray(array);
-  }
-
   /**
    * Focus on double click.
    */
@@ -153,7 +133,6 @@ function initRaycaster(inspector) {
     }
   };
 }
-module.exports.initRaycaster = initRaycaster;
 
 function getMousePosition(dom, x, y) {
   const rect = dom.getBoundingClientRect();

@@ -31,6 +31,7 @@ export default class NumberWidget extends React.Component {
           ? this.props.value.toFixed(this.props.precision)
           : ''
     };
+    this.input = React.createRef();
   }
 
   componentDidMount() {
@@ -42,7 +43,7 @@ export default class NumberWidget extends React.Component {
     this.onBlur();
   }
 
-  onMouseMove = event => {
+  onMouseMove = (event) => {
     const currentValue = parseFloat(this.state.value);
     const pointer = [event.clientX, event.clientY];
     const delta =
@@ -62,7 +63,7 @@ export default class NumberWidget extends React.Component {
     this.prevPointer = [event.clientX, event.clientY];
   };
 
-  onMouseDown = event => {
+  onMouseDown = (event) => {
     event.preventDefault();
     this.distance = 0;
     this.onMouseDownValue = this.state.value;
@@ -71,13 +72,13 @@ export default class NumberWidget extends React.Component {
     document.addEventListener('mouseup', this.onMouseUp, false);
   };
 
-  onMouseUp = event => {
+  onMouseUp = () => {
     document.removeEventListener('mousemove', this.onMouseMove, false);
     document.removeEventListener('mouseup', this.onMouseUp, false);
 
     if (Math.abs(this.distance) < 2) {
-      this.refs.input.focus();
-      this.refs.input.select();
+      this.input.current.focus();
+      this.input.current.select();
     }
   };
 
@@ -109,33 +110,33 @@ export default class NumberWidget extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidUpdate(prevProps) {
     // This will be triggered typically when the element is changed directly with
     // element.setAttribute.
-    if (newProps.value !== this.state.value) {
+    if (this.props.value !== prevProps.value) {
       this.setState({
-        value: newProps.value,
-        displayValue: newProps.value.toFixed(this.props.precision)
+        value: this.props.value,
+        displayValue: this.props.value.toFixed(this.props.precision)
       });
     }
   }
 
   onBlur = () => {
-    this.setValue(parseFloat(this.refs.input.value));
+    this.setValue(parseFloat(this.input.current.value));
     this.setState({ class: '' });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ value: e.target.value, displayValue: e.target.value });
   };
 
-  onKeyDown = event => {
+  onKeyDown = (event) => {
     event.stopPropagation();
 
     // enter.
     if (event.keyCode === 13) {
-      this.setValue(parseFloat(this.refs.input.value));
-      this.refs.input.blur();
+      this.setValue(parseFloat(this.input.current.value));
+      this.input.current.blur();
       return;
     }
 
@@ -160,7 +161,7 @@ export default class NumberWidget extends React.Component {
       <div className="inputBlock">
       {helpString}
       <input
-        ref="input"
+        ref={this.input}
         className="number"
         type="text"
         value={this.state.displayValue}

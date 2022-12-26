@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import Events from '../../lib/Events';
 import Select from 'react-select';
 
-var DELIMITER = ' ';
-
 export default class AddComponent extends React.Component {
   static propTypes = {
     entity: PropTypes.object
@@ -14,14 +12,10 @@ export default class AddComponent extends React.Component {
    * Add blank component.
    * If component is instanced, generate an ID.
    */
-  addComponent = value => {
+  addComponent = (value) => {
     let componentName = value.value;
 
     var entity = this.props.entity;
-    var packageName;
-    var selectedOption = this.options.filter(function(option) {
-      return option.value === componentName;
-    })[0];
 
     if (AFRAME.components[componentName].multiple) {
       const id = prompt(
@@ -32,7 +26,9 @@ export default class AddComponent extends React.Component {
 
     entity.setAttribute(componentName, '');
     Events.emit('componentadd', { entity: entity, component: componentName });
-    ga('send', 'event', 'Components', 'addComponent', componentName);
+    if (typeof ga !== 'undefined') {
+      ga('send', 'event', 'Components', 'addComponent', componentName);
+    }
   };
 
   /**
@@ -41,19 +37,19 @@ export default class AddComponent extends React.Component {
   getComponentsOptions() {
     const usedComponents = Object.keys(this.props.entity.components);
     var commonOptions = Object.keys(AFRAME.components)
-      .filter(function(componentName) {
+      .filter(function (componentName) {
         return (
           AFRAME.components[componentName].multiple ||
           usedComponents.indexOf(componentName) === -1
         );
       })
       .sort()
-      .map(function(value) {
+      .map(function (value) {
         return { value: value, label: value, origin: 'loaded' };
       });
 
     this.options = commonOptions;
-    this.options = this.options.sort(function(a, b) {
+    this.options = this.options.sort(function (a, b) {
       return a.label === b.label ? 0 : a.label < b.label ? -1 : 1;
     });
   }
@@ -84,7 +80,6 @@ export default class AddComponent extends React.Component {
           id="addComponent"
           className="addComponent"
           classNamePrefix="select"
-          ref="select"
           options={this.options}
           simpleValue
           clearable={true}
@@ -105,7 +100,7 @@ export default class AddComponent extends React.Component {
  */
 function isComponentInstanced(entity, componentName) {
   for (var component in entity.components) {
-    if (component.substr(0, component.indexOf('__')) === componentName) {
+    if (component.substring(0, component.indexOf('__')) === componentName) {
       return true;
     }
   }

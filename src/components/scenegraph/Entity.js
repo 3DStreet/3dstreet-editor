@@ -1,10 +1,9 @@
-import { cloneEntity, printEntity, removeEntity } from '../../lib/entity';
-
-import PropTypes from 'prop-types';
+/* eslint-disable react/no-danger */
 import React from 'react';
-import classnames from 'classnames';
-
-const Events = require('../../lib/Events.js');
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Events from '../../lib/Events';
+import { printEntity, removeEntity, cloneEntity } from '../../lib/entity';
 
 export default class Entity extends React.Component {
   static propTypes = {
@@ -65,7 +64,7 @@ export default class Entity extends React.Component {
     const removeButton =
       tagName === 'a-scene' ? null : (
         <a
-          onClick={event => {
+          onClick={(event) => {
             event.stopPropagation();
             removeEntity(entity);
           }}
@@ -109,7 +108,7 @@ export default class Entity extends React.Component {
     );
 
     // Class name.
-    const className = classnames({
+    const className = classNames({
       active: this.props.isSelected,
       entity: true,
       novisible: !visible,
