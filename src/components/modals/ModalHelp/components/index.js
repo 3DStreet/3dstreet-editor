@@ -1,2 +1,2 @@
-export { Shortcuts } from "./Shortcuts";
-export { EssentialActions } from "./EssentialActions";
+export { Shortcuts } from './Shortcuts';
+export { EssentialActions } from './EssentialActions';

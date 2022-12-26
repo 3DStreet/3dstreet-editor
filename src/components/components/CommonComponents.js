@@ -57,7 +57,7 @@ export default class CommonComponents extends React.Component {
   renderCommonAttributes() {
     const entity = this.props.entity;
     // return ['position', 'rotation', 'scale', 'visible']
-    return ['position', 'rotation', 'scale'].map(componentName => {
+    return ['position', 'rotation', 'scale'].map((componentName) => {
       const schema = AFRAME.components[componentName].schema;
       var data = entity.object3D[componentName];
       if (componentName === 'rotation') {

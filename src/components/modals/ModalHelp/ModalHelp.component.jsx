@@ -28,8 +28,8 @@ class ModalHelp extends Component {
     selectedTab: 'essentialActions'
   };
 
-  handleChangeTab = tab =>
-    this.setState(prevState => ({
+  handleChangeTab = (tab) =>
+    this.setState((prevState) => ({
       ...prevState,
       selectedTab: tab
     }));
@@ -41,7 +41,7 @@ class ModalHelp extends Component {
       <Modal
         titleElement={
           <Tabs
-            tabs={tabs.map(tab => ({
+            tabs={tabs.map((tab) => ({
               ...tab,
               isSelected: this.state.selectedTab === tab.value,
               onClick: () => this.handleChangeTab(tab.value)

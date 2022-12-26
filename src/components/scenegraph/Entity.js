@@ -27,7 +27,7 @@ export default class Entity extends React.Component {
     !this.props.isInitiallyExpanded && this.props.initiallyExpandEntity();
   }
 
-  onClick = evt => {
+  onClick = (evt) => {
     if (!evt.target.classList.contains('fa')) {
       this.props.selectEntity(this.props.entity);
     }
@@ -35,7 +35,7 @@ export default class Entity extends React.Component {
 
   onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
 
-  toggleVisibility = evt => {
+  toggleVisibility = (evt) => {
     const entity = this.props.entity;
     const visible =
       entity.tagName.toLowerCase() === 'a-scene'
@@ -81,7 +81,7 @@ export default class Entity extends React.Component {
     ) {
       collapse = (
         <span
-          onClick={evt => {
+          onClick={(evt) => {
             evt.stopPropagation();
             this.props.toggleExpandedCollapsed(entity);
           }}

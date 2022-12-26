@@ -154,23 +154,26 @@ export default class NumberWidget extends React.Component {
   };
 
   render() {
-    const helpString = ['x', 'y', 'z'].indexOf(this.props.name) !== -1 
-      ? <span className="axes"> {this.props.name}</span>
-      : '';
+    const helpString =
+      ['x', 'y', 'z'].indexOf(this.props.name) !== -1 ? (
+        <span className="axes"> {this.props.name}</span>
+      ) : (
+        ''
+      );
     return (
       <div className="inputBlock">
-      {helpString}
-      <input
-        ref={this.input}
-        className="number"
-        type="text"
-        value={this.state.displayValue}
-        onKeyDown={this.onKeyDown}
-        onChange={this.onChange}
-        onMouseDown={this.onMouseDown}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-      />
+        {helpString}
+        <input
+          ref={this.input}
+          className="number"
+          type="text"
+          value={this.state.displayValue}
+          onKeyDown={this.onKeyDown}
+          onChange={this.onChange}
+          onMouseDown={this.onMouseDown}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+        />
       </div>
     );
   }

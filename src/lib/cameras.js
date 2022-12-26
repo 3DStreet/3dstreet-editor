@@ -49,7 +49,12 @@ export function initCameras(inspector) {
   sceneEl.camera = perspectiveCamera;
 
   const ratio = sceneEl.canvas.width / sceneEl.canvas.height;
-  const orthoCamera = new THREE.OrthographicCamera(-40 * ratio, 40 * ratio, 40, -40);
+  const orthoCamera = new THREE.OrthographicCamera(
+    -40 * ratio,
+    40 * ratio,
+    40,
+    -40
+  );
   sceneEl.object3D.add(orthoCamera);
 
   const cameras = (inspector.cameras = {
@@ -107,8 +112,8 @@ function saveOrthoCamera(camera, dir) {
 
 function setOrthoCamera(camera, dir, ratio) {
   const info = orthoCameraMemory[dir];
-  camera.left = info.left || (-40 * ratio);
-  camera.right = info.right || (40 * ratio);
+  camera.left = info.left || -40 * ratio;
+  camera.right = info.right || 40 * ratio;
   camera.top = info.top || 40;
   camera.bottom = info.bottom || -40;
   camera.position.copy(info.position);

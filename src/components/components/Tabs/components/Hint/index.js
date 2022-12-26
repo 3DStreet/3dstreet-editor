@@ -1,1 +1,1 @@
-export { Hint } from "./Hint.component.jsx";
+export { Hint } from './Hint.component.jsx';

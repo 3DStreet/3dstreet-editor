@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import "./HelpButton.styles.styl";
-import {QuestionMark} from './icons.jsx';
+import React, { Component } from 'react';
+import './HelpButton.styles.styl';
+import { QuestionMark } from './icons.jsx';
 import Events from '../../../lib/Events.js';
 
 /**
@@ -14,15 +14,15 @@ class HelpButton extends Component {
     const onClick = () => Events.emit('openhelpmodal');
 
     return (
-          <button
-            id="helpButton"
-            className={"helpButton"}
-            type="button"
-            onClick={onClick}
-            key="helpButton"
-          >
-            {QuestionMark}
-          </button>
+      <button
+        id="helpButton"
+        className={'helpButton'}
+        type="button"
+        onClick={onClick}
+        key="helpButton"
+      >
+        {QuestionMark}
+      </button>
     );
   }
 }
