@@ -91,7 +91,7 @@ THREE.EditorControls = function(_object, domElement) {
 
   this.isOrthographic = false;
   this.rotationEnabled = true;
-  this.setCamera = function (_object) {
+  this.setCamera = function(_object) {
     object = _object;
     if (object.type === 'OrthographicCamera') {
       this.rotationEnabled = false;
@@ -135,7 +135,7 @@ THREE.EditorControls = function(_object, domElement) {
   };
 
   this.pan = function(delta) {
-     var distance;
+    var distance;
     if (this.isOrthographic) {
       distance = Math.abs(object.right);
     } else {
@@ -152,9 +152,9 @@ THREE.EditorControls = function(_object, domElement) {
   };
 
   var ratio = 1;
-  this.setAspectRatio = function (_ratio) {
+  this.setAspectRatio = function(_ratio) {
     ratio = _ratio;
-  }
+  };
 
   this.zoom = function(delta) {
     var distance = object.position.distanceTo(center);
@@ -168,7 +168,7 @@ THREE.EditorControls = function(_object, domElement) {
     if (this.isOrthographic) {
       // Change FOV for ortho.
       let factor = 1;
-      if ((delta.x + delta.y + delta.z) < 0) {
+      if (delta.x + delta.y + delta.z < 0) {
         factor = -1;
       }
       delta = distance * scope.zoomSpeed * factor;
@@ -176,7 +176,9 @@ THREE.EditorControls = function(_object, domElement) {
       object.bottom -= delta;
       object.right += delta * ratio;
       object.top += delta;
-      if (object.left >= -0.0001) { return; }
+      if (object.left >= -0.0001) {
+        return;
+      }
       object.updateProjectionMatrix();
     } else {
       object.position.add(delta);
@@ -186,7 +188,9 @@ THREE.EditorControls = function(_object, domElement) {
   };
 
   this.rotate = function(delta) {
-    if (!this.rotationEnabled) { return; }
+    if (!this.rotationEnabled) {
+      return;
+    }
 
     vector.copy(object.position).sub(center);
 
@@ -284,6 +288,26 @@ THREE.EditorControls = function(_object, domElement) {
 
     domElement.removeEventListener('touchstart', touchStart, false);
     domElement.removeEventListener('touchmove', touchMove, false);
+
+    document
+      .getElementById('zoomInButton')
+      .removeEventListener('pointerdown', zoomInStart);
+    document
+      .getElementById('zoomInButton')
+      .removeEventListener('pointerup', zoomInStop);
+    document
+      .getElementById('zoomInButton')
+      .removeEventListener('pointerleave', zoomInStop);
+
+    document
+      .getElementById('zoomOutButton')
+      .removeEventListener('pointerdown', zoomOutStart);
+    document
+      .getElementById('zoomOutButton')
+      .removeEventListener('pointerup', zoomOutStop);
+    document
+      .getElementById('zoomOutButton')
+      .removeEventListener('pointerleave', zoomOutStop);
   };
 
   domElement.addEventListener('contextmenu', contextmenu, false);
@@ -376,6 +400,40 @@ THREE.EditorControls = function(_object, domElement) {
 
   domElement.addEventListener('touchstart', touchStart, false);
   domElement.addEventListener('touchmove', touchMove, false);
+
+  // ZoomButtons
+  let zoomInInterval;
+  let zoomOutInterval;
+
+  const zoomInStart = () => {
+    zoomInInterval = setInterval(() => scope.zoom(delta.set(0, 0, -1)), 50);
+  };
+  const zoomInStop = () => clearInterval(zoomInInterval);
+
+  const zoomOutStart = () => {
+    zoomOutInterval = setInterval(() => scope.zoom(delta.set(0, 0, 1)), 50);
+  };
+  const zoomOutStop = () => clearInterval(zoomOutInterval);
+
+  document
+    .getElementById('zoomInButton')
+    .addEventListener('pointerdown', zoomInStart);
+  document
+    .getElementById('zoomInButton')
+    .addEventListener('pointerup', zoomInStop);
+  document
+    .getElementById('zoomInButton')
+    .addEventListener('pointerleave', zoomInStop);
+
+  document
+    .getElementById('zoomOutButton')
+    .addEventListener('pointerdown', zoomOutStart);
+  document
+    .getElementById('zoomOutButton')
+    .addEventListener('pointerup', zoomOutStop);
+  document
+    .getElementById('zoomOutButton')
+    .addEventListener('pointerleave', zoomOutStop);
 };
 
 THREE.EditorControls.prototype = Object.create(THREE.EventDispatcher.prototype);

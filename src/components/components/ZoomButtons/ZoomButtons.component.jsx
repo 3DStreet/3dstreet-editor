@@ -2,10 +2,6 @@ import './ZoomButton.styles.styl';
 
 import React, { Component } from 'react';
 
-import { inspector } from '../../../index';
-
-const delta = new THREE.Vector3();
-
 /**
  * ZoomButtons component.
  *
@@ -13,36 +9,18 @@ const delta = new THREE.Vector3();
  * @category Components
  */
 class ZoomButtons extends Component {
-  handleZoomIn = () => {
-    const controls = new THREE.EditorControls(
-      inspector.camera,
-      inspector.container
-    );
-    delta.set(0, 0, -1);
-    controls.zoom(delta);
-  };
-
-  handleZoomOut = () => {
-    const controls = new THREE.EditorControls(
-      inspector.camera,
-      inspector.container
-    );
-    delta.set(0, 0, 1);
-    controls.zoom(delta);
-  };
-
   render() {
     return (
       <div className={'wrapper'} id={'zoomButtons'}>
         <button
+          id={'zoomInButton'}
           className={'btn plus-button'}
           type={'button'}
-          onClick={this.handleZoomIn}
         />
         <button
+          id={'zoomOutButton'}
           className={'btn minus-button'}
           type={'button'}
-          onClick={this.handleZoomOut}
         />
       </div>
     );
