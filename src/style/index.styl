@@ -453,3 +453,33 @@ body.aframe-inspector-opened
     a.hover
       background-color #1faaf2
       color #fff
+
+.resetViewportButton 
+  position absolute !important
+  right 35px
+  bottom 23px
+  display flex
+  align-items center
+  justify-content center
+  padding 5.5px
+  background-color #2D2D2D
+  border-radius 50%
+  border unset
+  outline unset
+  transition all 0.3s
+
+  svg
+    width 32px
+    height 32px
+
+.resetViewportButton:focus
+  outline unset
+
+.resetViewportButton:hover 
+  cursor pointer
+  background-color #774DEE
+  transition all 0.3s
+
+.resetViewportButton:active
+  background-color #5B37C0
+  transition all 0.3s
