@@ -19,8 +19,9 @@
     <!-- mapbox -->
     <script src="https://unpkg.com/aframe-mapbox-component/dist/aframe-mapbox-component.min.js"></script>
 
-    <!-- save / load -->
-    <script src="https://github.3dstreet.org/src/json-utils.js"></script>
+    <!-- save / load 
+    <script src="https://github.3dstreet.org/src/json-utils.js"></script>-->
+    <script src="./src/lib/json-utils.js"></script>
     
     <!-- ocean -->
     <script src="./src/components/ocean-plane.js"></script>
@@ -149,16 +150,16 @@
         streetContainerEl.removeChild(streetContainerEl.lastChild);
       }
       var streetObject = JSON.parse(validJSONString);
-      createEntities(streetObject.data, streetContainerEl);
+      createEntities(streetObject.data[0].children, streetContainerEl);
     }
-
+/*
     function inputJSON() {
       const stringJSON = prompt("Please paste 3DStreet JSON string");
       if (stringJSON) {
         createElementsFromJSON(stringJSON);
       }      
     }
-
+*/
     function fileJSON() {
       let reader=new FileReader();
       reader.onload=function(){

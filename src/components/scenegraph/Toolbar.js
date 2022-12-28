@@ -45,10 +45,11 @@ export default class Toolbar extends Component {
   convertToObject = () => {
     const entity = document.getElementById('street-container');
 
-    const data = getElementData(entity);
+    const data = convertDOMElToObject(entity);
 
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify({ data: data })
+      JSON.stringify(data)
+      //filterJSONstreet(removeProps, renameProps, data)
     )}`;
 
     const link = document.createElement('a');
