@@ -10,23 +10,24 @@ import {
   ZoomIn,
   ZoomOut
 } from './icons.jsx';
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 const actions = [
   {
     title: 'Move the map by dragging',
-    description:
-      'Click and drag to pan the map view.',
+    description: 'Click and drag to pan the map view.',
     items: [[Angle, Drag]]
   },
   {
     title: 'Zoom the map by scrolling',
-    description: 'Use the mouse scrollwheel (or touchpad scrolling motion) to zoom in and out.',
+    description:
+      'Use the mouse scrollwheel (or touchpad scrolling motion) to zoom in and out.',
     items: [[Scroll, 'or', ZoomOut, ZoomIn]]
   },
   {
     title: 'Rotate the map by right-clicking and dragging',
-    description: 'Right-click and drag to rotate the map while staying in place.',
+    description:
+      'Right-click and drag to rotate the map while staying in place.',
     items: [[RButton, Drag]]
   },
   {
