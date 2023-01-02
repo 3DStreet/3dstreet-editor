@@ -1,4 +1,4 @@
-import { HelpButton, ZoomButtons } from './components';
+import { Button, HelpButton, ZoomButtons } from './components';
 
 import { CameraToolbar } from './viewport';
 import { Component } from 'react';
@@ -166,9 +166,7 @@ export default class Main extends Component {
           )}
           onClick={this.toggleEdit}
         >
-          <div className="logo-img" alt="3DStreet">
-            {logoText}
-          </div>
+          <Button className={'logo-img'}>{logoText}</Button>
         </a>
 
         {this.renderSceneGraphToggle()}

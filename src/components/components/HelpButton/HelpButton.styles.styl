@@ -1,7 +1,6 @@
 @import '../../../style/lib';
 
 #helpButton.helpButton
-  display: block
   position absolute
   left 40px
   bottom 60px
@@ -9,11 +8,12 @@
   outline unset
   background-color rgba(50, 50, 50, 0.8);
   padding 12px 15px
+  right 32px
+  bottom 31px
   border-radius 50%
-  transition all 0.3s
-  margin 0
-
+  
 #helpButton:hover 
-  cursor pointer
   background-color #6439df
-  transition all 0.3s
+
+#helpButton:active 
+  background-color: #5B37C0;

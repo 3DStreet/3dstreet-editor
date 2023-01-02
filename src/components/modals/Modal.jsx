@@ -1,7 +1,9 @@
+import './Modal.styles.styl';
+
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './Modal.styles.styl';
 
 export default class Modal extends Component {
   static propTypes = {
@@ -13,7 +15,8 @@ export default class Modal extends Component {
     closeOnClickOutside: PropTypes.bool,
     onClose: PropTypes.func,
     title: PropTypes.string,
-    titleElement: PropTypes.element
+    titleElement: PropTypes.element,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -90,14 +93,14 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { children, id, title, titleElement } = this.props;
+    const { children, id, title, titleElement, className } = this.props;
 
     return (
       <div
         id={id}
         className={classNames('modal', !this.state.isOpen && 'hide')}
       >
-        <div className="modal-content" ref={this.self}>
+        <div className={classNames('modal-content', className)} ref={this.self}>
           <div className="modal-header">
             <span className="close" onClick={this.close}>
               <span />

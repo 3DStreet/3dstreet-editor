@@ -39,6 +39,7 @@ class ModalHelp extends Component {
 
     return (
       <Modal
+        className={'helpModalWrapper'}
         titleElement={
           <Tabs
             tabs={tabs.map((tab) => ({
