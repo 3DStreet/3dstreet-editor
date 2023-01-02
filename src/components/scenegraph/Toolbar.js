@@ -1,8 +1,11 @@
+import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons/index.jsx';
+
+import { Button } from '../components';
 import { Component } from 'react';
-// import classNames from 'classnames';
-import Events from '../../lib/Events';
+import Events from '../../lib/Events.js';
 import { saveBlob } from '../../lib/utils';
-// import GLTFIcon from '../../../assets/gltf.svg';
+
+// const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
 function filterHelpers(scene, visible) {
   scene.traverse((o) => {
@@ -135,34 +138,37 @@ export default class Toolbar extends Component {
           /> */}
 
           {!this.state.isSaveActionActive ? (
-            <button
-              className={'gltfIcon'}
-              type={'button'}
-              onClick={this.toggleSaveActionState.bind(this)}
-            >
-              <div />
-              <span>Save</span>
-            </button>
+            <Button onClick={this.toggleSaveActionState.bind(this)}>
+              <div
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
+              >
+                <Save24Icon />
+              </div>
+              Save
+            </Button>
           ) : (
             <div className={'saveActions'}>
-              <button type={'button'} onClick={this.exportSceneToGLTF}>
-                glTF 3D Model
-              </button>
-              <button type={'button'} onClick={this.makeScreenshot}>
-                PNG Screenshot
-              </button>
-              <button
-                type={'button'}
+              <Button onClick={this.exportSceneToGLTF}>glTF 3D Model</Button>
+              <Button onClick={this.makeScreenshot}>PNG Screenshot</Button>
+              <Button
                 className={'closeButton'}
                 onClick={this.toggleSaveActionState.bind(this)}
               >
-                <span />
-                <span />
-              </button>
+                <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                  <Cross32Icon />
+                </div>
+              </Button>
             </div>
           )}
           {!this.state.isSaveActionActive && (
-            <button className={'cameraButton'} onClick={this.makeScreenshot} />
+            <Button onClick={this.makeScreenshot} className={'cameraButton'}>
+              <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                <Camera32Icon />
+              </div>
+            </Button>
           )}
           {/* not is use */}
           {/* <button

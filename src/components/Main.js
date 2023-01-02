@@ -9,7 +9,7 @@ import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
 import classNames from 'classnames';
-import { HelpButton } from './components';
+import { Button, HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -165,9 +165,7 @@ export default class Main extends Component {
           )}
           onClick={this.toggleEdit}
         >
-          <div className="logo-img" alt="3DStreet">
-            {logoText}
-          </div>
+          <Button className={'logo-img'}>{logoText}</Button>
         </a>
 
         {this.renderSceneGraphToggle()}

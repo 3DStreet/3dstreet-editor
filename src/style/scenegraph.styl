@@ -21,62 +21,8 @@
       align-items center
       column-gap 12px
 
-    .cameraButton 
-      display: flex
-      width: 43px
-      height: 43px
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzMiIGhlaWdodD0iMzMiIHZpZXdCb3g9IjAgMCAzMyAzMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuOTQ0NDQgMTAuMDYyNUg5LjE2NjY3QzkuODE0OTcgMTAuMDYyNSAxMC40MzY3IDkuODEyMjggMTAuODk1MiA5LjM2Njg4QzExLjM1MzYgOC45MjE0OCAxMS42MTExIDguMzE3MzkgMTEuNjExMSA3LjY4NzVDMTEuNjExMSA3LjM3MjU2IDExLjczOTkgNy4wNzA1MSAxMS45NjkxIDYuODQ3ODFDMTIuMTk4MyA2LjYyNTExIDEyLjUwOTIgNi41IDEyLjgzMzMgNi41SDIwLjE2NjdDMjAuNDkwOCA2LjUgMjAuODAxNyA2LjYyNTExIDIxLjAzMDkgNi44NDc4MUMyMS4yNjAxIDcuMDcwNTEgMjEuMzg4OSA3LjM3MjU2IDIxLjM4ODkgNy42ODc1QzIxLjM4ODkgOC4zMTczOSAyMS42NDY0IDguOTIxNDggMjIuMTA0OSA5LjM2Njg4QzIyLjU2MzMgOS44MTIyOCAyMy4xODUgMTAuMDYyNSAyMy44MzMzIDEwLjA2MjVIMjUuMDU1NkMyNS43MDM5IDEwLjA2MjUgMjYuMzI1NiAxMC4zMTI3IDI2Ljc4NCAxMC43NTgxQzI3LjI0MjUgMTEuMjAzNSAyNy41IDExLjgwNzYgMjcuNSAxMi40Mzc1VjIzLjEyNUMyNy41IDIzLjc1NDkgMjcuMjQyNSAyNC4zNTkgMjYuNzg0IDI0LjgwNDRDMjYuMzI1NiAyNS4yNDk4IDI1LjcwMzkgMjUuNSAyNS4wNTU2IDI1LjVINy45NDQ0NEM3LjI5NjE0IDI1LjUgNi42NzQzOCAyNS4yNDk4IDYuMjE1OTYgMjQuODA0NEM1Ljc1NzU0IDI0LjM1OSA1LjUgMjMuNzU0OSA1LjUgMjMuMTI1VjEyLjQzNzVDNS41IDExLjgwNzYgNS43NTc1NCAxMS4yMDM1IDYuMjE1OTYgMTAuNzU4MUM2LjY3NDM4IDEwLjMxMjcgNy4yOTYxNCAxMC4wNjI1IDcuOTQ0NDQgMTAuMDYyNVoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxwYXRoIGQ9Ik0xNi41IDIwLjc1QzE4LjUyNSAyMC43NSAyMC4xNjY3IDE5LjE1NSAyMC4xNjY3IDE3LjE4NzVDMjAuMTY2NyAxNS4yMiAxOC41MjUgMTMuNjI1IDE2LjUgMTMuNjI1QzE0LjQ3NSAxMy42MjUgMTIuODMzMyAxNS4yMiAxMi44MzMzIDE3LjE4NzVDMTIuODMzMyAxOS4xNTUgMTQuNDc1IDIwLjc1IDE2LjUgMjAuNzVaIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8L3N2Zz4K')
-      background-repeat: no-repeat
-      background-position: center
-
-    button 
-      display flex
-      align-items center
-      column-gap 8px
-      width fit-content
-      padding 12px 16px
-      border unset
-      outline unset
-      background-color #774dee
-      border-radius 18px
-      font-size 16px
-      line-height 19.2px
-      color #fff
-      transition all 0.3s
-
-      div 
-        display block
-        width 16px
-        height 16px
-        background-size contain
-
-    button:hover 
-      background-color #6439df
-      transition all 0.3s
-      cursor pointer
-
-    button.disabled
-      color #666
-      cursor default
-
-    .closeButton
-      padding 21px
-      border-radius 50%
-      trasnsition all 0.3s
-
-      span
-        display block
-        width 2px
-        height 16px
-        background-color #ffffff
-        position absolute
-        left calc(50% - 1px)
-      
-      span:first-child 
-        transform rotateZ(-45deg)
-
-      span:last-child 
-        transform rotateZ(45deg)
+    .cameraButton, .closeButton 
+      border-radius: 22px
 
     .fa
       display none
