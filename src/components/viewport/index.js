@@ -1,1 +1,1 @@
-export { CameraToolbar } from "./CameraToolbar";
+export { CameraToolbar } from './CameraToolbar';

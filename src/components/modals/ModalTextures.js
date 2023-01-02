@@ -1,6 +1,6 @@
-import Events from '../../lib/Events';
 import React from 'react';
 import PropTypes from 'prop-types';
+import Events from '../../lib/Events';
 import Modal from './Modal.jsx';
 import { insertNewAsset } from '../../lib/assetsUtils';
 
@@ -14,7 +14,7 @@ function getFilename(url, converted = false) {
 
 function isValidId(id) {
   // The correct re should include : and . but A-frame seems to fail while accessing them
-  var re = /^[A-Za-z]+[\w\-]*$/;
+  var re = /^[A-Za-z]+[\w-]*$/;
   return re.test(id);
 }
 
@@ -58,38 +58,42 @@ export default class ModalTextures extends React.Component {
         loaded: false
       }
     };
+    this.imageName = React.createRef();
+    this.preview = React.createRef();
+    this.registryGallery = React.createRef();
   }
 
   componentDidMount() {
-    Events.on('assetsimagesload', images => {
+    Events.on('assetsimagesload', (images) => {
       this.generateFromRegistry();
     });
 
     this.generateFromAssets();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.isOpen && !AFRAME.INSPECTOR.assetsLoader.hasLoaded) {
       AFRAME.INSPECTOR.assetsLoader.load();
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.state.isOpen !== newProps.isOpen) {
-      this.setState({ isOpen: newProps.isOpen });
-      if (newProps.isOpen) {
-        this.generateFromAssets();
-      }
+    if (this.state.isOpen && this.state.isOpen !== prevProps.isOpen) {
+      this.generateFromAssets();
     }
   }
 
-  onClose = value => {
+  static getDerivedStateFromProps(props, state) {
+    if (state.isOpen !== props.isOpen) {
+      return { isOpen: props.isOpen };
+    }
+    return null;
+  }
+
+  onClose = (value) => {
     if (this.props.onClose) {
       this.props.onClose();
     }
   };
 
-  selectTexture = value => {
+  selectTexture = (value) => {
     if (this.props.onClose) {
       this.props.onClose(value);
     }
@@ -97,7 +101,7 @@ export default class ModalTextures extends React.Component {
 
   generateFromRegistry = () => {
     var self = this;
-    AFRAME.INSPECTOR.assetsLoader.images.forEach(imageData => {
+    AFRAME.INSPECTOR.assetsLoader.images.forEach((imageData) => {
       var image = new Image();
       image.addEventListener('load', () => {
         self.state.registryImages.push({
@@ -122,7 +126,7 @@ export default class ModalTextures extends React.Component {
     var self = this;
     Array.prototype.slice
       .call(document.querySelectorAll('a-assets img'))
-      .map(asset => {
+      .forEach((asset) => {
         var image = new Image();
         image.addEventListener('load', () => {
           self.state.assetsImages.push({
@@ -140,18 +144,18 @@ export default class ModalTextures extends React.Component {
       });
   };
 
-  onNewUrl = event => {
+  onNewUrl = (event) => {
     if (event.keyCode !== 13) {
       return;
     }
 
     var self = this;
     function onImageLoaded(img) {
-      var src = self.refs.preview.src;
+      var src = self.preview.current.src;
       self.setState({
         preview: {
-          width: self.refs.preview.naturalWidth,
-          height: self.refs.preview.naturalHeight,
+          width: self.preview.current.naturalWidth,
+          height: self.preview.current.naturalHeight,
           src: src,
           id: '',
           name: getFilename(src, true),
@@ -161,21 +165,21 @@ export default class ModalTextures extends React.Component {
           value: 'url(' + src + ')'
         }
       });
-      self.refs.preview.removeEventListener('load', onImageLoaded);
+      self.preview.current.removeEventListener('load', onImageLoaded);
     }
-    this.refs.preview.addEventListener('load', onImageLoaded);
-    this.refs.preview.src = event.target.value;
+    this.preview.current.addEventListener('load', onImageLoaded);
+    this.preview.current.src = event.target.value;
 
-    this.refs.imageName.focus();
+    this.imageName.current.focus();
   };
 
-  onNameKeyUp = event => {
+  onNameKeyUp = (event) => {
     if (event.keyCode === 13 && this.isValidAsset()) {
       this.addNewAsset();
     }
   };
 
-  onNameChanged = event => {
+  onNameChanged = (event) => {
     var state = this.state.preview;
     state.name = event.target.value;
     this.setState({ preview: state });
@@ -202,7 +206,7 @@ export default class ModalTextures extends React.Component {
     });
   }
 
-  onUrlChange = e => {
+  onUrlChange = (e) => {
     this.setState({ newUrl: e.target.value });
   };
 
@@ -219,7 +223,7 @@ export default class ModalTextures extends React.Component {
       this.state.preview.name,
       this.state.preview.src,
       true,
-      function() {
+      function () {
         self.generateFromAssets();
         self.setState({ addNewDialogOpened: false });
         self.clear();
@@ -227,13 +231,13 @@ export default class ModalTextures extends React.Component {
     );
   };
 
-  onChangeFilter = e => {
+  onChangeFilter = (e) => {
     this.setState({ filterText: e.target.value });
   };
 
   renderRegistryImages() {
     var self = this;
-    let selectSample = function(image) {
+    let selectSample = function (image) {
       self.setState({
         preview: {
           width: image.width,
@@ -247,20 +251,20 @@ export default class ModalTextures extends React.Component {
           value: 'url(' + image.src + ')'
         }
       });
-      self.refs.imageName.focus();
+      self.imageName.current.focus();
     };
 
     var filterText = this.state.filterText.toUpperCase();
 
     return this.state.registryImages
-      .filter(image => {
+      .filter((image) => {
         return (
           image.id.toUpperCase().indexOf(filterText) > -1 ||
           image.name.toUpperCase().indexOf(filterText) > -1 ||
           image.tags.indexOf(filterText) > -1
         );
       })
-      .map(function(image) {
+      .map(function (image) {
         let imageClick = selectSample.bind(this, image);
         return (
           <li key={image.src} onClick={imageClick}>
@@ -323,7 +327,7 @@ export default class ModalTextures extends React.Component {
                     />
                     <span className="fa fa-search" />
                   </div>
-                  <ul ref="registryGallery" className="gallery">
+                  <ul ref={this.registryGallery} className="gallery">
                     {this.renderRegistryImages()}
                   </ul>
                 </li>
@@ -332,7 +336,7 @@ export default class ModalTextures extends React.Component {
             <div className="preview">
               Name:{' '}
               <input
-                ref="imageName"
+                ref={this.imageName}
                 className={
                   this.state.preview.name.length > 0 && !validUrl ? 'error' : ''
                 }
@@ -342,7 +346,7 @@ export default class ModalTextures extends React.Component {
                 onKeyUp={this.onNameKeyUp}
               />
               <img
-                ref="preview"
+                ref={this.preview}
                 width="155px"
                 height="155px"
                 src={preview.src}
@@ -370,11 +374,11 @@ export default class ModalTextures extends React.Component {
         <div className={this.state.addNewDialogOpened ? 'hide' : ''}>
           <ul className="gallery">
             {this.state.assetsImages
-              .sort(function(a, b) {
+              .sort(function (a, b) {
                 return a.id > b.id;
               })
               .map(
-                function(image) {
+                function (image) {
                   let textureClick = this.selectTexture.bind(this, image);
                   var selectedClass =
                     this.props.selectedTexture === '#' + image.id
@@ -398,7 +402,7 @@ export default class ModalTextures extends React.Component {
                   );
                 }.bind(this)
               )}
-            {loadedTextures.map(function(texture) {
+            {loadedTextures.map(function (texture) {
               var image = texture.image;
               let textureClick = this.selectTexture.bind(this, texture);
               return (

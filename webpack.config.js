@@ -1,106 +1,65 @@
-var autoprefixer = require("autoprefixer");
-var childProcess = require("child_process");
-var path = require("path");
-var postcssImport = require("postcss-import");
-var TerserPlugin = require("terser-webpack-plugin-legacy");
-var webpack = require("webpack");
-
-// Add HMR for development environments only.
-var entry = ["./src/index.js"];
-if (process.env.NODE_ENV === "dev") {
-  entry = [
-    "webpack-dev-server/client?http://localhost:3333"
-    // 'webpack/hot/only-dev-server'
-  ].concat(entry);
-}
-
-function getBuildTimestamp() {
-  function pad2(value) {
-    return ("0" + value).slice(-2);
-  }
-  var date = new Date();
-  var timestamp = [
-    pad2(date.getUTCDate()),
-    pad2(date.getUTCMonth() + 1),
-    date.getUTCFullYear()
-  ];
-  return timestamp.join("-");
-}
-
-var commitHash = childProcess.execSync("git rev-parse HEAD").toString();
-
-// Minification.
-var plugins = [
-  new webpack.DefinePlugin({
-    "process.env": {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-    },
-    VERSION: JSON.stringify(require("./package.json").version),
-    BUILD_TIMESTAMP: JSON.stringify(getBuildTimestamp()),
-    COMMIT_HASH: JSON.stringify(commitHash)
-  }),
-  new webpack.EnvironmentPlugin(["NODE_ENV"])
-];
-if (process.env.MINIFY === "true") {
-  plugins.push(new TerserPlugin());
-}
-
-// dist/
-var filename = "3dstreet-editor.js";
-var outPath = "dist";
-if (process.env.AFRAME_DIST) {
-  outPath = "dist";
-  if (process.env.MINIFY) {
-    filename = "3dstreet-editor.min.js";
-  }
-}
+var path = require('path');
 
 module.exports = {
   devServer: {
-    disableHostCheck: true,
-    port: 3333
+    hot: true,
+    liveReload: false,
+    port: 3333,
+    static: {
+      directory: '.'
+    }
   },
-  devtool: "source-map",
-  entry: entry,
+  devtool: 'source-map',
+  entry: './src/index.js',
   output: {
-    path: path.join(__dirname, outPath),
-    filename: filename,
-    publicPath: "/dist/"
+    path: path.join(__dirname, 'dist'),
+    filename: process.env.MINIFY
+      ? '3dstreet-editor.min.js'
+      : '3dstreet-editor.js',
+    publicPath: '/dist/'
+  },
+  externals: {
+    // Stubs out `import ... from 'three'` so it returns `import ... from window.THREE` effectively using THREE global variable that is defined by AFRAME.
+    three: 'THREE'
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: "babel-loader"
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.svg$/,
+        type: 'asset/inline'
       },
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader!postcss-loader"
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.styl$/,
-        exclude: /(node_modules)/,
-        loaders: [
-          "style-loader",
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: { url: false }
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
-              ident: "postcss",
-              plugins: loader => [require("autoprefixer")()]
+              postcssOptions: {
+                plugins: ['autoprefixer']
+              }
             }
           },
-          "stylus-loader"
+          'stylus-loader'
         ]
       }
     ]
   },
-  plugins: plugins,
-  resolve: {
-    modules: [path.join(__dirname, "node_modules")]
-  }
+  mode: process.env.MINIFY === 'true' ? 'production' : 'development'
 };
