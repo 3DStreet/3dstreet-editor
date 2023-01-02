@@ -1,15 +1,16 @@
-import { Component } from 'react';
-import Events from '../lib/Events';
+import { Button, HelpButton, ZoomButtons } from './components';
+
 import { CameraToolbar } from './viewport';
+import { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
+import Events from '../lib/Events';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
+import classNames from 'classnames';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
-import classNames from 'classnames';
-import { Button, HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -33,7 +34,7 @@ export default class Main extends Component {
       }
     };
 
-    Events.on('togglesidebar', (event) => {
+    Events.on('togglesidebar', event => {
       if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
@@ -51,14 +52,14 @@ export default class Main extends Component {
           });
         }
       } else if (event.which === 'attributes') {
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           visible: {
             ...prevState.visible,
             attributes: !prevState.visible.attributes
           }
         }));
       } else if (event.which === 'scenegraph') {
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           visible: {
             ...prevState.visible,
             scenegraph: !prevState.visible.scenegraph
@@ -71,7 +72,7 @@ export default class Main extends Component {
   componentDidMount() {
     Events.on(
       'opentexturesmodal',
-      function (selectedTexture, textureOnClose) {
+      function(selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
           isModalTexturesOpen: true,
@@ -80,11 +81,11 @@ export default class Main extends Component {
       }.bind(this)
     );
 
-    Events.on('entityselect', (entity) => {
+    Events.on('entityselect', entity => {
       this.setState({ entity: entity });
     });
 
-    Events.on('inspectortoggle', (enabled) => {
+    Events.on('inspectortoggle', enabled => {
       this.setState({ inspectorEnabled: enabled });
     });
 
@@ -93,11 +94,11 @@ export default class Main extends Component {
     });
   }
 
-  onCloseHelpModal = (value) => {
+  onCloseHelpModal = value => {
     this.setState({ isHelpOpen: false });
   };
 
-  onModalTextureOnClose = (value) => {
+  onModalTextureOnClose = value => {
     this.setState({ isModalTexturesOpen: false });
     if (this.state.textureOnClose) {
       this.state.textureOnClose(value);
@@ -206,6 +207,12 @@ export default class Main extends Component {
         {this.state.inspectorEnabled && (
           <div id="help">
             <HelpButton />
+          </div>
+        )}
+
+        {this.state.inspectorEnabled && (
+          <div id={'zoom-buttons'}>
+            <ZoomButtons />
           </div>
         )}
       </div>
