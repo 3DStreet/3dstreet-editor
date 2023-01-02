@@ -1,11 +1,12 @@
-/* globals AFRAME */
-var Events = require('./Events');
+import Events from './Events';
 import {
   removeSelectedEntity,
   cloneSelectedEntity,
   cloneEntity
-} from '../lib/entity';
-import { os } from '../lib/utils.js';
+} from './entity';
+import { getOS } from './utils';
+
+const os = getOS();
 
 function shouldCaptureKeyEvent(event) {
   if (event.metaKey) {
@@ -17,13 +18,13 @@ function shouldCaptureKeyEvent(event) {
   );
 }
 
-var Shortcuts = {
+export const Shortcuts = {
   enabled: false,
   shortcuts: {
     default: {},
     modules: {}
   },
-  onKeyUp: function(event) {
+  onKeyUp: function (event) {
     if (!shouldCaptureKeyEvent(event) || !AFRAME.INSPECTOR.opened) {
       return;
     }
@@ -123,7 +124,7 @@ var Shortcuts = {
       }
     }
   },
-  onKeyDown: function(event) {
+  onKeyDown: function (event) {
     if (!shouldCaptureKeyEvent(event) || !AFRAME.INSPECTOR.opened) {
       return;
     }
@@ -168,32 +169,32 @@ var Shortcuts = {
       event.stopPropagation();
     }
   },
-  enable: function() {
+  enable: function () {
     if (this.enabled) {
       this.disable();
     }
 
-    window.addEventListener('keydown', this.onKeyDown.bind(this), false);
-    window.addEventListener('keyup', this.onKeyUp.bind(this), false);
+    window.addEventListener('keydown', this.onKeyDown, false);
+    window.addEventListener('keyup', this.onKeyUp, false);
     this.enabled = true;
   },
-  disable: function() {
+  disable: function () {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     this.enabled = false;
   },
-  checkModuleShortcutCollision: function(keyCode, moduleName, mustBeActive) {
+  checkModuleShortcutCollision: function (keyCode, moduleName, mustBeActive) {
     if (
       this.shortcuts.modules[moduleName] &&
       this.shortcuts.modules[moduleName][keyCode]
     ) {
       console.warn(
-        'Keycode <%s> already registered as shorcut within the same module',
+        'Keycode <%s> already registered as shortcut within the same module',
         keyCode
       );
     }
   },
-  registerModuleShortcut: function(
+  registerModuleShortcut: function (
     keyCode,
     callback,
     moduleName,
@@ -216,11 +217,9 @@ var Shortcuts = {
       mustBeActive
     };
   },
-  init: function(inspector) {
+  init: function (inspector) {
     this.inspector = inspector;
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
   }
 };
-
-module.exports = Shortcuts;

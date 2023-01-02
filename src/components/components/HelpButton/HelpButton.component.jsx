@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
 import './HelpButton.styles.styl';
-import { QuestionMark } from './icons.jsx';
-import Events from '../../../lib/Events.js';
+
 import { Button } from '../Button';
+import { Component } from 'react';
+import Events from '../../../lib/Events.js';
+import { QuestionMark } from './icons.jsx';
 
 /**
  * HelpButton component.
  *
- * @author Anna Botsula
+ * @author Anna Botsula, Oleksii Medvediev
  * @category Components.
  */
 class HelpButton extends Component {

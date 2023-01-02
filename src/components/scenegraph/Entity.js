@@ -1,10 +1,9 @@
-import { cloneEntity, printEntity, removeEntity } from '../../lib/entity';
-
-import PropTypes from 'prop-types';
+/* eslint-disable react/no-danger */
 import React from 'react';
-import classnames from 'classnames';
-
-const Events = require('../../lib/Events.js');
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Events from '../../lib/Events';
+import { printEntity, removeEntity, cloneEntity } from '../../lib/entity';
 
 export default class Entity extends React.Component {
   static propTypes = {
@@ -28,7 +27,7 @@ export default class Entity extends React.Component {
     !this.props.isInitiallyExpanded && this.props.initiallyExpandEntity();
   }
 
-  onClick = evt => {
+  onClick = (evt) => {
     if (!evt.target.classList.contains('fa')) {
       this.props.selectEntity(this.props.entity);
     }
@@ -36,7 +35,7 @@ export default class Entity extends React.Component {
 
   onDoubleClick = () => Events.emit('objectfocus', this.props.entity.object3D);
 
-  toggleVisibility = evt => {
+  toggleVisibility = (evt) => {
     const entity = this.props.entity;
     const visible =
       entity.tagName.toLowerCase() === 'a-scene'
@@ -65,7 +64,7 @@ export default class Entity extends React.Component {
     const removeButton =
       tagName === 'a-scene' ? null : (
         <a
-          onClick={event => {
+          onClick={(event) => {
             event.stopPropagation();
             removeEntity(entity);
           }}
@@ -82,7 +81,7 @@ export default class Entity extends React.Component {
     ) {
       collapse = (
         <span
-          onClick={evt => {
+          onClick={(evt) => {
             evt.stopPropagation();
             this.props.toggleExpandedCollapsed(entity);
           }}
@@ -109,7 +108,7 @@ export default class Entity extends React.Component {
     );
 
     // Class name.
-    const className = classnames({
+    const className = classNames({
       active: this.props.isSelected,
       entity: true,
       novisible: !visible,

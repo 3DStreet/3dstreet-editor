@@ -1,7 +1,7 @@
-const Events = require('./Events');
-const debounce = require('lodash.debounce');
+import Events from './Events';
+import debounce from 'lodash-es/debounce';
 
-function initRaycaster(inspector) {
+export function initRaycaster(inspector) {
   // Use cursor="rayOrigin: mouse".
   const mouseCursor = document.createElement('a-entity');
   mouseCursor.setAttribute('id', 'aframeInspectorMouseCursor');
@@ -18,7 +18,7 @@ function initRaycaster(inspector) {
   const overrideRefresh = () => {
     refreshObjects.call(raycaster);
     const objects = raycaster.objects;
-    raycaster.objects = objects.filter(node => {
+    raycaster.objects = objects.filter((node) => {
       while (node) {
         if (!node.visible) {
           return false;
@@ -35,7 +35,7 @@ function initRaycaster(inspector) {
 
   inspector.sceneEl.addEventListener(
     'child-attached',
-    debounce(function() {
+    debounce(function () {
       mouseCursor.components.raycaster.refreshObjects();
     }, 250)
   );
@@ -55,7 +55,7 @@ function initRaycaster(inspector) {
 
   const onDownPosition = new THREE.Vector2();
   const onUpPosition = new THREE.Vector2();
-  const onDoubleClickPosition = new THREE.Vector2();
+  // const onDoubleClickPosition = new THREE.Vector2();
 
   function onMouseEnter() {
     Events.emit(
@@ -106,42 +106,22 @@ function initRaycaster(inspector) {
     onUpPosition.fromArray(array);
   }
 
-  function onTouchStart(event) {
-    const touch = event.changedTouches[0];
-    const array = getMousePosition(
-      inspector.container,
-      touch.clientX,
-      touch.clientY
-    );
-    onDownPosition.fromArray(array);
-  }
-
-  function onTouchEnd(event) {
-    const touch = event.changedTouches[0];
-    const array = getMousePosition(
-      inspector.container,
-      touch.clientX,
-      touch.clientY
-    );
-    onUpPosition.fromArray(array);
-  }
-
   /**
    * Focus on double click.
    */
-  function onDoubleClick(event) {
-    const array = getMousePosition(
-      inspector.container,
-      event.clientX,
-      event.clientY
-    );
-    onDoubleClickPosition.fromArray(array);
-    const intersectedEl = mouseCursor.components.cursor.intersectedEl;
-    if (!intersectedEl) {
-      return;
-    }
-    Events.emit('objectfocus', intersectedEl.object3D);
-  }
+  // function onDoubleClick(event) {
+  //   const array = getMousePosition(
+  //     inspector.container,
+  //     event.clientX,
+  //     event.clientY
+  //   );
+  //   onDoubleClickPosition.fromArray(array);
+  //   const intersectedEl = mouseCursor.components.cursor.intersectedEl;
+  //   if (!intersectedEl) {
+  //     return;
+  //   }
+  //   Events.emit('objectfocus', intersectedEl.object3D);
+  // }
 
   return {
     el: mouseCursor,
@@ -153,7 +133,6 @@ function initRaycaster(inspector) {
     }
   };
 }
-module.exports.initRaycaster = initRaycaster;
 
 function getMousePosition(dom, x, y) {
   const rect = dom.getBoundingClientRect();

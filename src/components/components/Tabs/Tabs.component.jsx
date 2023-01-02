@@ -1,6 +1,6 @@
 import './Tabs.styles.styl';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import { Hint } from './components';
 import PropTypes from 'prop-types';

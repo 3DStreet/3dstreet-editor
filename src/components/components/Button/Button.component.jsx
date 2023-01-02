@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import './Button.styles.styl';
 
-const getVariant = variant => {
+import React, { Component } from 'react';
+
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+const getVariant = (variant) => {
   switch (variant) {
     case 'filled':
       return 'filledButton';
@@ -33,10 +35,9 @@ class Button extends Component {
     className: PropTypes.string,
     onClick: PropTypes.func,
     type: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.node,
     variant: PropTypes.string,
     disabled: PropTypes.bool,
-    key: PropTypes.string,
     id: PropTypes.string || PropTypes.number
   };
 
@@ -48,7 +49,6 @@ class Button extends Component {
       children,
       variant = 'filled',
       disabled,
-      key,
       id
     } = this.props;
 
@@ -63,7 +63,6 @@ class Button extends Component {
         type={type}
         tabIndex={0}
         disabled={disabled}
-        key={key}
         id={id}
       >
         {children}
