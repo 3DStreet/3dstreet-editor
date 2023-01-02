@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class InputWidget extends React.Component {
@@ -15,7 +15,7 @@ export default class InputWidget extends React.Component {
     this.state = { value: this.props.value || '' };
   }
 
-  onChange = e => {
+  onChange = (e) => {
     var value = e.target.value;
     this.setState({ value: value });
     if (this.props.onChange) {
@@ -23,9 +23,9 @@ export default class InputWidget extends React.Component {
     }
   };
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.value !== this.state.value) {
-      this.setState({ value: newProps.value });
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({ value: this.props.value });
     }
   }
 

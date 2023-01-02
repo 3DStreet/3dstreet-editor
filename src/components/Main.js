@@ -1,8 +1,9 @@
 import { HelpButton, ZoomButtons } from './components';
-import React, { Component } from 'react';
 
 import { CameraToolbar } from './viewport';
+import { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
+import Events from '../lib/Events';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
@@ -12,8 +13,6 @@ import classNames from 'classnames';
 import { injectCSS } from '../lib/utils';
 
 THREE.ImageUtils.crossOrigin = '';
-
-const Events = require('../lib/Events.js');
 
 // Megahack to include font-awesome.
 injectCSS(
@@ -55,18 +54,18 @@ export default class Main extends Component {
       } else if (event.which === 'attributes') {
         this.setState(prevState => ({
           visible: {
+            ...prevState.visible,
             attributes: !prevState.visible.attributes
           }
         }));
       } else if (event.which === 'scenegraph') {
         this.setState(prevState => ({
           visible: {
+            ...prevState.visible,
             scenegraph: !prevState.visible.scenegraph
           }
         }));
       }
-
-      this.forceUpdate();
     });
   }
 
@@ -94,6 +93,7 @@ export default class Main extends Component {
       this.setState({ isHelpOpen: true });
     });
   }
+
   onCloseHelpModal = value => {
     this.setState({ isHelpOpen: false });
   };
@@ -114,15 +114,18 @@ export default class Main extends Component {
   };
 
   renderComponentsToggle() {
-    if (!this.state.entity || this.state.visible.attributes) {
+    if (
+      !this.state.inspectorEnabled ||
+      !this.state.entity ||
+      this.state.visible.attributes
+    ) {
       return null;
     }
     return (
       <div className="toggle-sidebar right">
         <a
           onClick={() => {
-            this.setState({ visible: { attributes: true } });
-            this.forceUpdate();
+            Events.emit('togglesidebar', { which: 'attributes' });
           }}
           className="fa fa-plus"
           title="Show components"
@@ -132,15 +135,14 @@ export default class Main extends Component {
   }
 
   renderSceneGraphToggle() {
-    if (this.state.visible.scenegraph) {
+    if (!this.state.inspectorEnabled || this.state.visible.scenegraph) {
       return null;
     }
     return (
       <div className="toggle-sidebar left">
         <a
           onClick={() => {
-            this.setState({ visible: { scenegraph: true } });
-            this.forceUpdate();
+            Events.emit('togglesidebar', { which: 'scenegraph' });
           }}
           className="fa fa-plus"
           title="Show scenegraph"
@@ -199,7 +201,6 @@ export default class Main extends Component {
           onClose={this.onCloseHelpModal}
         />
         <ModalTextures
-          ref="modaltextures"
           isOpen={this.state.isModalTexturesOpen}
           selectedTexture={this.state.selectedTexture}
           onClose={this.onModalTextureOnClose}

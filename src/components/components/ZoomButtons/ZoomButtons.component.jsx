@@ -1,6 +1,6 @@
 import './ZoomButton.styles.styl';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 /**
  * ZoomButtons component.

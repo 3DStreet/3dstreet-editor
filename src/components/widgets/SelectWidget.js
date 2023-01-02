@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
@@ -18,23 +18,25 @@ export default class SelectWidget extends React.Component {
     this.state = { value: { value: value, label: value } };
   }
 
-  onChange = value => {
-    this.setState({ value: value });
-    if (this.props.onChange) {
-      this.props.onChange(this.props.name, value.value);
-    }
+  onChange = (value) => {
+    this.setState({ value: value }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(this.props.name, value.value);
+      }
+    });
   };
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.value !== this.state.value.value) {
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.value !== prevProps.value) {
       this.setState({
-        value: { value: newProps.value, label: newProps.value }
+        value: { value: props.value, label: props.value }
       });
     }
   }
 
   render() {
-    const options = this.props.options.map(value => {
+    const options = this.props.options.map((value) => {
       return { value: value, label: value };
     });
 

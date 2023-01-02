@@ -27,8 +27,14 @@ export default class Vec2Widget extends React.Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value);
+  componentDidUpdate() {
+    const props = this.props;
+    if (props.value.x !== this.state.x || props.value.y !== this.state.y) {
+      this.setState({
+        x: props.value.x,
+        y: props.value.y
+      });
+    }
   }
 
   render() {

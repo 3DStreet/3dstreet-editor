@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-var Events = require('../../lib/Events.js');
+import Events from '../../lib/Events';
 
 function getUrlFromId(assetId) {
   return (
@@ -82,18 +81,20 @@ export default class TextureWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: this.props.value || '' };
+    this.canvas = React.createRef();
   }
 
   componentDidMount() {
     this.setValue(this.props.value || '');
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidUpdate() {
     var component = this.props.entity.components[this.props.componentname];
     if (!component) {
       return;
     }
-    var newValue = component.attrValue[this.props.name];
+    // component.attrValue may be undefined if component is from a mixin
+    var newValue = component.attrValue && component.attrValue[this.props.name];
 
     // This will be triggered typically when the element is changed directly with element.setAttribute
     if (newValue && newValue !== this.state.value) {
@@ -102,11 +103,11 @@ export default class TextureWidget extends React.Component {
   }
 
   setValue(value) {
-    var canvas = this.refs.canvas;
+    var canvas = this.canvas.current;
     var context = canvas.getContext('2d');
 
     function paintPreviewWithImage(image) {
-      var filename = image.src.replace(/^.*[\\\/]/, '');
+      var filename = image.src.replace(/^.*[\\/]/, '');
       if (image !== undefined && image.width > 0) {
         canvas.title = filename;
         var scale = canvas.width / image.width;
@@ -176,26 +177,26 @@ export default class TextureWidget extends React.Component {
     });
   }
 
-  notifyChanged = value => {
+  notifyChanged = (value) => {
     if (this.props.onChange) {
       this.props.onChange(this.props.name, value);
     }
     this.setState({ value: value });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     var value = e.target.value;
     this.setState({ value: value });
     this.notifyChanged(value);
   };
 
-  removeMap = e => {
+  removeMap = () => {
     this.setValue('');
     this.notifyChanged('');
   };
 
   openDialog = () => {
-    Events.emit('opentexturesmodal', this.state.value, image => {
+    Events.emit('opentexturesmodal', this.state.value, (image) => {
       if (!image) {
         return;
       }
@@ -233,7 +234,7 @@ export default class TextureWidget extends React.Component {
           onChange={this.onChange}
         />
         <canvas
-          ref="canvas"
+          ref={this.canvas}
           width="32"
           height="16"
           title={hint}

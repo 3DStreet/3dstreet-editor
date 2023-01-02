@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './Modal.styles.styl';
 
 export default class Modal extends Component {
@@ -23,14 +23,15 @@ export default class Modal extends Component {
   constructor(props) {
     super(props);
     this.state = { isOpen: this.props.isOpen };
+    this.self = React.createRef();
   }
 
   componentDidMount() {
-    document.addEventListener("keyup", this.handleGlobalKeydown);
-    document.addEventListener("mousedown", this.handleGlobalMousedown);
+    document.addEventListener('keyup', this.handleGlobalKeydown);
+    document.addEventListener('mousedown', this.handleGlobalMousedown);
   }
 
-  handleGlobalKeydown = event => {
+  handleGlobalKeydown = (event) => {
     if (
       this.state.isOpen &&
       (event.keyCode === 27 ||
@@ -44,39 +45,41 @@ export default class Modal extends Component {
     }
   };
 
-  shouldClickDismiss = event => {
+  shouldClickDismiss = (event) => {
     var target = event.target;
     // This piece of code isolates targets which are fake clicked by things
     // like file-drop handlers
-    if (target.tagName === "INPUT" && target.type === "file") {
+    if (target.tagName === 'INPUT' && target.type === 'file') {
       return false;
     }
-    if (target === this.refs.self || this.refs.self.contains(target))
+    if (target === this.self.current || this.self.current.contains(target)) {
       return false;
+    }
     return true;
   };
 
-  handleGlobalMousedown = event => {
+  handleGlobalMousedown = (event) => {
     if (
       this.props.closeOnClickOutside &&
       this.state.isOpen &&
       this.shouldClickDismiss(event)
     ) {
-      if (typeof this.props.onClose === "function") {
+      if (typeof this.props.onClose === 'function') {
         this.props.onClose();
       }
     }
   };
 
   componentWillUnmount() {
-    document.removeEventListener("keyup", this.handleGlobalKeydown);
-    document.removeEventListener("mousedown", this.handleGlobalMousedown);
+    document.removeEventListener('keyup', this.handleGlobalKeydown);
+    document.removeEventListener('mousedown', this.handleGlobalMousedown);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.state.isOpen !== newProps.isOpen) {
-      this.setState({ isOpen: newProps.isOpen });
+  static getDerivedStateFromProps(props, state) {
+    if (state.isOpen !== props.isOpen) {
+      return { isOpen: props.isOpen };
     }
+    return null;
   }
 
   close = () => {
@@ -92,15 +95,15 @@ export default class Modal extends Component {
     return (
       <div
         id={id}
-        className={classNames("modal", !this.state.isOpen && "hide")}
+        className={classNames('modal', !this.state.isOpen && 'hide')}
       >
-        <div className="modal-content" ref="self">
+        <div className="modal-content" ref={this.self}>
           <div className="modal-header">
             <span className="close" onClick={this.close}>
               <span />
               <span />
             </span>
-            {typeof titleElement !== "undefined" ? (
+            {typeof titleElement !== 'undefined' ? (
               titleElement
             ) : (
               <h3>{title}</h3>
