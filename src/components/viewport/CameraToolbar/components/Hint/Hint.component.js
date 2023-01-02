@@ -1,8 +1,8 @@
-import "./Hint.styl";
+import './Hint.styl';
 
-import React, { Component } from "react";
+import { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 /**
  * Hint component.
@@ -13,10 +13,10 @@ import PropTypes from "prop-types";
  */
 class Hint extends Component {
   componentDidMount() {
-    const hintElement = document.getElementById(this.props.tab.concat("Tab"));
+    const hintElement = document.getElementById(this.props.tab.concat('Tab'));
 
     hintElement.setAttribute(
-      "style",
+      'style',
       `left: calc(50% - ${hintElement.clientWidth / 2}px)`
     );
   }
@@ -25,7 +25,7 @@ class Hint extends Component {
     const { hint, tab } = this.props;
 
     return (
-      <div id={tab.concat("Tab")} className="wrapper">
+      <div id={tab.concat('Tab')} className="wrapper">
         <span>{hint}</span>
       </div>
     );

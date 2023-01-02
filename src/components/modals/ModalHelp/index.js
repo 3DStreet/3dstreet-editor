@@ -1,1 +1,1 @@
-export { ModalHelp } from "./ModalHelp.component.jsx";
+export { ModalHelp } from './ModalHelp.component.jsx';

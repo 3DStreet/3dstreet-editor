@@ -1,1 +1,1 @@
-export { CameraToolbar } from "./CameraToolbar.component";
+export { CameraToolbar } from './CameraToolbar.component';

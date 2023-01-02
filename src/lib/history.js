@@ -1,13 +1,13 @@
-const Events = require('./Events');
+import Events from './Events';
 
-const updates = {};
+export const updates = {};
 
 /**
  * Store change to export.
  *
  * payload: entity, component, property, value.
  */
-Events.on('entityupdate', payload => {
+Events.on('entityupdate', (payload) => {
   let value = payload.value;
 
   const entity = payload.entity;
@@ -28,7 +28,3 @@ Events.on('entityupdate', payload => {
     }
   }
 });
-
-module.exports = {
-  updates: updates
-};

@@ -1,6 +1,6 @@
 import './SavingModal.styles.styl';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 /**
  * SavingModal component.

@@ -1,24 +1,21 @@
-/* global VERSION BUILD_TIMESTAMP COMMIT_HASH webFont */
-require('../vendor/ga');
+import '../vendor/ga';
 
-var Events = require('./lib/Events');
-var Viewport = require('./lib/viewport');
-var AssetsLoader = require('./lib/assetsLoader');
-var Shortcuts = require('./lib/shortcuts');
+import { createRoot } from 'react-dom/client';
+import Events from './lib/Events';
+import { Viewport } from './lib/viewport';
+import { AssetsLoader } from './lib/assetsLoader';
+import { Shortcuts } from './lib/shortcuts';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
 import Main from './components/Main';
 import { initCameras } from './lib/cameras';
-import { injectCSS, injectJS } from './lib/utils';
 import { createEntity } from './lib/entity';
-import { GLTFExporter } from '../vendor/GLTFExporter'; // eslint-disable-line no-unused-vars
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 
-require('./style/index.styl');
+import './style/index.styl';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
-  this.exporters = { gltf: new THREE.GLTFExporter() };
+  this.exporters = { gltf: new GLTFExporter() };
   this.history = require('./lib/history');
   this.isFirstOpen = true;
   this.modules = {};
@@ -47,7 +44,7 @@ function Inspector() {
 }
 
 Inspector.prototype = {
-  init: function() {
+  init: function () {
     // Wait for camera.
     if (!this.sceneEl.camera) {
       this.sceneEl.addEventListener(
@@ -65,7 +62,7 @@ Inspector.prototype = {
     this.initUI();
   },
 
-  initUI: function() {
+  initUI: function () {
     Shortcuts.init(this);
     this.initEvents();
 
@@ -76,7 +73,8 @@ Inspector.prototype = {
     div.id = 'aframeInspector';
     div.setAttribute('data-aframe-inspector', 'app');
     document.body.appendChild(div);
-    ReactDOM.render(<Main />, div);
+    const root = createRoot(div);
+    root.render(<Main />);
 
     this.scene = this.sceneEl.object3D;
     this.helpers = {};
@@ -88,7 +86,7 @@ Inspector.prototype = {
     this.viewport = new Viewport(this);
     Events.emit('windowresize');
 
-    this.sceneEl.object3D.traverse(node => {
+    this.sceneEl.object3D.traverse((node) => {
       this.addHelper(node);
     });
 
@@ -96,20 +94,14 @@ Inspector.prototype = {
     this.open();
   },
 
-  removeObject: function(object) {
+  removeObject: function (object) {
     // Remove just the helper as the object will be deleted by A-Frame
     this.removeHelpers(object);
     Events.emit('objectremove', object);
   },
 
-  addHelper: (function() {
-    const geometry = new THREE.SphereBufferGeometry(2, 4, 2);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
-      visible: false
-    });
-
-    return function(object) {
+  addHelper: (function () {
+    return function (object) {
       let helper;
 
       if (object instanceof THREE.Camera) {
@@ -132,12 +124,15 @@ Inspector.prototype = {
       helper.visible = false;
       this.sceneHelpers.add(helper);
       this.helpers[object.uuid] = helper;
-      helper.update();
+      // SkeletonHelper doesn't have an update method
+      if (helper.update) {
+        helper.update();
+      }
     };
   })(),
 
-  removeHelpers: function(object) {
-    object.traverse(node => {
+  removeHelpers: function (object) {
+    object.traverse((node) => {
       const helper = this.helpers[node.uuid];
       if (helper) {
         this.sceneHelpers.remove(helper);
@@ -147,7 +142,7 @@ Inspector.prototype = {
     });
   },
 
-  selectEntity: function(entity, emit) {
+  selectEntity: function (entity, emit) {
     this.selectedEntity = entity;
     if (entity) {
       this.select(entity.object3D);
@@ -167,44 +162,46 @@ Inspector.prototype = {
     if (entity === this.sceneEl) {
       return;
     }
-    entity.object3D.traverse(node => {
+    entity.object3D.traverse((node) => {
       if (this.helpers[node.uuid]) {
         this.helpers[node.uuid].visible = true;
       }
     });
   },
 
-  initEvents: function() {
-    window.addEventListener('keydown', evt => {
+  initEvents: function () {
+    window.addEventListener('keydown', (evt) => {
       // Alt + Ctrl + i: Shorcut to toggle the inspector
-      var shortcutPressed = evt.keyCode === 73 && evt.ctrlKey && evt.altKey;
+      var shortcutPressed =
+        evt.keyCode === 73 &&
+        ((evt.ctrlKey && evt.altKey) || evt.getModifierState('AltGraph'));
       if (shortcutPressed) {
         this.toggle();
       }
     });
 
-    Events.on('entityselect', entity => {
+    Events.on('entityselect', (entity) => {
       this.selectEntity(entity, false);
     });
 
-    Events.on('inspectortoggle', active => {
+    Events.on('inspectortoggle', (active) => {
       this.inspectorActive = active;
       this.sceneHelpers.visible = this.inspectorActive;
     });
 
-    Events.on('entitycreate', definition => {
-      createEntity(definition, entity => {
+    Events.on('entitycreate', (definition) => {
+      createEntity(definition, (entity) => {
         this.selectEntity(entity);
       });
     });
 
-    document.addEventListener('child-detached', event => {
+    document.addEventListener('child-detached', (event) => {
       var entity = event.detail.el;
       AFRAME.INSPECTOR.removeObject(entity.object3D);
     });
   },
 
-  selectById: function(id) {
+  selectById: function (id) {
     if (id === this.camera.id) {
       this.select(this.camera);
       return;
@@ -215,7 +212,7 @@ Inspector.prototype = {
   /**
    * Change to select object.
    */
-  select: function(object3D) {
+  select: function (object3D) {
     if (this.selected === object3D) {
       return;
     }
@@ -223,14 +220,14 @@ Inspector.prototype = {
     Events.emit('objectselect', object3D);
   },
 
-  deselect: function() {
+  deselect: function () {
     this.select(null);
   },
 
   /**
    * Toggle the editor
    */
-  toggle: function() {
+  toggle: function () {
     if (this.opened) {
       this.close();
     } else {
@@ -241,7 +238,7 @@ Inspector.prototype = {
   /**
    * Open the editor UI
    */
-  open: function(focusEl) {
+  open: function (focusEl) {
     this.opened = true;
     Events.emit('inspectortoggle', true);
 
@@ -283,7 +280,7 @@ Inspector.prototype = {
    * Closes the editor and gives the control back to the scene
    * @return {[type]} [description]
    */
-  close: function() {
+  close: function () {
     this.opened = false;
     Events.emit('inspectortoggle', false);
 
@@ -303,4 +300,4 @@ Inspector.prototype = {
   }
 };
 
-const inspector = (AFRAME.INSPECTOR = new Inspector());
+AFRAME.INSPECTOR = new Inspector();
