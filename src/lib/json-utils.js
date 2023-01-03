@@ -49,14 +49,12 @@ function getAttributes (entity) {
     for (const componentName in entityComponents) {
       const modifiedProperty = getModifiedProperty(entity, componentName);
       if (modifiedProperty && !isEmpty(modifiedProperty)) {
-        console.log(componentName, modifiedProperty)
         const propValue = (
           typeof modifiedProperty == 'string' || 
           typeof modifiedProperty == 'number'
           ) ? 
           modifiedProperty :
           toPropString(modifiedProperty);
-        console.log(propValue);
         elemObj['components'][componentName] = propValue;
       }
     }
