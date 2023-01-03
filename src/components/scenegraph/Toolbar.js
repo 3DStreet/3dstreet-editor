@@ -50,7 +50,7 @@ export default class Toolbar extends Component {
     new Promise((resolve) => {
       const sceneElem = AFRAME.scenes[0];
       sceneElem.components.screenshot.capture('perspective');
-      setTimeout(() => resolve(), 1000);
+      setTimeout(() => resolve(), 2000);
     }).then(() => {
       component &&
         component.setState((prevState) => ({
