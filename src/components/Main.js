@@ -1,8 +1,9 @@
-import { Component } from 'react';
-import Events from '../lib/Events';
+import { Button, HelpButton, ZoomButtons } from './components';
+
 import { CameraToolbar } from './viewport';
+import { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
-import { HelpButton } from './components';
+import Events from '../lib/Events';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
@@ -158,6 +159,16 @@ export default class Main extends Component {
 
     return (
       <div>
+        <a
+          className={classNames(
+            'toggle-edit',
+            isEditor ? 'logo-editor' : 'logo-viewer'
+          )}
+          onClick={this.toggleEdit}
+        >
+          <Button className={'logo-img'}>{logoText}</Button>
+        </a>
+
         {this.renderSceneGraphToggle()}
         {this.renderComponentsToggle()}
 
@@ -170,9 +181,7 @@ export default class Main extends Component {
               )}
               onClick={this.toggleEdit}
             >
-              <div className="logo-img" alt="3DStreet">
-                {logoText}
-              </div>
+              <Button className={'logo-img'}>{logoText}</Button>
             </a>
             <SceneGraph
               scene={scene}
@@ -207,6 +216,12 @@ export default class Main extends Component {
         {this.state.inspectorEnabled && (
           <div id="help">
             <HelpButton />
+          </div>
+        )}
+
+        {this.state.inspectorEnabled && (
+          <div id={'zoom-buttons'}>
+            <ZoomButtons />
           </div>
         )}
       </div>

@@ -1,17 +1,15 @@
 import '../vendor/ga';
-
-import { createRoot } from 'react-dom/client';
-import Events from './lib/Events';
-import { Viewport } from './lib/viewport';
-import { AssetsLoader } from './lib/assetsLoader';
-import { Shortcuts } from './lib/shortcuts';
-
-import Main from './components/Main';
-import { initCameras } from './lib/cameras';
-import { createEntity } from './lib/entity';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-
 import './style/index.styl';
+
+import { AssetsLoader } from './lib/assetsLoader';
+import Events from './lib/Events';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import Main from './components/Main';
+import { Shortcuts } from './lib/shortcuts';
+import { Viewport } from './lib/viewport';
+import { createEntity } from './lib/entity';
+import { createRoot } from 'react-dom/client';
+import { initCameras } from './lib/cameras';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
@@ -300,4 +298,6 @@ Inspector.prototype = {
   }
 };
 
-AFRAME.INSPECTOR = new Inspector();
+const inspector = (AFRAME.INSPECTOR = new Inspector());
+
+export { inspector };
