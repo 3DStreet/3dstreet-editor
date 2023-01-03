@@ -1,7 +1,7 @@
 import './ModalHelp.styles.styl';
 
 import { EssentialActions, Shortcuts } from './components/index.js';
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import Modal from '../Modal.jsx';
 import PropTypes from 'prop-types';
@@ -28,8 +28,8 @@ class ModalHelp extends Component {
     selectedTab: 'essentialActions'
   };
 
-  handleChangeTab = tab =>
-    this.setState(prevState => ({
+  handleChangeTab = (tab) =>
+    this.setState((prevState) => ({
       ...prevState,
       selectedTab: tab
     }));
@@ -39,9 +39,10 @@ class ModalHelp extends Component {
 
     return (
       <Modal
+        className={'helpModalWrapper'}
         titleElement={
           <Tabs
-            tabs={tabs.map(tab => ({
+            tabs={tabs.map((tab) => ({
               ...tab,
               isSelected: this.state.selectedTab === tab.value,
               onClick: () => this.handleChangeTab(tab.value)

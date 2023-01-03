@@ -1,1 +1,1 @@
-export { Hint } from "./Hint.component";
+export { Hint } from './Hint.component';

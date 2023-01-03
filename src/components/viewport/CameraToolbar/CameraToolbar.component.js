@@ -1,42 +1,42 @@
-import "./CameraToolbar.styl";
+import './CameraToolbar.styl';
 
-import React, { Component } from "react";
+import { Component } from 'react';
 
-import Events from "../../../lib/Events.js";
-import { Hint } from "./components";
-import classNames from "classnames";
+import Events from '../../../lib/Events.js';
+import { Hint } from './components';
+import classNames from 'classnames';
 
 const options = [
   {
-    value: "perspective",
-    event: "cameraperspectivetoggle",
+    value: 'perspective',
+    event: 'cameraperspectivetoggle',
     payload: null,
-    label: "3D View",
-    hint: "3D perspective camera with click and drag rotation"
+    label: '3D View',
+    hint: '3D perspective camera with click and drag rotation'
   },
   // { value: 'ortholeft', event: 'cameraorthographictoggle', payload: 'left', label: 'Left View' },
   // { value: 'orthoright', event: 'cameraorthographictoggle', payload: 'right', label: 'Right View' },
   {
-    value: "orthotop",
-    event: "cameraorthographictoggle",
-    payload: "top",
-    label: "Plan View",
-    hint: "Down facing orthographic camera"
+    value: 'orthotop',
+    event: 'cameraorthographictoggle',
+    payload: 'top',
+    label: 'Plan View',
+    hint: 'Down facing orthographic camera'
   },
   // { value: 'orthobottom', event: 'cameraorthographictoggle', payload: 'bottom', label: 'Bottom View' },
   // { value: 'orthoback', event: 'cameraorthographictoggle', payload: 'back', label: 'Back View' },
   {
-    value: "orthofront",
-    event: "cameraorthographictoggle",
-    payload: "front",
-    label: "Cross Section",
-    hint: "Front facing orthographic camera"
+    value: 'orthofront',
+    event: 'cameraorthographictoggle',
+    payload: 'front',
+    label: 'Cross Section',
+    hint: 'Front facing orthographic camera'
   }
 ];
 
 class CameraToolbar extends Component {
   state = {
-    selectedCamera: "orthotop",
+    selectedCamera: 'orthotop',
     areChangesEmitted: false
   };
 
@@ -61,7 +61,7 @@ class CameraToolbar extends Component {
       this.handleCameraChange(selectedOption);
     }
 
-    Events.on("cameratoggle", data =>
+    Events.on('cameratoggle', (data) =>
       this.setState({ selectedCamera: data.value })
     );
   };
@@ -76,13 +76,13 @@ class CameraToolbar extends Component {
       open: this.state.menuIsOpen
     });
     return (
-      <div id={"cameraToolbar"} className={className}>
+      <div id={'cameraToolbar'} className={className}>
         {options.map(({ label, value, event, payload, hint }) => (
           <button
             className={classNames(
-              this.state.selectedCamera === value && "selectedCamera"
+              this.state.selectedCamera === value && 'selectedCamera'
             )}
-            type={"button"}
+            type={'button'}
             onClick={() => this.handleCameraChange({ value, event, payload })}
             key={value}
           >

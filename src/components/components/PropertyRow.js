@@ -1,7 +1,8 @@
+/* eslint-disable no-prototype-builtins */
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 import Events from '../../lib/Events';
 
 import BooleanWidget from '../widgets/BooleanWidget';
@@ -18,7 +19,16 @@ import { updateEntity } from '../../lib/entity';
 export default class PropertyRow extends React.Component {
   static propTypes = {
     componentname: PropTypes.string.isRequired,
+    data: PropTypes.oneOfType([
+      PropTypes.array.isRequired,
+      PropTypes.bool.isRequired,
+      PropTypes.number.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.string.isRequired
+    ]),
+    entity: PropTypes.object.isRequired,
     id: PropTypes.string,
+    isSingle: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired
   };
@@ -32,7 +42,7 @@ export default class PropertyRow extends React.Component {
     ) {
       Events.on(
         'entitytransformed',
-        debounce(entity => {
+        debounce((entity) => {
           if (entity === props.entity) {
             this.forceUpdate();
           }
@@ -46,7 +56,11 @@ export default class PropertyRow extends React.Component {
     const isMap =
       props.componentname === 'material' &&
       (props.name === 'envMap' || props.name === 'src');
-    const type = props.schema.type;
+    let type = props.schema.type;
+    if (props.componentname === 'animation' && props.name === 'loop') {
+      // fix wrong number type for animation loop property
+      type = 'boolean';
+    }
 
     const value =
       props.schema.type === 'selector'
@@ -59,7 +73,7 @@ export default class PropertyRow extends React.Component {
       isSingle: props.isSingle,
       name: props.name,
       // Wrap updateEntity for tracking.
-      onChange: function(name, value) {
+      onChange: function (name, value) {
         var propertyName = props.componentname;
         if (!props.isSingle) {
           propertyName += '.' + props.name;
@@ -120,7 +134,7 @@ export default class PropertyRow extends React.Component {
     const title =
       props.name + '\n - type: ' + props.schema.type + '\n - value: ' + value;
 
-    const className = classnames({
+    const className = classNames({
       propertyRow: true,
       propertyRowDefined: props.isSingle
         ? !!props.entity.getDOMAttribute(props.componentname)

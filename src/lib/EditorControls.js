@@ -1,4 +1,4 @@
-import debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 
 THREE.Box3.prototype.expandByObject = (function() {
   // Computes the world-axis-aligned bounding box of an object (including its children),
@@ -355,8 +355,9 @@ THREE.EditorControls = function(_object, domElement) {
       var closest = touches[0];
 
       for (var i in touches) {
-        if (closest.distanceTo(touch) > touches[i].distanceTo(touch))
+        if (closest.distanceTo(touch) > touches[i].distanceTo(touch)) {
           closest = touches[i];
+        }
       }
 
       return closest;
@@ -415,25 +416,18 @@ THREE.EditorControls = function(_object, domElement) {
   };
   const zoomOutStop = () => clearInterval(zoomOutInterval);
 
-  document
-    .getElementById('zoomInButton')
-    .addEventListener('pointerdown', zoomInStart);
-  document
-    .getElementById('zoomInButton')
-    .addEventListener('pointerup', zoomInStop);
-  document
-    .getElementById('zoomInButton')
-    .addEventListener('pointerleave', zoomInStop);
+  setTimeout(() => {
+    const zoomInButton = document.getElementById('zoomInButton');
+    const zoomOutButton = document.getElementById('zoomOutButton');
 
-  document
-    .getElementById('zoomOutButton')
-    .addEventListener('pointerdown', zoomOutStart);
-  document
-    .getElementById('zoomOutButton')
-    .addEventListener('pointerup', zoomOutStop);
-  document
-    .getElementById('zoomOutButton')
-    .addEventListener('pointerleave', zoomOutStop);
+    zoomInButton.addEventListener('pointerdown', zoomInStart);
+    zoomInButton.addEventListener('pointerup', zoomInStop);
+    zoomInButton.addEventListener('pointerleave', zoomInStop);
+
+    zoomOutButton.addEventListener('pointerdown', zoomOutStart);
+    zoomOutButton.addEventListener('pointerup', zoomOutStop);
+    zoomOutButton.addEventListener('pointerleave', zoomOutStop);
+  }, 0);
 };
 
 THREE.EditorControls.prototype = Object.create(THREE.EventDispatcher.prototype);

@@ -1,25 +1,19 @@
-/* global VERSION BUILD_TIMESTAMP COMMIT_HASH webFont */
-require('../vendor/ga');
+import '../vendor/ga';
+import './style/index.styl';
 
-var Events = require('./lib/Events');
-var Viewport = require('./lib/viewport');
-var AssetsLoader = require('./lib/assetsLoader');
-var Shortcuts = require('./lib/shortcuts');
-
-import { injectCSS, injectJS } from './lib/utils';
-
-import { GLTFExporter } from '../vendor/GLTFExporter'; // eslint-disable-line no-unused-vars
+import { AssetsLoader } from './lib/assetsLoader';
+import Events from './lib/Events';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import Main from './components/Main';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { Shortcuts } from './lib/shortcuts';
+import { Viewport } from './lib/viewport';
 import { createEntity } from './lib/entity';
+import { createRoot } from 'react-dom/client';
 import { initCameras } from './lib/cameras';
-
-require('./style/index.styl');
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
-  this.exporters = { gltf: new THREE.GLTFExporter() };
+  this.exporters = { gltf: new GLTFExporter() };
   this.history = require('./lib/history');
   this.isFirstOpen = true;
   this.modules = {};
@@ -77,7 +71,8 @@ Inspector.prototype = {
     div.id = 'aframeInspector';
     div.setAttribute('data-aframe-inspector', 'app');
     document.body.appendChild(div);
-    ReactDOM.render(<Main />, div);
+    const root = createRoot(div);
+    root.render(<Main />);
 
     this.scene = this.sceneEl.object3D;
     this.helpers = {};
@@ -104,12 +99,6 @@ Inspector.prototype = {
   },
 
   addHelper: (function() {
-    const geometry = new THREE.SphereBufferGeometry(2, 4, 2);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
-      visible: false
-    });
-
     return function(object) {
       let helper;
 
@@ -133,7 +122,10 @@ Inspector.prototype = {
       helper.visible = false;
       this.sceneHelpers.add(helper);
       this.helpers[object.uuid] = helper;
-      helper.update();
+      // SkeletonHelper doesn't have an update method
+      if (helper.update) {
+        helper.update();
+      }
     };
   })(),
 
@@ -178,7 +170,9 @@ Inspector.prototype = {
   initEvents: function() {
     window.addEventListener('keydown', evt => {
       // Alt + Ctrl + i: Shorcut to toggle the inspector
-      var shortcutPressed = evt.keyCode === 73 && evt.ctrlKey && evt.altKey;
+      var shortcutPressed =
+        evt.keyCode === 73 &&
+        ((evt.ctrlKey && evt.altKey) || evt.getModifierState('AltGraph'));
       if (shortcutPressed) {
         this.toggle();
       }

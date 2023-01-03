@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons/index.jsx';
 
+import { Button } from '../components';
+import { Component } from 'react';
 import Events from '../../lib/Events.js';
 import { saveBlob } from '../../lib/utils';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
 function filterHelpers(scene, visible) {
-  scene.traverse(o => {
+  scene.traverse((o) => {
     if (o.userData.source === 'INSPECTOR') {
       o.visible = visible;
     }
@@ -27,8 +29,8 @@ function slugify(text) {
     .toString()
     .toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w\-]+/g, '-') // Replace all non-word chars with -
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/[^\w-]+/g, '-') // Replace all non-word chars with -
+    .replace(/--+/g, '-') // Replace multiple - with single -
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
 }
@@ -51,16 +53,21 @@ export default class Toolbar extends Component {
   // }
 
   exportSceneToGLTF() {
-    ga('send', 'event', 'SceneGraph', 'exportGLTF');
+    if (typeof ga !== 'undefined') {
+      ga('send', 'event', 'SceneGraph', 'exportGLTF');
+    }
     const sceneName = getSceneName(AFRAME.scenes[0]);
     const scene = AFRAME.scenes[0].object3D;
     filterHelpers(scene, false);
     AFRAME.INSPECTOR.exporters.gltf.parse(
       scene,
-      function(buffer) {
+      function (buffer) {
         filterHelpers(scene, true);
         const blob = new Blob([buffer], { type: 'application/octet-stream' });
         saveBlob(blob, sceneName + '.glb');
+      },
+      function (error) {
+        console.error(error);
       },
       { binary: true }
     );
@@ -88,24 +95,24 @@ export default class Toolbar extends Component {
   toggleScenePlaying = () => {
     if (this.state.isPlaying) {
       AFRAME.scenes[0].pause();
-      this.setState(prevState => ({ ...prevState, isPlaying: false }));
+      this.setState((prevState) => ({ ...prevState, isPlaying: false }));
       AFRAME.scenes[0].isPlaying = true;
       document.getElementById('aframeInspectorMouseCursor').play();
       return;
     }
     AFRAME.scenes[0].isPlaying = false;
     AFRAME.scenes[0].play();
-    this.setState(prevState => ({ ...prevState, isPlaying: true }));
+    this.setState((prevState) => ({ ...prevState, isPlaying: true }));
   };
 
   toggleSaveActionState = () =>
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       isSaveActionActive: !this.state.isSaveActionActive
     }));
 
   render() {
-    // const watcherClassNames = classnames({
+    // const watcherClassNames = classNames({
     //   button: true,
     //   fa: true,
     //   'fa-save': true
@@ -131,34 +138,37 @@ export default class Toolbar extends Component {
           /> */}
 
           {!this.state.isSaveActionActive ? (
-            <button
-              className={'gltfIcon'}
-              type={'button'}
-              onClick={this.toggleSaveActionState.bind(this)}
-            >
-              <div />
-              <span>Save</span>
-            </button>
+            <Button onClick={this.toggleSaveActionState.bind(this)}>
+              <div
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
+              >
+                <Save24Icon />
+              </div>
+              Save
+            </Button>
           ) : (
             <div className={'saveActions'}>
-              <button type={'button'} onClick={this.exportSceneToGLTF}>
-                glTF 3D Model
-              </button>
-              <button type={'button'} onClick={this.makeScreenshot}>
-                PNG Screenshot
-              </button>
-              <button
-                type={'button'}
+              <Button onClick={this.exportSceneToGLTF}>glTF 3D Model</Button>
+              <Button onClick={this.makeScreenshot}>PNG Screenshot</Button>
+              <Button
                 className={'closeButton'}
                 onClick={this.toggleSaveActionState.bind(this)}
               >
-                <span />
-                <span />
-              </button>
+                <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                  <Cross32Icon />
+                </div>
+              </Button>
             </div>
           )}
           {!this.state.isSaveActionActive && (
-            <button className={'cameraButton'} onClick={this.makeScreenshot} />
+            <Button onClick={this.makeScreenshot} className={'cameraButton'}>
+              <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                <Camera32Icon />
+              </div>
+            </Button>
           )}
           {/* not is use */}
           {/* <button
@@ -171,6 +181,13 @@ export default class Toolbar extends Component {
 
           {/* not in use */}
           {/* <a
+            className="gltfIcon"
+            title="Export to GLTF"
+            onClick={this.exportSceneToGLTF}
+          >
+            <img src={GLTFIcon} />
+          </a>
+          <a
             className={watcherClassNames}
             title={watcherTitle}
             onClick={this.writeChanges}

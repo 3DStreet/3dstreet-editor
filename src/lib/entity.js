@@ -1,7 +1,6 @@
-import React from 'react';
-var Events = require('../lib/Events.js');
-
-import { equal } from '../lib/utils.js';
+/* eslint-disable react/no-danger */
+import Events from './Events';
+import { equal } from './utils';
 
 /**
  * Update a component.
@@ -129,7 +128,7 @@ export function cloneEntity(entity) {
   entity.flushToDOM();
 
   const clone = entity.cloneNode(true);
-  clone.addEventListener('loaded', function(e) {
+  clone.addEventListener('loaded', function () {
     AFRAME.INSPECTOR.selectEntity(clone);
     Events.emit('entityclone');
   });
@@ -197,7 +196,7 @@ function optimizeComponents(copy, source) {
   var removeAttribute = HTMLElement.prototype.removeAttribute;
   var setAttribute = HTMLElement.prototype.setAttribute;
   var components = source.components || {};
-  Object.keys(components).forEach(function(name) {
+  Object.keys(components).forEach(function (name) {
     var component = components[name];
     var result = getImplicitValue(component, source);
     var isInherited = result[1];
@@ -238,7 +237,7 @@ function stringifyComponentValue(schema, data) {
 
   function _multi() {
     var propertyBag = {};
-    Object.keys(data).forEach(function(name) {
+    Object.keys(data).forEach(function (name) {
       if (schema[name]) {
         propertyBag[name] = schema[name].stringify(data[name]);
       }
@@ -284,7 +283,7 @@ function getImplicitValue(component, source) {
   function _multi() {
     var value;
 
-    Object.keys(component.schema).forEach(function(propertyName) {
+    Object.keys(component.schema).forEach(function (propertyName) {
       var propertyValue = getFromAttribute(component, propertyName, source);
       if (propertyValue === undefined) {
         propertyValue = getMixedValue(component, propertyName, source);
@@ -365,6 +364,7 @@ function getMixedValue(component, propertyName, source) {
   var reversedMixins = source.mixinEls.reverse();
   for (var i = 0; value === undefined && i < reversedMixins.length; i++) {
     var mixin = reversedMixins[i];
+    /* eslint-disable-next-line no-prototype-builtins */
     if (mixin.attributes.hasOwnProperty(component.name)) {
       if (!propertyName) {
         value = mixin.getAttribute(component.name);
@@ -394,6 +394,7 @@ function getInjectedValue(component, propertyName, source) {
   var defaultSources = [primitiveDefaults, aFrameDefaults];
   for (var i = 0; value === undefined && i < defaultSources.length; i++) {
     var defaults = defaultSources[i];
+    /* eslint-disable-next-line no-prototype-builtins */
     if (defaults.hasOwnProperty(component.name)) {
       if (!propertyName) {
         value = defaults[component.name];
@@ -442,7 +443,7 @@ function getOptimalUpdate(component, implicit, reference) {
     return reference;
   }
   var optimal = {};
-  Object.keys(reference).forEach(function(key) {
+  Object.keys(reference).forEach(function (key) {
     var needsUpdate = !equal(reference[key], implicit[key]);
     if (needsUpdate) {
       optimal[key] = reference[key];
@@ -517,10 +518,6 @@ export function getComponentClipboardRepresentation(entity, componentName) {
     .stringify(diff)
     .replace(/;|:/g, '$& ');
   return `${componentName}="${attributes}"`;
-}
-
-function isEmpty(string) {
-  return string === null || string === '';
 }
 
 /**
