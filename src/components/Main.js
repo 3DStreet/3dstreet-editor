@@ -1,6 +1,7 @@
 import { Button, HelpButton, ZoomButtons } from './components';
 
 import { CameraToolbar } from './viewport';
+import { Compass32Icon } from '../icons';
 import { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
 import Events from '../lib/Events';
@@ -34,7 +35,7 @@ export default class Main extends Component {
       }
     };
 
-    Events.on('togglesidebar', event => {
+    Events.on('togglesidebar', (event) => {
       if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
@@ -52,14 +53,14 @@ export default class Main extends Component {
           });
         }
       } else if (event.which === 'attributes') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
             ...prevState.visible,
             attributes: !prevState.visible.attributes
           }
         }));
       } else if (event.which === 'scenegraph') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
             ...prevState.visible,
             scenegraph: !prevState.visible.scenegraph
@@ -72,7 +73,7 @@ export default class Main extends Component {
   componentDidMount() {
     Events.on(
       'opentexturesmodal',
-      function(selectedTexture, textureOnClose) {
+      function (selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
           isModalTexturesOpen: true,
@@ -81,11 +82,11 @@ export default class Main extends Component {
       }.bind(this)
     );
 
-    Events.on('entityselect', entity => {
+    Events.on('entityselect', (entity) => {
       this.setState({ entity: entity });
     });
 
-    Events.on('inspectortoggle', enabled => {
+    Events.on('inspectortoggle', (enabled) => {
       this.setState({ inspectorEnabled: enabled });
     });
 
@@ -94,11 +95,11 @@ export default class Main extends Component {
     });
   }
 
-  onCloseHelpModal = value => {
+  onCloseHelpModal = (value) => {
     this.setState({ isHelpOpen: false });
   };
 
-  onModalTextureOnClose = value => {
+  onModalTextureOnClose = (value) => {
     this.setState({ isModalTexturesOpen: false });
     if (this.state.textureOnClose) {
       this.state.textureOnClose(value);
@@ -217,38 +218,9 @@ export default class Main extends Component {
         )}
 
         {this.state.inspectorEnabled && (
-          <button
-            onClick={() => {
-              // Events.emit('cameraorthographictoggle', 'top', { reset: true });
-              Events.emit('resetCameraViewport');
-            }}
-            tabIndex={0}
-            type={'button'}
-            className={'resetViewportButton'}
-          >
-            <svg
-              width="33"
-              height="33"
-              viewBox="0 0 33 33"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11.167 21.8334L13.8337 13.8334L21.8337 11.1667L19.167 19.1667L11.167 21.8334Z"
-                stroke="#DBDBDB"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.5 28.5C23.1274 28.5 28.5 23.1274 28.5 16.5C28.5 9.87258 23.1274 4.5 16.5 4.5C9.87258 4.5 4.5 9.87258 4.5 16.5C4.5 23.1274 9.87258 28.5 16.5 28.5Z"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <Button id={'resetZoomButton'}>
+            <Compass32Icon />
+          </Button>
         )}
       </div>
     );

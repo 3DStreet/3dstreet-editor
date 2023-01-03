@@ -1,4 +1,4 @@
-import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons/index.jsx';
+import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons';
 
 import { Button } from '../components';
 import { Component } from 'react';

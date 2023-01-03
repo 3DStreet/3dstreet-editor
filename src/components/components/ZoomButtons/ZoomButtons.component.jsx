@@ -1,5 +1,6 @@
 import './ZoomButton.styles.styl';
 
+import { Button } from '../Button';
 import { Component } from 'react';
 
 /**
@@ -12,15 +13,17 @@ class ZoomButtons extends Component {
   render() {
     return (
       <div className={'wrapper'} id={'zoomButtons'}>
-        <button
+        <Button
           id={'zoomInButton'}
           className={'btn plus-button'}
           type={'button'}
+          variant={'primary'}
         />
-        <button
+        <Button
           id={'zoomOutButton'}
           className={'btn minus-button'}
           type={'button'}
+          variant={'primary'}
         />
       </div>
     );
