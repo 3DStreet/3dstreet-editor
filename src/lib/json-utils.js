@@ -49,32 +49,29 @@ function getAttributes (entity) {
     for (const componentName in entityComponents) {
       const modifiedProperty = getModifiedProperty(entity, componentName);
       if (modifiedProperty && !isEmpty(modifiedProperty)) {
-        const propValue = (
-          typeof modifiedProperty == 'string' || 
-          typeof modifiedProperty == 'number'
-          ) ? 
-          modifiedProperty :
-          toPropString(modifiedProperty);
-        elemObj['components'][componentName] = propValue;
+        elemObj['components'][componentName] = toPropString(modifiedProperty);
       }
     }
   }
   return elemObj;
 }
 
-function toPropString(obj) {
-  if (obj.isVector3 || obj.isVector2 || obj.isVector4 || 
-    obj.hasOwnProperty('x') && obj.hasOwnProperty('y')) {
-    return AFRAME.utils.coordinates.stringify(obj);
+function toPropString(propData) {
+  if (typeof propData == 'string' || typeof propData == 'number') {
+    return propData;
+  }
+  if (propData.isVector3 || propData.isVector2 || propData.isVector4 || 
+    propData.hasOwnProperty('x') && propData.hasOwnProperty('y')) {
+    return AFRAME.utils.coordinates.stringify(propData);
   } else {
-    return Object.entries(obj).map(
+    return Object.entries(propData).map(
       ([key, value]) => {
         if (typeof value == 'string' || typeof value == 'number' || typeof value == 'boolean') {
           return `${key}: ${(value).toString()}`;
         } else if (key == 'src') {
           return `${key}: #${value.id}`;
         } else {
-          return `${key}: ${toPropString(value, obj)}`;
+          return `${key}: ${toPropString(value)}`;
         }
       }
     ).join("; ");
