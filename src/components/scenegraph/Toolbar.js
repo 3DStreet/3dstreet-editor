@@ -48,8 +48,8 @@ export default class Toolbar extends Component {
     const data = convertDOMElToObject(entity);
 
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(data)
-      //filterJSONstreet(removeProps, renameProps, data)
+      //JSON.stringify(data)
+      filterJSONstreet(removeProps, renameProps, data)
     )}`;
 
     const link = document.createElement('a');

@@ -43,19 +43,45 @@ function getAttributes (entity) {
   }
 
   const entityComponents = entity.components;
-  //const entityComponents = entity.getAttributeNames();
 
   if (entityComponents) {
     elemObj['components'] = {};
     for (const componentName in entityComponents) {
       const modifiedProperty = getModifiedProperty(entity, componentName);
       if (modifiedProperty && !isEmpty(modifiedProperty)) {
-        elemObj['components'][componentName] = modifiedProperty;
+        console.log(componentName, modifiedProperty)
+        const propValue = (
+          typeof modifiedProperty == 'string' || 
+          typeof modifiedProperty == 'number'
+          ) ? 
+          modifiedProperty :
+          toPropString(modifiedProperty);
+        console.log(propValue);
+        elemObj['components'][componentName] = propValue;
       }
     }
   }
   return elemObj;
 }
+
+function toPropString(obj) {
+  if (obj.isVector3 || obj.isVector2 || obj.isVector4 || 
+    obj.hasOwnProperty('x') && obj.hasOwnProperty('y')) {
+    return AFRAME.utils.coordinates.stringify(obj);
+  } else {
+    return Object.entries(obj).map(
+      ([key, value]) => {
+        if (typeof value == 'string' || typeof value == 'number' || typeof value == 'boolean') {
+          return `${key}: ${(value).toString()}`;
+        } else if (key == 'src') {
+          return `${key}: #${value.id}`;
+        } else {
+          return `${key}: ${toPropString(value, obj)}`;
+        }
+      }
+    ).join("; ");
+  }
+} 
 
 function isSingleProperty (schema) {
   return AFRAME.schema.isSingleProperty(schema);
@@ -129,13 +155,17 @@ function filterJSONstreet (removeProps, renameProps, streetJSON) {
 
 function getModifiedProperty (entity, componentName) {
   //const data = entity.components[componentName].data;
-  const data = entity.getAttribute(componentName);
+  const data = AFRAME.utils.entity.getComponentProperty(entity, componentName);
 
   // if it is element's attribute
-/*  if (!entity.components[componentName]) {
-    return data;
+  if (!entity.components[componentName]) {
+    if (!['id', 'class', 'tag', 'mixin'].includes(componentName)) {
+      return data;
+    } else {
+      return null;
+    }
   }
-*/
+
   const defaultData = entity.components[componentName].schema;
 
   // If its single-property like position, rotation, etc
@@ -181,13 +211,10 @@ Add a new entity with a list of components and children (if exists)
  * @return {Element} Entity created
 */
 function createEntityFromObj (entityData, parentEl) {
-  //check if element already exists in parent (its a bug in inspector?)
-  if (entityData.class && parentEl.querySelector(`.${entityData.class.join(" ")}`)) {
-    return;
-  }
+
   const entity = document.createElement(entityData.element);
 
-  // load default attributes
+  // load attributes
   for (const attr in entityData.components) {
     entity.setAttribute(attr, entityData.components[attr]);
   }
@@ -199,18 +226,8 @@ function createEntityFromObj (entityData, parentEl) {
     entity.classList.add(...entityData.class);
   }
 
-  if (entityData.components['mixin']) {
-    entity.setAttribute('mixin', entityData.components['mixin']);
-  }
-
   if (parentEl) {
     parentEl.appendChild(entity);
-  }
-
-  if (entityData.children) {
-    for (const childEntityData of entityData.children) {
-      createEntityFromObj(childEntityData, entity);
-    }
   }
 
   // Ensure the components are loaded before update the UI
@@ -218,4 +235,9 @@ function createEntityFromObj (entityData, parentEl) {
     entity.emit('entitycreated', {}, false);
   });
 
+  if (entityData.children) {
+    for (const childEntityData of entityData.children) {
+      createEntityFromObj(childEntityData, entity);
+    }
+  }
 }
