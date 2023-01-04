@@ -34,7 +34,7 @@ export default class Main extends Component {
       }
     };
 
-    Events.on('togglesidebar', event => {
+    Events.on('togglesidebar', (event) => {
       if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
@@ -52,14 +52,14 @@ export default class Main extends Component {
           });
         }
       } else if (event.which === 'attributes') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
             ...prevState.visible,
             attributes: !prevState.visible.attributes
           }
         }));
       } else if (event.which === 'scenegraph') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
             ...prevState.visible,
             scenegraph: !prevState.visible.scenegraph
@@ -72,7 +72,7 @@ export default class Main extends Component {
   componentDidMount() {
     Events.on(
       'opentexturesmodal',
-      function(selectedTexture, textureOnClose) {
+      function (selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
           isModalTexturesOpen: true,
@@ -81,11 +81,11 @@ export default class Main extends Component {
       }.bind(this)
     );
 
-    Events.on('entityselect', entity => {
+    Events.on('entityselect', (entity) => {
       this.setState({ entity: entity });
     });
 
-    Events.on('inspectortoggle', enabled => {
+    Events.on('inspectortoggle', (enabled) => {
       this.setState({ inspectorEnabled: enabled });
     });
 
@@ -94,11 +94,11 @@ export default class Main extends Component {
     });
   }
 
-  onCloseHelpModal = value => {
+  onCloseHelpModal = (value) => {
     this.setState({ isHelpOpen: false });
   };
 
-  onModalTextureOnClose = value => {
+  onModalTextureOnClose = (value) => {
     this.setState({ isModalTexturesOpen: false });
     if (this.state.textureOnClose) {
       this.state.textureOnClose(value);
@@ -174,6 +174,15 @@ export default class Main extends Component {
 
         {isEditor && (
           <div id="inspectorContainer">
+            <a
+              className={classNames(
+                'toggle-edit',
+                isEditor ? 'logo-editor' : 'logo-viewer'
+              )}
+              onClick={this.toggleEdit}
+            >
+              <Button className={'logo-img'}>{logoText}</Button>
+            </a>
             <SceneGraph
               scene={scene}
               selectedEntity={this.state.entity}
