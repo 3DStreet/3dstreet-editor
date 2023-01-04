@@ -57,24 +57,27 @@ function getAttributes (entity) {
 }
 
 function toPropString(propData) {
-  if (typeof propData == 'string' || typeof propData == 'number') {
-    return propData;
+  if (typeof propData == 'string' || typeof propData == 'number' || typeof propData == 'boolean') {
+    return (propData).toString();
   }
   if (propData.isVector3 || propData.isVector2 || propData.isVector4 || 
     propData.hasOwnProperty('x') && propData.hasOwnProperty('y')) {
     return AFRAME.utils.coordinates.stringify(propData);
-  } else {
+  }
+  if (typeof propData == 'object') {
     return Object.entries(propData).map(
-      ([key, value]) => {
-        if (typeof value == 'string' || typeof value == 'number' || typeof value == 'boolean') {
-          return `${key}: ${(value).toString()}`;
-        } else if (key == 'src') {
-          return `${key}: #${value.id}`;
-        } else {
-          return `${key}: ${toPropString(value)}`;
+        ([key, value]) => {
+          if (key == 'src') {
+            if (value.id) {
+              return `${key}: #${value.id}`;
+            } else {
+              return `${key}: ${value}`;
+            }
+          } else {
+            return `${key}: ${toPropString(value)}`;
+          }
         }
-      }
-    ).join("; ");
+      ).join("; ");
   }
 } 
 
