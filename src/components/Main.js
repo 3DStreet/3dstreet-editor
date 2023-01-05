@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import { Button, HelpButton, ZoomButtons } from './components';
 
 import { CameraToolbar } from './viewport';
+import { Compass32Icon } from '../icons';
+import { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
+import Events from '../lib/Events';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
+import classNames from 'classnames';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
-import classNames from 'classnames';
-import { HelpButton } from './components';
 
 THREE.ImageUtils.crossOrigin = '';
-
-const Events = require('../lib/Events.js');
 
 // Megahack to include font-awesome.
 injectCSS(
@@ -35,7 +35,7 @@ export default class Main extends Component {
       }
     };
 
-    Events.on('togglesidebar', event => {
+    Events.on('togglesidebar', (event) => {
       if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
           this.setState({
@@ -53,27 +53,27 @@ export default class Main extends Component {
           });
         }
       } else if (event.which === 'attributes') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
+            ...prevState.visible,
             attributes: !prevState.visible.attributes
           }
         }));
       } else if (event.which === 'scenegraph') {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           visible: {
+            ...prevState.visible,
             scenegraph: !prevState.visible.scenegraph
           }
         }));
       }
-
-      this.forceUpdate();
     });
   }
 
   componentDidMount() {
     Events.on(
       'opentexturesmodal',
-      function(selectedTexture, textureOnClose) {
+      function (selectedTexture, textureOnClose) {
         this.setState({
           selectedTexture: selectedTexture,
           isModalTexturesOpen: true,
@@ -82,11 +82,11 @@ export default class Main extends Component {
       }.bind(this)
     );
 
-    Events.on('entityselect', entity => {
+    Events.on('entityselect', (entity) => {
       this.setState({ entity: entity });
     });
 
-    Events.on('inspectortoggle', enabled => {
+    Events.on('inspectortoggle', (enabled) => {
       this.setState({ inspectorEnabled: enabled });
     });
 
@@ -94,11 +94,12 @@ export default class Main extends Component {
       this.setState({ isHelpOpen: true });
     });
   }
-  onCloseHelpModal = value => {
+
+  onCloseHelpModal = (value) => {
     this.setState({ isHelpOpen: false });
   };
 
-  onModalTextureOnClose = value => {
+  onModalTextureOnClose = (value) => {
     this.setState({ isModalTexturesOpen: false });
     if (this.state.textureOnClose) {
       this.state.textureOnClose(value);
@@ -114,15 +115,18 @@ export default class Main extends Component {
   };
 
   renderComponentsToggle() {
-    if (!this.state.entity || this.state.visible.attributes) {
+    if (
+      !this.state.inspectorEnabled ||
+      !this.state.entity ||
+      this.state.visible.attributes
+    ) {
       return null;
     }
     return (
       <div className="toggle-sidebar right">
         <a
           onClick={() => {
-            this.setState({ visible: { attributes: true } });
-            this.forceUpdate();
+            Events.emit('togglesidebar', { which: 'attributes' });
           }}
           className="fa fa-plus"
           title="Show components"
@@ -132,15 +136,14 @@ export default class Main extends Component {
   }
 
   renderSceneGraphToggle() {
-    if (this.state.visible.scenegraph) {
+    if (!this.state.inspectorEnabled || this.state.visible.scenegraph) {
       return null;
     }
     return (
       <div className="toggle-sidebar left">
         <a
           onClick={() => {
-            this.setState({ visible: { scenegraph: true } });
-            this.forceUpdate();
+            Events.emit('togglesidebar', { which: 'scenegraph' });
           }}
           className="fa fa-plus"
           title="Show scenegraph"
@@ -164,9 +167,7 @@ export default class Main extends Component {
           )}
           onClick={this.toggleEdit}
         >
-          <div className="logo-img" alt="3DStreet">
-            {logoText}
-          </div>
+          <Button className={'logo-img'}>{logoText}</Button>
         </a>
 
         {this.renderSceneGraphToggle()}
@@ -174,6 +175,15 @@ export default class Main extends Component {
 
         {isEditor && (
           <div id="inspectorContainer">
+            <a
+              className={classNames(
+                'toggle-edit',
+                isEditor ? 'logo-editor' : 'logo-viewer'
+              )}
+              onClick={this.toggleEdit}
+            >
+              <Button className={'logo-img'}>{logoText}</Button>
+            </a>
             <SceneGraph
               scene={scene}
               selectedEntity={this.state.entity}
@@ -199,7 +209,6 @@ export default class Main extends Component {
           onClose={this.onCloseHelpModal}
         />
         <ModalTextures
-          ref="modaltextures"
           isOpen={this.state.isModalTexturesOpen}
           selectedTexture={this.state.selectedTexture}
           onClose={this.onModalTextureOnClose}
@@ -209,6 +218,18 @@ export default class Main extends Component {
           <div id="help">
             <HelpButton />
           </div>
+        )}
+
+        {this.state.inspectorEnabled && (
+          <div id={'zoom-buttons'}>
+            <ZoomButtons />
+          </div>
+        )}
+
+        {this.state.inspectorEnabled && (
+          <Button id={'resetZoomButton'}>
+            <Compass32Icon />
+          </Button>
         )}
       </div>
     );

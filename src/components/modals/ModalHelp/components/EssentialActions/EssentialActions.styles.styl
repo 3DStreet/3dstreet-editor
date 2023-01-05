@@ -1,15 +1,16 @@
 .essentialActionsWrapper
     display: flex
-    flex-direction: column
-    row-gap: 2.75rem
-    width: calc(100% - 208px)
-    padding: 78px 104px 
+    flex-flow: row wrap
+    row-gap: 2.5rem
+    column-gap: 2rem
+    width: 100%
+    max-width: 698px
 
-    .row 
-        display: grid
-        grid-template-columns: 50% 50%
-        column-gap: 3.75rem
-        width: 100%
+    .action 
+        display: flex
+        flex-direction: column
+        row-gap: 20px
+        width: calc(50% - 1rem)
 
         h3, p 
             margin 0 !important
@@ -17,18 +18,18 @@
         .text 
             display: flex
             flex-direction: column
-            row-gap: 0.4375rem
+            row-gap: 12px
             width: 100%
 
             h3.actionTitle 
-                font-size: 1.25rem
-                line-height 1.5rem
-                font-weight: 400
+                font-size: 1rem
+                line-height 1.1875rem
+                font-weight: 600
 
             p.actionDescription
-                font-size: 1rem
-                line-height 1.2rem
-                font-weight: 400
+                font-size: 0.75rem
+                line-height 0.9rem
+                font-weight: 500
 
         .icons
             display: flex
@@ -39,6 +40,7 @@
             .itemsRow
                 display: flex
                 column-gap: 0.75rem
+                row-gap: 0.75rem
                 align-items: center
                 width: 100%
 

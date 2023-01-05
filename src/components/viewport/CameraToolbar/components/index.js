@@ -1,1 +1,1 @@
-export { Hint } from "./Hint";
+export { Hint } from './Hint';

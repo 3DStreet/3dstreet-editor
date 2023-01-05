@@ -1,6 +1,6 @@
-var React = require('react');
-var Events = require('../../lib/Events.js');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
+import Events from '../../lib/Events';
 
 var TransformButtons = [
   { value: 'translate', icon: 'fa-arrows-alt' },
@@ -18,7 +18,7 @@ export default class TransformToolbar extends React.Component {
   }
 
   componentDidMount() {
-    Events.on('transformmodechange', mode => {
+    Events.on('transformmodechange', (mode) => {
       this.setState({ selectedTransform: mode });
     });
 
@@ -31,13 +31,15 @@ export default class TransformToolbar extends React.Component {
     });
   }
 
-  changeTransformMode = mode => {
+  changeTransformMode = (mode) => {
     this.setState({ selectedTransform: mode });
     Events.emit('transformmodechange', mode);
-    ga('send', 'event', 'Toolbar', 'selectHelper', mode);
+    if (typeof ga !== 'undefined') {
+      ga('send', 'event', 'Toolbar', 'selectHelper', mode);
+    }
   };
 
-  onLocalChange = e => {
+  onLocalChange = (e) => {
     const local = e.target.checked;
     this.setState({ localSpace: local });
     Events.emit('transformspacechanged', local ? 'local' : 'world');
@@ -45,7 +47,7 @@ export default class TransformToolbar extends React.Component {
 
   renderTransformButtons = () => {
     return TransformButtons.map(
-      function(option, i) {
+      function (option, i) {
         var selected = option.value === this.state.selectedTransform;
         var classes = classNames({
           button: true,

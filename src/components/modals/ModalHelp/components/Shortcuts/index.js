@@ -1,1 +1,1 @@
-export { Shortcuts } from "./Shortcuts.component.jsx";
+export { Shortcuts } from './Shortcuts.component.jsx';

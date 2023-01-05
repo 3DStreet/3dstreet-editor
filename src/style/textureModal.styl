@@ -8,7 +8,7 @@
   position fixed
   top 0
   width 100%
-  z-index 9999999999
+  z-index 9
 
 .modal h3
   font-size 18px
@@ -20,6 +20,9 @@
   width calc(100% - 50px)
 
 .modal-content
+  display: flex
+  flex-direction: column
+  row-gap: 30px
   animation animatetop 0.2s ease-out
   animation-duration 0.2s
   animation-name animatetop
@@ -29,6 +32,8 @@
   overflow hidden
   padding 0
   border-radius 12px
+  height: fit-content
+  max-height: calc(100vh - 195px)
 
 .close
   display: flex
@@ -63,8 +68,12 @@
   padding 2px 75px
 
 .modal-body
-  overflow auto
-  padding 30px 40px 40px 40px
+  display: flex
+  height: 100%
+  max-height: calc(100% - 140px)
+  overflow: hidden
+  padding 0px 40px
+  margin-bottom: 40px
 
 .modal-footer
   color white

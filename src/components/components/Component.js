@@ -1,4 +1,3 @@
-/* global AFRAME */
 import React from 'react';
 import PropTypes from 'prop-types';
 import PropertyRow from './PropertyRow';
@@ -32,17 +31,19 @@ export default class Component extends React.Component {
     var clipboard = new Clipboard(
       '[data-action="copy-component-to-clipboard"]',
       {
-        text: trigger => {
+        text: (trigger) => {
           var componentName = trigger
             .getAttribute('data-component')
             .toLowerCase();
-          ga(
-            'send',
-            'event',
-            'Components',
-            'copyComponentToClipboard',
-            componentName
-          );
+          if (typeof ga !== 'undefined') {
+            ga(
+              'send',
+              'event',
+              'Components',
+              'copyComponentToClipboard',
+              componentName
+            );
+          }
           return getComponentClipboardRepresentation(
             this.state.entity,
             componentName
@@ -50,12 +51,12 @@ export default class Component extends React.Component {
         }
       }
     );
-    clipboard.on('error', e => {
+    clipboard.on('error', (e) => {
       // @todo Show the error in the UI
       console.error(e);
     });
 
-    Events.on('entityupdate', detail => {
+    Events.on('entityupdate', (detail) => {
       if (detail.entity !== this.props.entity) {
         return;
       }
@@ -65,16 +66,17 @@ export default class Component extends React.Component {
     });
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.state.entity !== newProps.entity) {
-      this.setState({ entity: newProps.entity });
+  static getDerivedStateFromProps(props, state) {
+    if (state.entity !== props.entity) {
+      return { entity: props.entity };
     }
-    if (this.state.name !== newProps.name) {
-      this.setState({ name: newProps.name });
+    if (state.name !== props.name) {
+      return { name: props.name };
     }
+    return null;
   }
 
-  removeComponent = event => {
+  removeComponent = (event) => {
     var componentName = this.props.name;
     event.stopPropagation();
     if (
@@ -85,7 +87,9 @@ export default class Component extends React.Component {
         entity: this.props.entity,
         component: componentName
       });
-      ga('send', 'event', 'Components', 'removeComponent', componentName);
+      if (typeof ga !== 'undefined') {
+        ga('send', 'event', 'Components', 'removeComponent', componentName);
+      }
     }
   };
 
@@ -113,7 +117,7 @@ export default class Component extends React.Component {
 
     return Object.keys(componentData.schema)
       .sort()
-      .map(propertyName => (
+      .map((propertyName) => (
         <PropertyRow
           key={propertyName}
           name={propertyName}
@@ -139,7 +143,8 @@ export default class Component extends React.Component {
         <div className="componentHeader collapsible-header">
           <span
             className="componentTitle"
-            title={subComponentName || componentName}>
+            title={subComponentName || componentName}
+          >
             <span>{subComponentName || componentName}</span>
           </span>
           <div className="componentHeaderActions">
@@ -148,7 +153,6 @@ export default class Component extends React.Component {
               data-action="copy-component-to-clipboard"
               data-component={subComponentName || componentName}
               className="button fa fa-clipboard"
-              href="#"
             />
             <a
               title="Remove component"

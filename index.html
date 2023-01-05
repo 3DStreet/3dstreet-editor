@@ -24,7 +24,7 @@
     <script src="./src/lib/json-utils.js"></script>
     
     <!-- ocean -->
-    <script src="./src/components/ocean-plane.js"></script>
+    <script src="https://github.3dstreet.org/src/components/ocean-plane.js"></script>
 
     <title>3DStreet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +56,7 @@
       renderer="colorManagement: true; physicallyCorrectLights: true;"
       gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/"
       inspector="url: ./dist/3dstreet-editor.js"
+      timed-inspector="2"
       >
       <a-assets>
         <!-- you can specify a custom asset path using below syntax  -->
@@ -119,10 +120,14 @@
       sceneEl.components.inspector.openInspector();
       document.querySelector('.viewer-header-wrapper').style.display = 'none';
     }
-    // uncomment the below to autostart the editor within 2 seconds of page load
-    setTimeout(() => {
-      startEditor();
-    }, "2000")
+
+    AFRAME.registerComponent('timed-inspector', {
+      init: function() {
+        setTimeout( function () {
+          window.postMessage('INJECT_AFRAME_INSPECTOR')
+        }, this.data * 1000)
+      }
+    });    
 
     function inputStreetmix() {
       streetmixURL = prompt("Please enter a Streetmix URL", "https://streetmix.net/kfarr/3/example-street");

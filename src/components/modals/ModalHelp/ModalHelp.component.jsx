@@ -1,19 +1,20 @@
-import React, { Component } from "react";
+import './ModalHelp.styles.styl';
 
-import Modal from "../Modal.jsx";
-import PropTypes from "prop-types";
-import { Tabs } from "../../components";
-import "./ModalHelp.styles.styl";
-import { EssentialActions, Shortcuts } from "./components/index.js";
+import { EssentialActions, Shortcuts } from './components/index.js';
+import { Component } from 'react';
+
+import Modal from '../Modal.jsx';
+import PropTypes from 'prop-types';
+import { Tabs } from '../../components';
 
 const tabs = [
   {
-    label: "Essential Actions",
-    value: "essentialActions"
+    label: 'Essential Actions',
+    value: 'essentialActions'
   },
   {
-    label: "Keyboard Shortcuts",
-    value: "shortcuts"
+    label: 'Keyboard Shortcuts',
+    value: 'shortcuts'
   }
 ];
 
@@ -24,11 +25,11 @@ class ModalHelp extends Component {
   };
 
   state = {
-    selectedTab: "essentialActions"
+    selectedTab: 'essentialActions'
   };
 
-  handleChangeTab = tab =>
-    this.setState(prevState => ({
+  handleChangeTab = (tab) =>
+    this.setState((prevState) => ({
       ...prevState,
       selectedTab: tab
     }));
@@ -38,20 +39,22 @@ class ModalHelp extends Component {
 
     return (
       <Modal
+        className={'helpModalWrapper'}
         titleElement={
           <Tabs
-            tabs={tabs.map(tab => ({
+            tabs={tabs.map((tab) => ({
               ...tab,
               isSelected: this.state.selectedTab === tab.value,
               onClick: () => this.handleChangeTab(tab.value)
             }))}
+            selectedTabClassName={'selectedTab'}
           />
         }
         isOpen={isOpen}
         onClose={onClose}
         extraCloseKeyCode={72}
       >
-        {this.state.selectedTab === "shortcuts" ? (
+        {this.state.selectedTab === 'shortcuts' ? (
           <Shortcuts />
         ) : (
           <EssentialActions />

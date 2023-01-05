@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class ColorWidget extends React.Component {
@@ -39,11 +39,11 @@ export default class ColorWidget extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.value !== this.state.value) {
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
       this.setState({
-        value: newProps.value,
-        pickerValue: this.getHexString(newProps.value)
+        value: this.props.value,
+        pickerValue: this.getHexString(this.props.value)
       });
     }
   }
@@ -52,17 +52,17 @@ export default class ColorWidget extends React.Component {
     return '#' + this.color.set(value).getHexString();
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setValue(e.target.value);
   };
 
-  onKeyUp = e => {
+  onKeyUp = (e) => {
     e.stopPropagation();
     // if (e.keyCode === 13)
     this.setValue(e.target.value);
   };
 
-  onChangeText = e => {
+  onChangeText = (e) => {
     this.setState({ value: e.target.value });
   };
 
