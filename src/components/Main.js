@@ -175,6 +175,15 @@ export default class Main extends Component {
 
         {isEditor && (
           <div id="inspectorContainer">
+            <a
+              className={classNames(
+                'toggle-edit',
+                isEditor ? 'logo-editor' : 'logo-viewer'
+              )}
+              onClick={this.toggleEdit}
+            >
+              <Button className={'logo-img'}>{logoText}</Button>
+            </a>
             <SceneGraph
               scene={scene}
               selectedEntity={this.state.entity}

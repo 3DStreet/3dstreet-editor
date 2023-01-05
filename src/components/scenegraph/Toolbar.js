@@ -2,7 +2,8 @@ import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons';
 
 import { Button } from '../components';
 import { Component } from 'react';
-import Events from '../../lib/Events.js';
+import Events from '../../lib/Events';
+import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
@@ -41,12 +42,27 @@ function slugify(text) {
 export default class Toolbar extends Component {
   state = {
     // isPlaying: false,
-    isSaveActionActive: false
+    isSaveActionActive: false,
+    isCapturingScreen: false
   };
 
-  makeScreenshot() {
-    const sceneElem = AFRAME.scenes[0];
-    sceneElem.components.screenshot.capture('perspective');
+  makeScreenshot = (component) =>
+    new Promise((resolve) => {
+      const sceneElem = AFRAME.scenes[0];
+      sceneElem.components.screenshot.capture('perspective');
+      setTimeout(() => resolve(), 2000);
+    }).then(() => {
+      component &&
+        component.setState((prevState) => ({
+          ...prevState,
+          isCapturingScreen: false
+        }));
+    });
+
+  componentDidUpdate() {
+    if (this.state.isCapturingScreen) {
+      this.makeScreenshot(this);
+    }
   }
   // openViewMode() {
   //   AFRAME.INSPECTOR.close();
@@ -152,7 +168,16 @@ export default class Toolbar extends Component {
           ) : (
             <div className={'saveActions'}>
               <Button onClick={this.exportSceneToGLTF}>glTF 3D Model</Button>
-              <Button onClick={this.makeScreenshot}>PNG Screenshot</Button>
+              <Button
+                onClick={() =>
+                  this.setState((prevState) => ({
+                    ...prevState,
+                    isCapturingScreen: true
+                  }))
+                }
+              >
+                PNG Screenshot
+              </Button>
               <Button
                 className={'closeButton'}
                 onClick={this.toggleSaveActionState.bind(this)}
@@ -164,7 +189,15 @@ export default class Toolbar extends Component {
             </div>
           )}
           {!this.state.isSaveActionActive && (
-            <Button onClick={this.makeScreenshot} className={'cameraButton'}>
+            <Button
+              onClick={() =>
+                this.setState((prevState) => ({
+                  ...prevState,
+                  isCapturingScreen: true
+                }))
+              }
+              className={'cameraButton'}
+            >
               <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
                 <Camera32Icon />
               </div>
@@ -192,6 +225,8 @@ export default class Toolbar extends Component {
             title={watcherTitle}
             onClick={this.writeChanges}
           /> */}
+
+          {this.state.isCapturingScreen && <SavingModal />}
         </div>
       </div>
     );

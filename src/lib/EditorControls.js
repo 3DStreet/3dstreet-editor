@@ -157,6 +157,7 @@ THREE.EditorControls = function (_object, domElement) {
   };
 
   this.zoom = function (delta) {
+
     if (!sessionStorage.getItem('initialZoomObject')) {
       sessionStorage.setItem('initialZoomObject', JSON.stringify(object));
     }
@@ -460,7 +461,7 @@ THREE.EditorControls = function (_object, domElement) {
 
     zoomOutButton.addEventListener('pointerdown', zoomOutStart);
     zoomOutButton.addEventListener('pointerup', zoomOutStop);
-    zoomOutButton.addEventListener('pointerleave', zoomOutStop);
+    zoomOutButton.addEventListener('pointerleave', zoomOutStop)
 
     resetZoomButton.addEventListener('pointerdown', resetZoom);
   }, 1);
