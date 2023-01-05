@@ -1,4 +1,4 @@
-import { Button, HelpButton, ZoomButtons } from './components';
+import { Button, HelpButton, Logo, ZoomButtons } from './components';
 
 import { CameraToolbar } from './viewport';
 import { Compass32Icon } from '../icons';
@@ -9,7 +9,6 @@ import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
 import TransformToolbar from './viewport/TransformToolbar';
-import classNames from 'classnames';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
 
@@ -71,6 +70,12 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
+    const htmlEditorButton = document?.querySelector(
+      '.viewer-logo-start-editor-button'
+    );
+
+    htmlEditorButton && htmlEditorButton.remove();
+
     Events.on(
       'opentexturesmodal',
       function (selectedTexture, textureOnClose) {
@@ -156,34 +161,15 @@ export default class Main extends Component {
     const scene = this.state.sceneEl;
     const isEditor = !!this.state.inspectorEnabled;
 
-    const logoText = isEditor ? 'Enter Viewer mode' : 'Enter Editor mode';
-
     return (
       <div>
-        <a
-          className={classNames(
-            'toggle-edit',
-            isEditor ? 'logo-editor' : 'logo-viewer'
-          )}
-          onClick={this.toggleEdit}
-        >
-          <Button className={'logo-img'}>{logoText}</Button>
-        </a>
+        <Logo onToggleEdit={this.toggleEdit} isEditor={isEditor} />
 
         {this.renderSceneGraphToggle()}
         {this.renderComponentsToggle()}
 
         {isEditor && (
           <div id="inspectorContainer">
-            <a
-              className={classNames(
-                'toggle-edit',
-                isEditor ? 'logo-editor' : 'logo-viewer'
-              )}
-              onClick={this.toggleEdit}
-            >
-              <Button className={'logo-img'}>{logoText}</Button>
-            </a>
             <SceneGraph
               scene={scene}
               selectedEntity={this.state.entity}
