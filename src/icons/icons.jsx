@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Camera32Icon = () => (
   <svg
     width="32"
@@ -75,4 +73,29 @@ const Cross24Icon = () => (
   </svg>
 );
 
-export { Camera32Icon, Save24Icon, Cross32Icon, Cross24Icon };
+const Compass32Icon = () => (
+  <svg
+    width="33"
+    height="33"
+    viewBox="0 0 33 33"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M11.167 21.8334L13.8337 13.8334L21.8337 11.1667L19.167 19.1667L11.167 21.8334Z"
+      stroke="#DBDBDB"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.5 28.5C23.1274 28.5 28.5 23.1274 28.5 16.5C28.5 9.87258 23.1274 4.5 16.5 4.5C9.87258 4.5 4.5 9.87258 4.5 16.5C4.5 23.1274 9.87258 28.5 16.5 28.5Z"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export { Camera32Icon, Save24Icon, Cross32Icon, Cross24Icon, Compass32Icon };

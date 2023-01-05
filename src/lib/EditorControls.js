@@ -157,6 +157,11 @@ THREE.EditorControls = function (_object, domElement) {
   };
 
   this.zoom = function (delta) {
+
+    if (!sessionStorage.getItem('initialZoomObject')) {
+      sessionStorage.setItem('initialZoomObject', JSON.stringify(object));
+    }
+
     var distance = object.position.distanceTo(center);
 
     delta.multiplyScalar(distance * scope.zoomSpeed);
@@ -308,6 +313,10 @@ THREE.EditorControls = function (_object, domElement) {
     document
       .getElementById('zoomOutButton')
       .removeEventListener('pointerleave', zoomOutStop);
+
+    document
+      .getElementById('resetZoomButton')
+      .removeEventListener('pointerdown', resetZoom);
   };
 
   domElement.addEventListener('contextmenu', contextmenu, false);
@@ -416,9 +425,35 @@ THREE.EditorControls = function (_object, domElement) {
   };
   const zoomOutStop = () => clearInterval(zoomOutInterval);
 
+  const resetZoom = () => {
+    const initialObject = JSON.parse(
+      sessionStorage.getItem('initialZoomObject')
+    )?.object;
+
+    if (initialObject) {
+      initialObject.position = new THREE.Vector3().set(0, 10, 0);
+
+      if (this.isOrthographic) {
+        object.left = initialObject.left;
+        object.bottom = initialObject.bottom;
+        object.right = initialObject.right;
+        object.top = initialObject.top;
+        if (object.left >= -0.0001) {
+          return;
+        }
+        object.updateProjectionMatrix();
+      } else {
+        object.position.set(0, 15, 30);
+      }
+
+      scope.dispatchChange();
+    }
+  };
+
   setTimeout(() => {
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
+    const resetZoomButton = document.getElementById('resetZoomButton');
 
     zoomInButton.addEventListener('pointerdown', zoomInStart);
     zoomInButton.addEventListener('pointerup', zoomInStop);
@@ -426,7 +461,9 @@ THREE.EditorControls = function (_object, domElement) {
 
     zoomOutButton.addEventListener('pointerdown', zoomOutStart);
     zoomOutButton.addEventListener('pointerup', zoomOutStop);
-    zoomOutButton.addEventListener('pointerleave', zoomOutStop);
+    zoomOutButton.addEventListener('pointerleave', zoomOutStop)
+
+    resetZoomButton.addEventListener('pointerdown', resetZoom);
   }, 1);
 };
 
