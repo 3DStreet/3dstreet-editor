@@ -1,0 +1,236 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+
+  .label {
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    font-weight: 500;
+    color: #ededed;
+  }
+
+  .disabledLabel {
+    color: #a0a0a0;
+  }
+
+  .inputElementContainer {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    width: 100%;
+    white-space: nowrap;
+    padding: 13px 13px 13px 15px;
+    border: 1px solid #543e79;
+    border-radius: 10px;
+    background-color: rgba(50, 50, 50, 0.8);
+    transition: all 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: #2d2d2d;
+      border-color: #6439ab;
+
+      svg {
+        transition: all 0.3s;
+        fill: #cbcbcb;
+
+        * {
+          transition: all 0.3s;
+          fill: #cbcbcb;
+        }
+      }
+
+      .inputElement {
+        transition: all 0.3s;
+        color: #cbcbcb !important;
+      }
+    }
+
+    &:focus-within {
+      transition: all 0.3s;
+      border-color: #8d56e8;
+      background-color: #2d2d2d;
+
+      svg {
+        transition: all 0.3s;
+        fill: #ffffff;
+
+        * {
+          transition: all 0.3s;
+          fill: #ffffff;
+        }
+      }
+    }
+
+    &:active {
+      transition: all 0.3s;
+      border-color: #543e79;
+      background-color: rgba(50, 50, 50, 0.8);
+
+      svg {
+        transition: all 0.3s;
+        fill: #ffffff;
+
+        * {
+          transition: all 0.3s;
+          fill: #ffffff;
+        }
+      }
+    }
+
+    .iconContainer {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%;
+        transition: all 0.3s;
+
+        fill: #b6b6b6;
+
+        * {
+          transition: all 0.3s;
+          fill: #b6b6b6;
+        }
+      }
+    }
+
+    .subtext {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      line-height: 1.1875rem;
+      font-weight: 400;
+      color: #b6b6b6;
+      transition: all 0.3s;
+    }
+
+    .inputElement {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: unset !important;
+      padding: 0;
+      border: unset !important;
+      outline: unset !important;
+      font-size: 1rem !important;
+      line-height: 1.1875rem !important;
+      font-weight: 400 !important;
+      color: #b6b6b6 !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      transition: all 0.3s;
+
+      &:focus,
+      &:active {
+        outline: unset;
+        transition: all 0.3s;
+        color: #ffffff !important;
+      }
+
+      &:disabled {
+        transition: all 0.3s;
+        color: #636363 !important;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .disabledInputContainer {
+    transition: all 0.3s;
+    border-color: #382a50;
+    background-color: rgba(50, 50, 50, 0.8);
+
+    &:hover,
+    &:focus,
+    &:active {
+      transition: all 0.3s;
+      cursor: not-allowed;
+      border-color: #382a50;
+      background-color: rgba(50, 50, 50, 0.8);
+    }
+
+    svg {
+      transition: all 0.3s;
+      fill: #636363;
+
+      * {
+        transition: all 0.3s;
+        fill: #636363;
+      }
+    }
+
+    .subtext {
+      transition: all 0.3s;
+      color: #636363;
+    }
+  }
+
+  .erroredInputContainer {
+    transition: all 0.3s;
+    border-color: #f2164b;
+    background-color: #2d2d2d;
+
+    svg {
+      transition: all 0.3s;
+      fill: #ffffff;
+
+      * {
+        transition: all 0.3s;
+        fill: #ffffff;
+      }
+    }
+
+    .inputElement {
+      transition: all 0.3s;
+      color: #ffffff;
+    }
+  }
+
+  .successInputContainer {
+    transition: all 0.3s;
+    border-color: #0eaf00;
+    background-color: #2d2d2d;
+
+    svg {
+      transition: all 0.3s;
+      fill: #ffffff;
+
+      * {
+        transition: all 0.3s;
+        fill: #ffffff;
+      }
+    }
+
+    .inputElement {
+      transition: all 0.3s;
+      color: #ffffff;
+    }
+  }
+
+  .errorMessage,
+  .successMessage {
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    font-weight: 500;
+  }
+
+  .errorMessage {
+    color: #f2164b;
+  }
+
+  .successMessage {
+    color: #0eaf00;
+  }
+}
