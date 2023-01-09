@@ -1,26 +1,13 @@
-import './Button.styles.styl';
-
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import styles from './Button.module.scss';
 
-const getVariant = (variant) => {
-  switch (variant) {
-    case 'filled':
-      return 'filledButton';
-
-    case 'outlined':
-      return 'outlinedButton';
-
-    case 'ghost':
-      return 'ghostButton';
-
-    case 'toolbtn':
-      return 'toolButton';
-
-    default:
-      return 'filledButton';
-  }
+const variants = {
+  filled: styles.filledButton,
+  outlined: styles.outlinedButton,
+  ghost: styles.ghostButton,
+  toolbtn: styles.toolButton
 };
 
 /**
@@ -54,8 +41,8 @@ class Button extends Component {
     return (
       <button
         className={classNames(
-          'buttonWrapper',
-          variant && getVariant(variant),
+          styles.buttonWrapper,
+          variants[variant],
           className
         )}
         onClick={onClick}
