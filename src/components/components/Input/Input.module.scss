@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
     column-gap: 0.5rem;
-    width: 100%;
+    width: calc(100% - 30px);
     white-space: nowrap;
     padding: 13px 13px 13px 15px;
     border: 1px solid #543e79;

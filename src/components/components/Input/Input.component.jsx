@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types';
+import { bool, func, node, string } from 'prop-types';
+
 import classnames from 'classnames';
 import styles from './Input.module.scss';
 import { useRef } from 'react';
@@ -11,6 +12,21 @@ const id = v4();
  *
  * @author Oleksii Medvediev
  * @category Components
+ * @param {{
+ *  className?: string;
+ *  type?: string;
+ *  onChange: (value: string) => void;
+ *  leadingIcon?: Element;
+ *  leadingSubtext?: string;
+ *  tailingIcon?: Element;
+ *  tailingSubtext?: string;
+ *  label?: string;
+ *  inputId?: string;
+ *  placeholder?: string;
+ *  errorMessage?: string;
+ *  successMessage?: string;
+ *  disabled?: boolean;
+ * }} props
  */
 const Input = ({
   className,
@@ -67,7 +83,7 @@ const Input = ({
         <input
           ref={inputElement}
           type={type === 'number' ? 'number' : type}
-          onChange={onChange}
+          onChange={(event) => onChange(event.currentTarget.value)}
           id={inputId}
           placeholder={placeholder}
           className={styles.inputElement}
@@ -91,19 +107,19 @@ const Input = ({
 };
 
 Input.propTypes = {
-  className: PropTypes.string,
-  type: PropTypes.string,
-  onChange: PropTypes.func,
-  leadingIcon: PropTypes.node,
-  tailingIcon: PropTypes.node,
-  leadingSubtext: PropTypes.string,
-  tailingSubtext: PropTypes.string,
-  label: PropTypes.string,
-  inputId: PropTypes.string,
-  placeholder: PropTypes.string,
-  errorMessage: PropTypes.string,
-  successMessage: PropTypes.string,
-  disabled: PropTypes.bool
+  className: string,
+  type: string,
+  onChange: func.isRequired,
+  leadingIcon: node,
+  tailingIcon: node,
+  leadingSubtext: string,
+  tailingSubtext: string,
+  label: string,
+  inputId: string,
+  placeholder: string,
+  errorMessage: string,
+  successMessage: string,
+  disabled: bool
 };
 
 export { Input };

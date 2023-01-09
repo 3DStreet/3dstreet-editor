@@ -3,5 +3,7 @@ export {
   Save24Icon,
   Cross32Icon,
   Cross24Icon,
-  Compass32Icon
+  Compass32Icon,
+  ArrowDown24Icon,
+  ArrowUp24Icon
 } from './icons.jsx';
