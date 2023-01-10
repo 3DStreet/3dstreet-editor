@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  column-gap: 12px;
+  margin: 14px auto 0;
+  background: rgba(55, 55, 55, 0.4);
+  border-radius: 16px;
+  padding: 8px 12px;
+
+  .tabButton {
+    display: block;
+    position: relative;
+    border: unset;
+    outline: unset;
+    background-color: transparent;
+    padding: 8.5px 12px;
+    color: #ffffff;
+    border-radius: 11px;
+    transition: all 0.3s;
+    font-size: 16px;
+    line-height: 19.2px;
+    font-weight: 400;
+    margin: 0;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(50, 50, 50, 0.6);
+      transition: all 0.3s;
+
+      [class*='wrapper'] {
+        visibility: visible;
+        opacity: 1;
+        transition: all 0.3s;
+      }
+    }
+
+    &:active {
+      background-color: #282828;
+      color: #b6b6b6;
+      transition: all 0.3s;
+    }
+  }
+
+  .selectedTab {
+    background-color: #2d2d2d;
+    transition: all 0.3s;
+  }
+}

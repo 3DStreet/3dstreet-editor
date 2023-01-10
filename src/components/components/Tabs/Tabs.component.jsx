@@ -1,53 +1,57 @@
-import './Tabs.styles.styl';
-
-import { Component } from 'react';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 
 import { Hint } from './components';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import styles from './Tabs.module.scss';
 
 /**
  * Tabs component.
  *
  * @author Oleksii Medvediev
  * @category Components.
+ * @param {{
+ *  tabs?: {
+ *    isSelected: boolean;
+ *    onClick: (value: string) => void;
+ *    label: string;
+ *    value: string;
+ *    hint?: string;
+ *  };
+ *  selectedTabClassName: string;
+ * }} props
  */
-class Tabs extends Component {
-  render() {
-    const { tabs, selectedTabClassName } = this.props;
-
-    return (
-      <div id={'tabsWrapper'} className={'tabsWrapper'}>
-        {tabs.map(({ label, value, onClick, isSelected, hint }) => (
-          <button
-            className={classNames(
-              'tabButton',
-              isSelected && (selectedTabClassName || 'selectedTab')
-            )}
-            type={'button'}
-            onClick={onClick}
-            key={value}
-          >
-            {label}
-            {hint && <Hint hint={hint} tab={value} />}
-          </button>
-        ))}
-      </div>
-    );
-  }
-}
+const Tabs = ({ tabs, selectedTabClassName }) => (
+  <div id={'tabsWrapper'} className={styles.wrapper}>
+    {!!tabs?.length &&
+      tabs.map(({ label, value, onClick, isSelected, hint }) => (
+        <button
+          className={classNames(
+            styles.tabButton,
+            isSelected && (selectedTabClassName ?? styles.selectedTab)
+          )}
+          type={'button'}
+          tabIndex={0}
+          onClick={onClick}
+          key={value}
+        >
+          {label}
+          {hint && <Hint hint={hint} tab={value} />}
+        </button>
+      ))}
+  </div>
+);
 
 Tabs.propTypes = {
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      isSelected: PropTypes.bool.isRequired,
-      onClick: PropTypes.func.isRequired,
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      hint: PropTypes.string
+  tabs: arrayOf(
+    shape({
+      isSelected: bool.isRequired,
+      onClick: func.isRequired,
+      label: string.isRequired,
+      value: string.isRequired,
+      hint: string
     })
   ),
-  selectedTabClassName: PropTypes.string
+  selectedTabClassName: string
 };
 
 export { Tabs };

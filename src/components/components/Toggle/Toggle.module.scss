@@ -1,0 +1,144 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 0.75rem;
+  width: fit-content;
+
+  .label {
+    display: flex;
+    font-size: 1rem;
+    line-height: 1.1875rem;
+    font-weight: 400;
+    color: #ffffff;
+    transition: all 0.3s;
+  }
+
+  .disabledLabel {
+    transition: all 0.3s;
+    color: #474747;
+  }
+
+  .toggleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+
+    .toggle {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 20px;
+      border: 1px solid #dbdbdb;
+      border-radius: 10px;
+      box-sizing: border-box;
+
+      .switcher {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto 0;
+        display: flex;
+        width: 13.33px;
+        height: 13.33px;
+        border-radius: 50%;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .activeToggle {
+      background-color: #dbdbdb;
+      transition: all 0.3s;
+
+      .switcher {
+        transform: translateX(22.33px);
+        transition: all 0.3s;
+        background-color: #8941ff;
+      }
+
+      &:hover {
+        transition: all 0.3s;
+        background-color: #ffffff;
+        border-color: #ffffff;
+      }
+
+      &:active {
+        transition: all 0.3s;
+        background-color: #00000020;
+        border-color: #00000020;
+      }
+    }
+
+    .inactiveToggle {
+      background-color: transparent;
+      transition: all 0.3s;
+
+      .switcher {
+        transform: translateX(3.33px);
+        transition: all 0.3s;
+        background-color: #dbdbdb;
+      }
+
+      &:hover {
+        transition: all 0.3s;
+        border-color: #ffffff;
+
+        .switcher {
+          transition: all 0.3s;
+          background-color: #ffffff;
+        }
+      }
+
+      &:active {
+        transition: all 0.3s;
+        border-color: #00000020;
+
+        .switcher {
+          transition: all 0.3s;
+          background-color: #00000020;
+        }
+      }
+    }
+
+    .disabledActiveToggle,
+    .disabledActiveToggle:hover,
+    .disabledActiveToggle:active {
+      transition: all 0.3s;
+      background-color: #474747;
+      border-color: #474747;
+
+      .switcher {
+        transition: all 0.3s;
+        background-color: #2e2e2e;
+      }
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    .disabledInactiveToggle,
+    .disabledInactiveToggle:hover,
+    .disabledInactiveToggle:active {
+      transition: all 0.3s;
+      background-color: transparent;
+      border-color: #474747;
+
+      .switcher {
+        transition: all 0.3s;
+        background-color: #474747;
+      }
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
