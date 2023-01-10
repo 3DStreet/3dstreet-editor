@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { bool, func, node, number, string } from 'prop-types';
+
 import classNames from 'classnames';
 import styles from './Button.module.scss';
 
@@ -15,46 +15,45 @@ const variants = {
  *
  * @author Oleksii Medvediev
  * @category Components
+ * @param {{
+ *  className?: string;
+ *  onClick?: () => void;
+ *  type?: string;
+ *  children?: Element;
+ *  variant?: string;
+ *  disabled?: boolean;
+ *  id?: string | number;
+ * }} props
  */
-class Button extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    onClick: PropTypes.func,
-    type: PropTypes.string,
-    children: PropTypes.node,
-    variant: PropTypes.string,
-    disabled: PropTypes.bool,
-    id: PropTypes.string || PropTypes.number
-  };
+const Button = ({
+  className,
+  onClick,
+  type = 'button',
+  children,
+  variant = 'filled',
+  disabled,
+  id
+}) => (
+  <button
+    className={classNames(styles.buttonWrapper, variants[variant], className)}
+    onClick={onClick}
+    type={type}
+    tabIndex={0}
+    disabled={disabled}
+    id={id}
+  >
+    {children}
+  </button>
+);
 
-  render() {
-    const {
-      className,
-      onClick,
-      type = 'button',
-      children,
-      variant = 'filled',
-      disabled,
-      id
-    } = this.props;
-
-    return (
-      <button
-        className={classNames(
-          styles.buttonWrapper,
-          variants[variant],
-          className
-        )}
-        onClick={onClick}
-        type={type}
-        tabIndex={0}
-        disabled={disabled}
-        id={id}
-      >
-        {children}
-      </button>
-    );
-  }
-}
+Button.propTypes = {
+  className: string,
+  onClick: func,
+  type: string,
+  children: node,
+  variant: string,
+  disabled: bool,
+  id: string || number
+};
 
 export { Button };

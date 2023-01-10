@@ -5,5 +5,6 @@ export {
   Cross24Icon,
   Compass32Icon,
   ArrowDown24Icon,
-  ArrowUp24Icon
+  ArrowUp24Icon,
+  CheckIcon
 } from './icons.jsx';

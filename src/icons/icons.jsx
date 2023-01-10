@@ -134,6 +134,25 @@ const ArrowUp24Icon = () => (
   </svg>
 );
 
+const CheckIcon = (className) => (
+  <svg
+    className={className}
+    width="8"
+    height="7"
+    viewBox="0 0 8 7"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1.25 3.5L3.08333 5.33333L7.08333 1.33333"
+      stroke="#DBDBDB"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   Camera32Icon,
   Save24Icon,
@@ -141,5 +160,6 @@ export {
   Cross24Icon,
   Compass32Icon,
   ArrowDown24Icon,
-  ArrowUp24Icon
+  ArrowUp24Icon,
+  CheckIcon
 };
