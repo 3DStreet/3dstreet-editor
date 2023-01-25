@@ -259,7 +259,7 @@ export default class SceneGraph extends React.Component {
       if (
         (!this.isVisibleInSceneGraph(entityOption.entity) &&
           !this.state.filter) ||
-        !entityOption.entity.attributes.getNamedItem('data-layer-name')
+        entityOption.entity.tagName.toLowerCase() === 'a-scene'
       ) {
         return false;
       } else {
