@@ -6205,6 +6205,18 @@ var Toolbar = /*#__PURE__*/function (_Component) {
       isSaveActionActive: false,
       isCapturingScreen: false
     });
+    _defineProperty(_assertThisInitialized(_this), "convertToObject", function () {
+      var entity = document.getElementById('street-container');
+      var data = convertDOMElToObject(entity);
+      var jsonString = "data:text/json;chatset=utf-8,".concat(encodeURIComponent(
+      //JSON.stringify(data)
+      filterJSONstreet(removeProps, renameProps, data)));
+      var link = document.createElement('a');
+      link.href = jsonString;
+      link.download = 'data.json';
+      link.click();
+      link.remove();
+    });
     _defineProperty(_assertThisInitialized(_this), "makeScreenshot", function (component) {
       return new Promise(function (resolve) {
         var sceneElem = AFRAME.scenes[0];
@@ -6331,14 +6343,8 @@ var Toolbar = /*#__PURE__*/function (_Component) {
               onClick: this.exportSceneToGLTF,
               children: "glTF 3D Model"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-              onClick: function onClick() {
-                return _this2.setState(function (prevState) {
-                  return _objectSpread(_objectSpread({}, prevState), {}, {
-                    isCapturingScreen: true
-                  });
-                });
-              },
-              children: "PNG Screenshot"
+              onClick: this.convertToObject,
+              children: "3DStreet JSON"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
               className: 'closeButton',
               onClick: this.toggleSaveActionState.bind(this),
