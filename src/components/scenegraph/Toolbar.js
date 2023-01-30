@@ -46,6 +46,24 @@ export default class Toolbar extends Component {
     isCapturingScreen: false
   };
 
+  convertToObject = () => {
+    const entity = document.getElementById('street-container');
+
+    const data = convertDOMElToObject(entity);
+
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      //JSON.stringify(data)
+      filterJSONstreet(removeProps, renameProps, data)
+    )}`;
+
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = 'data.json';
+
+    link.click();
+    link.remove();
+  };
+
   makeScreenshot = (component) =>
     new Promise((resolve) => {
       const sceneElem = AFRAME.scenes[0];
@@ -168,16 +186,8 @@ export default class Toolbar extends Component {
           ) : (
             <div className={'saveActions'}>
               <Button onClick={this.exportSceneToGLTF}>glTF 3D Model</Button>
-              <Button
-                onClick={() =>
-                  this.setState((prevState) => ({
-                    ...prevState,
-                    isCapturingScreen: true
-                  }))
-                }
-              >
-                PNG Screenshot
-              </Button>
+              <Button onClick={this.convertToObject}>3DStreet JSON</Button>
+              
               <Button
                 className={'closeButton'}
                 onClick={this.toggleSaveActionState.bind(this)}
