@@ -110,13 +110,14 @@ export default class NumberWidget extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  // todo: while refactoring try to replace for new lifecycle methods or hook
+  UNSAFE_componentWillReceiveProps(newProps) {
     // This will be triggered typically when the element is changed directly with
     // element.setAttribute.
-    if (this.props.value !== prevProps.value) {
+    if (newProps.value !== this.state.value) {
       this.setState({
-        value: this.props.value,
-        displayValue: this.props.value.toFixed(this.props.precision)
+        value: newProps.value,
+        displayValue: newProps.value.toFixed(this.props.precision)
       });
     }
   }
