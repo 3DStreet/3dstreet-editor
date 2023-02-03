@@ -32,7 +32,9 @@ export default class SceneGraph extends React.Component {
       filteredEntities: [],
       selectedIndex: -1,
       leftBarHide: false,
-      initiallyExpandedEntities: []
+      initiallyExpandedEntities: [],
+      secondLvlEntitiesExpanded: true,
+      firstLevelEntities: []
     };
 
     this.rebuildEntityOptions = debounce(
@@ -46,6 +48,7 @@ export default class SceneGraph extends React.Component {
   }
 
   componentDidMount() {
+    this.setFirstLevelEntities();
     this.rebuildEntityOptions();
     Events.on('entityidchange', this.rebuildEntityOptions);
     Events.on('entitycreated', this.rebuildEntityOptions);
@@ -60,6 +63,29 @@ export default class SceneGraph extends React.Component {
       this.selectEntity(this.props.selectedEntity);
     }
   }
+
+  setFirstLevelEntities = () => {
+    for (
+      let i = 0;
+      i < document.querySelector('a-scene').childNodes.length;
+      i++
+    ) {
+      if (
+        document.querySelector('a-scene').childNodes[i].localName ===
+          'a-entity' &&
+        document
+          .querySelector('a-scene')
+          .childNodes[i].hasAttribute('data-layer-show-children')
+      ) {
+        this.setState((prevState) => ({
+          firstLevelEntities: [
+            ...prevState.firstLevelEntities,
+            document.querySelector('a-scene').childNodes[i].id
+          ]
+        }));
+      }
+    }
+  };
 
   selectEntity = (entity) => {
     let found = false;
@@ -194,9 +220,24 @@ export default class SceneGraph extends React.Component {
   isExpanded = (x) => this.state.expandedElements.get(x) === true;
 
   toggleExpandedCollapsed = (x) => {
-    this.setState({
-      expandedElements: this.state.expandedElements.set(x, !this.isExpanded(x))
-    });
+    if (this.state.firstLevelEntities.includes(x.id)) {
+      this.setState({
+        expandedElements: this.state.expandedElements.set(
+          x,
+          !this.isExpanded(x)
+        )
+      });
+    } else {
+      this.setState({
+        secondLvlEntitiesExpanded: !this.state.secondLvlEntitiesExpanded
+      });
+      this.setState({
+        expandedElements: this.state.expandedElements.set(
+          x,
+          this.state.secondLvlEntitiesExpanded
+        )
+      });
+    }
   };
 
   expandToRoot = (x) => {
