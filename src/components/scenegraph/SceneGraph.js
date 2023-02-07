@@ -298,9 +298,8 @@ export default class SceneGraph extends React.Component {
   renderEntities = () => {
     let entityOptions = this.state.filteredEntities.filter((entityOption) => {
       if (
-        (!this.isVisibleInSceneGraph(entityOption.entity) &&
-          !this.state.filter) ||
-        !entityOption.entity.attributes.getNamedItem('data-layer-name')
+        !this.isVisibleInSceneGraph(entityOption.entity) &&
+        !this.state.filter
       ) {
         return false;
       } else {
@@ -312,7 +311,7 @@ export default class SceneGraph extends React.Component {
     let layerEntities = [];
     let resultEntities = [];
     // let activeLayer = false;
-    for (let i = 0; i < entityOptions.length; i++) {
+    for (let i = 1; i < entityOptions.length; i++) {
       const entityOption = entityOptions[i];
       const entity = (
         <Entity
@@ -399,7 +398,7 @@ export default class SceneGraph extends React.Component {
             <div id="toggle-leftbar" />
             <span>Layers</span>
           </div>
-          {this.renderEntities()}
+          <div className="layers">{this.renderEntities()}</div>
         </div>
       </div>
     );
