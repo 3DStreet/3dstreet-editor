@@ -74,11 +74,7 @@ export default class Entity extends React.Component {
       );
 
     let collapse;
-    if (
-      entity.children.length > 0 &&
-      !isFiltering &&
-      !!entity.hasAttribute('data-layer-show-children')
-    ) {
+    if (entity.children.length > 0 && !isFiltering) {
       collapse = (
         <span
           onClick={(evt) => {

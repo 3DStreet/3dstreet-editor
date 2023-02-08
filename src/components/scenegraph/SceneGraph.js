@@ -73,9 +73,7 @@ export default class SceneGraph extends React.Component {
       if (
         document.querySelector('a-scene').childNodes[i].localName ===
           'a-entity' &&
-        document
-          .querySelector('a-scene')
-          .childNodes[i].hasAttribute('data-layer-show-children')
+        document.querySelector('a-scene').childNodes[i].id !== ''
       ) {
         this.setState((prevState) => ({
           firstLevelEntities: [
