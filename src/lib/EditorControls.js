@@ -429,10 +429,6 @@ THREE.EditorControls = function (_object, domElement) {
       sessionStorage.getItem('initialZoomObject')
     )?.object;
 
-    if (object.type === 'PerspectiveCamera') {
-      object.rotation.set(-0.4, 0, 0);
-    }
-
     if (initialObject) {
       initialObject.position = new THREE.Vector3().set(0, 10, 0);
 
@@ -441,11 +437,13 @@ THREE.EditorControls = function (_object, domElement) {
         object.bottom = initialObject.bottom;
         object.right = initialObject.right;
         object.top = initialObject.top;
+        object.position.set(0, 10, 0);
         if (object.left >= -0.0001) {
           return;
         }
         object.updateProjectionMatrix();
       } else {
+        object.rotation.set(-0.4, 0, 0);
         object.position.set(0, 15, 30);
       }
 
