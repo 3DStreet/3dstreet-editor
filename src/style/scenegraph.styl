@@ -34,6 +34,9 @@
   padding-top 32px
   width auto
 
+  .layers
+    margin-top 84px
+
   .layer 
     width 100%
     margin-top 12px
@@ -203,7 +206,6 @@
   .outliner
     color $white
     cursor default
-    flex 1 1 auto
     font-size 16px
     outline none
     overflow-y auto
@@ -212,8 +214,6 @@
     top 80px
     width 372px
     height 584px
-    display flex
-    flex-direction column
     align-items center
     padding 0px
     background #373737
@@ -227,6 +227,8 @@
       justify-content flex-start
       align-items center
       align-self start
+      position fixed
+      z-index 1
 
       #toggle-leftbar
         width 56px
@@ -258,6 +260,8 @@
   .outliner.hide #layers-title
     width 56px
     height 72px
+    display flex
+    border-radius 0px 12px 12px 0px
 
   .outliner.hide:hover,
   .outliner.hide #layers-title:hover
@@ -295,6 +299,7 @@
     background-image url($iconLayers) !important
     background-repeat no-repeat !important
     background-position center !important
+    border-radius 0px 12px 12px 0px
 
   .outliner.hide #toggle-leftbar:active
     background-color $buttonPressed !important

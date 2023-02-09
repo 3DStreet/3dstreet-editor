@@ -32,7 +32,9 @@ export default class SceneGraph extends React.Component {
       filteredEntities: [],
       selectedIndex: -1,
       leftBarHide: false,
-      initiallyExpandedEntities: []
+      initiallyExpandedEntities: [],
+      secondLvlEntitiesExpanded: true,
+      firstLevelEntities: []
     };
 
     this.rebuildEntityOptions = debounce(
@@ -46,6 +48,7 @@ export default class SceneGraph extends React.Component {
   }
 
   componentDidMount() {
+    this.setFirstLevelEntities();
     this.rebuildEntityOptions();
     Events.on('entityidchange', this.rebuildEntityOptions);
     Events.on('entitycreated', this.rebuildEntityOptions);
@@ -60,6 +63,27 @@ export default class SceneGraph extends React.Component {
       this.selectEntity(this.props.selectedEntity);
     }
   }
+
+  setFirstLevelEntities = () => {
+    for (
+      let i = 0;
+      i < document.querySelector('a-scene').childNodes.length;
+      i++
+    ) {
+      if (
+        document.querySelector('a-scene').childNodes[i].localName ===
+          'a-entity' &&
+        document.querySelector('a-scene').childNodes[i].id !== ''
+      ) {
+        this.setState((prevState) => ({
+          firstLevelEntities: [
+            ...prevState.firstLevelEntities,
+            document.querySelector('a-scene').childNodes[i].id
+          ]
+        }));
+      }
+    }
+  };
 
   selectEntity = (entity) => {
     let found = false;
@@ -194,9 +218,24 @@ export default class SceneGraph extends React.Component {
   isExpanded = (x) => this.state.expandedElements.get(x) === true;
 
   toggleExpandedCollapsed = (x) => {
-    this.setState({
-      expandedElements: this.state.expandedElements.set(x, !this.isExpanded(x))
-    });
+    if (this.state.firstLevelEntities.includes(x.id)) {
+      this.setState({
+        expandedElements: this.state.expandedElements.set(
+          x,
+          !this.isExpanded(x)
+        )
+      });
+    } else {
+      this.setState({
+        secondLvlEntitiesExpanded: !this.state.secondLvlEntitiesExpanded
+      });
+      this.setState({
+        expandedElements: this.state.expandedElements.set(
+          x,
+          this.state.secondLvlEntitiesExpanded
+        )
+      });
+    }
   };
 
   expandToRoot = (x) => {
@@ -257,9 +296,8 @@ export default class SceneGraph extends React.Component {
   renderEntities = () => {
     let entityOptions = this.state.filteredEntities.filter((entityOption) => {
       if (
-        (!this.isVisibleInSceneGraph(entityOption.entity) &&
-          !this.state.filter) ||
-        !entityOption.entity.attributes.getNamedItem('data-layer-name')
+        !this.isVisibleInSceneGraph(entityOption.entity) &&
+        !this.state.filter
       ) {
         return false;
       } else {
@@ -271,7 +309,7 @@ export default class SceneGraph extends React.Component {
     let layerEntities = [];
     let resultEntities = [];
     // let activeLayer = false;
-    for (let i = 0; i < entityOptions.length; i++) {
+    for (let i = 1; i < entityOptions.length; i++) {
       const entityOption = entityOptions[i];
       const entity = (
         <Entity
@@ -358,7 +396,7 @@ export default class SceneGraph extends React.Component {
             <div id="toggle-leftbar" />
             <span>Layers</span>
           </div>
-          {this.renderEntities()}
+          <div className="layers">{this.renderEntities()}</div>
         </div>
       </div>
     );
