@@ -36,6 +36,7 @@ function slugify(text) {
     .replace(/-+$/, ''); // Trim - from end of text
 }
 
+// TODO: Move inputStreetmix(), getValidJSON(), createElementsFromJSON(), fileJSON() to some JS file.
 function inputStreetmix() {
   const streetmixURL = prompt(
     'Please enter a Streetmix URL',
@@ -52,6 +53,32 @@ function inputStreetmix() {
     '<a-entity street streetmix-loader="streetmixStreetURL: ' +
     streetmixURL +
     '""></a-entity>';
+}
+
+function getValidJSON(stringJSON) {
+  return stringJSON
+    .replace(/\'/g, '')
+    .replace(/\n/g, '')
+    .replace(/[\u0000-\u0019]+/g, '');
+}
+
+function createElementsFromJSON(streetJSONString) {
+  const validJSONString = getValidJSON(streetJSONString);
+  const streetContainerEl = document.getElementById('street-container');
+  while (streetContainerEl.firstChild) {
+    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  }
+  const streetObject = JSON.parse(validJSONString);
+  createEntities(streetObject.data[0].children, streetContainerEl);
+}
+
+function fileJSON(event) {
+  let reader = new FileReader();
+  console.log(event.target.files[0]);
+  reader.onload = function () {
+    createElementsFromJSON(reader.result);
+  };
+  reader.readAsText(event.target.files[0]);
 }
 
 /**
@@ -260,6 +287,7 @@ export default class Toolbar extends Component {
                     >
                       <input
                         type="file"
+                        onChange={fileJSON}
                         style={{ display: 'none' }}
                         accept=".js, .json, .txt"
                       />
