@@ -4,6 +4,8 @@ import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
+import { Button } from '../components';
+import { cloneEntity, removeSelectedEntity } from '../../lib/entity';
 
 export default class Sidebar extends React.Component {
   static propTypes = {
@@ -62,6 +64,14 @@ export default class Sidebar extends React.Component {
           <div id="entity-name" onClick={this.toggleRightBar}>
             <span>{entityName || formattedMixin}</span>
             <div id="toggle-rightbar" />
+          </div>
+          <div id="sidebar-buttons">
+            <Button variant={'toolbtn'} onClick={() => cloneEntity(entity)}>
+              Duplicate
+            </Button>
+            <Button variant={'toolbtn'} onClick={() => removeSelectedEntity()}>
+              Delete
+            </Button>
           </div>
           <ComponentsContainer entity={entity} />
         </div>
