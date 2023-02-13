@@ -5,6 +5,7 @@ import { Component } from 'react';
 import Events from '../../lib/Events';
 import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
+import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -34,51 +35,6 @@ function slugify(text) {
     .replace(/--+/g, '-') // Replace multiple - with single -
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
-}
-
-// TODO: Move inputStreetmix(), getValidJSON(), createElementsFromJSON(), fileJSON() to some JS file.
-function inputStreetmix() {
-  const streetmixURL = prompt(
-    'Please enter a Streetmix URL',
-    'https://streetmix.net/kfarr/3/example-street'
-  );
-  setTimeout(function () {
-    window.location.hash = streetmixURL;
-  });
-  const streetContainerEl = document.getElementById('street-container');
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
-  }
-  streetContainerEl.innerHTML =
-    '<a-entity street streetmix-loader="streetmixStreetURL: ' +
-    streetmixURL +
-    '""></a-entity>';
-}
-
-function getValidJSON(stringJSON) {
-  return stringJSON
-    .replace(/\'/g, '')
-    .replace(/\n/g, '')
-    .replace(/[\u0000-\u0019]+/g, '');
-}
-
-function createElementsFromJSON(streetJSONString) {
-  const validJSONString = getValidJSON(streetJSONString);
-  const streetContainerEl = document.getElementById('street-container');
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
-  }
-  const streetObject = JSON.parse(validJSONString);
-  createEntities(streetObject.data[0].children, streetContainerEl);
-}
-
-function fileJSON(event) {
-  let reader = new FileReader();
-  console.log(event.target.files[0]);
-  reader.onload = function () {
-    createElementsFromJSON(reader.result);
-  };
-  reader.readAsText(event.target.files[0]);
 }
 
 /**
