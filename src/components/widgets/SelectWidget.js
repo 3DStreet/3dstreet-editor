@@ -9,7 +9,8 @@ export default class SelectWidget extends React.Component {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+    size: PropTypes.string
   };
 
   constructor(props) {
@@ -40,9 +41,11 @@ export default class SelectWidget extends React.Component {
       return { value: value, label: value };
     });
 
+    const className = this.props.size ? 'select-widget-large' : 'select-widget';
+
     return (
       <Select
-        className="select-widget"
+        className={className}
         classNamePrefix="select"
         options={options}
         simpleValue
