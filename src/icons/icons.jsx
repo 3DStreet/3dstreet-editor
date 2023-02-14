@@ -37,6 +37,24 @@ const Save24Icon = () => (
   </svg>
 );
 
+const Load24Icon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4.5 15.9375V17.8125C4.5 18.3098 4.69754 18.7867 5.04917 19.1383C5.40081 19.49 5.87772 19.6875 6.375 19.6875H17.625C18.1223 19.6875 18.5992 19.49 18.9508 19.1383C19.3025 18.7867 19.5 18.3098 19.5 17.8125V15.9375M7.3125 8.4375L12 3.75M12 3.75L16.6875 8.4375M12 3.75V15"
+      stroke="white"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const Cross32Icon = () => (
   <svg
     width="32"
@@ -47,7 +65,7 @@ const Cross32Icon = () => (
   >
     <path
       d="M10.6667 10.6667L21.3333 21.3333M21.3333 10.6667L10.6667 21.3333"
-      stroke="white"
+      stroke="#DBDBDB"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -98,4 +116,11 @@ const Compass32Icon = () => (
   </svg>
 );
 
-export { Camera32Icon, Save24Icon, Cross32Icon, Cross24Icon, Compass32Icon };
+export {
+  Camera32Icon,
+  Save24Icon,
+  Load24Icon,
+  Cross32Icon,
+  Cross24Icon,
+  Compass32Icon
+};
