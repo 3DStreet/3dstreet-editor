@@ -14,6 +14,7 @@ import Events from '../../lib/Events';
 import Clipboard from 'clipboard';
 import { saveBlob } from '../../lib/utils';
 import GLTFIcon from '../../../assets/gltf.svg';
+import Mixins from './Mixins';
 
 // @todo Take this out and use updateEntity?
 function changeId(componentName, value) {
@@ -156,6 +157,7 @@ export default class CommonComponents extends React.Component {
             <span>{entity.getAttribute('class')}</span>
           </div>
           {this.renderCommonAttributes()}
+          <Mixins entity={entity} />
         </div>
       </Collapsible>
     );
