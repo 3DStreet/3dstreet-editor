@@ -65,7 +65,7 @@ export default class Mixin extends React.Component {
     return (
       <div className="mixinOptions">
         <div className="propertyRow">
-          <span className="text">mixins</span>
+          <span className="text">Model</span>
           <span className="mixinValue">
             <Select
               id="mixinSelect"

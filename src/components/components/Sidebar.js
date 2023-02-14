@@ -5,7 +5,7 @@ import Events from '../../lib/Events';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
 import { Button } from '../components';
-import SelectWidget from '../widgets/SelectWidget';
+import Mixins from './Mixins';
 import { cloneEntity, removeSelectedEntity } from '../../lib/entity';
 
 export default class Sidebar extends React.Component {
@@ -53,18 +53,6 @@ export default class Sidebar extends React.Component {
       hide: this.state.rightBarHide
     });
 
-    const widgetProps = {
-      componentname: 'material',
-      name: 'side',
-      value: 'back'
-    };
-
-    const className1 = classnames({
-      propertyRow: true
-    });
-
-    const options = ['test', 'test1', 'test2', 'test3', 'test4'];
-
     if (entity && visible) {
       const entityName = entity.getDOMAttribute('data-layer-name');
       const entityMixin = entity.getDOMAttribute('mixin');
@@ -78,12 +66,7 @@ export default class Sidebar extends React.Component {
             <span>{entityName || formattedMixin}</span>
             <div id="toggle-rightbar" />
           </div>
-
-          <div className={className1} style={{ marginBottom: '30px' }}>
-            <label className="text">Model</label>
-            <SelectWidget {...widgetProps} options={options} size={'large'} />
-          </div>
-
+          <Mixins entity={entity} />
           <div id="sidebar-buttons">
             <Button variant={'toolbtn'} onClick={() => cloneEntity(entity)}>
               Duplicate
