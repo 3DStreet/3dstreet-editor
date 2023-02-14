@@ -147,7 +147,9 @@ export default class TextureWidget extends React.Component {
     } else if (isAssetHash) {
       url = getUrlFromId(value);
     } else {
-      url = AFRAME.utils.srcLoader.parseUrl(value);
+      if (typeof value === 'string') {
+        url = AFRAME.utils.srcLoader.parseUrl(value);
+      }
     }
 
     var texture = getTextureFromSrc(value);
