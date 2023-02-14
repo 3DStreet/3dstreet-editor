@@ -233,6 +233,7 @@ export default class Toolbar extends Component {
                 </Button>
               ) : (
                 <div className={'loadActions'}>
+                  <Button onClick={inputStreetmix}>Import Streetmix</Button>
                   <Button>
                     <label
                       style={{
@@ -250,7 +251,6 @@ export default class Toolbar extends Component {
                       3DStreet JSON
                     </label>
                   </Button>
-                  <Button onClick={inputStreetmix}>Import Streetmix</Button>
                   <Button
                     className={'closeButton'}
                     onClick={this.toggleLoadActionState.bind(this)}
