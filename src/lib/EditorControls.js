@@ -157,7 +157,6 @@ THREE.EditorControls = function (_object, domElement) {
   };
 
   this.zoom = function (delta) {
-
     if (!sessionStorage.getItem('initialZoomObject')) {
       sessionStorage.setItem('initialZoomObject', JSON.stringify(object));
     }
@@ -438,11 +437,13 @@ THREE.EditorControls = function (_object, domElement) {
         object.bottom = initialObject.bottom;
         object.right = initialObject.right;
         object.top = initialObject.top;
+        object.position.set(0, 10, 0);
         if (object.left >= -0.0001) {
           return;
         }
         object.updateProjectionMatrix();
       } else {
+        object.rotation.set(-0.4, 0, 0);
         object.position.set(0, 15, 30);
       }
 
@@ -461,7 +462,7 @@ THREE.EditorControls = function (_object, domElement) {
 
     zoomOutButton.addEventListener('pointerdown', zoomOutStart);
     zoomOutButton.addEventListener('pointerup', zoomOutStop);
-    zoomOutButton.addEventListener('pointerleave', zoomOutStop)
+    zoomOutButton.addEventListener('pointerleave', zoomOutStop);
 
     resetZoomButton.addEventListener('pointerdown', resetZoom);
   }, 1);

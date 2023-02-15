@@ -1,10 +1,11 @@
-import { Camera32Icon, Cross32Icon, Save24Icon } from '../../icons';
+import { Camera32Icon, Cross32Icon, Save24Icon, Load24Icon } from '../../icons';
 
 import { Button } from '../components';
 import { Component } from 'react';
 import Events from '../../lib/Events';
 import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
+import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -43,7 +44,10 @@ export default class Toolbar extends Component {
   state = {
     // isPlaying: false,
     isSaveActionActive: false,
-    isCapturingScreen: false
+    isLoadActionActive: false,
+    isCapturingScreen: false,
+    showSaveBtn: true,
+    showLoadBtn: true
   };
 
   convertToObject = () => {
@@ -142,7 +146,15 @@ export default class Toolbar extends Component {
   toggleSaveActionState = () =>
     this.setState((prevState) => ({
       ...prevState,
-      isSaveActionActive: !this.state.isSaveActionActive
+      isSaveActionActive: !this.state.isSaveActionActive,
+      showLoadBtn: !this.state.showLoadBtn
+    }));
+
+  toggleLoadActionState = () =>
+    this.setState((prevState) => ({
+      ...prevState,
+      isLoadActionActive: !this.state.isLoadActionActive,
+      showSaveBtn: !this.state.showSaveBtn
     }));
 
   render() {
@@ -171,48 +183,100 @@ export default class Toolbar extends Component {
             onClick={this.toggleScenePlaying}
           /> */}
 
-          {!this.state.isSaveActionActive ? (
-            <Button onClick={this.toggleSaveActionState.bind(this)}>
-              <div
-                style={{
-                  display: 'flex',
-                  margin: '-2.5px 0px -2.5px -2px'
-                }}
-              >
-                <Save24Icon />
-              </div>
-              Save
-            </Button>
-          ) : (
-            <div className={'saveActions'}>
-              <Button onClick={this.exportSceneToGLTF}>glTF 3D Model</Button>
-              <Button onClick={this.convertToObject}>3DStreet JSON</Button>
+          {this.state.showSaveBtn && (
+            <div>
+              {!this.state.isSaveActionActive ? (
+                <Button onClick={this.toggleSaveActionState.bind(this)}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      margin: '-2.5px 0px -2.5px -2px'
+                    }}
+                  >
+                    <Save24Icon />
+                  </div>
+                  Save
+                </Button>
+              ) : (
+                <div className={'saveActions'}>
+                  <Button onClick={this.exportSceneToGLTF}>
+                    glTF 3D Model
+                  </Button>
+                  <Button onClick={this.convertToObject}>3DStreet JSON</Button>
 
-              <Button
-                className={'closeButton'}
-                onClick={this.toggleSaveActionState.bind(this)}
-              >
-                <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-                  <Cross32Icon />
+                  <Button
+                    className={'closeButton'}
+                    onClick={this.toggleSaveActionState.bind(this)}
+                  >
+                    <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                      <Cross32Icon />
+                    </div>
+                  </Button>
                 </div>
-              </Button>
+              )}
             </div>
           )}
-          {!this.state.isSaveActionActive && (
-            <Button
-              onClick={() =>
-                this.setState((prevState) => ({
-                  ...prevState,
-                  isCapturingScreen: true
-                }))
-              }
-              className={'cameraButton'}
-            >
-              <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-                <Camera32Icon />
-              </div>
-            </Button>
+
+          {this.state.showLoadBtn && (
+            <div>
+              {!this.state.isLoadActionActive ? (
+                <Button onClick={this.toggleLoadActionState.bind(this)}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      margin: '-2.5px 0px -2.5px -2px'
+                    }}
+                  >
+                    <Load24Icon />
+                  </div>
+                  Load
+                </Button>
+              ) : (
+                <div className={'loadActions'}>
+                  <Button onClick={inputStreetmix}>Import Streetmix</Button>
+                  <Button>
+                    <label
+                      style={{
+                        display: 'inherit',
+                        alignItems: 'center',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <input
+                        type="file"
+                        onChange={fileJSON}
+                        style={{ display: 'none' }}
+                        accept=".js, .json, .txt"
+                      />
+                      3DStreet JSON
+                    </label>
+                  </Button>
+                  <Button
+                    className={'closeButton'}
+                    onClick={this.toggleLoadActionState.bind(this)}
+                  >
+                    <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+                      <Cross32Icon />
+                    </div>
+                  </Button>
+                </div>
+              )}
+            </div>
           )}
+
+          <Button
+            onClick={() =>
+              this.setState((prevState) => ({
+                ...prevState,
+                isCapturingScreen: true
+              }))
+            }
+            className={'cameraButton'}
+          >
+            <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
+              <Camera32Icon />
+            </div>
+          </Button>
           {/* not is use */}
           {/* <button
             className={"viewButton"}
