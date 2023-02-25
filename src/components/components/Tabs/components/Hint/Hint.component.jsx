@@ -1,8 +1,6 @@
-import './Hint.styles.styl';
-
-import { Component } from 'react';
-
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
+import styles from './Hint.module.scss';
+import { useEffect } from 'react';
 
 /**
  * Hint component.
@@ -10,31 +8,33 @@ import PropTypes from 'prop-types';
  *
  * @author Oleksii Medvediev
  * @category Components.
+ * @param {{
+ *  hint: string;
+ *  tab: string;
+ * }} props
  */
-class Hint extends Component {
-  componentDidMount() {
-    const hintElement = document.getElementById(this.props.tab.concat('Tab'));
+const Hint = ({ hint, tab }) => {
+  useEffect(() => {
+    const hintElement = document?.getElementById(this.props.tab.concat('Tab'));
 
-    hintElement.setAttribute(
-      'style',
-      `left: calc(50% - ${hintElement.clientWidth / 2}px)`
-    );
-  }
+    hintElement &&
+      !hintElement.hasAttribute('style') &&
+      hintElement.setAttribute(
+        'style',
+        `left: calc(50% - ${hintElement.clientWidth / 2}px)`
+      );
+  }, [document]);
 
-  render() {
-    const { hint, tab } = this.props;
-
-    return (
-      <div id={tab.concat('Tab')} className="hintWrapper">
-        <span>{hint}</span>
-      </div>
-    );
-  }
-}
+  return (
+    <div id={tab.concat('Tab')} className={styles.wrapper}>
+      <span>{hint}</span>
+    </div>
+  );
+};
 
 Hint.propTypes = {
-  hint: PropTypes.string.isRequired,
-  tab: PropTypes.string.isRequired
+  hint: string.isRequired,
+  tab: string.isRequired
 };
 
 export { Hint };

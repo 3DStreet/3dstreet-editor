@@ -1,0 +1,309 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 200px;
+  row-gap: 0.25rem;
+
+  .label {
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    font-weight: 500;
+    color: #ededed;
+    transition: all 0.3s;
+  }
+
+  .disabledLabel {
+    color: #a0a0a0;
+    transition: all 0.3s;
+  }
+
+  .dropdown {
+    position: relative;
+    display: flex;
+    width: 100%;
+    transition: all 0.3s;
+
+    .selector {
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+      width: 100%;
+      padding: 13px 13px 13px 15px;
+      border: 1px solid #543e79;
+      border-radius: 10px;
+      background-color: rgba(50, 50, 50, 0.8);
+      outline: unset;
+      transition: all 0.3s;
+
+      &:hover {
+        transition: all 0.3s;
+        cursor: pointer;
+        border-color: #6439ab;
+        background-color: #2d2d2d;
+
+        .icon svg {
+          transition: all 0.3s;
+          fill: #cbcbcb;
+
+          * {
+            transition: all 0.3s;
+            fill: #cbcbcb;
+          }
+        }
+
+        .selectedOptionLabel {
+          transition: all 0.3s;
+          color: #cbcbcb;
+        }
+
+        > svg {
+          transition: all 0.3s;
+          stroke: #ffffff;
+
+          * {
+            stroke: #ffffff;
+          }
+        }
+      }
+
+      &:focus {
+        transition: all 0.3s;
+        cursor: pointer;
+        border-color: #8d56e8;
+        background-color: #2d2d2d;
+        outline: unset;
+
+        .icon svg {
+          transition: all 0.3s;
+          fill: #ffffff;
+
+          * {
+            transition: all 0.3s;
+            fill: #ffffff;
+          }
+        }
+
+        .selectedOptionLabel {
+          transition: all 0.3s;
+          color: #ffffff;
+        }
+
+        > svg {
+          transition: all 0.3s;
+          stroke: #ffffff;
+
+          * {
+            stroke: #ffffff;
+          }
+        }
+      }
+
+      &:active {
+        transition: all 0.3s;
+        cursor: pointer;
+        border-color: #543e79;
+        background-color: rgba(50, 50, 50, 0.8);
+
+        .icon svg {
+          transition: all 0.3s;
+          fill: #ffffff;
+
+          * {
+            transition: all 0.3s;
+            fill: #ffffff;
+          }
+        }
+
+        .selectedOptionLabel {
+          transition: all 0.3s;
+          color: #ffffff;
+        }
+
+        > svg {
+          transition: all 0.3s;
+          stroke: #ffffff;
+
+          * {
+            stroke: #ffffff;
+          }
+        }
+      }
+
+      &:disabled {
+        transition: all 0.3s;
+        cursor: not-allowed;
+        border-color: #382a50;
+        background-color: rgba(50, 50, 50, 0.8);
+
+        .icon svg {
+          transition: all 0.3s;
+          fill: #636363;
+
+          * {
+            transition: all 0.3s;
+            fill: #636363;
+          }
+        }
+
+        .selectedOptionLabel {
+          transition: all 0.3s;
+          color: #636363;
+        }
+
+        > svg {
+          transition: all 0.3s;
+          stroke: #636363;
+
+          * {
+            stroke: #636363;
+          }
+        }
+      }
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+
+        svg {
+          transition: all 0.3s;
+          fill: #b6b6b6;
+
+          * {
+            transition: all 0.3s;
+            fill: #b6b6b6;
+          }
+        }
+      }
+
+      .selectedOptionLabel {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #b6b6b6;
+        transition: all 0.3s;
+      }
+
+      > svg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        transition: all 0.3s;
+        stroke: #636363;
+
+        * {
+          stroke: #636363;
+        }
+      }
+    }
+
+    .selectorWithOpenedMenu {
+      transition: all 0.3s;
+      border-color: #8d56e8;
+      background-color: #2d2d2d;
+
+      > svg {
+        transition: all 0.3s;
+        stroke: #ffffff;
+
+        * {
+          stroke: #ffffff;
+        }
+      }
+    }
+
+    .optionsMenu {
+      position: absolute;
+      top: 56px;
+      left: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 2px);
+      border: 1px solid #8d56e8;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .optionItem {
+        display: flex;
+        width: 100%;
+        padding: 16px 20px;
+        background-color: #2d2d2d;
+        transition: all 0.3s;
+        border: unset;
+        outline: unset;
+
+        &:hover {
+          transition: all 0.3s;
+          cursor: pointer;
+          background-color: #373737;
+
+          .optionItemLabel {
+            transition: all 0.3s;
+            color: #ffffff;
+          }
+        }
+
+        &:active {
+          transition: all 0.3s;
+          background-color: #222222;
+
+          .optionItemLabel {
+            transition: all 0.3s;
+            color: #ffffff;
+          }
+        }
+
+        &:focus {
+          transition: all 0.3s;
+          background-color: #282828;
+
+          .optionItemLabel {
+            transition: all 0.3s;
+            color: #ffffff;
+          }
+        }
+
+        &:disabled {
+          transition: all 0.3s;
+          background-color: #222222;
+          cursor: not-allowed;
+
+          .optionItemLabel {
+            transition: all 0.3s;
+            color: #636363;
+          }
+        }
+
+        .optionItemLabel {
+          display: flex;
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #ededed;
+          transition: all 0.3s;
+        }
+      }
+
+      .selectedItem {
+        transition: all 0.3s;
+        background-color: #222222;
+
+        .optionItemLabel {
+          transition: all 0.3s;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@
 Takes one or more elements (from a DOM queryselector call)
 and returns a Javascript object
 */
-function convertDOMElToObject (entity) {
+function convertDOMElToObject(entity) {
   const data = [];
   if (entity.length) {
     for (const entry of entity) {
@@ -16,7 +16,7 @@ function convertDOMElToObject (entity) {
   return { data: data };
 }
 
-function getElementData (entity) {
+function getElementData(entity) {
   const elementTree = getAttributes(entity);
   const children = entity.childNodes;
   if (children.length) {
@@ -30,7 +30,7 @@ function getElementData (entity) {
   return elementTree;
 }
 
-function getAttributes (entity) {
+function getAttributes(entity) {
   const elemObj = {};
   elemObj['element'] = entity.tagName.toLowerCase();
 
@@ -57,35 +57,43 @@ function getAttributes (entity) {
 }
 
 function toPropString(propData) {
-  if (typeof propData == 'string' || typeof propData == 'number' || typeof propData == 'boolean') {
-    return (propData).toString();
+  if (
+    typeof propData == 'string' ||
+    typeof propData == 'number' ||
+    typeof propData == 'boolean'
+  ) {
+    return propData.toString();
   }
-  if (propData.isVector3 || propData.isVector2 || propData.isVector4 || 
-    propData.hasOwnProperty('x') && propData.hasOwnProperty('y')) {
+  if (
+    propData.isVector3 ||
+    propData.isVector2 ||
+    propData.isVector4 ||
+    (propData.hasOwnProperty('x') && propData.hasOwnProperty('y'))
+  ) {
     return AFRAME.utils.coordinates.stringify(propData);
   }
   if (typeof propData == 'object') {
-    return Object.entries(propData).map(
-        ([key, value]) => {
-          if (key == 'src') {
-            if (value.id) {
-              return `${key}: #${value.id}`;
-            } else {
-              return `${key}: ${value}`;
-            }
+    return Object.entries(propData)
+      .map(([key, value]) => {
+        if (key == 'src') {
+          if (value.id) {
+            return `${key}: #${value.id}`;
           } else {
-            return `${key}: ${toPropString(value)}`;
+            return `${key}: ${value}`;
           }
+        } else {
+          return `${key}: ${toPropString(value)}`;
         }
-      ).join("; ");
+      })
+      .join('; ');
   }
-} 
+}
 
-function isSingleProperty (schema) {
+function isSingleProperty(schema) {
   return AFRAME.schema.isSingleProperty(schema);
 }
 
-function isEmpty (object) {
+function isEmpty(object) {
   return Object.keys(object).length === 0;
 }
 
@@ -104,8 +112,8 @@ const renameProps = {
   street: 'not-street'
 };
 
-function filterJSONstreet (removeProps, renameProps, streetJSON) {
-  function removeValueCheck (removeVal, value) {
+function filterJSONstreet(removeProps, renameProps, streetJSON) {
+  function removeValueCheck(removeVal, value) {
     // console.error(removeVal, value, AFRAME.utils.deepEqual(removeVal, value))
     if (AFRAME.utils.deepEqual(removeVal, value) || removeVal === '*') {
       return true;
@@ -113,11 +121,10 @@ function filterJSONstreet (removeProps, renameProps, streetJSON) {
     return undefined;
   }
 
-  let stringJSON = JSON.stringify(streetJSON, function replacer (key, value) {
+  let stringJSON = JSON.stringify(streetJSON, function replacer(key, value) {
     for (var removeKey in removeProps) {
       // check for removing components
       if (key === removeKey) {
-
         const removeVal = removeProps[removeKey];
         // check for deleting component's attribute
         if (typeof removeVal === 'object' && !isEmpty(removeVal)) {
@@ -127,8 +134,10 @@ function filterJSONstreet (removeProps, renameProps, streetJSON) {
           const attrNames = Object.keys(removeVal);
           for (var attrName of attrNames) {
             const attrVal = removeVal[attrName];
-            if (Object.prototype.hasOwnProperty.call(compAttributes, attrName) &&
-              removeValueCheck(attrVal, compAttributes[attrName])) {
+            if (
+              Object.prototype.hasOwnProperty.call(compAttributes, attrName) &&
+              removeValueCheck(attrVal, compAttributes[attrName])
+            ) {
               delete value[attrName];
             }
           }
@@ -151,7 +160,7 @@ function filterJSONstreet (removeProps, renameProps, streetJSON) {
   return stringJSON;
 }
 
-function getModifiedProperty (entity, componentName) {
+function getModifiedProperty(entity, componentName) {
   //const data = entity.components[componentName].data;
   const data = AFRAME.utils.entity.getComponentProperty(entity, componentName);
 
@@ -181,15 +190,18 @@ function getModifiedProperty (entity, componentName) {
     const currentValue = data[key];
 
     // Some parameters could be null and '' like mergeTo
-    if ((currentValue || defaultValue) && !AFRAME.utils.deepEqual(currentValue, defaultValue)) {
+    if (
+      (currentValue || defaultValue) &&
+      !AFRAME.utils.deepEqual(currentValue, defaultValue)
+    ) {
       diff[key] = data[key];
     }
   }
   return diff;
 }
 
-function createEntities (entitiesData, parentEl) {
-  for (const entityData of entitiesData) {   
+function createEntities(entitiesData, parentEl) {
+  for (const entityData of entitiesData) {
     createEntityFromObj(entityData, parentEl);
   }
 }
@@ -208,8 +220,7 @@ Add a new entity with a list of components and children (if exists)
  * @param {Element} parentEl the parent element to which the Entity will be added
  * @return {Element} Entity created
 */
-function createEntityFromObj (entityData, parentEl) {
-
+function createEntityFromObj(entityData, parentEl) {
   const entity = document.createElement(entityData.element);
 
   // load attributes
