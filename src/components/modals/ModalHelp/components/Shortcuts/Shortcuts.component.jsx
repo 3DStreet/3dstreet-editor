@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './Shortcuts.styles.styl';
+import { DocumentationButton } from '../DocumentationButton';
 
 const shortcuts = [
   [
@@ -57,6 +58,7 @@ class Shortcuts extends Component {
             ))}
           </ul>
         ))}
+        <DocumentationButton />
       </div>
     );
   }
