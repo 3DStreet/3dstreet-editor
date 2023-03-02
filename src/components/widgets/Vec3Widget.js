@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { areVectorsEqual } from '../../lib/utils.js';
 
 import NumberWidget from './NumberWidget';
 
@@ -30,11 +31,7 @@ export default class Vec3Widget extends React.Component {
 
   componentDidUpdate() {
     const props = this.props;
-    if (
-      props.value.x !== this.state.x ||
-      props.value.y !== this.state.y ||
-      props.value.z !== this.state.z
-    ) {
+    if (!areVectorsEqual(props.value, this.state)) {
       this.setState({
         x: props.value.x,
         y: props.value.y,
