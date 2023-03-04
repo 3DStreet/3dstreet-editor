@@ -102,3 +102,12 @@ export function saveBlob(blob, filename) {
   link.click();
   // URL.revokeObjectURL(url); breaks Firefox...
 }
+
+export function areVectorsEqual(v1, v2) {
+  return (
+    Object.is(v1.x, v2.x) &&
+    Object.is(v1.y, v2.y) &&
+    Object.is(v1.z, v2.z) &&
+    Object.is(v1.w, v2.w)
+  );
+}
