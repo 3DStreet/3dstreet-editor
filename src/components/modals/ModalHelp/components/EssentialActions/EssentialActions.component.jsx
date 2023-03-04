@@ -11,6 +11,7 @@ import {
   ZoomOut
 } from './icons.jsx';
 import { Component } from 'react';
+import { DocumentationButton } from '../DocumentationButton';
 
 const actions = [
   {
@@ -68,6 +69,7 @@ class EssentialActions extends Component {
             </div>
           </div>
         ))}
+        <DocumentationButton />
       </div>
     );
   }
