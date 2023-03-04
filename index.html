@@ -45,7 +45,7 @@
             <img src="./src/icons/loader/bike.svg" class="bike" alt="bike" />
           </div>
         </div>
-        <div class="road">Entering Viewer mode</div>
+        <div class="road">Loading 3DStreet</div>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
       renderer="colorManagement: true; physicallyCorrectLights: true;"
       gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/"
       inspector="url: ./dist/3dstreet-editor.js"
-      timed-inspector="2"
+      timed-inspector="1"
       loading-screen="enabled: false"
     >
       <a-assets>
@@ -101,7 +101,9 @@
       const scene = document.querySelector('a-scene');
       const splash = document.querySelector('.loader__wrapper');
       scene.addEventListener('loaded', function (e) {
-        splash.style.display = 'none';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 1000);        
       });
     });
   </script>
