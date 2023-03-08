@@ -54,10 +54,6 @@
     clip-path: inset(0 0px 0 730px);
     transform: translateX(0px);
   }
-  14% {
-    clip-path: inset(0 0px 0 730px);
-    transform: translateX(0px);
-  }
   100% {
     clip-path: inset(0 730px 0 0px);
     transform: translateX(730px);
@@ -161,9 +157,6 @@
   24% {
     left: 0px;
     clip-path: inset(0 0 0 0);
-  }
-  54% {
-    left: 240px;
   }
   76% {
     left: 290px;
