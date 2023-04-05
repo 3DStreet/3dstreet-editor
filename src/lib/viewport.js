@@ -62,8 +62,6 @@ export function Viewport(inspector) {
   const tempVector3Center = new THREE.Vector3();
 
   Events.on('raycastermouseenter', (el) => {
-    console.log('enter', el);
-    console.log(hoverBox);
     // update hoverBox to match el.object3D bounding box
     hoverBox.visible = true;
     hoverBox.setFromObject(el.object3D);
@@ -79,7 +77,8 @@ export function Viewport(inspector) {
   });
 
   Events.on('raycastermouseleave', (el) => {
-    console.log('leave', el);
+    hoverBox.visible = false;
+    hoverBoxFill.visible = false;
   });
 
   function updateHelpers(object) {
@@ -148,6 +147,7 @@ export function Viewport(inspector) {
     if (inspector.selectedEntity.object3DMap.mesh) {
       selectionBox.setFromObject(inspector.selected);
       hoverBox.visible = false;
+      hoverBoxFill.visible = false;
     }
   });
 
@@ -229,6 +229,7 @@ export function Viewport(inspector) {
       ) {
         selectionBox.setFromObject(object);
         hoverBox.visible = false;
+        hoverBoxFill.visible = false;
       }
     }
 
