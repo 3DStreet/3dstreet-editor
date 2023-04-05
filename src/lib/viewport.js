@@ -56,7 +56,11 @@ export function Viewport(inspector) {
   hoverBoxFill.visible = true;
   sceneHelpers.add(hoverBoxFill);
 
-  // just add the code here
+  // Create global instances of Box3 and Vector3
+  const tempBox3 = new THREE.Box3();
+  const tempVector3Size = new THREE.Vector3();
+  const tempVector3Center = new THREE.Vector3();
+
   Events.on('raycastermouseenter', (el) => {
     console.log('enter', el);
     console.log(hoverBox);
@@ -64,12 +68,13 @@ export function Viewport(inspector) {
     hoverBox.visible = true;
     hoverBox.setFromObject(el.object3D);
     // update hoverBoxFill to match el.object3D bounding box
-    const box3 = new THREE.Box3().setFromObject(el.object3D);
-    const boxSize = box3.getSize(new THREE.Vector3());
-    const boxCenter = box3.getCenter(new THREE.Vector3());
+    el.object3D.updateMatrixWorld();
+    tempBox3.setFromObject(el.object3D);
+    tempBox3.getSize(tempVector3Size);
+    tempBox3.getCenter(tempVector3Center);
     hoverBoxFill.visible = true;
-    hoverBoxFill.position.copy(boxCenter);
-    hoverBoxFill.scale.copy(boxSize);
+    hoverBoxFill.position.copy(tempVector3Center);
+    hoverBoxFill.scale.copy(tempVector3Size);
     hoverBoxFill.geometry.attributes.position.needsUpdate = true;
   });
 
