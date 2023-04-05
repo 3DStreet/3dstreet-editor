@@ -33,6 +33,34 @@ export function Viewport(inspector) {
   selectionBox.visible = false;
   sceneHelpers.add(selectionBox);
 
+  // // hoverBox Box Geometry and Mesh version
+  // const hoverBoxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  // const hoverBoxMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.5, depthTest: false });
+  // const hoverBox = new THREE.Mesh(hoverBoxGeometry, hoverBoxMaterial);
+  // hoverBox.visible = true;
+  // sceneHelpers.add(hoverBox);
+
+  // hoverBox BoxHelper version
+  const hoverBox = new THREE.BoxHelper();
+  hoverBox.material.depthTest = false;
+  hoverBox.material.transparent = true;
+  hoverBox.material.color.set(0xff0000);
+  hoverBox.visible = true;
+  sceneHelpers.add(hoverBox);
+
+  // just add the code here
+  Events.on('raycastermouseenter', (el) => {
+    console.log('enter', el);
+    console.log(hoverBox);
+    hoverBox.visible = true;
+
+    hoverBox.setFromObject(el.object3D);
+  });
+
+  Events.on('raycastermouseleave', (el) => {
+    console.log('leave', el);
+  });
+
   function updateHelpers(object) {
     object.traverse((node) => {
       if (inspector.helpers[node.uuid] && inspector.helpers[node.uuid].update) {
@@ -98,6 +126,7 @@ export function Viewport(inspector) {
   Events.on('entityupdate', (detail) => {
     if (inspector.selectedEntity.object3DMap.mesh) {
       selectionBox.setFromObject(inspector.selected);
+      hoverBox.visible = false;
     }
   });
 
@@ -178,6 +207,7 @@ export function Viewport(inspector) {
             object.geometry.attributes.position.array.length))
       ) {
         selectionBox.setFromObject(object);
+        hoverBox.visible = false;
       }
     }
 

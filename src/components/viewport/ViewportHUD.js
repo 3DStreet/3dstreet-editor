@@ -21,6 +21,17 @@ export default class ViewportHUD extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.hoveredEntity !== this.state.hoveredEntity) {
+      this.onHoveredEntityChange();
+    }
+  }
+
+  onHoveredEntityChange() {
+    // Your function logic when the state changes goes here
+    console.log('Hovered entity changed:', this.state.hoveredEntity);
+  }
+
   render() {
     return (
       <div id="viewportHud">
