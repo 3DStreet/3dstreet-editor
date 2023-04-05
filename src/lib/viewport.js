@@ -33,6 +33,54 @@ export function Viewport(inspector) {
   selectionBox.visible = false;
   sceneHelpers.add(selectionBox);
 
+  // hoverBox BoxHelper version
+  const hoverBox = new THREE.BoxHelper();
+  hoverBox.material.depthTest = false;
+  hoverBox.material.transparent = true;
+  hoverBox.material.color.set(0xff0000);
+  hoverBox.visible = true;
+  sceneHelpers.add(hoverBox);
+
+  // hoverBoxFill - Mesh with BoxGeometry and Semi-transparent Material
+  const hoverBoxFillGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const hoverBoxFillMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    transparent: true,
+    opacity: 0.3,
+    depthTest: false
+  });
+  const hoverBoxFill = new THREE.Mesh(
+    hoverBoxFillGeometry,
+    hoverBoxFillMaterial
+  );
+  hoverBoxFill.visible = true;
+  sceneHelpers.add(hoverBoxFill);
+
+  // Create global instances of Box3 and Vector3
+  const tempBox3 = new THREE.Box3();
+  const tempVector3Size = new THREE.Vector3();
+  const tempVector3Center = new THREE.Vector3();
+
+  Events.on('raycastermouseenter', (el) => {
+    // update hoverBox to match el.object3D bounding box
+    hoverBox.visible = true;
+    hoverBox.setFromObject(el.object3D);
+    // update hoverBoxFill to match el.object3D bounding box
+    el.object3D.updateMatrixWorld();
+    tempBox3.setFromObject(el.object3D);
+    tempBox3.getSize(tempVector3Size);
+    tempBox3.getCenter(tempVector3Center);
+    hoverBoxFill.visible = true;
+    hoverBoxFill.position.copy(tempVector3Center);
+    hoverBoxFill.scale.copy(tempVector3Size);
+    hoverBoxFill.geometry.attributes.position.needsUpdate = true;
+  });
+
+  Events.on('raycastermouseleave', (el) => {
+    hoverBox.visible = false;
+    hoverBoxFill.visible = false;
+  });
+
   function updateHelpers(object) {
     object.traverse((node) => {
       if (inspector.helpers[node.uuid] && inspector.helpers[node.uuid].update) {
@@ -98,6 +146,8 @@ export function Viewport(inspector) {
   Events.on('entityupdate', (detail) => {
     if (inspector.selectedEntity.object3DMap.mesh) {
       selectionBox.setFromObject(inspector.selected);
+      hoverBox.visible = false;
+      hoverBoxFill.visible = false;
     }
   });
 
@@ -178,6 +228,8 @@ export function Viewport(inspector) {
             object.geometry.attributes.position.array.length))
       ) {
         selectionBox.setFromObject(object);
+        hoverBox.visible = false;
+        hoverBoxFill.visible = false;
       }
     }
 
