@@ -85,15 +85,6 @@ export default class NumberWidget extends React.Component {
   setValue(value) {
     if (value === this.state.value) return;
 
-    if (Number.isNaN(value)) {
-      this.setState({
-        value: 0,
-        displayValue: Number(0).toFixed(this.props.precision)
-      });
-
-      return;
-    }
-
     if (value !== undefined) {
       if (this.props.precision === 0) {
         value = parseInt(value);
@@ -119,7 +110,7 @@ export default class NumberWidget extends React.Component {
     }
   }
 
-  static componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     // This will be triggered typically when the element is changed directly with
     // element.setAttribute.
     if (!Object.is(this.props.value, prevProps.value)) {
