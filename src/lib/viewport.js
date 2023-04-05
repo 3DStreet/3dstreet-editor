@@ -33,13 +33,6 @@ export function Viewport(inspector) {
   selectionBox.visible = false;
   sceneHelpers.add(selectionBox);
 
-  // // hoverBox Box Geometry and Mesh version
-  // const hoverBoxGeometry = new THREE.BoxGeometry(1, 1, 1);
-  // const hoverBoxMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.5, depthTest: false });
-  // const hoverBox = new THREE.Mesh(hoverBoxGeometry, hoverBoxMaterial);
-  // hoverBox.visible = true;
-  // sceneHelpers.add(hoverBox);
-
   // hoverBox BoxHelper version
   const hoverBox = new THREE.BoxHelper();
   hoverBox.material.depthTest = false;
@@ -48,13 +41,36 @@ export function Viewport(inspector) {
   hoverBox.visible = true;
   sceneHelpers.add(hoverBox);
 
+  // hoverBoxFill - Mesh with BoxGeometry and Semi-transparent Material
+  const hoverBoxFillGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const hoverBoxFillMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    transparent: true,
+    opacity: 0.3,
+    depthTest: false
+  });
+  const hoverBoxFill = new THREE.Mesh(
+    hoverBoxFillGeometry,
+    hoverBoxFillMaterial
+  );
+  hoverBoxFill.visible = true;
+  sceneHelpers.add(hoverBoxFill);
+
   // just add the code here
   Events.on('raycastermouseenter', (el) => {
     console.log('enter', el);
     console.log(hoverBox);
+    // update hoverBox to match el.object3D bounding box
     hoverBox.visible = true;
-
     hoverBox.setFromObject(el.object3D);
+    // update hoverBoxFill to match el.object3D bounding box
+    const box3 = new THREE.Box3().setFromObject(el.object3D);
+    const boxSize = box3.getSize(new THREE.Vector3());
+    const boxCenter = box3.getCenter(new THREE.Vector3());
+    hoverBoxFill.visible = true;
+    hoverBoxFill.position.copy(boxCenter);
+    hoverBoxFill.scale.copy(boxSize);
+    hoverBoxFill.geometry.attributes.position.needsUpdate = true;
   });
 
   Events.on('raycastermouseleave', (el) => {
