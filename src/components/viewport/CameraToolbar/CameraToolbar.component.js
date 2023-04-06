@@ -36,7 +36,7 @@ const options = [
 
 class CameraToolbar extends Component {
   state = {
-    selectedCamera: 'orthotop',
+    selectedCamera: 'perspective',
     areChangesEmitted: false
   };
 
