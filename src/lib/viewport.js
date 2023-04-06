@@ -24,6 +24,7 @@ export function Viewport(inspector) {
   // Helpers.
   const sceneHelpers = inspector.sceneHelpers;
   const grid = new THREE.GridHelper(30, 60, 0xaaaaaa, 0x262626);
+  grid.visible = false;
   sceneHelpers.add(grid);
 
   const selectionBox = new THREE.BoxHelper();
