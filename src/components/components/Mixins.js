@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Select from 'react-select';
 import Events from '../../lib/Events';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import Select from 'react-select';
+import { Selector } from './Selector';
 export default class Mixin extends React.Component {
   static propTypes = {
     entity: PropTypes.object.isRequired
@@ -45,7 +45,7 @@ export default class Mixin extends React.Component {
 
   updateMixins = (value) => {
     const entity = this.props.entity;
-
+    value = Array.isArray(value) ? value : [value];
     this.setState({ mixins: value });
     const mixinStr = value.map((v) => v.value).join(' ');
     entity.setAttribute('mixin', mixinStr);
@@ -67,17 +67,27 @@ export default class Mixin extends React.Component {
         <div className="propertyRow">
           <span className="text">Model</span>
           <span className="mixinValue">
-            <Select
-              id="mixinSelect"
-              classNamePrefix="select"
-              options={this.getMixinOptions()}
-              isMulti={true}
-              placeholder="Add mixin..."
-              noResultsText="No mixins found"
-              onChange={this.updateMixins.bind(this)}
-              simpleValue
-              value={this.state.mixins}
-            />
+            {this.state.mixins.length >= 2 ? (
+              <Select
+                id="mixinSelect"
+                classNamePrefix="select"
+                options={this.getMixinOptions()}
+                isMulti={true}
+                placeholder="Add mixin..."
+                noResultsText="No mixins found"
+                onChange={this.updateMixins.bind(this)}
+                simpleValue
+                value={this.state.mixins}
+              />
+            ) : (
+              <Selector
+                id="mixinSelect"
+                placeholder="Add mixin..."
+                options={this.getMixinOptions()}
+                icon={true}
+                onSelect={(value) => this.updateMixins(value)}
+              />
+            )}
           </span>
         </div>
       </div>

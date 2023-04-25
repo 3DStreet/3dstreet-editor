@@ -171,6 +171,34 @@ const CheckIcon = (className) => (
   </svg>
 );
 
+const Search20Icon = (className) => (
+  <svg
+    className={className}
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M8.33325 13.1667C11.0947 13.1667 13.3333 10.9281 13.3333 8.16667C13.3333 5.40525 11.0947 3.16667 8.33325 3.16667C5.57183 3.16667 3.33325 5.40525 3.33325 8.16667C3.33325 10.9281 5.57183 13.1667 8.33325 13.1667Z"
+      stroke="#B6B6B6"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.25 12.25L16.6667 16.6667"
+      stroke="#B6B6B6"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   Camera32Icon,
   Save24Icon,
@@ -180,5 +208,6 @@ export {
   Compass32Icon,
   ArrowDown24Icon,
   ArrowUp24Icon,
-  CheckIcon
+  CheckIcon,
+  Search20Icon
 };
