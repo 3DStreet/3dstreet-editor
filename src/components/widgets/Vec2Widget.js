@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { areVectorsEqual } from '../../lib/utils.js';
-
 import NumberWidget from './NumberWidget';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { areVectorsEqual } from '../../lib/utils.js';
 
 export default class Vec2Widget extends React.Component {
   static propTypes = {
@@ -47,8 +46,9 @@ export default class Vec2Widget extends React.Component {
 
     return (
       <div className="vec2">
-        <NumberWidget name="x" value={this.state.x} {...widgetProps} />
-        <NumberWidget name="y" value={this.state.y} {...widgetProps} />
+        <span className="name">vec2</span>
+        <NumberWidget value={this.state.x} {...widgetProps} />
+        <NumberWidget value={this.state.y} {...widgetProps} />
       </div>
     );
   }
