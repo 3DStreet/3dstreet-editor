@@ -6421,7 +6421,7 @@ var Entity = /*#__PURE__*/function (_React$Component) {
             evt.stopPropagation();
             _this2.props.toggleExpandedCollapsed(entity);
           },
-          className: "collapsespace fa ".concat(isExpanded ? 'fa-caret-down' : 'fa-caret-up')
+          className: "collapsespace fa ".concat(isExpanded ? 'fa-caret-down' : 'fa-caret-right')
         });
       } else {
         collapse = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
@@ -7324,7 +7324,7 @@ var CameraToolbar = /*#__PURE__*/function (_Component) {
     }
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "state", {
-      selectedCamera: 'orthotop',
+      selectedCamera: 'perspective',
       areChangesEmitted: false
     });
     _defineProperty(_assertThisInitialized(_this), "setInitialCamera", function () {
@@ -11827,6 +11827,7 @@ function Viewport(inspector) {
   // Helpers.
   var sceneHelpers = inspector.sceneHelpers;
   var grid = new THREE.GridHelper(30, 60, 0xaaaaaa, 0x262626);
+  grid.visible = false;
   sceneHelpers.add(grid);
   var selectionBox = new THREE.BoxHelper();
   selectionBox.material.depthTest = false;
@@ -11864,16 +11865,15 @@ function Viewport(inspector) {
     hoverBox.visible = true;
     hoverBox.setFromObject(el.object3D);
     // update hoverBoxFill to match el.object3D bounding box
-    // el.object3D.updateMatrixWorld();
+    el.object3D.updateMatrixWorld();
     tempBox3.setFromObject(el.object3D);
     tempBox3.getSize(tempVector3Size);
     tempBox3.getCenter(tempVector3Center);
     hoverBoxFill.visible = true;
     hoverBoxFill.position.copy(tempVector3Center);
     hoverBoxFill.scale.copy(tempVector3Size);
-    // hoverBoxFill.geometry.attributes.position.needsUpdate = true;
+    hoverBoxFill.geometry.attributes.position.needsUpdate = true;
   });
-
   _Events__WEBPACK_IMPORTED_MODULE_3__["default"].on('raycastermouseleave', function (el) {
     hoverBox.visible = false;
     hoverBoxFill.visible = false;
@@ -11929,8 +11929,8 @@ function Viewport(inspector) {
   _Events__WEBPACK_IMPORTED_MODULE_3__["default"].on('entityupdate', function (detail) {
     if (inspector.selectedEntity.object3DMap.mesh) {
       selectionBox.setFromObject(inspector.selected);
-      // hoverBox.visible = false;
-      // hoverBoxFill.visible = false;
+      hoverBox.visible = false;
+      hoverBoxFill.visible = false;
     }
   });
 
@@ -11993,11 +11993,10 @@ function Viewport(inspector) {
       // Hack because object3D always has geometry :(
       if (object.geometry && (object.geometry.vertices && object.geometry.vertices.length > 0 || object.geometry.attributes && object.geometry.attributes.position && object.geometry.attributes.position.array.length)) {
         selectionBox.setFromObject(object);
-        // hoverBox.visible = false;
-        // hoverBoxFill.visible = false;
+        hoverBox.visible = false;
+        hoverBoxFill.visible = false;
       }
     }
-
     transformControls.update();
     if (object instanceof THREE.PerspectiveCamera) {
       object.updateProjectionMatrix();
