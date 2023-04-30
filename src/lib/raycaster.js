@@ -129,13 +129,11 @@ export function initRaycaster(inspector) {
       mouseCursor.setAttribute('raycaster', 'enabled', true);
       inspector.container.addEventListener('mousedown', onMouseDown);
       inspector.container.addEventListener('mouseup', onMouseUp);
-      inspector.container.addEventListener('dblclick', onDoubleClick);
     },
     disable: () => {
       mouseCursor.setAttribute('raycaster', 'enabled', false);
       inspector.container.removeEventListener('mousedown', onMouseDown);
       inspector.container.removeEventListener('mouseup', onMouseUp);
-      inspector.container.removeEventListener('dblclick', onDoubleClick);
     }
   };
 }
