@@ -70,9 +70,20 @@ export default class Toolbar extends Component {
 
   makeScreenshot = (component) =>
     new Promise((resolve) => {
-      const sceneElem = AFRAME.scenes[0];
-      sceneElem.components.screenshot.capture('perspective');
-      setTimeout(() => resolve(), 2000);
+      // use vanilla js to create an img element as destination for our screenshot
+      const imgHTML =
+        '<img id="screentock-destination" style="width: 200px; height: 200px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">';
+      document.body.insertAdjacentHTML('beforeend', imgHTML);
+      // set the screenshot component `screentock` to use an img element and provide its id
+      AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
+      AFRAME.scenes[0].setAttribute(
+        'screentock',
+        'imgElementSelector',
+        '#screentock-destination'
+      );
+      // take the screenshot
+      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+      setTimeout(() => resolve(), 1000);
     }).then(() => {
       component &&
         component.setState((prevState) => ({
