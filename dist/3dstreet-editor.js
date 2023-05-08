@@ -7030,11 +7030,11 @@ var Toolbar = /*#__PURE__*/function (_Component) {
     });
     _defineProperty(_assertThisInitialized(_this), "makeScreenshot", function (component) {
       return new Promise(function (resolve) {
-        var sceneElem = AFRAME.scenes[0];
-        sceneElem.components.screenshot.capture('perspective');
+        AFRAME.scenes[0].setAttribute('screentock', 'type', 'jpg');
+        AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
         setTimeout(function () {
           return resolve();
-        }, 2000);
+        }, 1000);
       }).then(function () {
         component && component.setState(function (prevState) {
           return _objectSpread(_objectSpread({}, prevState), {}, {
@@ -11400,9 +11400,13 @@ function initRaycaster(inspector) {
     el: mouseCursor,
     enable: function enable() {
       mouseCursor.setAttribute('raycaster', 'enabled', true);
+      inspector.container.addEventListener('mousedown', onMouseDown);
+      inspector.container.addEventListener('mouseup', onMouseUp);
     },
     disable: function disable() {
       mouseCursor.setAttribute('raycaster', 'enabled', false);
+      inspector.container.removeEventListener('mousedown', onMouseDown);
+      inspector.container.removeEventListener('mouseup', onMouseUp);
     }
   };
 }
@@ -13326,7 +13330,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;500);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#helpButton.helpButton {\n  position: absolute;\n  left: 40px;\n  border: unset;\n  bottom: 31px;\n  border-radius: 50%;\n  width: 43px;\n  height: 43px;\n  background-color: #2d2d2d;\n  padding: 0 !important;\n}\n#helpButton:hover {\n  background-color: #6439df;\n}\n#helpButton:active {\n  background-color: #5b37c0;\n}\n", "",{"version":3,"sources":["webpack://./src/components/components/HelpButton/HelpButton.styles.styl"],"names":[],"mappings":"AAEA;EACE,kBAAS;EACT,UAAK;EACL,aAAO;EACP,YAAO;EACP,kBAAc;EACd,WAAO;EACP,YAAO;EACP,yBAAkB;EAClB,qBAAQ;AAAV;AAEA;EACE,yBAAiB;AAAnB;AAEA;EACE,yBAAkB;AAApB","sourcesContent":["@import '../../../style/lib';\n\n#helpButton.helpButton\n  position absolute\n  left 40px\n  border unset\n  bottom 31px\n  border-radius 50%\n  width: 43px\n  height 43px\n  background-color: #2D2D2D\n  padding 0 !important\n  \n#helpButton:hover \n  background-color #6439df\n\n#helpButton:active \n  background-color: #5B37C0;"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#helpButton.helpButton {\n  position: absolute;\n  left: 40px;\n  border: unset;\n  bottom: 31px;\n  border-radius: 50%;\n  width: 43px;\n  height: 43px;\n  background-color: #774dee;\n  padding: 0 !important;\n}\n#helpButton:hover {\n  background-color: #6439df;\n}\n#helpButton:active {\n  background-color: #5b37c0;\n}\n", "",{"version":3,"sources":["webpack://./src/components/components/HelpButton/HelpButton.styles.styl"],"names":[],"mappings":"AAEA;EACE,kBAAS;EACT,UAAK;EACL,aAAO;EACP,YAAO;EACP,kBAAc;EACd,WAAO;EACP,YAAO;EACP,yBAAkB;EAClB,qBAAQ;AAAV;AAEA;EACE,yBAAiB;AAAnB;AAEA;EACE,yBAAkB;AAApB","sourcesContent":["@import '../../../style/lib';\n\n#helpButton.helpButton\n  position absolute\n  left 40px\n  border unset\n  bottom 31px\n  border-radius 50%\n  width: 43px\n  height 43px\n  background-color: #774DEE\n  padding 0 !important\n  \n#helpButton:hover \n  background-color #6439df\n\n#helpButton:active \n  background-color: #5B37C0;"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -64260,6 +64264,7 @@ Inspector.prototype = {
     document.body.classList.remove('aframe-inspector-opened');
     this.sceneEl.resize();
     _lib_shortcuts__WEBPACK_IMPORTED_MODULE_5__.Shortcuts.disable();
+    document.activeElement.blur();
   }
 };
 var inspector = AFRAME.INSPECTOR = new Inspector();
