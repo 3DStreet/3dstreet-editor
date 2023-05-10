@@ -32,23 +32,46 @@ export default class Mixin extends React.Component {
       return mixin.id;
     });
 
-    return Array.prototype.slice
-      .call(document.querySelectorAll('a-mixin'))
-      .filter(function (mixin) {
-        return mixinIds.indexOf(mixin.id) === -1;
-      })
-      .sort()
-      .map(function (mixin) {
-        return { value: mixin.id, label: mixin.id };
-      });
+    return (
+      Array.prototype.slice
+        .call(document.querySelectorAll('a-mixin'))
+        // .filter(function (mixin) {
+        //   return mixinIds.indexOf(mixin.id) === -1;
+        // })
+        .sort()
+        .map(function (mixin) {
+          return { value: mixin.id, label: mixin.id };
+        })
+    );
   };
 
   updateMixins = (value) => {
     const entity = this.props.entity;
+    console.log('value', value);
 
     this.setState({ mixins: value });
     const mixinStr = value.map((v) => v.value).join(' ');
+    console.log('mixinStr', mixinStr);
+
     entity.setAttribute('mixin', mixinStr);
+
+    Events.emit('entityupdate', {
+      component: 'mixin',
+      entity: entity,
+      property: '',
+      value: mixinStr
+    });
+    if (typeof ga !== 'undefined') {
+      ga('send', 'event', 'Components', 'addMixin');
+    }
+  };
+
+  updateMixinSingle = (value) => {
+    const entity = this.props.entity;
+    console.log(value.value);
+    this.setState({ mixins: value });
+    const mixinStr = value.value;
+    entity.setAttribute('mixin', value.value);
 
     Events.emit('entityupdate', {
       component: 'mixin',
@@ -67,17 +90,33 @@ export default class Mixin extends React.Component {
         <div className="propertyRow">
           <span className="text">Model</span>
           <span className="mixinValue">
-            <Select
-              id="mixinSelect"
-              classNamePrefix="select"
-              options={this.getMixinOptions()}
-              isMulti={true}
-              placeholder="Add mixin..."
-              noResultsText="No mixins found"
-              onChange={this.updateMixins.bind(this)}
-              simpleValue
-              value={this.state.mixins}
-            />
+            {this.state.mixins.length >= 2 ? (
+              <Select
+                id="mixinSelect"
+                classNamePrefix="select"
+                options={this.getMixinOptions()}
+                isMulti={true}
+                placeholder="Search mixins..."
+                noResultsText="No mixins found"
+                onChange={this.updateMixins.bind(this)}
+                simpleValue
+                value={this.state.mixins}
+              />
+            ) : (
+              <Select
+                id="mixinSelect"
+                classNamePrefix="select-single"
+                options={this.getMixinOptions()}
+                isMulti={false}
+                isSearchable={true}
+                isClearable={false}
+                placeholder="Search models..."
+                noResultsText="No models found"
+                onChange={this.updateMixinSingle.bind(this)}
+                simpleValue
+                value={this.state.mixins}
+              />
+            )}
           </span>
         </div>
       </div>
