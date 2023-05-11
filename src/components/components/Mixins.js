@@ -32,27 +32,19 @@ export default class Mixin extends React.Component {
       return mixin.id;
     });
 
-    return (
-      Array.prototype.slice
-        .call(document.querySelectorAll('a-mixin'))
-        // .filter(function (mixin) {
-        //   return mixinIds.indexOf(mixin.id) === -1;
-        // })
-        .sort()
-        .map(function (mixin) {
-          return { value: mixin.id, label: mixin.id };
-        })
-    );
+    return Array.prototype.slice
+      .call(document.querySelectorAll('a-mixin'))
+      .sort()
+      .map(function (mixin) {
+        return { value: mixin.id, label: mixin.id };
+      });
   };
 
   updateMixins = (value) => {
     const entity = this.props.entity;
-    console.log('value', value);
 
     this.setState({ mixins: value });
     const mixinStr = value.map((v) => v.value).join(' ');
-    console.log('mixinStr', mixinStr);
-
     entity.setAttribute('mixin', mixinStr);
 
     Events.emit('entityupdate', {
@@ -68,7 +60,7 @@ export default class Mixin extends React.Component {
 
   updateMixinSingle = (value) => {
     const entity = this.props.entity;
-    console.log(value.value);
+
     this.setState({ mixins: value });
     const mixinStr = value.value;
     // hack to fix error that sometimes a newly selected model won't load
