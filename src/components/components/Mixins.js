@@ -71,6 +71,8 @@ export default class Mixin extends React.Component {
     console.log(value.value);
     this.setState({ mixins: value });
     const mixinStr = value.value;
+    // hack to fix error that sometimes a newly selected model won't load
+    entity.setAttribute('mixin', '');
     entity.setAttribute('mixin', value.value);
 
     Events.emit('entityupdate', {
