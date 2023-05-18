@@ -70,9 +70,9 @@ export default class Toolbar extends Component {
 
   makeScreenshot = (component) =>
     new Promise((resolve) => {
-      const sceneElem = AFRAME.scenes[0];
-      sceneElem.components.screenshot.capture('perspective');
-      setTimeout(() => resolve(), 2000);
+      AFRAME.scenes[0].setAttribute('screentock', 'type', 'jpg');
+      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+      setTimeout(() => resolve(), 1000);
     }).then(() => {
       component &&
         component.setState((prevState) => ({

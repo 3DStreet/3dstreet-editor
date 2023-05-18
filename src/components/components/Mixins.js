@@ -34,9 +34,6 @@ export default class Mixin extends React.Component {
 
     return Array.prototype.slice
       .call(document.querySelectorAll('a-mixin'))
-      .filter(function (mixin) {
-        return mixinIds.indexOf(mixin.id) === -1;
-      })
       .sort()
       .map(function (mixin) {
         return { value: mixin.id, label: mixin.id };
@@ -61,6 +58,26 @@ export default class Mixin extends React.Component {
     }
   };
 
+  updateMixinSingle = (value) => {
+    const entity = this.props.entity;
+
+    this.setState({ mixins: value });
+    const mixinStr = value.value;
+    // hack to fix error that sometimes a newly selected model won't load
+    entity.setAttribute('mixin', '');
+    entity.setAttribute('mixin', value.value);
+
+    Events.emit('entityupdate', {
+      component: 'mixin',
+      entity: entity,
+      property: '',
+      value: mixinStr
+    });
+    if (typeof ga !== 'undefined') {
+      ga('send', 'event', 'Components', 'addMixin');
+    }
+  };
+
   render() {
     return (
       <div className="mixinOptions">
@@ -73,19 +90,25 @@ export default class Mixin extends React.Component {
                 classNamePrefix="select"
                 options={this.getMixinOptions()}
                 isMulti={true}
-                placeholder="Add mixin..."
+                placeholder="Search mixins..."
                 noResultsText="No mixins found"
                 onChange={this.updateMixins.bind(this)}
                 simpleValue
                 value={this.state.mixins}
               />
             ) : (
-              <Selector
+              <Select
                 id="mixinSelect"
-                placeholder="Add mixin..."
+                classNamePrefix="select-single"
                 options={this.getMixinOptions()}
-                icon={true}
-                onSelect={(value) => this.updateMixins(value)}
+                isMulti={false}
+                isSearchable={true}
+                isClearable={false}
+                placeholder="Search models..."
+                noResultsText="No models found"
+                onChange={this.updateMixinSingle.bind(this)}
+                simpleValue
+                value={this.state.mixins}
               />
             )}
           </span>
