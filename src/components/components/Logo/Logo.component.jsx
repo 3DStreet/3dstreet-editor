@@ -15,7 +15,7 @@ const Logo = ({ onToggleEdit, isEditor }) => (
     <div className={styles.logo}>
       {isEditor ? <EditorLogo /> : <ViewerLogo />}
     </div>
-    <Button onClick={onToggleEdit}>
+    <Button onClick={onToggleEdit} className={styles.btn}>
       {isEditor ? 'Enter Viewer mode' : 'Enter Editor mode'}
     </Button>
   </div>

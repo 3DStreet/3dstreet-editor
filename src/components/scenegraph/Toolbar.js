@@ -1,11 +1,11 @@
-import { Camera32Icon, Cross32Icon, Save24Icon, Load24Icon } from '../../icons';
+import { Camera32Icon, Cross32Icon, Load24Icon, Save24Icon } from '../../icons';
+import { fileJSON, inputStreetmix } from '../../lib/toolbar';
 
 import { Button } from '../components';
 import { Component } from 'react';
 import Events from '../../lib/Events';
 import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
-import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -187,18 +187,13 @@ export default class Toolbar extends Component {
             <div>
               {!this.state.isSaveActionActive ? (
                 <Button onClick={this.toggleSaveActionState.bind(this)}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      margin: '-2.5px 0px -2.5px -2px'
-                    }}
-                  >
+                  <div className={'actionBtn'}>
                     <Save24Icon />
                   </div>
-                  Save
+                  <span className={'btnText'}>Save</span>
                 </Button>
               ) : (
-                <div className={'saveActions'}>
+                <div className={'actionBtn'}>
                   <Button onClick={this.exportSceneToGLTF}>
                     glTF 3D Model
                   </Button>
@@ -221,15 +216,10 @@ export default class Toolbar extends Component {
             <div>
               {!this.state.isLoadActionActive ? (
                 <Button onClick={this.toggleLoadActionState.bind(this)}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      margin: '-2.5px 0px -2.5px -2px'
-                    }}
-                  >
+                  <div className={'actionBtn'}>
                     <Load24Icon />
                   </div>
-                  Load
+                  <span className={'btnText'}>Load</span>
                 </Button>
               ) : (
                 <div className={'loadActions'}>
