@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Events from '../../lib/Events';
 import Select from 'react-select';
+import Events from '../../lib/Events';
 
 export default class Mixin extends React.Component {
   static propTypes = {
@@ -42,7 +42,7 @@ export default class Mixin extends React.Component {
 
   updateMixins = (value) => {
     const entity = this.props.entity;
-    value = Array.isArray(value) ? value : [value];
+
     this.setState({ mixins: value });
     const mixinStr = value.map((v) => v.value).join(' ');
     entity.setAttribute('mixin', mixinStr);
