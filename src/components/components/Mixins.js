@@ -1,8 +1,8 @@
-import Events from '../../lib/Events';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import Events from '../../lib/Events';
 import Select from 'react-select';
-import { Selector } from './Selector';
+
 export default class Mixin extends React.Component {
   static propTypes = {
     entity: PropTypes.object.isRequired
