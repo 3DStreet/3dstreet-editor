@@ -295,6 +295,7 @@ Inspector.prototype = {
     document.body.classList.remove('aframe-inspector-opened');
     this.sceneEl.resize();
     Shortcuts.disable();
+    document.activeElement.blur();
   }
 };
 
