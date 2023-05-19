@@ -7,6 +7,5 @@ export {
   Compass32Icon,
   ArrowDown24Icon,
   ArrowUp24Icon,
-  CheckIcon,
-  Search20Icon
+  CheckIcon
 } from './icons.jsx';
