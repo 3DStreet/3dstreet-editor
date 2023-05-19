@@ -1,8 +1,65 @@
 @import './lib';
 
-[class^="select-single"] {
-  color: black;
-}
+[class^="select-single"] 
+  color: #B6B6B6
+  font-weight: 400
+  font-size: 16px
+  line-height: 19px
+[class^="select-single"]:hover
+  [class^="select-single__single-value"] 
+    color: #CBCBCB
+  [class^="select-single__indicator"]
+    *
+      fill:#FFFFFF
+  [class^="select-single__indicator"]:active
+    [class^="select-single__single-value"] 
+      color: #ffffff
+    [class^="select-single__indicator"] 
+      *
+        fill:#FFFFFF
+[class^="select-single__control"] 
+  background: rgba(50, 50, 50, 0.8)
+  border: 1px solid #543E79
+  border-radius: 10px
+  padding: 12px 16px;
+[class^="select-single__control"]:hover 
+  border: 1px solid #6439AB
+[class^="select-single__value-container"], [class^="select-single__input-container"] 
+  padding: 0
+  margin: 0
+[class^="select-single__indicator-separator"]
+  display: none
+[class^="select-single__indicator"] 
+  *
+    fill:#636363
+[class^="select-single__menu"]
+  background: #2D2D2D
+  border-radius: 8px
+[class^="select-single__option"]
+  background: #2D2D2D;
+[class^="select-single__option"]:hover
+  background: #373737
+  cursor pointer
+  
+[class^="select-single__menu-list"]
+  border: 1px solid #8D56E8;
+.select-single__control--is-focused
+  border: 1px solid #8D56E8 !important;
+  box-shadow: none
+  .select-single__single-value
+    color: #B6B6B6 !important
+  svg 
+    *
+      fill: #ffffff
+.select-single__control--is-disabled
+  background: rgba(50, 50, 50, 0.8);
+  border: 1px solid #382A50 !important;
+  box-shadow: none
+  .select-single__single-value
+    color: #636363 !important
+  svg 
+    *
+      fill: #636363
 
 .select__control
   border 0
