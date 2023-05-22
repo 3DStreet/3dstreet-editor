@@ -10819,6 +10819,7 @@ function insertAfter(newNode, referenceNode) {
  * @param  {Element} entity Entity to clone
  */
 function cloneEntity(entity) {
+  // TODO: flushToDOM resets to state of entity prior to opening inspector see https://github.com/aframevr/aframe-inspector/issues/688
   entity.flushToDOM();
   var clone = entity.cloneNode(true);
   clone.addEventListener('loaded', function () {
@@ -10831,6 +10832,11 @@ function cloneEntity(entity) {
     clone.id = getUniqueId(entity.id);
   }
   insertAfter(clone, entity);
+  // TODO: Hack for if entity has mixin to ensure that it displays correctly upon clone
+  if (entity.hasAttribute('mixin')) {
+    clone.setAttribute('mixin', '');
+    clone.setAttribute('mixin', entity.getAttribute('mixin'));
+  }
 }
 
 /**
