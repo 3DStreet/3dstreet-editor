@@ -99,12 +99,24 @@ div.vec4
 .collapsible:not(.collapsed) .static .collapse-button
   border-top-color $white
   margin-top 7px
-
+.details .propertyRow 
+  width: 100%
+  display: flex
+  align-items: center
+  column-gap: 12px
+.details .propertyRow .text
+  max-width: 66px
+  min-width: 66px
+  word-wrap: break-word
+.details .propertyRow input
+  width: 100% !important
+.details .propertyRow .inputBlock
+  margin-right: 12px
+  width: 100%
 .propertyRow  
   font-size 14px
   min-height 30px
   margin-top 20px
-
   > input.string,
   > input.number,
   > .inputBlock > input.number,
@@ -148,8 +160,6 @@ div.vec4
     position relative
     display inline-block
     float right
-    right 90px
-    top -25px
     width 40px
     height 20px
     margin 2px 5px
