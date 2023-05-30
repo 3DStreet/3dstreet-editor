@@ -46,9 +46,8 @@ export default class Vec2Widget extends React.Component {
 
     return (
       <div className="vec2">
-        <span className="name">vec2</span>
-        <NumberWidget value={this.state.x} {...widgetProps} />
-        <NumberWidget value={this.state.y} {...widgetProps} />
+        <NumberWidget name="x" value={this.state.x} {...widgetProps} />
+        <NumberWidget name="y" value={this.state.y} {...widgetProps} />
       </div>
     );
   }

@@ -47,10 +47,9 @@ export default class Vec3Widget extends React.Component {
 
     return (
       <div className="vec3">
-        <span className="name">vec3</span>
-        <NumberWidget value={this.state.x} {...widgetProps} />
-        <NumberWidget value={this.state.y} {...widgetProps} />
-        <NumberWidget value={this.state.z} {...widgetProps} />
+        <NumberWidget name="x" value={this.state.x} {...widgetProps} />
+        <NumberWidget name="y" value={this.state.y} {...widgetProps} />
+        <NumberWidget name="z" value={this.state.z} {...widgetProps} />
       </div>
     );
   }
