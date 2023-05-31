@@ -7,7 +7,9 @@
   height 43px
   width fit-content
   z-index: 10
-
+  .actionBtn 
+    margin: -2.5px 0px -2.5px -2px
+    display: flex
   .toolbarActions
     width fit-content
     height 43px
@@ -322,3 +324,13 @@
   a
     float right
     margin 10px
+@media screen and (max-width: 1024px)
+  #toolbar
+    right 24px
+    .actionBtn 
+      margin: -6.5px -10.5px
+      svg
+        width: 32px
+        height: 32px
+    .btnText
+      display: none !important

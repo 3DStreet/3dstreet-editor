@@ -157,7 +157,6 @@ export default class CommonComponents extends React.Component {
             <span>{entity.getAttribute('class')}</span>
           </div>
           {this.renderCommonAttributes()}
-          <Mixins entity={entity} />
         </div>
       </Collapsible>
     );
