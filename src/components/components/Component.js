@@ -1,10 +1,10 @@
-import React from 'react';
+import Clipboard from 'clipboard';
+import Collapsible from '../Collapsible';
+import Events from '../../lib/Events';
 import PropTypes from 'prop-types';
 import PropertyRow from './PropertyRow';
-import Collapsible from '../Collapsible';
-import Clipboard from 'clipboard';
+import React from 'react';
 import { getComponentClipboardRepresentation } from '../../lib/entity';
-import Events from '../../lib/Events';
 
 const isSingleProperty = AFRAME.schema.isSingleProperty;
 
@@ -117,16 +117,18 @@ export default class Component extends React.Component {
 
     return Object.keys(componentData.schema)
       .sort()
-      .map((propertyName) => (
-        <PropertyRow
-          key={propertyName}
-          name={propertyName}
-          schema={componentData.schema[propertyName]}
-          data={componentData.data[propertyName]}
-          componentname={this.props.name}
-          isSingle={false}
-          entity={this.props.entity}
-        />
+      .map((propertyName, idx) => (
+        <div className="detailed" key={idx}>
+          <PropertyRow
+            key={propertyName}
+            name={propertyName}
+            schema={componentData.schema[propertyName]}
+            data={componentData.data[propertyName]}
+            componentname={this.props.name}
+            isSingle={false}
+            entity={this.props.entity}
+          />
+        </div>
       ));
   };
 

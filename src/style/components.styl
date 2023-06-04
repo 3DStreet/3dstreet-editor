@@ -99,12 +99,31 @@ div.vec4
 .collapsible:not(.collapsed) .static .collapse-button
   border-top-color $white
   margin-top 7px
-
+.details .propertyRow 
+  width: 100%
+  display: flex
+  align-items: center
+  column-gap: 12px
+.details .propertyRow .text
+  max-width: 100px
+  min-width: 100px
+  word-wrap: break-word
+.details .propertyRow input
+  width: 100% !important
+.details .propertyRow .inputBlock
+  margin-right: 12px
+  width: 100%
+.details .propertyRow .select-widget
+  width: 100%
+  margin-right: 12px
+.details .propertyRow .vec2 
+  justify-content: start
+.details .propertyRow .vec2 .inputBlock
+  width: 100%
 .propertyRow  
   font-size 14px
   min-height 30px
   margin-top 20px
-
   > input.string,
   > input.number,
   > .inputBlock > input.number,
@@ -148,8 +167,6 @@ div.vec4
     position relative
     display inline-block
     float right
-    right 90px
-    top -25px
     width 40px
     height 20px
     margin 2px 5px
@@ -186,8 +203,7 @@ div.vec4
     text-transform capitalize
     margin-bottom 4px
     display block
-
-  .vec3
+  .vec2
     width 348px
     display flex
     flex-direction row
@@ -195,6 +211,36 @@ div.vec4
     align-content center
     align-items center
     margin-top 4px
+    .name
+      width 100px
+    .inputBlock
+      width 108px
+      height 48px
+      padding 12px 16px
+      background rgba(50, 50, 50, 0.8)
+      border 1px solid #543E79
+      border-radius 10px
+      box-sizing border-box
+      white-space nowrap
+      span
+        width 9px
+        height 19px
+        line-height 19px
+        margin-right 8px
+        font-weight 400
+        font-size 16px
+        color $colorPressed
+        text-transform uppercase
+  .vec3
+    width 348px
+    display flex
+    flex-direction row
+    column-gap 12px
+    align-content center
+    align-items center
+    margin-top 4px
+    .name
+      width 100px
 
     .inputBlock
       width 108px 
