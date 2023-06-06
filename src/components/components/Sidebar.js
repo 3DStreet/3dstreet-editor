@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { cloneEntity, removeSelectedEntity } from '../../lib/entity';
+
+import { Button } from '../components';
 import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
+import Mixins from './Mixins';
+import PropTypes from 'prop-types';
+import React from 'react';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
-import { Button } from '../components';
-import Mixins from './Mixins';
-import { cloneEntity, removeSelectedEntity } from '../../lib/entity';
 
 export default class Sidebar extends React.Component {
   static propTypes = {
@@ -66,16 +67,21 @@ export default class Sidebar extends React.Component {
             <span>{entityName || formattedMixin}</span>
             <div id="toggle-rightbar" />
           </div>
-          <Mixins entity={entity} />
-          <div id="sidebar-buttons">
-            <Button variant={'toolbtn'} onClick={() => cloneEntity(entity)}>
-              Duplicate
-            </Button>
-            <Button variant={'toolbtn'} onClick={() => removeSelectedEntity()}>
-              Delete
-            </Button>
+          <div className="scroll">
+            <Mixins entity={entity} />
+            <div id="sidebar-buttons">
+              <Button variant={'toolbtn'} onClick={() => cloneEntity(entity)}>
+                Duplicate
+              </Button>
+              <Button
+                variant={'toolbtn'}
+                onClick={() => removeSelectedEntity()}
+              >
+                Delete
+              </Button>
+            </div>
+            <ComponentsContainer entity={entity} />
           </div>
-          <ComponentsContainer entity={entity} />
         </div>
       );
     } else {
