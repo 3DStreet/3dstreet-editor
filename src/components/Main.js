@@ -8,6 +8,7 @@ import Events from '../lib/Events';
 import { ModalHelp } from './modals/ModalHelp';
 import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
+import { ScreenshotModal } from './modals/ScreenshotModal';
 import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
@@ -98,10 +99,17 @@ export default class Main extends Component {
     Events.on('openhelpmodal', () => {
       this.setState({ isHelpOpen: true });
     });
+    Events.on('openscreenshotmodal', () => {
+      this.setState({ isScreenshotOpen: true });
+    });
   }
 
   onCloseHelpModal = (value) => {
     this.setState({ isHelpOpen: false });
+  };
+
+  onCloseScreenshotModal = (value) => {
+    this.setState({ isScreenshotOpen: false });
   };
 
   onModalTextureOnClose = (value) => {
@@ -194,12 +202,15 @@ export default class Main extends Component {
           isOpen={this.state.isHelpOpen}
           onClose={this.onCloseHelpModal}
         />
+        <ScreenshotModal
+          isOpen={this.state.isScreenshotOpen}
+          onClose={this.onCloseScreenshotModal}
+        />
         <ModalTextures
           isOpen={this.state.isModalTexturesOpen}
           selectedTexture={this.state.selectedTexture}
           onClose={this.onModalTextureOnClose}
         />
-
         {this.state.inspectorEnabled && (
           <div id="help">
             <HelpButton />

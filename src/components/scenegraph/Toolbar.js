@@ -1,7 +1,7 @@
-import { Camera32Icon, Cross32Icon, Load24Icon, Save24Icon } from '../../icons';
+import { Button, ScreenshotButton } from '../components';
+import { Cross32Icon, Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
 
-import { Button } from '../components';
 import { Component } from 'react';
 import Events from '../../lib/Events';
 import { SavingModal } from '../modals/SavingModal';
@@ -70,7 +70,20 @@ export default class Toolbar extends Component {
 
   makeScreenshot = (component) =>
     new Promise((resolve) => {
-      AFRAME.scenes[0].setAttribute('screentock', 'type', 'jpg');
+      // use vanilla js to create an img element as destination for our screenshot
+      const imgHTML =
+        '<img id="screentock-destination" style="width: 886px; height: 517px; position: fixed; top: 50%; left: 50%; margin-top: 55px; transform: translate(-50%, -50%);">';
+      document.body.insertAdjacentHTML('beforeend', imgHTML);
+      // Set the screenshot in local storage
+      localStorage.setItem('screenshot', JSON.stringify(imgHTML));
+      // set the screenshot component screentock to use an img element and provide its id
+      AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
+      AFRAME.scenes[0].setAttribute(
+        'screentock',
+        'imgElementSelector',
+        '#screentock-destination'
+      );
+      // take the screenshot
       AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
       setTimeout(() => resolve(), 1000);
     }).then(() => {
@@ -187,13 +200,18 @@ export default class Toolbar extends Component {
             <div>
               {!this.state.isSaveActionActive ? (
                 <Button onClick={this.toggleSaveActionState.bind(this)}>
-                  <div className={'actionBtn'}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      margin: '-2.5px 0px -2.5px -2px'
+                    }}
+                  >
                     <Save24Icon />
                   </div>
-                  <span className={'btnText'}>Save</span>
+                  Save
                 </Button>
               ) : (
-                <div className={'actionBtn'}>
+                <div className={'saveActions'}>
                   <Button onClick={this.exportSceneToGLTF}>
                     glTF 3D Model
                   </Button>
@@ -216,10 +234,15 @@ export default class Toolbar extends Component {
             <div>
               {!this.state.isLoadActionActive ? (
                 <Button onClick={this.toggleLoadActionState.bind(this)}>
-                  <div className={'actionBtn'}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      margin: '-2.5px 0px -2.5px -2px'
+                    }}
+                  >
                     <Load24Icon />
                   </div>
-                  <span className={'btnText'}>Load</span>
+                  Load
                 </Button>
               ) : (
                 <div className={'loadActions'}>
@@ -253,8 +276,7 @@ export default class Toolbar extends Component {
               )}
             </div>
           )}
-
-          <Button
+          <div
             onClick={() =>
               this.setState((prevState) => ({
                 ...prevState,
@@ -263,10 +285,8 @@ export default class Toolbar extends Component {
             }
             className={'cameraButton'}
           >
-            <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-              <Camera32Icon />
-            </div>
-          </Button>
+            <ScreenshotButton />
+          </div>
           {/* not is use */}
           {/* <button
             className={"viewButton"}
