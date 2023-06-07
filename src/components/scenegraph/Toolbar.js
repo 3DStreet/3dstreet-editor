@@ -76,7 +76,6 @@ export default class Toolbar extends Component {
       document.body.insertAdjacentHTML('beforeend', imgHTML);
       // Set the screenshot in local storage
       localStorage.setItem('screenshot', JSON.stringify(imgHTML));
-      // set the screenshot component screentock to use an img element and provide its id
       AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
       AFRAME.scenes[0].setAttribute(
         'screentock',
