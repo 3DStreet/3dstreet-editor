@@ -72,8 +72,7 @@ export default class Toolbar extends Component {
     new Promise((resolve) => {
       // use vanilla js to create an img element as destination for our screenshot
       const imgHTML =
-        '<img id="screentock-destination" style="width: 886px; height: 517px; position: fixed; top: 50%; left: 50%; margin-top: 55px; transform: translate(-50%, -50%);">';
-      document.body.insertAdjacentHTML('beforeend', imgHTML);
+        '<img id="screentock-destination" style="width: 886px; height: 500px; position: fixed; top: 50%; left: 50%; margin-top: 65px; transform: translate(-50%, -50%);">';
       // Set the screenshot in local storage
       localStorage.setItem('screenshot', JSON.stringify(imgHTML));
       AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
@@ -308,8 +307,6 @@ export default class Toolbar extends Component {
             title={watcherTitle}
             onClick={this.writeChanges}
           /> */}
-
-          {this.state.isCapturingScreen && <SavingModal />}
         </div>
       </div>
     );
