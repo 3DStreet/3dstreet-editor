@@ -7,3 +7,4 @@ export { Dropdown } from './Dropdown';
 export { Checkbox } from './Checkbox';
 export { Toggle } from './Toggle';
 export { Logo } from './Logo';
+export { ScreenshotButton } from './ScreenshotButton';
