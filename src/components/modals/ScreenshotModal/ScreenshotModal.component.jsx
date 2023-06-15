@@ -1,4 +1,5 @@
-import './ScreenshotModal.styles.styl';
+import React from 'react';
+import styles from './ScreenshotModal.module.scss';
 
 import { Button } from '../../components';
 import { Component } from 'react';
@@ -21,22 +22,24 @@ class ScreenshotModal extends Component {
     const parsedScreenshot = JSON.parse(storedScreenshot);
     return (
       <Modal
-        className={'screenshotModalWrapper'}
+        className={styles.screenshotModalWrapper}
         isOpen={isOpen}
         onClose={onClose}
         extraCloseKeyCode={72}
       >
-        <div className={'header'}>
-          <h1 className={'title'}>Save as</h1>
-          <div className={'buttons'}>
-            <Button onClick={() => this.saveScreenshot('jpg')}>{'JPG'}</Button>
-            <Button onClick={() => this.saveScreenshot('png')}>{'PNG'}</Button>
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Save as</h1>
+            <div className={styles.buttons}>
+              <Button onClick={() => this.saveScreenshot('jpg')}>JPG</Button>
+              <Button onClick={() => this.saveScreenshot('png')}>PNG</Button>
+            </div>
           </div>
+          <div
+            className={styles.imageWrapper}
+            dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
+          />
         </div>
-        <div
-          className={'image'}
-          dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
-        ></div>
       </Modal>
     );
   }

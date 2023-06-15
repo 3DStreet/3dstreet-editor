@@ -1,0 +1,45 @@
+.screenshotModalWrapper {
+  position: absolute;
+  top: 115px;
+  left: 0;
+  right: 0;
+  width: 90vw;
+  height: 90vw !important;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 53px;
+}
+
+.title {
+  font-size: 20px !important;
+}
+
+.buttons {
+  margin-left: 20px;
+}
+
+button {
+  border-radius: 18px !important;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0 0;
+
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    object-fit: contain;
+  }
+}
