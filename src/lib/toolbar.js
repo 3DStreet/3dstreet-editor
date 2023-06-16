@@ -30,7 +30,7 @@ function createElementsFromJSON(streetJSONString) {
     streetContainerEl.removeChild(streetContainerEl.lastChild);
   }
   const streetObject = JSON.parse(validJSONString);
-  createEntities(streetObject.data[0].children, streetContainerEl);
+  createEntities(streetObject.data, streetContainerEl);
 }
 
 export function fileJSON(event) {
