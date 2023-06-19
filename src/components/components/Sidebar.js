@@ -51,6 +51,7 @@ export default class Sidebar extends React.Component {
 
     // Rightbar class names
     const className = classnames({
+      outliner: true,
       hide: this.state.rightBarHide
     });
 
@@ -62,10 +63,10 @@ export default class Sidebar extends React.Component {
         : null;
 
       return (
-        <div id="sidebar" className={className}>
-          <div id="entity-name" onClick={this.toggleRightBar}>
+        <div className={className} tabIndex="0">
+          <div id="layers-title" onClick={this.toggleRightBar}>
             <span>{entityName || formattedMixin}</span>
-            <div id="toggle-rightbar" />
+            <div id="toggle-leftbar" />
           </div>
           <div className="scroll">
             <Mixins entity={entity} />

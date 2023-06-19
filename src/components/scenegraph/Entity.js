@@ -82,7 +82,7 @@ export default class Entity extends React.Component {
             this.props.toggleExpandedCollapsed(entity);
           }}
           className={`collapsespace fa ${
-            isExpanded ? 'fa-caret-down' : 'fa-caret-right'
+            isExpanded ? 'fa-caret-up' : 'fa-caret-down'
           }`}
         />
       );

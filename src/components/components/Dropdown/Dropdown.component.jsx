@@ -1,3 +1,4 @@
+import React from 'react';
 import { ArrowDown24Icon, ArrowUp24Icon } from '../../../icons';
 import { arrayOf, bool, func, node, shape, string } from 'prop-types';
 import { useRef, useState } from 'react';

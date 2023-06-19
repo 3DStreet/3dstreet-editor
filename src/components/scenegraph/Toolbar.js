@@ -263,6 +263,7 @@ export default class Toolbar extends Component {
                   </Button>
                   <Button
                     className={'closeButton'}
+                    type="custom"
                     onClick={this.toggleLoadActionState.bind(this)}
                   >
                     <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>

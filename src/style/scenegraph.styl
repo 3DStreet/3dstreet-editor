@@ -27,7 +27,15 @@
       border-radius: 22px
 
     .closeButton
-      background-color: $grayalt
+      width: 43px
+      height: 43px
+      background: rgba(50, 50, 50, 0.8)
+      border-radius: 22px !important
+
+      &:hover
+        background: #2D2D2D;
+        svg > path 
+          stroke: #fff
 
     .fa
       display none
@@ -45,11 +53,13 @@
   .layer 
     width 100%
     margin-top 12px
-    border-radius 12px
     overflow: hidden
     display flex
     flex-direction column
     align-items flex-start
+
+    &:hover 
+      background: #6A4AC3;
 
   .layer.active
     background $layerActive
@@ -78,9 +88,6 @@
   .entity:first-child
     margin 0px !important
 
-  .entity:last-child
-      margin-bottom 8px
-
   .entity
     cursor pointer
     display flex
@@ -88,6 +95,16 @@
     padding 3px
     width 100%
     white-space nowrap
+
+    &:hover 
+      background: #6A4AC3
+
+    &:focus
+      background: #6A4AC3;
+      border: 1px solid #FFFFFF;
+
+    &.disabled
+      background: $layerDisabled;
 
     &.active
       // width 324px
@@ -101,14 +118,23 @@
       .entityActions
         display inline
 
-    &.active:last-child
-      margin-bottom 8px
-
     &.active.novisible:first-child ~ .entity .entityName,
     &.novisible:first-child ~ .entity .entityName
       color #999
 
     &.novisible
+      box-sizing: border-box
+
+      &.disabled 
+        background: #3D3D3D;
+
+      &:focus
+        border: 1px solid #FFFFFF;
+
+      &:hover 
+        border: 2px solid #6A4AC3
+        background: none
+
       &.active
         span,
         .id
@@ -263,6 +289,7 @@
 
   .outliner.hide,
   .outliner.hide #layers-title
+    transition: all .4s ease-in-out 0s
     width 56px
     height 72px
     display flex
