@@ -1,3 +1,4 @@
+import Events from './Events';
 export function inputStreetmix() {
   const streetmixURL = prompt(
     'Please enter a Streetmix URL',
@@ -31,6 +32,8 @@ function createElementsFromJSON(streetJSONString) {
   }
   const streetObject = JSON.parse(validJSONString);
   createEntities(streetObject.data, streetContainerEl);
+  // update sceneGraph
+  Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 export function fileJSON(event) {
