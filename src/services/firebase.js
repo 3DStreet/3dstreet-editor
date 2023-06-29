@@ -4,13 +4,13 @@ import { getStorage } from 'firebase/storage';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA1A6Ms9_nRsCIaxEFbmpnXMWtiVYwQOzo',
-  authDomain: 'threedstreets.firebaseapp.com',
-  projectId: 'threedstreets',
-  storageBucket: 'threedstreets.appspot.com',
-  messagingSenderId: '371199528858',
-  appId: '1:371199528858:web:9492578f267e12cabe3423',
-  measurementId: 'G-10ZP8K1D7R'
+  apiKey: 'AIzaSyDJiCG7Ua4OKt-e2EtUPdVzLb5wm0rOLFw',
+  authDomain: '3dstreet.app',
+  projectId: 'dstreet-305604',
+  storageBucket: 'dstreet-305604.appspot.com',
+  messagingSenderId: '568813074454',
+  appId: '1:568813074454:web:41ec82e30413603c771d37',
+  measurementId: 'G-T65XPDLZ3F'
 };
 
 // const firebaseConfig = {
