@@ -11948,6 +11948,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fileJSON": () => (/* binding */ fileJSON),
 /* harmony export */   "inputStreetmix": () => (/* binding */ inputStreetmix)
 /* harmony export */ });
+/* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Events */ "./src/lib/Events.js");
+
 function inputStreetmix() {
   var streetmixURL = prompt('Please enter a Streetmix URL', 'https://streetmix.net/kfarr/3/example-street');
   setTimeout(function () {
@@ -11970,6 +11972,8 @@ function createElementsFromJSON(streetJSONString) {
   }
   var streetObject = JSON.parse(validJSONString);
   createEntities(streetObject.data, streetContainerEl);
+  // update sceneGraph
+  _Events__WEBPACK_IMPORTED_MODULE_0__["default"].emit('entitycreated', streetContainerEl.sceneEl);
 }
 function fileJSON(event) {
   var reader = new FileReader();
