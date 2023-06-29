@@ -15,6 +15,8 @@ export function inputStreetmix() {
     '<a-entity street streetmix-loader="streetmixStreetURL: ' +
     streetmixURL +
     '""></a-entity>';
+  // update sceneGraph
+  Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 function getValidJSON(stringJSON) {
