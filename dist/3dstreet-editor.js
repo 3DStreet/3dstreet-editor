@@ -11960,6 +11960,8 @@ function inputStreetmix() {
     streetContainerEl.removeChild(streetContainerEl.lastChild);
   }
   streetContainerEl.innerHTML = '<a-entity street streetmix-loader="streetmixStreetURL: ' + streetmixURL + '""></a-entity>';
+  // update sceneGraph
+  _Events__WEBPACK_IMPORTED_MODULE_0__["default"].emit('entitycreated', streetContainerEl.sceneEl);
 }
 function getValidJSON(stringJSON) {
   return stringJSON.replace(/\'/g, '').replace(/\n/g, '').replace(/[\u0000-\u0019]+/g, '');
