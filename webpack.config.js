@@ -9,7 +9,8 @@ module.exports = {
     port: 3333,
     static: {
       directory: '.'
-    }
+    },
+    historyApiFallback: true
   },
   devtool: 'source-map',
   entry: './src/index.js',

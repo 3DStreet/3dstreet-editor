@@ -1,10 +1,9 @@
-import { Button, ScreenshotButton } from '../components';
+import { Button, ProfileButton, ScreenshotButton } from '../components';
 import { Cross32Icon, Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
 
 import { Component } from 'react';
 import Events from '../../lib/Events';
-import { SavingModal } from '../modals/SavingModal';
 import { saveBlob } from '../../lib/utils';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
@@ -45,6 +44,7 @@ export default class Toolbar extends Component {
     // isPlaying: false,
     isSaveActionActive: false,
     isLoadActionActive: false,
+    isSignInModalActive: false,
     isCapturingScreen: false,
     showSaveBtn: true,
     showLoadBtn: true
@@ -283,6 +283,17 @@ export default class Toolbar extends Component {
             className={'cameraButton'}
           >
             <ScreenshotButton />
+          </div>
+          <div
+            onClick={() =>
+              this.setState((prevState) => ({
+                ...prevState,
+                isSignInModalActive: true
+              }))
+            }
+            className={'cameraButton'}
+          >
+            <ProfileButton />
           </div>
           {/* not is use */}
           {/* <button

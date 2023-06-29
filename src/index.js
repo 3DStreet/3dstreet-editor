@@ -4,12 +4,12 @@ import './style/index.styl';
 import { AssetsLoader } from './lib/assetsLoader';
 import Events from './lib/Events';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import Main from './components/Main';
 import { Shortcuts } from './lib/shortcuts';
 import { Viewport } from './lib/viewport';
 import { createEntity } from './lib/entity';
 import { createRoot } from 'react-dom/client';
 import { initCameras } from './lib/cameras';
+import { App } from './components/App';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
@@ -72,7 +72,7 @@ Inspector.prototype = {
     div.setAttribute('data-aframe-inspector', 'app');
     document.body.appendChild(div);
     const root = createRoot(div);
-    root.render(<Main />);
+    root.render(<App />);
 
     this.scene = this.sceneEl.object3D;
     this.helpers = {};
