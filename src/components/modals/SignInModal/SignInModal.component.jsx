@@ -30,13 +30,12 @@ const SignInModal = ({ isOpen, onClose }) => {
         <h2 className={styles.title}>Sign in to 3DStreet Cloud</h2>
         <div className={styles.content}>
           <p className={styles.p1}>
-            Access or create your 3DStreet Cloud account via Google.
-          </p>
-          <p className={styles.p2}>
-            A 3DStreet Cloud account is optional. You can still save and load
-            files locally.{' '}
-            <a className={styles.docsLink} href="#">
-              Learn about 3DStreet Cloud accounts in the docs
+            Save and share your street scenes with a 3DStreet Cloud account.{' '}
+            <a
+              className={styles.docsLink}
+              href="//3dstreet.org/docs/3dstreet-editor/3dstreet-cloud-account"
+            >
+              This is optional, learn more in the docs.{' '}
             </a>
           </p>
         </div>
