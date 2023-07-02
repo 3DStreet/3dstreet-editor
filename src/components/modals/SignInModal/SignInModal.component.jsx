@@ -33,7 +33,8 @@ const SignInModal = ({ isOpen, onClose }) => {
             Save and share your street scenes with a 3DStreet Cloud account.{' '}
             <a
               className={styles.docsLink}
-              href="//3dstreet.org/docs/3dstreet-editor/3dstreet-cloud-account"
+              href="https://www.3dstreet.org/docs/3dstreet-editor/saving-and-loading-scenes/#3dstreet-cloud-account"
+              target="_blank"
             >
               This is optional, learn more in the docs.{' '}
             </a>
