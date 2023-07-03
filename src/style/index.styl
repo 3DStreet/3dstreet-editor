@@ -437,8 +437,11 @@ body.aframe-inspector-opened
 
   &:hover
     background: #2D2D2D;
-    svg > path 
-      stroke: #fff
+    svg > path:first-child
+      fill: #FFFFFF
+    svg > path:last-child
+      stroke: #FFFFFF
+      
 
 
 .outliner

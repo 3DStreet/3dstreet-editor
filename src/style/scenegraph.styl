@@ -57,12 +57,19 @@
     display flex
     flex-direction column
     align-items flex-start
+    padding 2px
 
-    &:hover 
-      background: #6A4AC3;
+  .layer:not(.active):hover
+    border 2px solid #6A4AC3
+    padding 0px
+
+    > div:first-child 
+      background none
 
   .layer.active
     background $layerActive
+    &:hover 
+      background: #6A4AC3
 
   .entity.option
     display flex
@@ -71,7 +78,7 @@
     flex none
     order 1
     flex-grow 0
-    padding 10.5px 16px 10.5px 14.5px
+    padding 14.5px 16px 10.5px 14.5px
     box-sizing border-box
 
     > span
@@ -96,8 +103,6 @@
     width 100%
     white-space nowrap
 
-    &:hover 
-      background: #6A4AC3
 
     &:focus
       background: #6A4AC3;
@@ -106,11 +111,6 @@
     &.disabled
       background: $layerDisabled;
 
-    &.active
-      // width 324px
-      // height 52px
-      background $layerActive
-      // border-radius 10px
       color #fff
       padding 10.5px 16px 10.5px 14.5px
       .component:hover
@@ -131,9 +131,10 @@
       &:focus
         border: 1px solid #FFFFFF;
 
-      &:hover 
-        border: 2px solid #6A4AC3
-        background: none
+      // &:hover 
+      //   border: 2px solid #6A4AC3
+      //   padding 12.5px 14px 8.5px 12.5px
+      //   background: none
 
       &.active
         span,
@@ -248,7 +249,7 @@
     align-items center
     padding 0px
     background #373737
-    border-radius 0px 12px 12px 0px
+    border-bottom-right-radius 8px
 
     #layers-title
       width 372px
@@ -351,13 +352,22 @@
   a
     float right
     margin 10px
+
 @media screen and (max-width: 1024px)
   #toolbar
     right 24px
+
     .actionBtn 
-      margin: -6.5px -10.5px
+      width: 43px
+      height: 43px
+      border-radius: 22px
+
+      .iconContainter
+        margin: 0
+
       svg
-        width: 32px
-        height: 32px
-    .btnText
+        width: 24px !important
+        height: 24px !important
+        
+    .innerText
       display: none !important
