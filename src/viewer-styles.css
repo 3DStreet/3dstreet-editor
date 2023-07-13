@@ -88,7 +88,6 @@ body {
 
 .right-menu li a:hover {
   background: #6100ff;
-  transition: all 0.4s ease-in-out 0s;
 }
 
 .right-menu li a span {

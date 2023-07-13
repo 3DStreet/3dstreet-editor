@@ -62,6 +62,7 @@
   .layer:not(.active):hover
     border 2px solid #6A4AC3
     padding 0px
+    box-sizing border-box
 
     > div:first-child 
       background none
@@ -70,6 +71,9 @@
     background $layerActive
     &:hover 
       background: #6A4AC3
+
+  .entity.option.active
+    background: #6A4AC3
 
   .entity.option
     display flex
