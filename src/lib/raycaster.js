@@ -9,7 +9,8 @@ export function initRaycaster(inspector) {
   mouseCursor.setAttribute('data-aframe-inspector', 'true');
   mouseCursor.setAttribute('raycaster', {
     interval: 100,
-    objects: 'a-scene :not([data-aframe-inspector])'
+    objects:
+      'a-scene :not([data-aframe-inspector]):not([data-ignore-raycaster])'
   });
 
   // Only visible objects.

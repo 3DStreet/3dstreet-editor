@@ -2255,9 +2255,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_ModalHelp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modals/ModalHelp */ "./src/components/modals/ModalHelp/index.js");
 /* harmony import */ var _modals_ModalTextures__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modals/ModalTextures */ "./src/components/modals/ModalTextures.js");
 /* harmony import */ var _scenegraph_SceneGraph__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./scenegraph/SceneGraph */ "./src/components/scenegraph/SceneGraph.js");
-/* harmony import */ var _viewport_TransformToolbar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./viewport/TransformToolbar */ "./src/components/viewport/TransformToolbar.js");
-/* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../lib/utils */ "./src/lib/utils.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modals_ScreenshotModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modals/ScreenshotModal */ "./src/components/modals/ScreenshotModal/index.js");
+/* harmony import */ var _viewport_TransformToolbar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./viewport/TransformToolbar */ "./src/components/viewport/TransformToolbar.js");
+/* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../lib/utils */ "./src/lib/utils.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -2284,6 +2285,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
+
 // import ViewportHUD from "./viewport/ViewportHUD";
 
 
@@ -2291,7 +2293,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 THREE.ImageUtils.crossOrigin = '';
 
 // Megahack to include font-awesome.
-(0,_lib_utils__WEBPACK_IMPORTED_MODULE_10__.injectCSS)('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+(0,_lib_utils__WEBPACK_IMPORTED_MODULE_11__.injectCSS)('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
 var Main = /*#__PURE__*/function (_Component) {
   _inherits(Main, _Component);
   var _super = _createSuper(Main);
@@ -2302,6 +2304,11 @@ var Main = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "onCloseHelpModal", function (value) {
       _this.setState({
         isHelpOpen: false
+      });
+    });
+    _defineProperty(_assertThisInitialized(_this), "onCloseScreenshotModal", function (value) {
+      _this.setState({
+        isScreenshotOpen: false
       });
     });
     _defineProperty(_assertThisInitialized(_this), "onModalTextureOnClose", function (value) {
@@ -2395,6 +2402,11 @@ var Main = /*#__PURE__*/function (_Component) {
           isHelpOpen: true
         });
       });
+      _lib_Events__WEBPACK_IMPORTED_MODULE_5__["default"].on('openscreenshotmodal', function () {
+        _this2.setState({
+          isScreenshotOpen: true
+        });
+      });
     }
   }, {
     key: "renderComponentsToggle",
@@ -2402,9 +2414,9 @@ var Main = /*#__PURE__*/function (_Component) {
       if (!this.state.inspectorEnabled || !this.state.entity || this.state.visible.attributes) {
         return null;
       }
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
         className: "toggle-sidebar right",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("a", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
           onClick: function onClick() {
             _lib_Events__WEBPACK_IMPORTED_MODULE_5__["default"].emit('togglesidebar', {
               which: 'attributes'
@@ -2421,9 +2433,9 @@ var Main = /*#__PURE__*/function (_Component) {
       if (!this.state.inspectorEnabled || this.state.visible.scenegraph) {
         return null;
       }
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
         className: "toggle-sidebar left",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("a", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
           onClick: function onClick() {
             _lib_Events__WEBPACK_IMPORTED_MODULE_5__["default"].emit('togglesidebar', {
               which: 'scenegraph'
@@ -2439,42 +2451,45 @@ var Main = /*#__PURE__*/function (_Component) {
     value: function render() {
       var scene = this.state.sceneEl;
       var isEditor = !!this.state.inspectorEnabled;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Logo, {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Logo, {
           onToggleEdit: this.toggleEdit,
           isEditor: isEditor
-        }), this.renderSceneGraphToggle(), this.renderComponentsToggle(), isEditor && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        }), this.renderSceneGraphToggle(), this.renderComponentsToggle(), isEditor && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           id: "inspectorContainer",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_scenegraph_SceneGraph__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_scenegraph_SceneGraph__WEBPACK_IMPORTED_MODULE_8__["default"], {
             scene: scene,
             selectedEntity: this.state.entity,
             visible: this.state.visible.scenegraph
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
             id: "viewportBar",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_viewport__WEBPACK_IMPORTED_MODULE_1__.CameraToolbar, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_viewport_TransformToolbar__WEBPACK_IMPORTED_MODULE_9__["default"], {})]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_viewport__WEBPACK_IMPORTED_MODULE_1__.CameraToolbar, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_viewport_TransformToolbar__WEBPACK_IMPORTED_MODULE_10__["default"], {})]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
             id: "rightPanel",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
               entity: this.state.entity,
               visible: this.state.visible.attributes
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_modals_ModalHelp__WEBPACK_IMPORTED_MODULE_6__.ModalHelp, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modals_ModalHelp__WEBPACK_IMPORTED_MODULE_6__.ModalHelp, {
           isOpen: this.state.isHelpOpen,
           onClose: this.onCloseHelpModal
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_modals_ModalTextures__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modals_ScreenshotModal__WEBPACK_IMPORTED_MODULE_9__.ScreenshotModal, {
+          isOpen: this.state.isScreenshotOpen,
+          onClose: this.onCloseScreenshotModal
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modals_ModalTextures__WEBPACK_IMPORTED_MODULE_7__["default"], {
           isOpen: this.state.isModalTexturesOpen,
           selectedTexture: this.state.selectedTexture,
           onClose: this.onModalTextureOnClose
-        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
           id: "help",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.HelpButton, {})
-        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.HelpButton, {})
+        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
           id: 'zoom-buttons',
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.ZoomButtons, {})
-        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.ZoomButtons, {})
+        }), this.state.inspectorEnabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
           id: 'resetZoomButton',
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_2__.Compass32Icon, {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_2__.Compass32Icon, {})
         })]
       });
     }
@@ -4271,6 +4286,129 @@ _defineProperty(PropertyRow, "propTypes", {
 
 /***/ }),
 
+/***/ "./src/components/components/ScreenshotButton/ScreenshotButton.component.jsx":
+/*!***********************************************************************************!*\
+  !*** ./src/components/components/ScreenshotButton/ScreenshotButton.component.jsx ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenshotButton": () => (/* binding */ ScreenshotButton)
+/* harmony export */ });
+/* harmony import */ var _ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScreenshotButton.styles.styl */ "./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Button */ "./src/components/components/Button/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _lib_Events_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/Events.js */ "./src/lib/Events.js");
+/* harmony import */ var _icons_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./icons.jsx */ "./src/components/components/ScreenshotButton/icons.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+/**
+ * ScreenshotButton component.
+ *
+ * @author Ihor Dubas
+ * @category Components.
+ */
+
+var ScreenshotButton = /*#__PURE__*/function (_Component) {
+  _inherits(ScreenshotButton, _Component);
+  var _super = _createSuper(ScreenshotButton);
+  function ScreenshotButton() {
+    _classCallCheck(this, ScreenshotButton);
+    return _super.apply(this, arguments);
+  }
+  _createClass(ScreenshotButton, [{
+    key: "render",
+    value: function render() {
+      var onClick = function onClick() {
+        return _lib_Events_js__WEBPACK_IMPORTED_MODULE_3__["default"].emit('openscreenshotmodal');
+      };
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Button__WEBPACK_IMPORTED_MODULE_1__.Button, {
+        id: 'screenshotButton',
+        className: 'screenshotButton',
+        type: "button",
+        onClick: onClick,
+        variant: 'toolbtn',
+        children: _icons_jsx__WEBPACK_IMPORTED_MODULE_4__.ScreenshotIcon
+      }, "screenshotButton");
+    }
+  }]);
+  return ScreenshotButton;
+}(react__WEBPACK_IMPORTED_MODULE_2__.Component);
+
+
+/***/ }),
+
+/***/ "./src/components/components/ScreenshotButton/icons.jsx":
+/*!**************************************************************!*\
+  !*** ./src/components/components/ScreenshotButton/icons.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenshotIcon": () => (/* binding */ ScreenshotIcon)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+var ScreenshotIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("svg", {
+  width: "32",
+  height: "32",
+  viewBox: "0 0 32 32",
+  fill: "none",
+  xmlns: "http://www.w3.org/2000/svg",
+  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
+    d: "M7.44444 9.5625H8.66667C9.31497 9.5625 9.93673 9.31228 10.3952 8.86688C10.8536 8.42148 11.1111 7.81739 11.1111 7.1875C11.1111 6.87256 11.2399 6.57051 11.4691 6.34781C11.6983 6.12511 12.0092 6 12.3333 6H19.6667C19.9908 6 20.3017 6.12511 20.5309 6.34781C20.7601 6.57051 20.8889 6.87256 20.8889 7.1875C20.8889 7.81739 21.1464 8.42148 21.6049 8.86688C22.0633 9.31228 22.685 9.5625 23.3333 9.5625H24.5556C25.2039 9.5625 25.8256 9.81272 26.284 10.2581C26.7425 10.7035 27 11.3076 27 11.9375V22.625C27 23.2549 26.7425 23.859 26.284 24.3044C25.8256 24.7498 25.2039 25 24.5556 25H7.44444C6.79614 25 6.17438 24.7498 5.71596 24.3044C5.25754 23.859 5 23.2549 5 22.625V11.9375C5 11.3076 5.25754 10.7035 5.71596 10.2581C6.17438 9.81272 6.79614 9.5625 7.44444 9.5625Z",
+    stroke: "white",
+    strokeWidth: "1.5"
+  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
+    d: "M16 20.25C18.025 20.25 19.6667 18.655 19.6667 16.6875C19.6667 14.72 18.025 13.125 16 13.125C13.975 13.125 12.3333 14.72 12.3333 16.6875C12.3333 18.655 13.975 20.25 16 20.25Z",
+    stroke: "white",
+    strokeWidth: "1.5"
+  })]
+});
+
+
+/***/ }),
+
+/***/ "./src/components/components/ScreenshotButton/index.js":
+/*!*************************************************************!*\
+  !*** ./src/components/components/ScreenshotButton/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenshotButton": () => (/* reexport safe */ _ScreenshotButton_component_jsx__WEBPACK_IMPORTED_MODULE_0__.ScreenshotButton)
+/* harmony export */ });
+/* harmony import */ var _ScreenshotButton_component_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScreenshotButton.component.jsx */ "./src/components/components/ScreenshotButton/ScreenshotButton.component.jsx");
+
+
+/***/ }),
+
 /***/ "./src/components/components/Sidebar.js":
 /*!**********************************************!*\
   !*** ./src/components/components/Sidebar.js ***!
@@ -4826,6 +4964,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "HelpButton": () => (/* reexport safe */ _HelpButton__WEBPACK_IMPORTED_MODULE_1__.HelpButton),
 /* harmony export */   "Input": () => (/* reexport safe */ _Input__WEBPACK_IMPORTED_MODULE_4__.Input),
 /* harmony export */   "Logo": () => (/* reexport safe */ _Logo__WEBPACK_IMPORTED_MODULE_8__.Logo),
+/* harmony export */   "ScreenshotButton": () => (/* reexport safe */ _ScreenshotButton__WEBPACK_IMPORTED_MODULE_9__.ScreenshotButton),
 /* harmony export */   "Tabs": () => (/* reexport safe */ _Tabs__WEBPACK_IMPORTED_MODULE_0__.Tabs),
 /* harmony export */   "Toggle": () => (/* reexport safe */ _Toggle__WEBPACK_IMPORTED_MODULE_7__.Toggle),
 /* harmony export */   "ZoomButtons": () => (/* reexport safe */ _ZoomButtons__WEBPACK_IMPORTED_MODULE_2__.ZoomButtons)
@@ -4839,6 +4978,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Checkbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Checkbox */ "./src/components/components/Checkbox/index.js");
 /* harmony import */ var _Toggle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Toggle */ "./src/components/components/Toggle/index.js");
 /* harmony import */ var _Logo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Logo */ "./src/components/components/Logo/index.js");
+/* harmony import */ var _ScreenshotButton__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ScreenshotButton */ "./src/components/components/ScreenshotButton/index.js");
+
 
 
 
@@ -6354,6 +6495,134 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/components/modals/ScreenshotModal/ScreenshotModal.component.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/components/modals/ScreenshotModal/ScreenshotModal.component.jsx ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenshotModal": () => (/* binding */ ScreenshotModal)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScreenshotModal.module.scss */ "./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components */ "./src/components/components/index.js");
+/* harmony import */ var _Modal_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Modal.jsx */ "./src/components/modals/Modal.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+
+
+
+
+var ScreenshotModal = /*#__PURE__*/function (_Component) {
+  _inherits(ScreenshotModal, _Component);
+  var _super = _createSuper(ScreenshotModal);
+  function ScreenshotModal() {
+    var _this;
+    _classCallCheck(this, ScreenshotModal);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "saveScreenshot", function (value) {
+      AFRAME.scenes[0].setAttribute('screentock', 'type', value);
+      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+    });
+    return _this;
+  }
+  _createClass(ScreenshotModal, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      var _this$props = this.props,
+        isOpen = _this$props.isOpen,
+        onClose = _this$props.onClose;
+      var storedScreenshot = localStorage.getItem('screenshot');
+      var parsedScreenshot = JSON.parse(storedScreenshot);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].screenshotModalWrapper,
+        isOpen: isOpen,
+        onClose: onClose,
+        extraCloseKeyCode: 72,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].wrapper,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].header,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+              className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].title,
+              children: "Save as"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].buttons,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                onClick: function onClick() {
+                  return _this2.saveScreenshot('jpg');
+                },
+                children: "JPG"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                onClick: function onClick() {
+                  return _this2.saveScreenshot('png');
+                },
+                children: "PNG"
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: _ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].imageWrapper,
+            dangerouslySetInnerHTML: {
+              __html: parsedScreenshot
+            }
+          })]
+        })
+      });
+    }
+  }]);
+  return ScreenshotModal;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+_defineProperty(ScreenshotModal, "propTypes", {
+  isOpen: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().bool),
+  onClose: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().func.isRequired)
+});
+
+
+/***/ }),
+
+/***/ "./src/components/modals/ScreenshotModal/index.js":
+/*!********************************************************!*\
+  !*** ./src/components/modals/ScreenshotModal/index.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenshotModal": () => (/* reexport safe */ _ScreenshotModal_component_jsx__WEBPACK_IMPORTED_MODULE_0__.ScreenshotModal)
+/* harmony export */ });
+/* harmony import */ var _ScreenshotModal_component_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScreenshotModal.component.jsx */ "./src/components/modals/ScreenshotModal/ScreenshotModal.component.jsx");
+
+
+/***/ }),
+
 /***/ "./src/components/scenegraph/Entity.js":
 /*!*********************************************!*\
   !*** ./src/components/scenegraph/Entity.js ***!
@@ -6972,9 +7241,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Toolbar)
 /* harmony export */ });
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../icons */ "./src/icons/index.js");
-/* harmony import */ var _lib_toolbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/toolbar */ "./src/lib/toolbar.js");
-/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components */ "./src/components/components/index.js");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components */ "./src/components/components/index.js");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../icons */ "./src/icons/index.js");
+/* harmony import */ var _lib_toolbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../lib/toolbar */ "./src/lib/toolbar.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _lib_Events__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/Events */ "./src/lib/Events.js");
@@ -7067,7 +7336,13 @@ var Toolbar = /*#__PURE__*/function (_Component) {
     });
     _defineProperty(_assertThisInitialized(_this), "makeScreenshot", function (component) {
       return new Promise(function (resolve) {
-        AFRAME.scenes[0].setAttribute('screentock', 'type', 'jpg');
+        // use vanilla js to create an img element as destination for our screenshot
+        var imgHTML = '<img id="screentock-destination">';
+        // Set the screenshot in local storage
+        localStorage.setItem('screenshot', JSON.stringify(imgHTML));
+        AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
+        AFRAME.scenes[0].setAttribute('screentock', 'imgElementSelector', '#screentock-destination');
+        // take the screenshot
         AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
         setTimeout(function () {
           return resolve();
@@ -7186,24 +7461,24 @@ var Toolbar = /*#__PURE__*/function (_Component) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "toolbarActions",
           children: [this.state.showSaveBtn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            children: !this.state.isSaveActionActive ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            children: !this.state.isSaveActionActive ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
               onClick: this.toggleSaveActionState.bind(this),
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                className: 'actionBtn',
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_0__.Save24Icon, {})
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-                className: 'btnText',
-                children: "Save"
-              })]
+                style: {
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_1__.Save24Icon, {})
+              }), "Save"]
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: 'actionBtn',
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+              className: 'saveActions',
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
                 onClick: this.exportSceneToGLTF,
                 children: "glTF 3D Model"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
                 onClick: this.convertToObject,
                 children: "3DStreet JSON"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
                 className: 'closeButton',
                 onClick: this.toggleSaveActionState.bind(this),
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
@@ -7211,26 +7486,26 @@ var Toolbar = /*#__PURE__*/function (_Component) {
                     display: 'flex',
                     margin: '-6.5px -10.5px'
                   },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_0__.Cross32Icon, {})
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_1__.Cross32Icon, {})
                 })
               })]
             })
           }), this.state.showLoadBtn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            children: !this.state.isLoadActionActive ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            children: !this.state.isLoadActionActive ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
               onClick: this.toggleLoadActionState.bind(this),
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                className: 'actionBtn',
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_0__.Load24Icon, {})
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-                className: 'btnText',
-                children: "Load"
-              })]
+                style: {
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_1__.Load24Icon, {})
+              }), "Load"]
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: 'loadActions',
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-                onClick: _lib_toolbar__WEBPACK_IMPORTED_MODULE_1__.inputStreetmix,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+                onClick: _lib_toolbar__WEBPACK_IMPORTED_MODULE_2__.inputStreetmix,
                 children: "Import Streetmix"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("label", {
                   style: {
                     display: 'inherit',
@@ -7239,14 +7514,14 @@ var Toolbar = /*#__PURE__*/function (_Component) {
                   },
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                     type: "file",
-                    onChange: _lib_toolbar__WEBPACK_IMPORTED_MODULE_1__.fileJSON,
+                    onChange: _lib_toolbar__WEBPACK_IMPORTED_MODULE_2__.fileJSON,
                     style: {
                       display: 'none'
                     },
                     accept: ".js, .json, .txt"
                   }), "3DStreet JSON"]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
                 className: 'closeButton',
                 onClick: this.toggleLoadActionState.bind(this),
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
@@ -7254,11 +7529,11 @@ var Toolbar = /*#__PURE__*/function (_Component) {
                     display: 'flex',
                     margin: '-6.5px -10.5px'
                   },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_0__.Cross32Icon, {})
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_1__.Cross32Icon, {})
                 })
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             onClick: function onClick() {
               return _this2.setState(function (prevState) {
                 return _objectSpread(_objectSpread({}, prevState), {}, {
@@ -7267,14 +7542,8 @@ var Toolbar = /*#__PURE__*/function (_Component) {
               });
             },
             className: 'cameraButton',
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              style: {
-                display: 'flex',
-                margin: '-6.5px -10.5px'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_icons__WEBPACK_IMPORTED_MODULE_0__.Camera32Icon, {})
-            })
-          }), this.state.isCapturingScreen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_SavingModal__WEBPACK_IMPORTED_MODULE_5__.SavingModal, {})]
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components__WEBPACK_IMPORTED_MODULE_0__.ScreenshotButton, {})
+          })]
         })
       });
     }
@@ -11679,6 +11948,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fileJSON": () => (/* binding */ fileJSON),
 /* harmony export */   "inputStreetmix": () => (/* binding */ inputStreetmix)
 /* harmony export */ });
+/* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Events */ "./src/lib/Events.js");
+
 function inputStreetmix() {
   var streetmixURL = prompt('Please enter a Streetmix URL', 'https://streetmix.net/kfarr/3/example-street');
   setTimeout(function () {
@@ -11689,6 +11960,8 @@ function inputStreetmix() {
     streetContainerEl.removeChild(streetContainerEl.lastChild);
   }
   streetContainerEl.innerHTML = '<a-entity street streetmix-loader="streetmixStreetURL: ' + streetmixURL + '""></a-entity>';
+  // update sceneGraph
+  _Events__WEBPACK_IMPORTED_MODULE_0__["default"].emit('entitycreated', streetContainerEl.sceneEl);
 }
 function getValidJSON(stringJSON) {
   return stringJSON.replace(/\'/g, '').replace(/\n/g, '').replace(/[\u0000-\u0019]+/g, '');
@@ -11700,7 +11973,9 @@ function createElementsFromJSON(streetJSONString) {
     streetContainerEl.removeChild(streetContainerEl.lastChild);
   }
   var streetObject = JSON.parse(validJSONString);
-  createEntities(streetObject.data[0].children, streetContainerEl);
+  createEntities(streetObject.data, streetContainerEl);
+  // update sceneGraph
+  _Events__WEBPACK_IMPORTED_MODULE_0__["default"].emit('entitycreated', streetContainerEl.sceneEl);
 }
 function fileJSON(event) {
   var reader = new FileReader();
@@ -13353,6 +13628,41 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".saiwmYQatO_hm8pD0CU6 {\n  position: absolute;\n  top: 115px;\n  left: 0;\n  right: 0;\n  width: 90vw;\n  height: 90vw !important; }\n\n.S4KOriLOSroeg_T6wB98 {\n  width: 100%;\n  display: flex;\n  flex-direction: column; }\n\n.e8YQfvY_GJf7p2c3wwjs {\n  display: flex;\n  align-items: center;\n  height: 53px; }\n\n.X5OoOLwIPAXUH0kXkhvA {\n  font-size: 20px !important; }\n\n.SmzhK63G8rDSBndAegCQ {\n  margin-left: 20px; }\n\nbutton {\n  border-radius: 18px !important; }\n\n.JLYoegbMrKHsXf1rhDle {\n  width: 100%;\n  height: 100%;\n  padding: 50px 0 0; }\n  .JLYoegbMrKHsXf1rhDle img {\n    width: 100% !important;\n    height: 100% !important;\n    max-width: 100%;\n    object-fit: contain; }\n", "",{"version":3,"sources":["webpack://./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,UAAU;EACV,OAAO;EACP,QAAQ;EACR,WAAW;EACX,uBAAuB,EAAA;;AAGzB;EACE,WAAW;EACX,aAAa;EACb,sBAAsB,EAAA;;AAGxB;EACE,aAAa;EACb,mBAAmB;EACnB,YAAY,EAAA;;AAGd;EACE,0BAA0B,EAAA;;AAG5B;EACE,iBAAiB,EAAA;;AAGnB;EACE,8BAA8B,EAAA;;AAGhC;EACE,WAAW;EACX,YAAY;EACZ,iBAAiB,EAAA;EAHnB;IAMI,sBAAsB;IACtB,uBAAuB;IACvB,eAAe;IACf,mBAAmB,EAAA","sourcesContent":[".screenshotModalWrapper {\n  position: absolute;\n  top: 115px;\n  left: 0;\n  right: 0;\n  width: 90vw;\n  height: 90vw !important;\n}\n\n.wrapper {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}\n\n.header {\n  display: flex;\n  align-items: center;\n  height: 53px;\n}\n\n.title {\n  font-size: 20px !important;\n}\n\n.buttons {\n  margin-left: 20px;\n}\n\nbutton {\n  border-radius: 18px !important;\n}\n\n.imageWrapper {\n  width: 100%;\n  height: 100%;\n  padding: 50px 0 0;\n\n  img {\n    width: 100% !important;\n    height: 100% !important;\n    max-width: 100%;\n    object-fit: contain;\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"screenshotModalWrapper": "saiwmYQatO_hm8pD0CU6",
+	"wrapper": "S4KOriLOSroeg_T6wB98",
+	"header": "e8YQfvY_GJf7p2c3wwjs",
+	"title": "X5OoOLwIPAXUH0kXkhvA",
+	"buttons": "SmzhK63G8rDSBndAegCQ",
+	"imageWrapper": "JLYoegbMrKHsXf1rhDle"
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/stylus-loader/dist/cjs.js!./src/components/components/HelpButton/HelpButton.styles.styl":
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/stylus-loader/dist/cjs.js!./src/components/components/HelpButton/HelpButton.styles.styl ***!
@@ -13375,6 +13685,34 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;500);"]);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "#helpButton.helpButton {\n  position: absolute;\n  left: 40px;\n  border: unset;\n  bottom: 31px;\n  border-radius: 50%;\n  width: 43px;\n  height: 43px;\n  background-color: #774dee;\n  padding: 0 !important;\n}\n#helpButton:hover {\n  background-color: #6439df;\n}\n#helpButton:active {\n  background-color: #5b37c0;\n}\n", "",{"version":3,"sources":["webpack://./src/components/components/HelpButton/HelpButton.styles.styl"],"names":[],"mappings":"AAEA;EACE,kBAAS;EACT,UAAK;EACL,aAAO;EACP,YAAO;EACP,kBAAc;EACd,WAAO;EACP,YAAO;EACP,yBAAkB;EAClB,qBAAQ;AAAV;AAEA;EACE,yBAAiB;AAAnB;AAEA;EACE,yBAAkB;AAApB","sourcesContent":["@import '../../../style/lib';\n\n#helpButton.helpButton\n  position absolute\n  left 40px\n  border unset\n  bottom 31px\n  border-radius 50%\n  width: 43px\n  height 43px\n  background-color: #774DEE\n  padding 0 !important\n  \n#helpButton:hover \n  background-color #6439df\n\n#helpButton:active \n  background-color: #5B37C0;"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/stylus-loader/dist/cjs.js!./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl":
+/*!******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/stylus-loader/dist/cjs.js!./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl ***!
+  \******************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;500);"]);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "#screenshotButton.screenshotButton {\n  border: unset;\n  border-radius: 50%;\n  width: 43px;\n  height: 43px;\n  background-color: #774dee;\n  padding: 0 !important;\n}\n#screenshotButton:hover {\n  background-color: #6439df;\n}\n#screenshotButton:active {\n  background-color: #5b37c0;\n}\n", "",{"version":3,"sources":["webpack://./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl"],"names":[],"mappings":"AAEA;EACE,aAAO;EACP,kBAAc;EACd,WAAO;EACP,YAAO;EACP,yBAAkB;EAClB,qBAAQ;AAAV;AACA;EACE,yBAAiB;AACnB;AAAA;EACE,yBAAkB;AAEpB","sourcesContent":["@import '../../../style/lib';\n\n#screenshotButton.screenshotButton\n  border unset\n  border-radius 50%\n  width: 43px\n  height 43px\n  background-color: #774DEE\n  padding 0 !important\n#screenshotButton:hover\n  background-color #6439DF\n#screenshotButton:active\n  background-color: #5B37C0;"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55156,6 +55494,61 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss":
+/*!***************************************************************************!*\
+  !*** ./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_3_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_3_use_2_ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./ScreenshotModal.module.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./src/components/modals/ScreenshotModal/ScreenshotModal.module.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_3_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_3_use_2_ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_3_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_3_use_2_ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_3_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_3_use_2_ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_3_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_3_use_2_ScreenshotModal_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
 /***/ "./src/components/components/HelpButton/HelpButton.styles.styl":
 /*!*********************************************************************!*\
   !*** ./src/components/components/HelpButton/HelpButton.styles.styl ***!
@@ -55207,6 +55600,61 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_HelpButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_HelpButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_HelpButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl":
+/*!*********************************************************************************!*\
+  !*** ./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!../../../../node_modules/stylus-loader/dist/cjs.js!./ScreenshotButton.styles.styl */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/stylus-loader/dist/cjs.js!./src/components/components/ScreenshotButton/ScreenshotButton.styles.styl");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_4_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_4_use_2_node_modules_stylus_loader_dist_cjs_js_ScreenshotButton_styles_styl__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
