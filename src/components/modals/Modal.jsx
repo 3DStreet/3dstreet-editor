@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Cross24Icon } from '../../icons';
 
 export default class Modal extends Component {
   static propTypes = {
@@ -103,8 +104,9 @@ export default class Modal extends Component {
         <div className={classNames('modal-content', className)} ref={this.self}>
           <div className="modal-header">
             <span className="close" onClick={this.close}>
-              <span />
-              <span />
+              {/* <span />
+              <span /> */}
+              <Cross24Icon />
             </span>
             {typeof titleElement !== 'undefined' ? (
               titleElement

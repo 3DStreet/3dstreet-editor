@@ -31,8 +31,18 @@ class ScreenshotModal extends Component {
           <div className={styles.header}>
             <h1 className={styles.title}>Save as</h1>
             <div className={styles.buttons}>
-              <Button onClick={() => this.saveScreenshot('jpg')}>JPG</Button>
-              <Button onClick={() => this.saveScreenshot('png')}>PNG</Button>
+              <Button
+                className={styles.button}
+                onClick={() => this.saveScreenshot('jpg')}
+              >
+                JPG
+              </Button>
+              <Button
+                className={styles.button}
+                onClick={() => this.saveScreenshot('png')}
+              >
+                PNG
+              </Button>
             </div>
           </div>
           <div

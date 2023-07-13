@@ -51,6 +51,7 @@ export default class Sidebar extends React.Component {
 
     // Rightbar class names
     const className = classnames({
+      outliner: true,
       hide: this.state.rightBarHide
     });
 
@@ -62,26 +63,63 @@ export default class Sidebar extends React.Component {
         : null;
 
       return (
-        <div id="sidebar" className={className}>
-          <div id="entity-name" onClick={this.toggleRightBar}>
-            <span>{entityName || formattedMixin}</span>
-            <div id="toggle-rightbar" />
-          </div>
-          <div className="scroll">
-            <Mixins entity={entity} />
-            <div id="sidebar-buttons">
-              <Button variant={'toolbtn'} onClick={() => cloneEntity(entity)}>
-                Duplicate
-              </Button>
-              <Button
-                variant={'toolbtn'}
-                onClick={() => removeSelectedEntity()}
-              >
-                Delete
-              </Button>
-            </div>
-            <ComponentsContainer entity={entity} />
-          </div>
+        <div className={className} tabIndex="0">
+          {this.state.rightBarHide ? (
+            <>
+              <div id="layers-title" onClick={this.toggleRightBar}>
+                <span>{entityName || formattedMixin}</span>
+                <div id="toggle-rightbar" />
+              </div>
+              <div className="scroll">
+                <Mixins entity={entity} />
+                <div id="sidebar-buttons">
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => cloneEntity(entity)}
+                  >
+                    Duplicate
+                  </Button>
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => removeSelectedEntity()}
+                  >
+                    Delete
+                  </Button>
+                </div>
+                <ComponentsContainer entity={entity} />
+              </div>
+            </>
+          ) : (
+            <>
+              <li onClick={this.toggleRightBar}>
+                <a className="camera" href="#">
+                  <span>{entityName || formattedMixin}</span>
+                  <div className="icon">
+                    <svg
+                      width="24"
+                      height="28"
+                      viewBox="0 0 24 28"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.3335 8.66667L12.0002 2L22.6668 8.66667V19.3333L12.0002 26L1.3335 19.3333V8.66667L12.0002 14.5333V26V14.5333L22.6668 8.66667"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              </li>
+            </>
+          )}
+          {/* <div id="layers-title" onClick={this.toggleRightBar}> */}
+          {/* <span>{entityName || formattedMixin}</span> */}
+          {/* <div onClick={this.toggleRightBar} id="toggle-leftbar" /> */}
+          {/* </div>
+           */}
         </div>
       );
     } else {

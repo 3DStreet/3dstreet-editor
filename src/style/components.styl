@@ -65,6 +65,9 @@ div.vec4
 .collapsible:first-child
   border-bottom 1px solid $colorPressed
 
+.collapsible:last-child
+  border-bottom none
+
 .collapsible .menu
   text-align right
 
@@ -160,7 +163,6 @@ div.vec4
     white-space nowrap
 
   .checkboxAnim
-    background #555
     position relative
     display inline-block
     float right
@@ -170,6 +172,7 @@ div.vec4
     border 1px solid #DBDBDB
     border-radius 10px
     box-sizing border-box
+    cursor: pointer
 
     &.checked
       background #DBDBDB 
@@ -185,8 +188,8 @@ div.vec4
       transition all .5s ease
       cursor pointer
       position absolute
-      top 2.3px
-      left 2.3px
+      top 3px
+      left 3.3px
       background #DBDBDB
 
     input[type=checkbox]:checked+label 
