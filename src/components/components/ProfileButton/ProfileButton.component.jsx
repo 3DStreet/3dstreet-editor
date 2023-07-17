@@ -17,18 +17,14 @@ import { useNavigate } from 'react-router-dom';
  * @category Components.
  */
 const ProfileButton = () => {
-  const { currentUser, setCurrentUser } = useAuthContext();
-  const navigate = useNavigate();
+  const { currentUser } = useAuthContext();
 
   const onClick = async () => {
     if (currentUser) {
-      await signOut(auth);
-      setCurrentUser(null);
-
-      return navigate('/');
+      return Events.emit('openprofilemodal');
     }
 
-    Events.emit('opensigninmodal');
+    return Events.emit('opensigninmodal');
   };
 
   return (

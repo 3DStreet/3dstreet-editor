@@ -13,6 +13,7 @@ import TransformToolbar from './viewport/TransformToolbar';
 // import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
 import { SignInModal } from './modals/SignInModal';
+import { ProfileModal } from './modals/ProfileModal';
 
 THREE.ImageUtils.crossOrigin = '';
 
@@ -30,6 +31,7 @@ export default class Main extends Component {
       inspectorEnabled: true,
       isModalTexturesOpen: false,
       isSignInModalOpened: false,
+      isProfileModalOpened: false,
       sceneEl: AFRAME.scenes[0],
       visible: {
         scenegraph: true,
@@ -107,6 +109,9 @@ export default class Main extends Component {
     Events.on('opensigninmodal', () => {
       this.setState({ isSignInModalOpened: true });
     });
+    Events.on('openprofilemodal', () => {
+      this.setState({ isProfileModalOpened: true });
+    });
   }
 
   onCloseHelpModal = (value) => {
@@ -126,6 +131,10 @@ export default class Main extends Component {
 
   onCloseSignInModal = () => {
     this.setState({ isSignInModalOpened: false });
+  };
+
+  onCloseProfileModal = () => {
+    this.setState({ isProfileModalOpened: false });
   };
 
   toggleEdit = () => {
@@ -218,6 +227,10 @@ export default class Main extends Component {
         <SignInModal
           isOpen={this.state.isSignInModalOpened}
           onClose={this.onCloseSignInModal}
+        />
+        <ProfileModal
+          isOpen={this.state.isProfileModalOpened}
+          onClose={this.onCloseProfileModal}
         />
         <ModalTextures
           isOpen={this.state.isModalTexturesOpen}

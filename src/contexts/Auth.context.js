@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 const AuthContext = createContext({
   currentUser: null,
-  setCurrentUser: () => {}
+  setCurrentUser: (user) => {}
 });
 
 const AuthProvider = ({ children }) => {
