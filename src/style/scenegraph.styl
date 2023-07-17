@@ -27,7 +27,15 @@
       border-radius: 22px
 
     .closeButton
-      background-color: $grayalt
+      width: 43px
+      height: 43px
+      background: rgba(50, 50, 50, 0.8)
+      border-radius: 22px !important
+
+      &:hover
+        background: #2D2D2D;
+        svg > path 
+          stroke: #fff
 
     .fa
       display none
@@ -45,14 +53,27 @@
   .layer 
     width 100%
     margin-top 12px
-    border-radius 12px
     overflow: hidden
     display flex
     flex-direction column
     align-items flex-start
+    padding 2px
+
+  .layer:not(.active):hover
+    border 2px solid #6A4AC3
+    padding 0px
+    box-sizing border-box
+
+    > div:first-child 
+      background none
 
   .layer.active
     background $layerActive
+    &:hover 
+      background: #6A4AC3
+
+  .entity.option.active
+    background: #6A4AC3
 
   .entity.option
     display flex
@@ -61,7 +82,7 @@
     flex none
     order 1
     flex-grow 0
-    padding 10.5px 16px 10.5px 14.5px
+    padding 14.5px 16px 10.5px 14.5px
     box-sizing border-box
 
     > span
@@ -78,9 +99,6 @@
   .entity:first-child
     margin 0px !important
 
-  .entity:last-child
-      margin-bottom 8px
-
   .entity
     cursor pointer
     display flex
@@ -89,11 +107,14 @@
     width 100%
     white-space nowrap
 
-    &.active
-      // width 324px
-      // height 52px
-      background $layerActive
-      // border-radius 10px
+
+    &:focus
+      background: #6A4AC3;
+      border: 1px solid #FFFFFF;
+
+    &.disabled
+      background: $layerDisabled;
+
       color #fff
       padding 10.5px 16px 10.5px 14.5px
       .component:hover
@@ -101,14 +122,24 @@
       .entityActions
         display inline
 
-    &.active:last-child
-      margin-bottom 8px
-
     &.active.novisible:first-child ~ .entity .entityName,
     &.novisible:first-child ~ .entity .entityName
       color #999
 
     &.novisible
+      box-sizing: border-box
+
+      &.disabled 
+        background: #3D3D3D;
+
+      &:focus
+        border: 1px solid #FFFFFF;
+
+      // &:hover 
+      //   border: 2px solid #6A4AC3
+      //   padding 12.5px 14px 8.5px 12.5px
+      //   background: none
+
       &.active
         span,
         .id
@@ -222,7 +253,7 @@
     align-items center
     padding 0px
     background #373737
-    border-radius 0px 12px 12px 0px
+    border-bottom-right-radius 8px
 
     #layers-title
       width 372px
@@ -234,6 +265,7 @@
       align-self start
       position fixed
       z-index 1
+      border-top-right-radius: 8px
 
       #toggle-leftbar
         width 56px
@@ -263,6 +295,7 @@
 
   .outliner.hide,
   .outliner.hide #layers-title
+    transition: all .4s ease-in-out 0s
     width 56px
     height 72px
     display flex
@@ -324,13 +357,22 @@
   a
     float right
     margin 10px
+
 @media screen and (max-width: 1024px)
   #toolbar
     right 24px
+
     .actionBtn 
-      margin: -6.5px -10.5px
+      width: 43px
+      height: 43px
+      border-radius: 22px
+
+      .iconContainter
+        margin: 0
+
       svg
-        width: 32px
-        height: 32px
-    .btnText
+        width: 24px !important
+        height: 24px !important
+
+    .innerText
       display: none !important

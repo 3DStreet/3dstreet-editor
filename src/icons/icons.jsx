@@ -99,19 +99,13 @@ const Compass32Icon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <path d="M25.5 8.5L12 12.5L21 20.5L25.5 8.5Z" fill="#DBDBDB" />
     <path
-      d="M11.167 21.8334L13.8337 13.8334L21.8337 11.1667L19.167 19.1667L11.167 21.8334Z"
+      d="M12 12.5L7.5 24.5L21 20.5M12 12.5L25.5 8.5L21 20.5M12 12.5L21 20.5"
       stroke="#DBDBDB"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16.5 28.5C23.1274 28.5 28.5 23.1274 28.5 16.5C28.5 9.87258 23.1274 4.5 16.5 4.5C9.87258 4.5 4.5 9.87258 4.5 16.5C4.5 23.1274 9.87258 28.5 16.5 28.5Z"
-      stroke="white"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </svg>
 );

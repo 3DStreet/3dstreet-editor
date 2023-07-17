@@ -43,7 +43,10 @@ export default class BooleanWidget extends React.Component {
     });
 
     return (
-      <div className={checkboxClasses}>
+      <div
+        className={checkboxClasses}
+        onClick={() => this.setState({ value: !this.state.value })}
+      >
         <input
           id={id}
           type="checkbox"
@@ -51,7 +54,7 @@ export default class BooleanWidget extends React.Component {
           value={this.state.value}
           onChange={this.onChange}
         />
-        <label htmlFor={id} />
+        <label htmlFor={id} onClick={(e) => e.stopPropagation()} />
       </div>
     );
   }

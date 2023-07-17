@@ -178,26 +178,15 @@ export default class Toolbar extends Component {
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          {/* not in use */}
-          {/* <a
-            className="button fa fa-plus"
-            title="Add a new entity"
-            onClick={this.addEntity}
-          />
-          <a
-            id="playPauseScene"
-            className={
-              'button fa ' + (this.state.isPlaying ? 'fa-pause' : 'fa-play')
-            }
-            title={this.state.isPlaying ? 'Pause scene' : 'Resume scene'}
-            onClick={this.toggleScenePlaying}
-          /> */}
-
           {this.state.showSaveBtn && (
             <div>
               {!this.state.isSaveActionActive ? (
-                <Button onClick={this.toggleSaveActionState.bind(this)}>
+                <Button
+                  className={'actionBtn'}
+                  onClick={this.toggleSaveActionState.bind(this)}
+                >
                   <div
+                    className="iconContainer"
                     style={{
                       display: 'flex',
                       margin: '-2.5px 0px -2.5px -2px'
@@ -205,10 +194,10 @@ export default class Toolbar extends Component {
                   >
                     <Save24Icon />
                   </div>
-                  Save
+                  <div className={'innerText'}>Save</div>
                 </Button>
               ) : (
-                <div className={'saveActions'}>
+                <div>
                   <Button onClick={this.exportSceneToGLTF}>
                     glTF 3D Model
                   </Button>
@@ -230,8 +219,12 @@ export default class Toolbar extends Component {
           {this.state.showLoadBtn && (
             <div>
               {!this.state.isLoadActionActive ? (
-                <Button onClick={this.toggleLoadActionState.bind(this)}>
+                <Button
+                  className={'actionBtn'}
+                  onClick={this.toggleLoadActionState.bind(this)}
+                >
                   <div
+                    className="iconContainer"
                     style={{
                       display: 'flex',
                       margin: '-2.5px 0px -2.5px -2px'
@@ -239,7 +232,7 @@ export default class Toolbar extends Component {
                   >
                     <Load24Icon />
                   </div>
-                  Load
+                  <div className={'innerText'}>Load</div>
                 </Button>
               ) : (
                 <div className={'loadActions'}>
@@ -263,6 +256,7 @@ export default class Toolbar extends Component {
                   </Button>
                   <Button
                     className={'closeButton'}
+                    type="custom"
                     onClick={this.toggleLoadActionState.bind(this)}
                   >
                     <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>

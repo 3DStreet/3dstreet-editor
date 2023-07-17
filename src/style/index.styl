@@ -193,7 +193,7 @@ body.aframe-inspector-opened
     right 0px
     top 80px
     padding-bottom 32px
-    padding-left 16px
+    padding-left 20px
     width 380px
     height 584px
     display flex
@@ -306,6 +306,7 @@ body.aframe-inspector-opened
     height 100%
     overflow-y auto
     overflow-x hidden
+    padding: 72px 0 0 20px
 
   #sidebar-buttons
     display flex
@@ -313,6 +314,10 @@ body.aframe-inspector-opened
     justify-content space-between
     width: 348px
     margin-top: 12px
+    column-gap: 16px
+
+  #sidebar-buttons button
+    width: 100%
 
   input,
   textarea,
@@ -393,6 +398,12 @@ body.aframe-inspector-opened
   #rightPanel
     pointer-events all
 
+  #rightPanel .outliner
+    border-radius: 8px 0 0 8px
+
+  #rightPanel #layers-title
+    border-top-left-radius: 8px
+
   .aframe-inspector-opened a-scene .a-canvas
     background-color #191919
     // z-index 9998
@@ -424,14 +435,190 @@ body.aframe-inspector-opened
   position absolute !important
   right 35px
   bottom 23px
-  width: 43px
-  height 43px
-  background-color: #2D2D2D
   padding 0 !important
   border-radius 50% !important
+  width: 43px
+  height: 43px
+  background: rgba(50, 50, 50, 0.8)
 
-#resetZoomButton:hover
-      background-color: #6439df
+  &:hover
+    background: #2D2D2D;
+    svg > path:first-child
+      fill: #FFFFFF
+    svg > path:last-child
+      stroke: #FFFFFF
+      
 
-#resetZoomButton:active 
-      background-color: #5b37c0
+
+.outliner
+  color $white
+  cursor default
+  font-size 16px
+  outline none
+  overflow-y auto
+  overflow-x hidden
+  position absolute
+  top 80px
+  display: block !important
+  align-items center
+  padding 0px
+  background #373737
+  border-radius  12px 0 0 12px
+
+  li {
+    list-style: none;
+    margin-right: 0;
+    position: relative;
+  }
+
+  li a {
+    background: rgba(50, 50, 50, 0.5);
+    padding: 0;
+    list-style: none;
+    display: inline-flex;
+    font-size: 18px !important;
+    align-items: center;
+    transition: all 0.4s ease-in-out 0s;
+  }
+
+  li a:hover {
+    background: #6100ff;
+  }
+
+  li a span {
+    margin-left: 16px;
+    transition: all 0.4s ease-in-out 0s;
+    text-align: left;
+    width: 200px;
+    letter-spacing: 0.5;
+    margin-right: -270px;
+    padding-left: 60px;
+    color: rgba(50, 50, 50, 0.5);
+  }
+
+  li a:hover span {
+    margin-right: 0;
+    padding-left: 0;
+    color: #fff;
+  }
+
+  li a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  li a .icon {
+    vertical-align: middle;
+    z-index: 999;
+    padding: 16px;
+  }
+
+  li a:hover .icon {
+    background: #6100ff;
+    z-index: 9;
+  }
+
+
+  #toggle-rightbar
+    width 56px
+    height 72px
+    background #323232 
+    background-image url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4LjY2NjcgMjIuNjY2N0wxMiAxNkwxOC42NjY3IDkuMzMzMzQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
+    background-repeat no-repeat
+    background-position center 
+    cursor pointer 
+    margin-right: -12px
+
+  #layers-title
+    width 372px
+    background #373737
+    display flex
+    flex-direction row
+    justify-content space-between
+    align-items center
+    align-self start
+    position fixed
+    z-index 1
+
+    #toggle-rightbar:hover
+      background-color $buttonHover
+    #toggle-rightbar:active
+      background-color $buttonPressed
+
+    span
+      font-weight 500
+      font-size 24px
+      color #FFF
+      line-height 28px
+      background url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
+      background-repeat no-repeat
+      background-position left
+      padding-left 36px
+      margin-left 20px
+
+.outliner.hide
+  display block !important
+  height 584px
+  width 372px
+
+      #toggle-rightbar:hover
+        background-color $buttonHover
+
+      #toggle-rightbar:active
+        background-color $buttonPressed
+
+      span
+        font-weight 500
+        font-size 24px
+        color #FFF
+        line-height 28px
+        background url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==")
+        background-repeat no-repeat
+        background-position left
+        padding-left 36px
+        margin-left 20px
+  
+    .outliner.hide:hover,
+    .outliner.hide #layers-title:hover
+      width 115px
+      background-color $buttonHover
+      cursor pointer
+  
+    .outliner.hide #layers-title span
+      display none
+  
+    .outliner.hide #layers-title:active
+      background-color $buttonPressed    
+  
+      span
+        display block
+        font-size 18px
+        color $colorPressed
+        background-position left
+        background-image url($iconLayersActive) !important
+  
+    .outliner.hide #layers-title:hover span
+      display block
+      font-size 18px
+      margin-left 12px
+      padding-left 40px
+      line-height 29px
+      background-image url($iconLayers)
+  
+    .outliner.hide #layers-title:hover #toggle-rightbar
+      display none
+  
+    .outliner.hide #toggle-rightbar
+      background rgba(50, 50, 50, 0.5) !important
+      backdrop-filter blur(24px)
+      background-image url($iconLayers) !important
+      background-repeat no-repeat !important
+      background-position center !important
+      border-radius 12px 0px 0px 12px
+  
+    .outliner.hide #toggle-rightbar:active
+      background-color $buttonPressed !important
+  
+    .outliner.hide .entity,
+    .outliner.hide .layer
+      display none
