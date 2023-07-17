@@ -219,8 +219,10 @@ THREE.EditorControls = function (_object, domElement) {
   function onMouseDown(event) {
     if (scope.enabled === false) return;
 
+    const keyChangeState = event.shiftKey;
+
     if (event.button === 0) {
-      state = STATE.PAN;
+      state = keyChangeState ? STATE.ROTATE : STATE.PAN;
     } else if (event.button === 1) {
       state = STATE.ZOOM;
     } else if (event.button === 2) {
