@@ -44,9 +44,9 @@ const ProfileModal = ({ isOpen, onClose }) => {
               </div>
             </div>
             <div className={styles.controlButtons}>
-              <Button type="filled" onClick={editProfileHandler}>
+              {/* <Button type="filled" onClick={editProfileHandler}>
                 Edit Profile
-              </Button>
+              </Button> */}
               <Button
                 type="outlined"
                 className={styles.logOut}
@@ -56,7 +56,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
               </Button>
             </div>
           </div>
-          <div className={styles.scenesWrapper}>
+          {/* <div className={styles.scenesWrapper}>
             <h3>Recent scenes</h3>
             <div className={styles.scenes}>
               <div className={styles.dropzone}>
@@ -141,7 +141,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
                 <span className={styles.date}>Last opened 2 days ago</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Modal>

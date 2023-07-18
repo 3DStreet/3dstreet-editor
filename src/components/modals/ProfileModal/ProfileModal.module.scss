@@ -1,6 +1,5 @@
 .modalWrapper {
   position: relative;
-  width: 1280px;
   margin: auto auto;
 }
 
@@ -29,8 +28,6 @@
       display: flex;
       column-gap: 80px;
       width: 100%;
-      padding-bottom: 32px;
-      border-bottom: 1px solid #5c2fa5;
 
       .profile {
         display: flex;
