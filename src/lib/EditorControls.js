@@ -215,14 +215,13 @@ THREE.EditorControls = function (_object, domElement) {
   };
 
   // mouse
+  var changeStateKey = 'shiftKey';
 
   function onMouseDown(event) {
     if (scope.enabled === false) return;
 
-    const keyChangeState = event.shiftKey;
-
     if (event.button === 0) {
-      state = keyChangeState ? STATE.ROTATE : STATE.PAN;
+      state = event[changeStateKey] ? STATE.ROTATE : STATE.PAN;
     } else if (event.button === 1) {
       state = STATE.ZOOM;
     } else if (event.button === 2) {
@@ -239,6 +238,10 @@ THREE.EditorControls = function (_object, domElement) {
 
   function onMouseMove(event) {
     if (scope.enabled === false) return;
+
+    if (event.buttons === 1) {
+      state = event[changeStateKey] ? STATE.ROTATE : STATE.PAN;
+    }
 
     pointer.set(event.clientX, event.clientY);
 
