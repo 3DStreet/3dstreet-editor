@@ -215,13 +215,14 @@ THREE.EditorControls = function (_object, domElement) {
   };
 
   // mouse
+
   var changeStateKey = 'shiftKey';
 
   function onMouseDown(event) {
     if (scope.enabled === false) return;
 
     if (event.button === 0) {
-      state = event[changeStateKey] ? STATE.ROTATE : STATE.PAN;
+      state = STATE.PAN;
     } else if (event.button === 1) {
       state = STATE.ZOOM;
     } else if (event.button === 2) {
