@@ -5,6 +5,10 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "**/*.json",
+        "function": "getScene"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
