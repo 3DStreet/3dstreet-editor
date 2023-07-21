@@ -10,7 +10,7 @@ import { createEntity } from './lib/entity';
 import { createRoot } from 'react-dom/client';
 import { initCameras } from './lib/cameras';
 import { AuthProvider } from './contexts';
-import Main from './components/main';
+import Main from './components/Main';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
