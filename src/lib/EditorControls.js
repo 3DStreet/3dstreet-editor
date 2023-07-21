@@ -216,6 +216,8 @@ THREE.EditorControls = function (_object, domElement) {
 
   // mouse
 
+  var changeStateKey = 'shiftKey';
+
   function onMouseDown(event) {
     if (scope.enabled === false) return;
 
@@ -237,6 +239,10 @@ THREE.EditorControls = function (_object, domElement) {
 
   function onMouseMove(event) {
     if (scope.enabled === false) return;
+
+    if (event.buttons === 1) {
+      state = event[changeStateKey] ? STATE.ROTATE : STATE.PAN;
+    }
 
     pointer.set(event.clientX, event.clientY);
 
