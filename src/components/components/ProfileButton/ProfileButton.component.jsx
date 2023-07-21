@@ -2,13 +2,9 @@ import React from 'react';
 import './ProfileButton.styles.styl';
 
 import { Button } from '../Button';
-import { Component } from 'react';
 import Events from '../../../lib/Events.js';
 import { Profile32Icon } from './icons.jsx';
 import { useAuthContext } from '../../../contexts';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../../services/firebase';
-import { useNavigate } from 'react-router-dom';
 
 /**
  * ProfileButton component.

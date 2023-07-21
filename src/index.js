@@ -9,7 +9,8 @@ import { Viewport } from './lib/viewport';
 import { createEntity } from './lib/entity';
 import { createRoot } from 'react-dom/client';
 import { initCameras } from './lib/cameras';
-import { App } from './components/App';
+import { AuthProvider } from './contexts';
+import Main from './components/main';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
@@ -72,7 +73,11 @@ Inspector.prototype = {
     div.setAttribute('data-aframe-inspector', 'app');
     document.body.appendChild(div);
     const root = createRoot(div);
-    root.render(<App />);
+    root.render(
+      <AuthProvider>
+        <Main />
+      </AuthProvider>
+    );
 
     this.scene = this.sceneEl.object3D;
     this.helpers = {};
