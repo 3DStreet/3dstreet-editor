@@ -1,5 +1,4 @@
 import { cloneEntity, removeSelectedEntity } from '../../lib/entity';
-
 import { Button } from '../components';
 import ComponentsContainer from './ComponentsContainer';
 import Events from '../../lib/Events';
@@ -8,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
-
 export default class Sidebar extends React.Component {
   static propTypes = {
     entity: PropTypes.object,
@@ -27,13 +25,12 @@ export default class Sidebar extends React.Component {
     Events.on('componentremove', (event) => {
       this.forceUpdate();
     });
-
     Events.on('componentadd', (event) => {
       this.forceUpdate();
     });
   }
-
   // additional toggle for hide/show panel by clicking the button
+
   toggleRightBar = () => {
     this.setState({ rightBarHide: !this.state.rightBarHide });
   };
@@ -48,13 +45,11 @@ export default class Sidebar extends React.Component {
   render() {
     const entity = this.props.entity;
     const visible = this.props.visible;
-
     // Rightbar class names
     const className = classnames({
       outliner: true,
       hide: this.state.rightBarHide
     });
-
     if (entity && visible) {
       const entityName = entity.getDOMAttribute('data-layer-name');
       const entityMixin = entity.getDOMAttribute('mixin');
@@ -71,21 +66,25 @@ export default class Sidebar extends React.Component {
                 <div id="toggle-rightbar" />
               </div>
               <div className="scroll">
-                <Mixins entity={entity} />
-                <div id="sidebar-buttons">
-                  <Button
-                    variant={'toolbtn'}
-                    onClick={() => cloneEntity(entity)}
-                  >
-                    Duplicate
-                  </Button>
-                  <Button
-                    variant={'toolbtn'}
-                    onClick={() => removeSelectedEntity()}
-                  >
-                    Delete
-                  </Button>
-                </div>
+                {!!entity.mixinEls.length && (
+                  <>
+                    <Mixins entity={entity} />
+                    <div id="sidebar-buttons">
+                      <Button
+                        variant={'toolbtn'}
+                        onClick={() => cloneEntity(entity)}
+                      >
+                        Duplicate
+                      </Button>
+                      <Button
+                        variant={'toolbtn'}
+                        onClick={() => removeSelectedEntity()}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </>
+                )}
                 <ComponentsContainer entity={entity} />
               </div>
             </>
@@ -93,7 +92,7 @@ export default class Sidebar extends React.Component {
             <>
               <li onClick={this.toggleRightBar}>
                 <a className="camera" href="#">
-                  <span>{entityName || formattedMixin}</span>
+                  <span className="title">{entityName || formattedMixin}</span>
                   <div className="icon">
                     <svg
                       width="24"
