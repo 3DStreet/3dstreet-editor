@@ -6,7 +6,6 @@ import { Button } from '../../components';
 import GoogleIcon from '../../../../assets/google.svg';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../../services/firebase';
-import { redirect } from 'react-router-dom';
 
 const SignInModal = ({ isOpen, onClose }) => {
   const loginHandler = async () => {
