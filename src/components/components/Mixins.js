@@ -63,7 +63,9 @@ export default class Mixin extends React.Component {
 
     this.setState({ mixins: value });
     const mixinStr = value.value;
-    // hack to fix error that sometimes a newly selected model won't load
+    // Remove the current mixin first so that it removes the gltf-model
+    // component, then set the new mixin that will load a new gltf model.
+    // If we don't remove first, sometimes a newly selected model won't load.
     entity.setAttribute('mixin', '');
     entity.setAttribute('mixin', value.value);
 
