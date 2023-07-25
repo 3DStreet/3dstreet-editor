@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Events from '../../lib/Events';
+import { DropdownArrowIcon } from '../../icons';
 
 export default class Mixin extends React.Component {
   static propTypes = {
@@ -31,7 +32,6 @@ export default class Mixin extends React.Component {
     const mixinIds = this.props.entity.mixinEls.map(function (mixin) {
       return mixin.id;
     });
-
     return Array.prototype.slice
       .call(document.querySelectorAll('a-mixin'))
       .sort()
@@ -42,11 +42,9 @@ export default class Mixin extends React.Component {
 
   updateMixins = (value) => {
     const entity = this.props.entity;
-
     this.setState({ mixins: value });
     const mixinStr = value.map((v) => v.value).join(' ');
     entity.setAttribute('mixin', mixinStr);
-
     Events.emit('entityupdate', {
       component: 'mixin',
       entity: entity,
@@ -60,13 +58,11 @@ export default class Mixin extends React.Component {
 
   updateMixinSingle = (value) => {
     const entity = this.props.entity;
-
     this.setState({ mixins: value });
     const mixinStr = value.value;
     // hack to fix error that sometimes a newly selected model won't load
     entity.setAttribute('mixin', '');
     entity.setAttribute('mixin', value.value);
-
     Events.emit('entityupdate', {
       component: 'mixin',
       entity: entity,
@@ -89,6 +85,10 @@ export default class Mixin extends React.Component {
                 id="mixinSelect"
                 classNamePrefix="select"
                 options={this.getMixinOptions()}
+                components={{
+                  DropdownIndicator: DropdownArrowIcon,
+                  IndicatorSeparator: () => null
+                }}
                 isMulti={true}
                 placeholder="Search mixins..."
                 noResultsText="No mixins found"
@@ -101,6 +101,10 @@ export default class Mixin extends React.Component {
                 id="mixinSelect"
                 classNamePrefix="select-single"
                 options={this.getMixinOptions()}
+                components={{
+                  DropdownIndicator: DropdownArrowIcon,
+                  IndicatorSeparator: () => null
+                }}
                 isMulti={false}
                 isSearchable={true}
                 isClearable={false}
