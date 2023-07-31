@@ -155,8 +155,7 @@ export default class Toolbar extends Component {
   toggleSaveActionState = () =>
     this.setState((prevState) => ({
       ...prevState,
-      isSaveActionActive: !this.state.isSaveActionActive,
-      showLoadBtn: !this.state.showLoadBtn
+      isSaveActionActive: !this.state.isSaveActionActive
     }));
 
   toggleLoadActionState = () =>
@@ -178,37 +177,47 @@ export default class Toolbar extends Component {
       <div id="toolbar">
         <div className="toolbarActions">
           {this.state.showSaveBtn && (
-            <div>
-              {!this.state.isSaveActionActive ? (
-                <Button
-                  className={'actionBtn'}
-                  onClick={this.toggleSaveActionState.bind(this)}
+            <div className="saveButtonWrapper">
+              <Button
+                className={'actionBtn'}
+                onClick={this.toggleSaveActionState.bind(this)}
+              >
+                <div
+                  className="iconContainer"
+                  style={{
+                    display: 'flex',
+                    margin: '-2.5px 0px -2.5px -2px'
+                  }}
                 >
-                  <div
-                    className="iconContainer"
-                    style={{
-                      display: 'flex',
-                      margin: '-2.5px 0px -2.5px -2px'
-                    }}
-                  >
-                    <Save24Icon />
-                  </div>
-                  <div className={'innerText'}>Save</div>
-                </Button>
-              ) : (
-                <div>
-                  <Button onClick={this.exportSceneToGLTF}>
-                    glTF 3D Model
-                  </Button>
-                  <Button onClick={this.convertToObject}>3DStreet JSON</Button>
-
-                  <Button
-                    className={'closeButton'}
-                    onClick={this.toggleSaveActionState.bind(this)}
-                  >
-                    <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-                      <Cross32Icon />
+                  <Save24Icon />
+                </div>
+                <div className={'innerText'}>Save</div>
+              </Button>
+              {this.state.isSaveActionActive && (
+                <div className="dropdownedButtons">
+                  <Button onClick={this.exportSceneToGLTF} variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Save24Icon />
                     </div>
+                    Download glTF
+                  </Button>
+                  <Button onClick={this.convertToObject} variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Save24Icon />
+                    </div>
+                    Download 3DStreet JSON
                   </Button>
                 </div>
               )}

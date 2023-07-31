@@ -117,3 +117,24 @@
     transition: all 0.3s;
   }
 }
+
+.whiteButton {
+  background-color: #ededed;
+  color: #3d3d3d;
+  border-radius: 18px;
+
+  &:active {
+    border: 1px solid #fff;
+    background-color: #dbdbdb;
+  }
+
+  &:focus {
+    border: 1px solid #fff;
+  }
+
+  &:disabled {
+    background-color: #636363;
+    color: rgba(50, 50, 50, 0.4);
+    transition: all 0.3s;
+  }
+}
