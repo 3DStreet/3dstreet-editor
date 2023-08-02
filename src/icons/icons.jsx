@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Camera32Icon = () => (
   <svg
     width="32"
@@ -165,6 +167,18 @@ const CheckIcon = (className) => (
   </svg>
 );
 
+const DropdownArrowIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+  >
+    <path d="M14.1665 8.5L9.99984 12.6667L5.83317 8.5H14.1665Z" fill="white" />
+  </svg>
+);
+
 export {
   Camera32Icon,
   Save24Icon,
@@ -174,5 +188,6 @@ export {
   Compass32Icon,
   ArrowDown24Icon,
   ArrowUp24Icon,
-  CheckIcon
+  CheckIcon,
+  DropdownArrowIcon
 };

@@ -92,7 +92,9 @@ export default class Sidebar extends React.Component {
             <>
               <li onClick={this.toggleRightBar}>
                 <a className="camera" href="#">
-                  <span className="title">{entityName || formattedMixin}</span>
+                  <span className="title" title={entityName || formattedMixin}>
+                    {entityName || formattedMixin}
+                  </span>
                   <div className="icon">
                     <svg
                       width="24"
