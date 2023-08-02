@@ -138,6 +138,10 @@
 
   .entity:first-child {
     margin: 0px !important;
+
+    &:hover {
+      background: #6A4AC3;
+    }
   }
 
   .entity {
@@ -151,6 +155,10 @@
     &:focus {
       background: #6A4AC3;
       border: 1px solid #FFFFFF;
+    }
+
+    &:hover {
+      background: #6A4AC3;
     }
 
     &.disabled {
@@ -321,6 +329,7 @@
     padding: 0px;
     background: #373737;
     border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 
     #layers-title {
       width: 372px;
@@ -338,7 +347,7 @@
         width: 56px;
         height: 72px;
         background: #323232;
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4LjY2NjcgMjIuNjY2N0wxMiAxNkwxOC42NjY3IDkuMzMzMzQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==');
+        background-image: url('/assets/arrow-left.svg');
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
