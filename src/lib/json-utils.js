@@ -7,7 +7,8 @@ and returns a Javascript object
 function convertDOMElToObject(entity) {
   const data = [];
   const environmentElement = document.querySelector('#environment');
-  const sceneEntities = [entity, environmentElement];
+  const layers2DElement = document.querySelector('#layers-2d');
+  const sceneEntities = [entity, environmentElement, layers2DElement];
 
   for (const entry of sceneEntities) {
     const entityData = getElementData(entry);
@@ -86,7 +87,8 @@ function toPropString(propData) {
   if (
     typeof propData === 'string' ||
     typeof propData === 'number' ||
-    typeof propData === 'boolean'
+    typeof propData === 'boolean' ||
+    Array.isArray(propData)
   ) {
     return propData.toString();
   }
@@ -265,9 +267,6 @@ function getModifiedProperty(entity, componentName) {
   if (mixinsData && mixinSkipProps.includes(mixinCompName)) {
     // skip properties, if they exists in element's mixin
     return null;
-  }
-  if (mixinCompName == 'sedan-rig') {
-    console.log('sedan-rig');
   }
   // If its single-property like position, rotation, etc
   if (isSingleProperty(defaultData)) {
