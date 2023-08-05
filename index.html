@@ -13,7 +13,7 @@
     <script src="https://github.3dstreet.org/src/lib/aframe-mapbox-component.min.js"></script>
 
     <!-- save / load -->
-    <script src="https://github.3dstreet.org/src/json-utils.js"></script>
+    <script src="./src/lib/json-utils.js"></script>
     
     <!-- ocean -->
     <script src="https://github.3dstreet.org/src/components/ocean-plane.js"></script>
@@ -76,7 +76,7 @@
         <a-entity id="default-street" street streetmix-loader set-loader-from-hash></a-entity>
       </a-entity>
 
-      <a-entity id="layers-2d" data-layer-name="2D Street Layers" data-layer-show-children></a-entity>
+      <a-entity id="reference-layers" data-layer-name="Reference Layers" data-layer-show-children></a-entity>
 
       <a-entity id="environment" data-layer-name="Environment" street-environment="preset: day;"></a-entity>
   

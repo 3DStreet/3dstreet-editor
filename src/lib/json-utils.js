@@ -7,8 +7,8 @@ and returns a Javascript object
 function convertDOMElToObject(entity) {
   const data = [];
   const environmentElement = document.querySelector('#environment');
-  const layers2DElement = document.querySelector('#layers-2d');
-  const sceneEntities = [entity, environmentElement, layers2DElement];
+  const referenceEntities = document.querySelector('#reference-layers');
+  const sceneEntities = [entity, environmentElement, referenceEntities];
 
   for (const entry of sceneEntities) {
     const entityData = getElementData(entry);
