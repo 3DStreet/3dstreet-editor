@@ -122,6 +122,7 @@
   background-color: #ededed;
   color: #3d3d3d;
   border-radius: 18px;
+  box-shadow: 0px 7px 3px 0px rgba(0, 0, 0, 0.32);
 
   &:active {
     border: 1px solid #fff;
@@ -130,6 +131,11 @@
 
   &:focus {
     border: 1px solid #fff;
+  }
+
+  &:hover {
+    background-color: #fff;
+    transition: all 0.3s;
   }
 
   &:disabled {
