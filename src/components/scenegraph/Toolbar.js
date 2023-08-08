@@ -276,9 +276,27 @@ export default class Toolbar extends Component {
               {this.state.isLoadActionActive && (
                 <div className="dropdownedButtons">
                   <Button onClick={inputStreetmix} variant="white">
-                    Import Streetmix URL
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Load24Icon />
+                    </div>
+                    Streetmix URL
                   </Button>
                   <Button variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Load24Icon />
+                    </div>
                     <label
                       style={{
                         display: 'inherit',
@@ -292,7 +310,7 @@ export default class Toolbar extends Component {
                         style={{ display: 'none' }}
                         accept=".js, .json, .txt"
                       />
-                      Load 3DStreet JSON
+                      3DStreet JSON
                     </label>
                   </Button>
                 </div>
