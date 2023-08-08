@@ -20,35 +20,52 @@
     justify-content: space-between;
     align-items: center;
     column-gap: 12px;
+  }
 
-    .saveActions, .loadActions {
+  .saveButtonWrapper {
+    position: relative;
+
+    .icon * {
+      stroke: #3D3D3D;
+    }
+
+    .dropdownedButtons {
+      position: absolute;
+      width: 300px;
       display: flex;
-      align-items: center;
-      column-gap: 12px;
+      flex-direction: column;
+      row-gap: 8px;
+      top: 51px;
     }
+  }
 
-    .cameraButton, .closeButton {
-      border-radius: 22px;
-    }
+  .saveActions, .loadActions {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+  }
 
-    .closeButton {
-      width: 43px;
-      height: 43px;
-      background: rgba(50, 50, 50, 0.8);
-      border-radius: 22px !important;
+  .cameraButton, .closeButton {
+    border-radius: 22px;
+  }
 
-      &:hover {
-        background: #2D2D2D;
+  .closeButton {
+    width: 43px;
+    height: 43px;
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 22px !important;
 
-        svg > path {
-          stroke: #fff;
-        }
+    &:hover {
+      background: #2D2D2D;
+
+      svg > path {
+        stroke: #fff;
       }
     }
+  }
 
-    .fa {
-      display: none;
-    }
+  .fa {
+    display: none;
   }
 }
 
@@ -92,23 +109,18 @@
   }
 
   .entity.option.active {
-    background: #8965EF;
-  }
-
-  .entity.option.active {
-    &:hover {
-      background: #6A4AC3;
-    }
+    background: #6A4AC3;
   }
 
   .entity.option {
     display: flex;
     flex-direction: column;
-    max-width: 342px;
+    width: 100%;
     flex: none;
     order: 1;
     flex-grow: 0;
     padding: 14.5px 16px 10.5px 14.5px;
+    box-sizing: border-box;
 
     > span {
       display: flex;
@@ -121,10 +133,6 @@
         flex-basis: 237px;
         margin-left: 10.5px;
       }
-    }
-
-    .entity.option:hover {
-      background: #6A4AC3;
     }
   }
 

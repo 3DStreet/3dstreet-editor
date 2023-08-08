@@ -1,8 +1,8 @@
 import { Button, ScreenshotButton } from '../components';
-import { Cross32Icon, Load24Icon, Save24Icon } from '../../icons';
+import { Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
 
-import { Component } from 'react';
+import React, { Component } from 'react';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
 
@@ -40,13 +40,46 @@ function slugify(text) {
  * Tools and actions.
  */
 export default class Toolbar extends Component {
-  state = {
-    // isPlaying: false,
-    isSaveActionActive: false,
-    isLoadActionActive: false,
-    isCapturingScreen: false,
-    showSaveBtn: true,
-    showLoadBtn: true
+  constructor(props) {
+    super(props);
+    this.state = {
+      // isPlaying: false,
+      isSaveActionActive: false,
+      isLoadActionActive: false,
+      isCapturingScreen: false,
+      showSaveBtn: true,
+      showLoadBtn: true
+    };
+    this.loadButtonRef = React.createRef();
+    this.saveButtonRef = React.createRef();
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutsideLoad);
+    document.addEventListener('click', this.handleClickOutsideSave);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutsideLoad);
+    document.removeEventListener('click', this.handleClickOutsideSave);
+  }
+
+  handleClickOutsideLoad = (event) => {
+    if (
+      this.loadButtonRef.current &&
+      !this.loadButtonRef.current.contains(event.target)
+    ) {
+      this.setState({ isLoadActionActive: false });
+    }
+  };
+
+  handleClickOutsideSave = (event) => {
+    if (
+      this.saveButtonRef.current &&
+      !this.saveButtonRef.current.contains(event.target)
+    ) {
+      this.setState({ isSaveActionActive: false });
+    }
   };
 
   convertToObject = () => {
@@ -152,19 +185,17 @@ export default class Toolbar extends Component {
     this.setState((prevState) => ({ ...prevState, isPlaying: true }));
   };
 
-  toggleSaveActionState = () =>
+  toggleSaveActionState = () => {
     this.setState((prevState) => ({
-      ...prevState,
-      isSaveActionActive: !this.state.isSaveActionActive,
-      showLoadBtn: !this.state.showLoadBtn
+      isSaveActionActive: !prevState.isSaveActionActive
     }));
+  };
 
-  toggleLoadActionState = () =>
+  toggleLoadActionState = () => {
     this.setState((prevState) => ({
-      ...prevState,
-      isLoadActionActive: !this.state.isLoadActionActive,
-      showSaveBtn: !this.state.showSaveBtn
+      isLoadActionActive: !prevState.isLoadActionActive
     }));
+  };
 
   render() {
     // const watcherClassNames = classNames({
@@ -178,37 +209,47 @@ export default class Toolbar extends Component {
       <div id="toolbar">
         <div className="toolbarActions">
           {this.state.showSaveBtn && (
-            <div>
-              {!this.state.isSaveActionActive ? (
-                <Button
-                  className={'actionBtn'}
-                  onClick={this.toggleSaveActionState.bind(this)}
+            <div className="saveButtonWrapper" ref={this.saveButtonRef}>
+              <Button
+                className={'actionBtn'}
+                onClick={this.toggleSaveActionState.bind(this)}
+              >
+                <div
+                  className="iconContainer"
+                  style={{
+                    display: 'flex',
+                    margin: '-2.5px 0px -2.5px -2px'
+                  }}
                 >
-                  <div
-                    className="iconContainer"
-                    style={{
-                      display: 'flex',
-                      margin: '-2.5px 0px -2.5px -2px'
-                    }}
-                  >
-                    <Save24Icon />
-                  </div>
-                  <div className={'innerText'}>Save</div>
-                </Button>
-              ) : (
-                <div>
-                  <Button onClick={this.exportSceneToGLTF}>
-                    glTF 3D Model
-                  </Button>
-                  <Button onClick={this.convertToObject}>3DStreet JSON</Button>
-
-                  <Button
-                    className={'closeButton'}
-                    onClick={this.toggleSaveActionState.bind(this)}
-                  >
-                    <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-                      <Cross32Icon />
+                  <Save24Icon />
+                </div>
+                <div className={'innerText'}>Save</div>
+              </Button>
+              {this.state.isSaveActionActive && (
+                <div className="dropdownedButtons">
+                  <Button onClick={this.exportSceneToGLTF} variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Save24Icon />
                     </div>
+                    Download glTF
+                  </Button>
+                  <Button onClick={this.convertToObject} variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Save24Icon />
+                    </div>
+                    Download 3DStreet JSON
                   </Button>
                 </div>
               )}
@@ -216,27 +257,46 @@ export default class Toolbar extends Component {
           )}
 
           {this.state.showLoadBtn && (
-            <div>
-              {!this.state.isLoadActionActive ? (
-                <Button
-                  className={'actionBtn'}
-                  onClick={this.toggleLoadActionState.bind(this)}
+            <div className="saveButtonWrapper" ref={this.loadButtonRef}>
+              <Button
+                className={'actionBtn'}
+                onClick={this.toggleLoadActionState}
+              >
+                <div
+                  className="iconContainer"
+                  style={{
+                    display: 'flex',
+                    margin: '-2.5px 0px -2.5px -2px'
+                  }}
                 >
-                  <div
-                    className="iconContainer"
-                    style={{
-                      display: 'flex',
-                      margin: '-2.5px 0px -2.5px -2px'
-                    }}
-                  >
-                    <Load24Icon />
-                  </div>
-                  <div className={'innerText'}>Load</div>
-                </Button>
-              ) : (
-                <div className={'loadActions'}>
-                  <Button onClick={inputStreetmix}>Import Streetmix</Button>
-                  <Button>
+                  <Load24Icon />
+                </div>
+                <div className={'innerText'}>Open</div>
+              </Button>
+              {this.state.isLoadActionActive && (
+                <div className="dropdownedButtons">
+                  <Button onClick={inputStreetmix} variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Load24Icon />
+                    </div>
+                    Streetmix URL
+                  </Button>
+                  <Button variant="white">
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Load24Icon />
+                    </div>
                     <label
                       style={{
                         display: 'inherit',
@@ -253,15 +313,6 @@ export default class Toolbar extends Component {
                       3DStreet JSON
                     </label>
                   </Button>
-                  <Button
-                    className={'closeButton'}
-                    type="custom"
-                    onClick={this.toggleLoadActionState.bind(this)}
-                  >
-                    <div style={{ display: 'flex', margin: '-6.5px -10.5px' }}>
-                      <Cross32Icon />
-                    </div>
-                  </Button>
                 </div>
               )}
             </div>
@@ -277,28 +328,6 @@ export default class Toolbar extends Component {
           >
             <ScreenshotButton />
           </div>
-          {/* not is use */}
-          {/* <button
-            className={"viewButton"}
-            type={"button"}
-            onClick={this.openViewMode}
-          >
-            View
-          </button> */}
-
-          {/* not in use */}
-          {/* <a
-            className="gltfIcon"
-            title="Export to GLTF"
-            onClick={this.exportSceneToGLTF}
-          >
-            <img src={GLTFIcon} />
-          </a>
-          <a
-            className={watcherClassNames}
-            title={watcherTitle}
-            onClick={this.writeChanges}
-          /> */}
         </div>
       </div>
     );
