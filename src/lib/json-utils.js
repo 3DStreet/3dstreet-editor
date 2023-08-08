@@ -306,7 +306,7 @@ function getModifiedProperty(entity, componentName) {
 
 function createEntities(entitiesData, parentEl) {
   const sceneElement = document.querySelector('a-scene');
-  const removeEntities = ['environment', 'layers-2d'];
+  const removeEntities = ['environment', 'reference-layers'];
   for (const entityData of entitiesData) {
     if (
       entityData.id === 'street-container' &&
