@@ -12,8 +12,11 @@ class ScreenshotModal extends Component {
   };
 
   saveScreenshot = (value) => {
-    AFRAME.scenes[0].setAttribute('screentock', 'type', value);
-    AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+    //    screenshotEl = AFRAME.scenes[0];
+    const screenshotEl = document.getElementById('no-pause');
+    screenshotEl.play();
+    screenshotEl.setAttribute('screentock', 'type', value);
+    screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
   };
 
   render() {
