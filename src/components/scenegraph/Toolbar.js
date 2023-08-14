@@ -106,14 +106,17 @@ export default class Toolbar extends Component {
       const imgHTML = '<img id="screentock-destination">';
       // Set the screenshot in local storage
       localStorage.setItem('screenshot', JSON.stringify(imgHTML));
-      AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
-      AFRAME.scenes[0].setAttribute(
+      const screenshotEl = document.getElementById('screenshot');
+      screenshotEl.play();
+
+      screenshotEl.setAttribute('screentock', 'type', 'img');
+      screenshotEl.setAttribute(
         'screentock',
         'imgElementSelector',
         '#screentock-destination'
       );
       // take the screenshot
-      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+      screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
       setTimeout(() => resolve(), 1000);
     }).then(() => {
       component &&
