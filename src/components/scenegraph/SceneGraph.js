@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import debounce from 'lodash-es/debounce';
 import classNames from 'classnames';
-
 import Entity from './Entity';
 import Toolbar from './Toolbar';
 import Events from '../../lib/Events';
-
+import { ToolbarWrapper } from './ToolbarWrapper';
 export default class SceneGraph extends React.Component {
   static propTypes = {
     id: PropTypes.string,
@@ -36,7 +35,6 @@ export default class SceneGraph extends React.Component {
       secondLvlEntitiesExpanded: true,
       firstLevelEntities: []
     };
-
     this.rebuildEntityOptions = debounce(
       this.rebuildEntityOptions.bind(this),
       1000
@@ -100,7 +98,6 @@ export default class SceneGraph extends React.Component {
         found = true;
       }
     }
-
     if (!found) {
       this.setState({ selectedEntity: null, selectedIndex: -1 });
     }
@@ -108,16 +105,13 @@ export default class SceneGraph extends React.Component {
 
   rebuildEntityOptions = () => {
     const entities = [{ depth: 0, entity: this.props.scene }];
-
     function treeIterate(element, depth) {
       if (!element) {
         return;
       }
       depth += 1;
-
       for (let i = 0; i < element.children.length; i++) {
         let entity = element.children[i];
-
         if (
           entity.dataset.isInspector ||
           !entity.isEntity ||
@@ -126,14 +120,11 @@ export default class SceneGraph extends React.Component {
         ) {
           continue;
         }
-
         entities.push({ entity: entity, depth: depth });
-
         treeIterate(entity, depth);
       }
     }
     treeIterate(this.props.scene, 0);
-
     this.setState({
       entities: entities,
       filteredEntities: this.getFilteredEntities(this.state.filter, entities)
@@ -168,7 +159,6 @@ export default class SceneGraph extends React.Component {
     if (this.props.selectedEntity === null) {
       return;
     }
-
     switch (event.keyCode) {
       case 37: // left
         if (this.isExpanded(this.props.selectedEntity)) {
@@ -216,7 +206,6 @@ export default class SceneGraph extends React.Component {
   };
 
   isExpanded = (x) => this.state.expandedElements.get(x) === true;
-
   toggleExpandedCollapsed = (x) => {
     if (this.state.firstLevelEntities.includes(x.id)) {
       this.setState({
@@ -304,7 +293,6 @@ export default class SceneGraph extends React.Component {
         return true;
       }
     });
-
     // wrap entities of layer level 1 in <div class="layer">
     let layerEntities = [];
     let resultEntities = [];
@@ -359,21 +347,18 @@ export default class SceneGraph extends React.Component {
     if (!this.props.visible) {
       return null;
     }
-
     // Outliner class names.
     const className = classNames({
       outliner: true,
       hide: this.state.leftBarHide
     });
-
     const clearFilter = this.state.filter ? (
       <a onClick={this.clearFilter} className="button fa fa-times" />
     ) : null;
-
     return (
       <div id="scenegraph" className="scenegraph">
         <div className="scenegraph-toolbar">
-          <Toolbar />
+          <ToolbarWrapper />
           <div className="search">
             <input
               id="filter"
@@ -402,12 +387,10 @@ export default class SceneGraph extends React.Component {
     );
   }
 }
-
 function filterEntity(entity, filter) {
   if (!filter) {
     return true;
   }
-
   // Check if the ID, tagName, class, selector includes the filter.
   if (
     entity.id.toUpperCase().indexOf(filter.toUpperCase()) !== -1 ||
@@ -417,6 +400,5 @@ function filterEntity(entity, filter) {
   ) {
     return true;
   }
-
   return false;
 }

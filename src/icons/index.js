@@ -8,5 +8,6 @@ export {
   ArrowDown24Icon,
   ArrowUp24Icon,
   CheckIcon,
-  DropdownArrowIcon
+  DropdownArrowIcon,
+  Cloud24Icon
 } from './icons.jsx';

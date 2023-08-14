@@ -1,13 +1,13 @@
-import { Button, ScreenshotButton } from '../components';
-import { Load24Icon, Save24Icon } from '../../icons';
+import { Button, ProfileButton, ScreenshotButton } from '../components';
+import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
-
+import { v4 as uuidv4 } from 'uuid';
 import React, { Component } from 'react';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
+import { uploadScene } from '../../api/scene';
 
-// const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
-
+// const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";​
 function filterHelpers(scene, visible) {
   scene.traverse((o) => {
     if (o.userData.source === 'INSPECTOR') {
@@ -84,11 +84,8 @@ export default class Toolbar extends Component {
 
   convertToObject = () => {
     const entity = document.getElementById('street-container');
-
     const data = convertDOMElToObject(entity);
-
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      //JSON.stringify(data)
       filterJSONstreet(removeProps, renameProps, data)
     )}`;
 
@@ -100,23 +97,47 @@ export default class Toolbar extends Component {
     link.remove();
   };
 
+  uploadSceneHandler = async () => {
+    try {
+      if (!this.props.currentUser) {
+        Events.emit('opensigninmodal');
+        return;
+      }
+
+      const entity = document.getElementById('street-container');
+      const data = JSON.stringify(convertDOMElToObject(entity));
+      const newUniqueId = uuidv4();
+
+      await uploadScene(
+        newUniqueId,
+        this.props.currentUser.uid,
+        data,
+        newUniqueId,
+        'Street Scene',
+        '1.0'
+      );
+
+      const newUrl = `https://3dstreet.app/#/scenes/${newUniqueId}.json`;
+      window.open(newUrl, '_blank');
+    } catch (error) {
+      console.error('Error on saving scene', error);
+    }
+  };
+
   makeScreenshot = (component) =>
     new Promise((resolve) => {
       // use vanilla js to create an img element as destination for our screenshot
       const imgHTML = '<img id="screentock-destination">';
       // Set the screenshot in local storage
       localStorage.setItem('screenshot', JSON.stringify(imgHTML));
-      const screenshotEl = document.getElementById('screenshot');
-      screenshotEl.play();
-
-      screenshotEl.setAttribute('screentock', 'type', 'img');
-      screenshotEl.setAttribute(
+      AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
+      AFRAME.scenes[0].setAttribute(
         'screentock',
         'imgElementSelector',
         '#screentock-destination'
       );
       // take the screenshot
-      screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
+      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
       setTimeout(() => resolve(), 1000);
     }).then(() => {
       component &&
@@ -230,6 +251,18 @@ export default class Toolbar extends Component {
               </Button>
               {this.state.isSaveActionActive && (
                 <div className="dropdownedButtons">
+                  <Button variant="white" onClick={this.uploadSceneHandler}>
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Save
+                  </Button>
                   <Button onClick={this.exportSceneToGLTF} variant="white">
                     <div
                       className="icon"
@@ -279,16 +312,7 @@ export default class Toolbar extends Component {
               {this.state.isLoadActionActive && (
                 <div className="dropdownedButtons">
                   <Button onClick={inputStreetmix} variant="white">
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Load24Icon />
-                    </div>
-                    Streetmix URL
+                    Import Streetmix URL
                   </Button>
                   <Button variant="white">
                     <div
@@ -330,6 +354,17 @@ export default class Toolbar extends Component {
             className={'cameraButton'}
           >
             <ScreenshotButton />
+          </div>
+          <div
+            onClick={() =>
+              this.setState((prevState) => ({
+                ...prevState,
+                isSignInModalActive: true
+              }))
+            }
+            className={'cameraButton'}
+          >
+            <ProfileButton />
           </div>
         </div>
       </div>
