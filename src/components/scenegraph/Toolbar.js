@@ -106,7 +106,7 @@ export default class Toolbar extends Component {
       const imgHTML = '<img id="screentock-destination">';
       // Set the screenshot in local storage
       localStorage.setItem('screenshot', JSON.stringify(imgHTML));
-      const screenshotEl = document.getElementById('no-pause');
+      const screenshotEl = document.getElementById('screenshot');
       screenshotEl.play();
 
       screenshotEl.setAttribute('screentock', 'type', 'img');
