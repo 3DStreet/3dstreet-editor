@@ -1,7 +1,7 @@
 import { Button, ScreenshotButton } from '../components';
 import { Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
-
+import { ProfileButton } from '../components';
 import React, { Component } from 'react';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
