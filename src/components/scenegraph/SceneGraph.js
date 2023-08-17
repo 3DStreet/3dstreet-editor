@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import Entity from './Entity';
 import Toolbar from './Toolbar';
 import Events from '../../lib/Events';
+import { ToolbarWrapper } from './ToolbarWrapper';
 
 export default class SceneGraph extends React.Component {
   static propTypes = {
@@ -373,7 +374,7 @@ export default class SceneGraph extends React.Component {
     return (
       <div id="scenegraph" className="scenegraph">
         <div className="scenegraph-toolbar">
-          <Toolbar />
+          <ToolbarWrapper />
           <div className="search">
             <input
               id="filter"
