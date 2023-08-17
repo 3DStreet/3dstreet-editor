@@ -105,9 +105,9 @@ const Compass32Icon = () => (
     <path
       d="M12 12.5L7.5 24.5L21 20.5M12 12.5L25.5 8.5L21 20.5M12 12.5L21 20.5"
       stroke="#DBDBDB"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
