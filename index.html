@@ -10,7 +10,7 @@
     <!-- user controls - vr teleport -->
  
     <!-- mapbox -->
-    <script src="https://unpkg.com/aframe-mapbox-component/dist/aframe-mapbox-component.min.js"></script>
+    <script src="https://github.3dstreet.org/src/lib/aframe-mapbox-component.min.js"></script>
 
     <!-- save / load -->
     <script src="https://github.3dstreet.org/src/json-utils.js"></script>
@@ -76,14 +76,15 @@
         <a-entity id="default-street" street streetmix-loader set-loader-from-hash></a-entity>
       </a-entity>
 
-      <a-entity id="layers-2d" data-layer-name="2D Street Layers" data-layer-show-children></a-entity>
+      <a-entity id="reference-layers" data-layer-name="Reference Layers" data-layer-show-children></a-entity>
 
       <a-entity id="environment" data-layer-name="Environment" street-environment="preset: day;"></a-entity>
   
       <a-entity id="cameraRig" data-layer-name="Viewer" cursor-teleport="cameraRig: #cameraRig; cameraHead: #camera;" look-controls="reverseMouseDrag: true" wasd-controls="enabled: true">
-        <a-entity id="camera" camera="near: 1; far: 1000" position="0 1.6 0"></a-entity>
+        <a-entity id="camera" camera="far: 1000" position="0 1.6 0"></a-entity>
         <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
         <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffccff" teleport-controls="cameraRig: #cameraRig; button: trigger"></a-entity>
+        <a-entity id="screenshot" class="no-pause" screentock visible="false"></a-entity>
       </a-entity>
 
     </a-scene>
@@ -158,8 +159,10 @@
     });
 
     function buttonScreenshotTock() {
-      AFRAME.scenes[0].setAttribute('screentock', 'type', 'jpg');
-      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+      const screenshotEl = document.getElementById('screenshot');
+      screenshotEl.play(); // double check playing in case we're in editor mode
+      screenshotEl.setAttribute('screentock', 'type', 'jpg');
+      screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
     }
 
     function startEditor() {

@@ -7,7 +7,8 @@ const variants = {
   filled: styles.filledButton,
   outlined: styles.outlinedButton,
   ghost: styles.ghostButton,
-  toolbtn: styles.toolButton
+  toolbtn: styles.toolButton,
+  white: styles.whiteButton
 };
 
 /**
