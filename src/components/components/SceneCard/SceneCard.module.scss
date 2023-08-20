@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 24px;
+  column-gap: 20px;
+  .img {
+    margin-bottom: 12px;
+  }
+  .card {
+    border-radius: 4px;
+    border: 1px solid rgba(237, 235, 239, 0.2);
+    padding: 8px 8px 12px 8px;
+  }
+  .title {
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
