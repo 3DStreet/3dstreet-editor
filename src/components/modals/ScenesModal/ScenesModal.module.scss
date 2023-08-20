@@ -1,3 +1,21 @@
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 36px;
+  padding: 0 35px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin: 24px 0px 0px 0px;
+  }
+
+  .buttons {
+    display: flex;
+    column-gap: 16px;
+  }
+}
+
 .modalWrapper {
   position: relative;
   width: 1196px;
