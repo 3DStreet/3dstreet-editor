@@ -120,8 +120,12 @@ export default class Toolbar extends Component {
         '1.0'
       );
 
-      const newUrl = `https://3dstreet.app/#/scenes/${newUniqueId}.json`;
+      // TODO: for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
+      const newUrl = `${location.protocol}//${location.host}/#/scenes/${newUniqueId}.json`;
       window.open(newUrl, '_blank');
+
+      // Change the hash URL without reloading
+      window.location.hash = `#/scenes/${newUniqueId}.json`;
     } catch (error) {
       console.error('Error on saving scene', error);
     }
