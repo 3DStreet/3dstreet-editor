@@ -1,10 +1,11 @@
-import { Button, ScreenshotButton } from '../components';
-import { Load24Icon, Save24Icon } from '../../icons';
+import { Button, ProfileButton, ScreenshotButton } from '../components';
+import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import { fileJSON, inputStreetmix } from '../../lib/toolbar';
-import { ProfileButton } from '../components';
+import { v4 as uuidv4 } from 'uuid';
 import React, { Component } from 'react';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
+import { uploadScene } from '../../api/scene';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -88,7 +89,6 @@ export default class Toolbar extends Component {
     const data = convertDOMElToObject(entity);
 
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      //JSON.stringify(data)
       filterJSONstreet(removeProps, renameProps, data)
     )}`;
 
@@ -98,6 +98,40 @@ export default class Toolbar extends Component {
 
     link.click();
     link.remove();
+  };
+
+  uploadSceneHandler = async () => {
+    try {
+      if (!this.props.currentUser) {
+        Events.emit('opensigninmodal');
+        return;
+      }
+
+      const entity = document.getElementById('street-container');
+      const data = convertDOMElToObject(entity);
+      const filteredData = JSON.parse(
+        filterJSONstreet(removeProps, renameProps, data)
+      );
+      const newUniqueId = uuidv4();
+
+      await uploadScene(
+        newUniqueId,
+        this.props.currentUser.uid,
+        filteredData.data,
+        newUniqueId,
+        filteredData.title,
+        filteredData.version
+      );
+
+      // TODO: for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
+      const newUrl = `${location.protocol}//${location.host}/#/scenes/${newUniqueId}.json`;
+      window.open(newUrl, '_blank');
+
+      // Change the hash URL without reloading
+      window.location.hash = `#/scenes/${newUniqueId}.json`;
+    } catch (error) {
+      console.error('Error on saving scene', error);
+    }
   };
 
   makeScreenshot = (component) =>
@@ -230,6 +264,18 @@ export default class Toolbar extends Component {
               </Button>
               {this.state.isSaveActionActive && (
                 <div className="dropdownedButtons">
+                  <Button variant="white" onClick={this.uploadSceneHandler}>
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Save
+                  </Button>
                   <Button onClick={this.exportSceneToGLTF} variant="white">
                     <div
                       className="icon"

@@ -1,11 +1,11 @@
 {
   "hosting": {
-    "site": "app3dstreet",
+    "site": "dev-3dstreet",
     "public": ".",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "**/*.json",
+        "source": "scenes/*.json",
         "function": "getScene"
       },
       {
@@ -41,5 +41,9 @@
       "enabled": true
     },
     "singleProjectMode": true
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
