@@ -49,6 +49,7 @@
       gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.3/"
       inspector="url: ./dist/3dstreet-editor.js"
       timed-inspector="2"
+      notify
       >
       <a-assets>
         <!-- you can specify a custom asset path using below syntax  -->
@@ -107,7 +108,7 @@
 
       </a-entity>
 
-      <a-entity id="layers-2d" data-layer-name="2D Street Layers" data-layer-show-children>
+      <a-entity id="reference-layers" data-layer-name="Reference Layers" data-layer-show-children>
         <a-entity
           data-layer-name="Mapbox Satellite Streets"
           geometry="primitive: plane; width: 512; height: 512;"
