@@ -7,8 +7,8 @@ and returns a Javascript object
 function convertDOMElToObject(entity) {
   const data = [];
   const environmentElement = document.querySelector('#environment');
-  const layers2DElement = document.querySelector('#layers-2d');
-  const sceneEntities = [entity, environmentElement, layers2DElement];
+  const referenceEntities = document.querySelector('#reference-layers');
+  const sceneEntities = [entity, environmentElement, referenceEntities];
 
   for (const entry of sceneEntities) {
     const entityData = getElementData(entry);
@@ -35,7 +35,8 @@ function getElementData(entity) {
     elementTree['children'] = [];
     for (const child of children) {
       if (child.nodeType === Node.ELEMENT_NODE) {
-        elementTree['children'].push(getElementData(child));
+        const childElementData = getElementData(child);
+        elementTree['children'].push(childElementData);
       }
     }
   }
@@ -304,31 +305,42 @@ function getModifiedProperty(entity, componentName) {
   return diff;
 }
 
-function createEntities(entitiesData, parentEl) {
+var loadedElements = 0;
+var allElementsAmount;
+
+function createEntities(streetObject, parentEl) {
+  const entitiesData = streetObject.data;
+  allElementsAmount = streetObject.elementsAmount;
   const sceneElement = document.querySelector('a-scene');
-  const removeEntities = ['environment', 'layers-2d'];
-  for (const entityData of entitiesData) {
-    if (
-      entityData.id === 'street-container' &&
-      entityData.children &&
-      entityData.children[0].id === 'default-street' &&
-      entityData.children[0].components.hasOwnProperty('set-loader-from-hash')
-    ) {
-      delete entityData.children[0].components['set-loader-from-hash'];
-    }
+  const removeEntities = ['environment', 'reference-layers'];
 
-    const sceneChildElement = document.getElementById(entityData.id);
-    if (sceneChildElement) {
-      if (removeEntities.includes(entityData.id)) {
-        // remove existing elements from scene
-        sceneChildElement.remove();
-      } else {
-        // or save link to the element
-        entityData.entityElement = sceneChildElement;
+  try {
+    for (const entityData of entitiesData) {
+      if (
+        entityData.id === 'street-container' &&
+        entityData.children &&
+        entityData.children[0].id === 'default-street' &&
+        entityData.children[0].components.hasOwnProperty('set-loader-from-hash')
+      ) {
+        delete entityData.children[0].components['set-loader-from-hash'];
       }
-    }
 
-    createEntityFromObj(entityData, sceneElement);
+      const sceneChildElement = document.getElementById(entityData.id);
+      if (sceneChildElement) {
+        if (removeEntities.includes(entityData.id)) {
+          // remove existing elements from scene
+          sceneChildElement.remove();
+        } else {
+          // or save link to the element
+          entityData.entityElement = sceneChildElement;
+          loadedElements += 1;
+        }
+      }
+      createEntityFromObj(entityData, sceneElement);
+    }
+  } catch (error) {
+    AFRAME.scenes[0].setAttribute('notify', `message:${error}; type:error`);
+    console.error(error);
   }
 }
 
@@ -372,17 +384,31 @@ function createEntityFromObj(entityData, parentEl) {
   }
 
   entity.addEventListener('loaded', () => {
-    // load attributes
-    for (const attr in entityData.components) {
-      entity.setAttribute(attr, entityData.components[attr]);
-    }
+    try {
+      // load attributes
+      for (const attr in entityData.components) {
+        entity.setAttribute(attr, entityData.components[attr]);
+      }
 
-    if (entityData.mixin) {
-      entity.setAttribute('mixin', entityData.mixin);
-    }
-    // Ensure the components are loaded before update the UI
+      if (entityData.mixin) {
+        entity.setAttribute('mixin', entityData.mixin);
+      }
+      // Ensure the components are loaded before update the UI
+      entity.emit('entitycreated', {}, false);
+      loadedElements += 1;
 
-    entity.emit('entitycreated', {}, false);
+      if (loadedElements === allElementsAmount) {
+        loadedElements = 0;
+        allElementsAmount = 0;
+        AFRAME.scenes[0].components['notify'].message(
+          'All scene elements from JSON file loaded successfully',
+          'success'
+        );
+      }
+    } catch (error) {
+      AFRAME.scenes[0].setAttribute('notify', `message:${error}; type:error`);
+      console.error(error);
+    }
   });
 
   if (entityData.children) {

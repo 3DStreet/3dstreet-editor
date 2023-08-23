@@ -50,21 +50,30 @@ export default class Toolbar extends Component {
   };
 
   convertToObject = () => {
-    const entity = document.getElementById('street-container');
+    try {
+      const entity = document.getElementById('street-container');
 
-    const data = convertDOMElToObject(entity);
+      const data = convertDOMElToObject(entity);
 
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      //JSON.stringify(data)
-      filterJSONstreet(removeProps, renameProps, data)
-    )}`;
+      const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+        //JSON.stringify(data)
+        filterJSONstreet(removeProps, renameProps, data)
+      )}`;
 
-    const link = document.createElement('a');
-    link.href = jsonString;
-    link.download = 'data.json';
+      const link = document.createElement('a');
+      link.href = jsonString;
+      link.download = 'data.json';
 
-    link.click();
-    link.remove();
+      link.click();
+      link.remove();
+      AFRAME.scenes[0].components['notify'].message(
+        'JSON file have been saved successfully',
+        'success'
+      );
+    } catch (error) {
+      AFRAME.scenes[0].setAttribute('notify', `message: ${error}; type: error`);
+      console.error(error);
+    }
   };
 
   makeScreenshot = (component) =>

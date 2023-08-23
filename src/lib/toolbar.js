@@ -27,15 +27,25 @@ function getValidJSON(stringJSON) {
 }
 
 function createElementsFromJSON(streetJSONString) {
-  const validJSONString = getValidJSON(streetJSONString);
-  const streetContainerEl = document.getElementById('street-container');
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  try {
+    const validJSONString = getValidJSON(streetJSONString);
+    const streetContainerEl = document.getElementById('street-container');
+    while (streetContainerEl.firstChild) {
+      streetContainerEl.removeChild(streetContainerEl.lastChild);
+    }
+    let elementsAmount = 0;
+    var streetObject = JSON.parse(validJSONString, (key, value) => {
+      if (key === 'element') elementsAmount += 1;
+      return value;
+    });
+    streetObject.elementsAmount = elementsAmount;
+    createEntities(streetObject, streetContainerEl);
+    // update sceneGraph
+    Events.emit('entitycreated', streetContainerEl.sceneEl);
+  } catch (error) {
+    console.error(error);
+    AFRAME.scenes[0].setAttribute('notify', `message: ${error}; type: error`);
   }
-  const streetObject = JSON.parse(validJSONString);
-  createEntities(streetObject.data, streetContainerEl);
-  // update sceneGraph
-  Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 export function fileJSON(event) {
