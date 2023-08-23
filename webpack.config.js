@@ -1,6 +1,10 @@
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
-var path = require('path');
+const MINIFY = JSON.parse(
+  process.env.MINIFY ?? process.env.NODE_ENV === 'production'
+);
 
 module.exports = {
   devServer: {
@@ -15,9 +19,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: process.env.MINIFY
-      ? '3dstreet-editor.min.js'
-      : '3dstreet-editor.js',
+    filename: MINIFY ? '3dstreet-editor.min.js' : '3dstreet-editor.js',
     publicPath: '/dist/'
   },
   externals: {
@@ -28,6 +30,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
+    }),
+    new Dotenv({
+      path: `./config/.env.${process.env.NODE_ENV}`
     })
   ],
   module: {
@@ -88,5 +93,5 @@ module.exports = {
       }
     ]
   },
-  mode: process.env.MINIFY === 'true' ? 'production' : 'development'
+  mode: process.env.NODE_ENV
 };
