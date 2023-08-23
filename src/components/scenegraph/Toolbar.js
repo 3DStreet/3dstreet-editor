@@ -108,16 +108,19 @@ export default class Toolbar extends Component {
       }
 
       const entity = document.getElementById('street-container');
-      const data = JSON.stringify(convertDOMElToObject(entity));
+      const data = convertDOMElToObject(entity);
+      const filteredData = JSON.parse(
+        filterJSONstreet(removeProps, renameProps, data)
+      );
       const newUniqueId = uuidv4();
 
       await uploadScene(
         newUniqueId,
         this.props.currentUser.uid,
-        data,
+        filteredData.data,
         newUniqueId,
-        'Street Scene',
-        '1.0'
+        filteredData.title,
+        filteredData.version
       );
 
       // TODO: for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working

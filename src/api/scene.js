@@ -15,8 +15,8 @@ const uploadScene = async (
       data: sceneData,
       uuid,
       author: userUID,
-      title,
-      version
+      title: title,
+      version: version
     });
   } catch (error) {
     console.error(error);
