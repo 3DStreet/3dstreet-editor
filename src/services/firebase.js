@@ -14,16 +14,6 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
 
-// const firebaseConfig = {
-//   apiKey: '',
-//   authDomain: '',
-//   projectId: '',
-//   storageBucket: '',
-//   messagingSenderId: '',
-//   appId: '',
-//   measurementId: ''
-// };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const storage = getStorage(app);
