@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Cross24Icon } from '../../icons';
+import { Cross24Icon, Mangnifier20Icon } from '../../icons';
+import { Input } from '../components/Input/Input.component.jsx';
+import { Button } from '../components/Button/Button.component.jsx';
 
 export default class Modal extends Component {
   static propTypes = {
@@ -102,19 +104,38 @@ export default class Modal extends Component {
         className={classNames('modal', !this.state.isOpen && 'hide')}
       >
         <div className={classNames('modal-content', className)} ref={this.self}>
-          <div className="modal-header">
+          <div
+            className={classNames(
+              title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
+            )}
+          >
             <span className="close" onClick={this.close}>
-              {/* <span />
-              <span /> */}
               <Cross24Icon />
             </span>
             {typeof titleElement !== 'undefined' ? (
               titleElement
             ) : (
-              <h3>{title}</h3>
+              <h3 className={'title'}>{title}</h3>
+            )}
+            {title === 'Open scene' && (
+              <div className="header">
+                <Input
+                  className="input"
+                  placeholder="Search"
+                  leadingIcon={<Mangnifier20Icon />}
+                />
+                <div className="buttons">
+                  <Button className="loadBtn">Load new scene</Button>
+                  <Button className="createScene" variant="outlined">
+                    Create new scene
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
-          <div className="modal-body">{children}</div>
+          <div className={'Open scene' ? 'modal-scene' : 'modal-body'}>
+            {children}
+          </div>
         </div>
       </div>
     );
