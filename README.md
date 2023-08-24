@@ -16,3 +16,12 @@ npm start
 ```
 
 Then navigate to __[http://localhost:3333/](http://localhost:3333/)__
+
+## Deployment instructions
+
+* Ensure you have .env.production in /config/ (see /config/README.md)
+* `npm run dist`
+* `npm run prefirebase`
+* `cd public`
+* `firebase use [PROJECT]` // ensure PROJECT matches target environment
+* `firebase deploy`
