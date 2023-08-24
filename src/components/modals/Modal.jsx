@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Cross24Icon, Mangnifier20Icon } from '../../icons';
-import { Input } from '../components/Input/Input.component.jsx';
-import { Button } from '../components/Button/Button.component.jsx';
+import { Cross24Icon } from '../../icons';
 
 export default class Modal extends Component {
   static propTypes = {
@@ -105,9 +103,10 @@ export default class Modal extends Component {
       >
         <div className={classNames('modal-content', className)} ref={this.self}>
           <div
-            className={classNames(
-              title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
-            )}
+            // className={classNames(
+            //   title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
+            // )}
+            className="modal-header"
           >
             <span className="close" onClick={this.close}>
               <Cross24Icon />
@@ -117,7 +116,7 @@ export default class Modal extends Component {
             ) : (
               <h3 className={'title'}>{title}</h3>
             )}
-            {title === 'Open scene' && (
+            {/* {title === 'Open scene' && (
               <div className="header">
                 <Input
                   className="input"
@@ -131,11 +130,9 @@ export default class Modal extends Component {
                   </Button>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
-          <div className={'Open scene' ? 'modal-scene' : 'modal-body'}>
-            {children}
-          </div>
+          <div className={'modal-body'}>{children}</div>
         </div>
       </div>
     );
