@@ -7,16 +7,28 @@ export function inputStreetmix() {
   setTimeout(function () {
     window.location.hash = streetmixURL;
   });
-  const streetContainerEl = document.getElementById('street-container');
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  try {
+    const streetContainerEl = document.getElementById('street-container');
+    while (streetContainerEl.firstChild) {
+      streetContainerEl.removeChild(streetContainerEl.lastChild);
+    }
+    streetContainerEl.innerHTML =
+      '<a-entity street streetmix-loader="streetmixStreetURL: ' +
+      streetmixURL +
+      '""></a-entity>';
+    // update sceneGraph
+    Events.emit('entitycreated', streetContainerEl.sceneEl);
+    AFRAME.scenes[0].components['notify'].message(
+      'Streetmix URL imported.',
+      'success'
+    );
+  } catch (error) {
+    AFRAME.scenes[0].components['notify'].message(
+      `Error trying to import Streetmix URL. Error: ${error}`,
+      'error'
+    );
+    console.error(error);
   }
-  streetContainerEl.innerHTML =
-    '<a-entity street streetmix-loader="streetmixStreetURL: ' +
-    streetmixURL +
-    '""></a-entity>';
-  // update sceneGraph
-  Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 function getValidJSON(stringJSON) {
@@ -27,15 +39,27 @@ function getValidJSON(stringJSON) {
 }
 
 function createElementsFromJSON(streetJSONString) {
-  const validJSONString = getValidJSON(streetJSONString);
-  const streetContainerEl = document.getElementById('street-container');
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  try {
+    const validJSONString = getValidJSON(streetJSONString);
+    const streetContainerEl = document.getElementById('street-container');
+    while (streetContainerEl.firstChild) {
+      streetContainerEl.removeChild(streetContainerEl.lastChild);
+    }
+    const streetObject = JSON.parse(validJSONString);
+    createEntities(streetObject.data, streetContainerEl);
+    // update sceneGraph
+    Events.emit('entitycreated', streetContainerEl.sceneEl);
+    AFRAME.scenes[0].components['notify'].message(
+      '3DStreet JSON file loaded.',
+      'success'
+    );
+  } catch (error) {
+    AFRAME.scenes[0].components['notify'].message(
+      `Error trying to load 3DStreet JSON file. Error: ${error}`,
+      'error'
+    );
+    console.error(error);
   }
-  const streetObject = JSON.parse(validJSONString);
-  createEntities(streetObject.data, streetContainerEl);
-  // update sceneGraph
-  Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 export function fileJSON(event) {

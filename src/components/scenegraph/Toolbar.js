@@ -84,20 +84,33 @@ export default class Toolbar extends Component {
   };
 
   convertToObject = () => {
-    const entity = document.getElementById('street-container');
+    try {
+      const entity = document.getElementById('street-container');
 
-    const data = convertDOMElToObject(entity);
+      const data = convertDOMElToObject(entity);
 
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      filterJSONstreet(removeProps, renameProps, data)
-    )}`;
+      const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+        filterJSONstreet(removeProps, renameProps, data)
+      )}`;
 
-    const link = document.createElement('a');
-    link.href = jsonString;
-    link.download = 'data.json';
+      const link = document.createElement('a');
+      link.href = jsonString;
+      link.download = 'data.json';
 
-    link.click();
-    link.remove();
+      link.click();
+      link.remove();
+      thisisavariable;
+      AFRAME.scenes[0].components['notify'].message(
+        '3DStreet JSON file saved successfully.',
+        'success'
+      );
+    } catch (error) {
+      AFRAME.scenes[0].components['notify'].message(
+        `Error trying to save 3DStreet JSON file. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
+    }
   };
 
   uploadSceneHandler = async () => {
@@ -129,8 +142,16 @@ export default class Toolbar extends Component {
 
       // Change the hash URL without reloading
       window.location.hash = `#/scenes/${newUniqueId}.json`;
+      AFRAME.scenes[0].components['notify'].message(
+        'Scene saved to 3DStreet Cloud.',
+        'success'
+      );
     } catch (error) {
-      console.error('Error on saving scene', error);
+      AFRAME.scenes[0].components['notify'].message(
+        `Error trying to save 3DStreet scene to cloud. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
     }
   };
 
@@ -170,24 +191,36 @@ export default class Toolbar extends Component {
   // }
 
   exportSceneToGLTF() {
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'SceneGraph', 'exportGLTF');
+    try {
+      if (typeof ga !== 'undefined') {
+        ga('send', 'event', 'SceneGraph', 'exportGLTF');
+      }
+      const sceneName = getSceneName(AFRAME.scenes[0]);
+      const scene = AFRAME.scenes[0].object3D;
+      filterHelpers(scene, false);
+      AFRAME.INSPECTOR.exporters.gltf.parse(
+        scene,
+        function (buffer) {
+          filterHelpers(scene, true);
+          const blob = new Blob([buffer], { type: 'application/octet-stream' });
+          saveBlob(blob, sceneName + '.glb');
+        },
+        function (error) {
+          console.error(error);
+        },
+        { binary: true }
+      );
+      AFRAME.scenes[0].components['notify'].message(
+        '3DStreet scene exported as glTF file.',
+        'success'
+      );
+    } catch (error) {
+      AFRAME.scenes[0].components['notify'].message(
+        `Error while trying to save glTF file. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
     }
-    const sceneName = getSceneName(AFRAME.scenes[0]);
-    const scene = AFRAME.scenes[0].object3D;
-    filterHelpers(scene, false);
-    AFRAME.INSPECTOR.exporters.gltf.parse(
-      scene,
-      function (buffer) {
-        filterHelpers(scene, true);
-        const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        saveBlob(blob, sceneName + '.glb');
-      },
-      function (error) {
-        console.error(error);
-      },
-      { binary: true }
-    );
   }
 
   addEntity() {
