@@ -1,5 +1,5 @@
 import React from 'react';
-import Scene from '../../../../assets/scene.svg';
+import ScenePlaceholder from '../../../../assets/scene.png';
 import styles from './SceneCard.module.scss';
 
 const SceneCard = ({ scenesData, handleSceneClick }) => (
@@ -10,7 +10,7 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         className={styles.card}
         onClick={() => handleSceneClick(scene)}
       >
-        <img src={Scene} alt="scene" className={styles.img} />
+        <img src={ScenePlaceholder} alt="scene" className={styles.img} />
         <p style={{ fontSize: '16px' }} className={styles.title}>
           {scene.title}
         </p>
