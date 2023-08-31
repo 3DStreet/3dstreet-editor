@@ -99,7 +99,6 @@ export default class Toolbar extends Component {
 
       link.click();
       link.remove();
-      thisisavariable;
       AFRAME.scenes[0].components['notify'].message(
         '3DStreet JSON file saved successfully.',
         'success'
