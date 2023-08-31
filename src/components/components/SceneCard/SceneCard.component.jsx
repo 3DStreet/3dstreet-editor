@@ -12,9 +12,10 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         title={scene.title}
       >
         <img src={ScenePlaceholder} alt="scene" className={styles.img} />
-        <p style={{ fontSize: '16px' }} className={styles.title}>
-          {scene.title}
-        </p>
+        <p className={styles.title}>{scene.title}</p>
+        {/* <p className={styles.date}>
+          Last modified 2 hours ago
+        </p> */}
       </div>
     ))}
   </div>
