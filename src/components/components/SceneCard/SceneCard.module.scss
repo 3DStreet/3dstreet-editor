@@ -13,6 +13,9 @@
     border-radius: 4px;
     border: 1px solid rgba(237, 235, 239, 0.2);
     padding: 8px 8px 12px 8px;
+    width: 262px;
+    height: 195px;
+    position: relative;
     cursor: pointer;
 
     &:hover {
@@ -35,5 +38,6 @@
     font-weight: 600;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
   }
 }

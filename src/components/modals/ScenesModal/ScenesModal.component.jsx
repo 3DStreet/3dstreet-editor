@@ -28,9 +28,18 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const handleSceneClick = (scene) => {
     if (scene && scene.data) {
       createElementsForScenesFromJSON(scene.data);
+      window.location.hash = `#/scenes/${scene.uuid}.json`;
       onClose();
+      AFRAME.scenes[0].components['notify'].message(
+        'Scene loaded from 3DStreet Cloud.',
+        'success'
+      );
     } else {
-      console.error('Scene data is undefined or invalid');
+      AFRAME.scenes[0].components['notify'].message(
+        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.',
+        'error'
+      );
+      console.error('Scene data is undefined or invalid.');
     }
   };
 
