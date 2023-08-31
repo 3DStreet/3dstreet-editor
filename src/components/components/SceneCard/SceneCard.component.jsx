@@ -9,6 +9,7 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         key={index}
         className={styles.card}
         onClick={() => handleSceneClick(scene)}
+        title={scene.title}
       >
         <img src={Scene} alt="scene" className={styles.img} />
         <p style={{ fontSize: '16px' }} className={styles.title}>
