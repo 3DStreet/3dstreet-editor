@@ -1,7 +1,5 @@
 import './Modal.styles.styl';
-
 import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Cross24Icon } from '../../icons';
@@ -95,7 +93,8 @@ export default class Modal extends Component {
 
   render() {
     const { children, id, title, titleElement, className } = this.props;
-
+    const modalClassName =
+      title === 'Open scene' ? 'modal-scene' : 'modal-body';
     return (
       <div
         id={id}
@@ -103,10 +102,9 @@ export default class Modal extends Component {
       >
         <div className={classNames('modal-content', className)} ref={this.self}>
           <div
-            // className={classNames(
-            //   title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
-            // )}
-            className="modal-header"
+            className={classNames(
+              title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
+            )}
           >
             <span className="close" onClick={this.close}>
               <Cross24Icon />
@@ -114,25 +112,19 @@ export default class Modal extends Component {
             {typeof titleElement !== 'undefined' ? (
               titleElement
             ) : (
-              <h3 className={'title'}>{title}</h3>
+              <h3
+                style={{
+                  fontSize: '20px',
+                  marginTop: '26px',
+                  marginBottom: '0px',
+                  position: 'relative'
+                }}
+              >
+                {title}
+              </h3>
             )}
-            {/* {title === 'Open scene' && (
-              <div className="header">
-                <Input
-                  className="input"
-                  placeholder="Search"
-                  leadingIcon={<Mangnifier20Icon />}
-                />
-                <div className="buttons">
-                  <Button className="loadBtn">Load new scene</Button>
-                  <Button className="createScene" variant="outlined">
-                    Create new scene
-                  </Button>
-                </div>
-              </div>
-            )} */}
           </div>
-          <div className={'modal-body'}>{children}</div>
+          <div className={modalClassName}>{children}</div>
         </div>
       </div>
     );

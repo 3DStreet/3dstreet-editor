@@ -4,7 +4,8 @@ import {
   setDoc,
   getDocs,
   query,
-  where
+  where,
+  onSnapshot
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
@@ -42,4 +43,18 @@ const getUserScenes = async (currentUserUID) => {
   return scenesData;
 };
 
-export { uploadScene, getUserScenes };
+const subscribeToUserScenes = (currentUserUID, onUpdate) => {
+  const userScenesQuery = query(
+    collection(db, 'scenes'),
+    where('author', '==', currentUserUID)
+  );
+
+  const unsubscribe = onSnapshot(userScenesQuery, (querySnapshot) => {
+    const scenesData = querySnapshot.docs.map((doc) => doc.data());
+    onUpdate(scenesData);
+  });
+
+  return unsubscribe;
+};
+
+export { uploadScene, getUserScenes, subscribeToUserScenes };

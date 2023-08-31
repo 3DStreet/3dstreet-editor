@@ -1,27 +1,38 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../contexts';
-import { SceneCard, Input, Button } from '../../components';
+import { SceneCard } from '../../components';
 import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
-import { getUserScenes } from '../../../api';
-import { Mangnifier20Icon } from '../../../icons';
+import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
+import { subscribeToUserScenes } from '../../../api/scene';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
-  const [sceneTitle, setSceneTitle] = useState('');
-
-  const fetchScenesData = async () => {
-    if (currentUser) {
-      const scenesData = await getUserScenes(currentUser.uid);
-      setScenesData(scenesData);
-    }
-  };
 
   useEffect(() => {
-    fetchScenesData();
+    if (currentUser) {
+      const unsubscribe = subscribeToUserScenes(
+        currentUser.uid,
+        (updatedScenes) => {
+          setScenesData(updatedScenes);
+        }
+      );
+
+      return () => {
+        unsubscribe();
+      };
+    }
   }, [currentUser]);
+
+  const handleSceneClick = (scene) => {
+    if (scene && scene.data) {
+      createElementsForScenesFromJSON(scene.data);
+      onClose();
+    } else {
+      console.error('Scene data is undefined or invalid');
+    }
+  };
 
   return (
     <Modal
@@ -32,25 +43,12 @@ const ScenesModal = ({ isOpen, onClose }) => {
       title="Open scene"
     >
       <div className={styles.contentWrapper}>
-        <div className={styles.header}>
-          <Input
-            onChange={(value) => setSceneTitle(value)}
-            className="input"
-            placeholder="Search"
-            leadingIcon={<Mangnifier20Icon />}
+        <div className={styles.scrollContainer}>
+          <SceneCard
+            scenesData={scenesData}
+            handleSceneClick={handleSceneClick}
           />
-          <div className={styles.buttons}>
-            <Button className="loadBtn">Load new scene</Button>
-            <Button className="createScene" variant="outlined">
-              Create new scene
-            </Button>
-          </div>
         </div>
-        <SceneCard
-          scenesData={scenesData.filter(({ title }) =>
-            sceneTitle === '' ? true : title.includes(sceneTitle)
-          )}
-        />
       </div>
     </Modal>
   );
