@@ -6,15 +6,18 @@
   column-gap: 20px;
 
   .img {
-    margin-bottom: 12px;
+    margin-bottom: 6px;
+    object-fit: cover;
+    width: 246px;
+    height: 144px;
   }
 
   .card {
     border-radius: 4px;
     border: 1px solid rgba(237, 235, 239, 0.2);
     padding: 8px 8px 12px 8px;
-    width: 262px;
-    height: 195px;
+    width: 246px;
+    height: 187px;
     position: relative;
     cursor: pointer;
 
@@ -35,7 +38,15 @@
   }
 
   .title {
-    font-weight: 600;
+    font-size: 16px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .date {
+    margin-top: 4px;
+    color: rgb(116, 116, 116);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

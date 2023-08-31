@@ -50,17 +50,26 @@
   }
 
   .signInButton {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    column-gap: 8px;
-    width: fit-content !important;
+    cursor: pointer;
+    width: 210px;
+    height: 48px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
 
-    font-size: 16px !important;
-    font-weight: 500;
-    color: #2d2d2d !important;
-    padding: 12px 19px 11px 16px !important;
-    border-radius: 26px !important;
+    &:hover {
+      filter: brightness(85%);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      filter: brightness(70%);
+      box-shadow: none;
+    }
   }
 }
