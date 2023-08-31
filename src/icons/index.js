@@ -9,5 +9,6 @@ export {
   ArrowUp24Icon,
   CheckIcon,
   DropdownArrowIcon,
-  Cloud24Icon
+  Cloud24Icon,
+  Mangnifier20Icon
 } from './icons.jsx';

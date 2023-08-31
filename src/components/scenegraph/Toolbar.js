@@ -1,11 +1,11 @@
-import { Button, ProfileButton, ScreenshotButton } from '../components';
-import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
-import { fileJSON, inputStreetmix } from '../../lib/toolbar';
-import { v4 as uuidv4 } from 'uuid';
 import React, { Component } from 'react';
-import Events from '../../lib/Events';
-import { saveBlob } from '../../lib/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { uploadScene } from '../../api/scene';
+import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
+import Events from '../../lib/Events';
+import { inputStreetmix } from '../../lib/toolbar';
+import { saveBlob } from '../../lib/utils';
+import { Button, ProfileButton, ScreenshotButton } from '../components';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -356,6 +356,21 @@ export default class Toolbar extends Component {
               </Button>
               {this.state.isLoadActionActive && (
                 <div className="dropdownedButtons">
+                  <Button
+                    variant="white"
+                    onClick={() => Events.emit('openscenesmodal')}
+                  >
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Open
+                  </Button>
                   <Button onClick={inputStreetmix} variant="white">
                     <div
                       className="icon"
@@ -387,11 +402,11 @@ export default class Toolbar extends Component {
                     >
                       <input
                         type="file"
-                        onChange={fileJSON}
+                        onChange={this.fileJSON}
                         style={{ display: 'none' }}
                         accept=".js, .json, .txt"
                       />
-                      3DStreet JSON
+                      Load 3DStreet JSON
                     </label>
                   </Button>
                 </div>

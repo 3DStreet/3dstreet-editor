@@ -1,4 +1,12 @@
-import { collection, doc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  onSnapshot
+} from 'firebase/firestore';
 import { db } from '../services/firebase';
 
 const uploadScene = async (
@@ -22,4 +30,31 @@ const uploadScene = async (
     console.error(error);
   }
 };
-export { uploadScene };
+
+const getUserScenes = async (currentUserUID) => {
+  const userScenesQuery = query(
+    collection(db, 'scenes'),
+    where('author', '==', currentUserUID)
+  );
+
+  const scenesSnapshot = await getDocs(userScenesQuery);
+  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+
+  return scenesData;
+};
+
+const subscribeToUserScenes = (currentUserUID, onUpdate) => {
+  const userScenesQuery = query(
+    collection(db, 'scenes'),
+    where('author', '==', currentUserUID)
+  );
+
+  const unsubscribe = onSnapshot(userScenesQuery, (querySnapshot) => {
+    const scenesData = querySnapshot.docs.map((doc) => doc.data());
+    onUpdate(scenesData);
+  });
+
+  return unsubscribe;
+};
+
+export { uploadScene, getUserScenes, subscribeToUserScenes };

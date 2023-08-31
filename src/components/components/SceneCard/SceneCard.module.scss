@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  row-gap: 24px;
+  column-gap: 20px;
+
+  .img {
+    margin-bottom: 12px;
+  }
+
+  .card {
+    border-radius: 4px;
+    border: 1px solid rgba(237, 235, 239, 0.2);
+    padding: 8px 8px 12px 8px;
+    width: 262px;
+    height: 195px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid #6439df;
+      transition: ease-out 0.3s;
+    }
+
+    &:active {
+      border-color: #5b37c0;
+      transition: all 0.3s;
+    }
+
+    &:disabled {
+      border: 1px solid rgba(237, 235, 239, 0.5);
+      transition: all 0.3s;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

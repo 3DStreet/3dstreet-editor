@@ -4,3 +4,5 @@ export {
   userFindByUidQuery,
   getScenes
 } from './user';
+
+export { getUserScenes, uploadScene } from './scene';
