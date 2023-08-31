@@ -12,7 +12,7 @@ An editor tool for 3DStreet scenes.
 git clone https://github.com/3DStreet/3dstreet-editor.git
 cd 3dstreet-editor
 npm install
-npm start
+npm run start:dev
 ```
 
 Then navigate to __[http://localhost:3333/](http://localhost:3333/)__
