@@ -28,6 +28,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const handleSceneClick = (scene) => {
     if (scene && scene.data) {
       createElementsForScenesFromJSON(scene.data);
+      window.location.hash = `#/scenes/${scene.uuid}.json`;
       onClose();
     } else {
       console.error('Scene data is undefined or invalid');
