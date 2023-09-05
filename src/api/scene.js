@@ -5,7 +5,10 @@ import {
   getDocs,
   query,
   where,
-  onSnapshot
+  onSnapshot,
+  serverTimestamp,
+  updateDoc,
+  getDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
@@ -19,15 +22,28 @@ const uploadScene = async (
 ) => {
   try {
     const userScenesRef = collection(db, 'scenes');
-    await setDoc(doc(userScenesRef, sceneId), {
-      data: sceneData,
-      uuid,
-      author: userUID,
-      title: title,
-      version: version
-    });
+    const sceneDocRef = doc(userScenesRef, sceneId);
+    const sceneSnapshot = await getDoc(sceneDocRef);
+    if (sceneSnapshot.exists()) {
+      await updateDoc(sceneDocRef, {
+        data: sceneData,
+        updateTimestamp: serverTimestamp(),
+        title: title,
+        version: version
+      });
+    } else {
+      await setDoc(sceneDocRef, {
+        data: sceneData,
+        uuid: uuid,
+        author: userUID,
+        title: title,
+        version: version,
+        createTimestamp: serverTimestamp(),
+        updateTimestamp: serverTimestamp()
+      });
+    }
   } catch (error) {
-    console.error(error);
+    console.error('error', error);
   }
 };
 
