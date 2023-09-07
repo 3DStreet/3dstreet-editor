@@ -13,12 +13,13 @@ import {
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
-const generateSceneId = async () => {
+const generateSceneId = async (authorId) => {
   const userScenesRef = collection(db, 'scenes');
 
   const newSceneDocRef = await addDoc(userScenesRef, {
     createTimestamp: serverTimestamp(),
-    updateTimestamp: serverTimestamp()
+    updateTimestamp: serverTimestamp(),
+    author: authorId
   });
 
   return newSceneDocRef.id;

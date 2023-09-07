@@ -130,7 +130,7 @@ export default class Toolbar extends Component {
       if (urlSceneId) {
         currentSceneId = urlSceneId;
       } else {
-        currentSceneId = await generateSceneId();
+        currentSceneId = await generateSceneId(this.props.currentUser.uid);
         window.location.hash = `#/scenes/${currentSceneId}.json`;
       }
       this.setState({ currentSceneId });
