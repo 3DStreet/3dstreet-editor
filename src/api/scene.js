@@ -1,13 +1,13 @@
 import {
   collection,
   doc,
-  setDoc,
   getDocs,
   query,
   where,
   onSnapshot,
   serverTimestamp,
   getDoc,
+  setDoc,
   updateDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
@@ -31,7 +31,7 @@ const generateSceneId = async (authorId) => {
   return newSceneId;
 };
 
-const uploadScene = async (sceneId, userUID, sceneData, title, version) => {
+const updateScene = async (sceneId, userUID, sceneData, title, version) => {
   try {
     const userScenesRef = collection(db, 'scenes');
     const sceneDocRef = doc(userScenesRef, sceneId);
@@ -45,15 +45,9 @@ const uploadScene = async (sceneId, userUID, sceneData, title, version) => {
         version: version,
         author: userUID
       });
+      console.log('Firebase updateDoc fired');
     } else {
-      await setDoc(sceneDocRef, {
-        data: sceneData,
-        author: userUID,
-        title: title,
-        version: version,
-        createTimestamp: serverTimestamp(),
-        updateTimestamp: serverTimestamp()
-      });
+      throw new Error('No existing sceneSnapshot exists.');
     }
   } catch (error) {
     console.error('error', error);
@@ -89,4 +83,4 @@ const subscribeToUserScenes = (currentUserUID, onUpdate) => {
   return unsubscribe;
 };
 
-export { uploadScene, getUserScenes, subscribeToUserScenes, generateSceneId };
+export { updateScene, getUserScenes, subscribeToUserScenes, generateSceneId };
