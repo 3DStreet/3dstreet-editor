@@ -12,17 +12,24 @@ import {
   addDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
+import { v4 as uuidv4 } from 'uuid';
 
 const generateSceneId = async (authorId) => {
   const userScenesRef = collection(db, 'scenes');
 
-  const newSceneDocRef = await addDoc(userScenesRef, {
+  // Generate a new UUID
+  const newSceneId = uuidv4();
+
+  const newSceneDocRef = doc(userScenesRef, newSceneId);
+
+  // Use setDoc to set data on the specified document
+  await setDoc(newSceneDocRef, {
     createTimestamp: serverTimestamp(),
     updateTimestamp: serverTimestamp(),
     author: authorId
   });
 
-  return newSceneDocRef.id;
+  return newSceneId;
 };
 
 const uploadScene = async (sceneId, userUID, sceneData, title, version) => {
