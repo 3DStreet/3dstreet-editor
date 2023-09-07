@@ -8,8 +8,7 @@ import {
   onSnapshot,
   serverTimestamp,
   getDoc,
-  updateDoc,
-  addDoc
+  updateDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
