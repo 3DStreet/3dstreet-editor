@@ -28,7 +28,8 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const handleSceneClick = (scene) => {
     if (scene && scene.data) {
       createElementsForScenesFromJSON(scene.data);
-      window.location.hash = `#/scenes/${scene.uuid}.json`;
+      const sceneId = scene.id;
+      window.location.hash = `#/scenes/${sceneId}.json`;
       onClose();
       AFRAME.scenes[0].components['notify'].message(
         'Scene loaded from 3DStreet Cloud.',

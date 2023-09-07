@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { uploadScene } from '../../api/scene';
+import { generateSceneId, uploadScene } from '../../api/scene';
 import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix } from '../../lib/toolbar';
@@ -49,7 +48,8 @@ export default class Toolbar extends Component {
       isLoadActionActive: false,
       isCapturingScreen: false,
       showSaveBtn: true,
-      showLoadBtn: true
+      showLoadBtn: true,
+      currentSceneId: null
     };
     this.loadButtonRef = React.createRef();
     this.saveButtonRef = React.createRef();
@@ -112,6 +112,12 @@ export default class Toolbar extends Component {
     }
   };
 
+  getCurrentSceneUuid = () => {
+    const currentHash = window.location.hash;
+    const match = currentHash.match(/#\/scenes\/([a-zA-Z0-9-]+)\.json/);
+    return match && match[1] ? match[1] : null;
+  };
+
   uploadSceneHandler = async () => {
     try {
       if (!this.props.currentUser) {
@@ -119,28 +125,34 @@ export default class Toolbar extends Component {
         return;
       }
 
+      let { currentSceneId } = this.state;
+      const urlSceneId = this.getCurrentSceneUuid();
+      if (urlSceneId) {
+        currentSceneId = urlSceneId;
+      } else {
+        currentSceneId = await generateSceneId();
+        window.location.hash = `#/scenes/${currentSceneId}.json`;
+      }
+      this.setState({ currentSceneId });
       const entity = document.getElementById('street-container');
       const data = convertDOMElToObject(entity);
       const filteredData = JSON.parse(
         filterJSONstreet(removeProps, renameProps, data)
       );
-      const newUniqueId = uuidv4();
-
       await uploadScene(
-        newUniqueId,
+        currentSceneId,
         this.props.currentUser.uid,
         filteredData.data,
-        newUniqueId,
         filteredData.title,
         filteredData.version
       );
 
       // TODO: for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
-      const newUrl = `${location.protocol}//${location.host}/#/scenes/${newUniqueId}.json`;
+      const newUrl = `${location.protocol}//${location.host}/#/scenes/${currentSceneId}.json`;
       window.open(newUrl, '_blank');
 
       // Change the hash URL without reloading
-      window.location.hash = `#/scenes/${newUniqueId}.json`;
+      window.location.hash = `#/scenes/${currentSceneId}.json`;
       AFRAME.scenes[0].components['notify'].message(
         'Scene saved to 3DStreet Cloud.',
         'success'

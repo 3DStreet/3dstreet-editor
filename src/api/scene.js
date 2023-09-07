@@ -5,29 +5,51 @@ import {
   getDocs,
   query,
   where,
-  onSnapshot
+  onSnapshot,
+  serverTimestamp,
+  getDoc,
+  updateDoc,
+  addDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
-const uploadScene = async (
-  sceneId,
-  userUID,
-  sceneData,
-  uuid,
-  title,
-  version
-) => {
+const generateSceneId = async () => {
+  const userScenesRef = collection(db, 'scenes');
+
+  const newSceneDocRef = await addDoc(userScenesRef, {
+    createTimestamp: serverTimestamp(),
+    updateTimestamp: serverTimestamp()
+  });
+
+  return newSceneDocRef.id;
+};
+
+const uploadScene = async (sceneId, userUID, sceneData, title, version) => {
   try {
     const userScenesRef = collection(db, 'scenes');
-    await setDoc(doc(userScenesRef, sceneId), {
-      data: sceneData,
-      uuid,
-      author: userUID,
-      title: title,
-      version: version
-    });
+    const sceneDocRef = doc(userScenesRef, sceneId);
+
+    const sceneSnapshot = await getDoc(sceneDocRef);
+    if (sceneSnapshot.exists()) {
+      await updateDoc(sceneDocRef, {
+        data: sceneData,
+        updateTimestamp: serverTimestamp(),
+        title: title,
+        version: version,
+        author: userUID
+      });
+    } else {
+      await setDoc(sceneDocRef, {
+        data: sceneData,
+        author: userUID,
+        title: title,
+        version: version,
+        createTimestamp: serverTimestamp(),
+        updateTimestamp: serverTimestamp()
+      });
+    }
   } catch (error) {
-    console.error(error);
+    console.error('error', error);
   }
 };
 
@@ -50,11 +72,14 @@ const subscribeToUserScenes = (currentUserUID, onUpdate) => {
   );
 
   const unsubscribe = onSnapshot(userScenesQuery, (querySnapshot) => {
-    const scenesData = querySnapshot.docs.map((doc) => doc.data());
+    const scenesData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    }));
     onUpdate(scenesData);
   });
 
   return unsubscribe;
 };
 
-export { uploadScene, getUserScenes, subscribeToUserScenes };
+export { uploadScene, getUserScenes, subscribeToUserScenes, generateSceneId };
