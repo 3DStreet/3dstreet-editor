@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { generateSceneId, updateScene } from '../../api/scene';
+import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
 import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix } from '../../lib/toolbar';
@@ -144,6 +144,16 @@ export default class Toolbar extends Component {
           currentSceneId = urlSceneId;
           console.log('setting currentSceneId to urlSceneId');
         }
+      }
+
+      // if owner != doc.id then doSaveAs = true;
+      const isCurrentUserTheSceneAuthor = await isSceneAuthor({
+        sceneId: currentSceneId,
+        authorId: this.props.currentUser.uid
+      });
+      console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
+      if (!isCurrentUserTheSceneAuthor) {
+        doSaveAs = true;
       }
 
       // we want to save, so if we *still* have no sceneID at this point, then create a new one

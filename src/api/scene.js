@@ -54,6 +54,24 @@ const updateScene = async (sceneId, userUID, sceneData, title, version) => {
   }
 };
 
+const isSceneAuthor = async ({ sceneId, authorId }) => {
+  try {
+    // Get a reference to the scene document
+    const sceneRef = doc(db, 'scenes', sceneId);
+    const sceneSnapshot = await getDoc(sceneRef);
+
+    if (sceneSnapshot.exists()) {
+      return sceneSnapshot.data().author === authorId;
+    } else {
+      console.error('Scene not found while running isSceneAuthor');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error fetching scene while running isSceneAuthor:', error);
+    return false;
+  }
+};
+
 const getUserScenes = async (currentUserUID) => {
   const userScenesQuery = query(
     collection(db, 'scenes'),
@@ -83,4 +101,10 @@ const subscribeToUserScenes = (currentUserUID, onUpdate) => {
   return unsubscribe;
 };
 
-export { updateScene, getUserScenes, subscribeToUserScenes, generateSceneId };
+export {
+  updateScene,
+  getUserScenes,
+  subscribeToUserScenes,
+  generateSceneId,
+  isSceneAuthor
+};
