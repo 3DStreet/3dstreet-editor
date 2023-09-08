@@ -5,7 +5,6 @@ import Events from '../../lib/Events';
 import { inputStreetmix } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
-import { DocumentSnapshot } from 'firebase/firestore';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
