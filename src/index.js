@@ -1,16 +1,15 @@
-import '../vendor/ga';
-import './style/index.styl';
-
-import { AssetsLoader } from './lib/assetsLoader';
-import Events from './lib/Events';
+import { createRoot } from 'react-dom/client';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import '../vendor/ga';
+import Main from './components/Main';
+import { AuthProvider } from './contexts';
+import Events from './lib/Events';
+import { AssetsLoader } from './lib/assetsLoader';
+import { initCameras } from './lib/cameras';
+import { createEntity } from './lib/entity';
 import { Shortcuts } from './lib/shortcuts';
 import { Viewport } from './lib/viewport';
-import { createEntity } from './lib/entity';
-import { createRoot } from 'react-dom/client';
-import { initCameras } from './lib/cameras';
-import { AuthProvider } from './contexts';
-import Main from './components/Main';
+import './style/index.styl';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { uploadScene } from '../../api/scene';
+import { generateSceneId, updateScene } from '../../api/scene';
 import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix } from '../../lib/toolbar';
@@ -49,7 +48,9 @@ export default class Toolbar extends Component {
       isLoadActionActive: false,
       isCapturingScreen: false,
       showSaveBtn: true,
-      showLoadBtn: true
+      showLoadBtn: true,
+      currentSceneId: null,
+      savedNewDocument: false
     };
     this.loadButtonRef = React.createRef();
     this.saveButtonRef = React.createRef();
@@ -112,39 +113,80 @@ export default class Toolbar extends Component {
     }
   };
 
-  uploadSceneHandler = async () => {
+  getSceneUuidFromURLHash = () => {
+    const currentHash = window.location.hash;
+    const match = currentHash.match(/#\/scenes\/([a-zA-Z0-9-]+)\.json/);
+    return match && match[1] ? match[1] : null;
+  };
+
+  cloudSaveHandler = async () => {
     try {
+      // if there is no current user, show sign in modal
       if (!this.props.currentUser) {
         Events.emit('opensigninmodal');
         return;
       }
 
+      // determine what is the currentSceneId?
+      // how: first check state, if not there then use URL hash, otherwise null
+      let { currentSceneId } = this.state;
+      console.log('currentSceneId from state', currentSceneId);
+      const urlSceneId = this.getSceneUuidFromURLHash();
+      console.log('urlSceneId', urlSceneId);
+      if (!currentSceneId) {
+        console.log('no currentSceneId from state');
+        if (urlSceneId) {
+          currentSceneId = urlSceneId;
+          console.log('setting currentSceneId to urlSceneId');
+        }
+      }
+
+      // we want to save, so if we *still* have no sceneID at this point, then create a new one
+      if (!currentSceneId) {
+        console.log('no urlSceneId, therefore generate new one');
+        currentSceneId = await generateSceneId(this.props.currentUser.uid);
+        console.log('newly generated currentSceneId', currentSceneId);
+        window.location.hash = `#/scenes/${currentSceneId}.json`;
+        this.setState({ savedNewDocument: true });
+      }
+
+      // after all those save shenanigans let's set currentSceneId in state
+      this.setState({ currentSceneId });
+
+      // generate json from 3dstreet core
       const entity = document.getElementById('street-container');
       const data = convertDOMElToObject(entity);
       const filteredData = JSON.parse(
         filterJSONstreet(removeProps, renameProps, data)
       );
-      const newUniqueId = uuidv4();
 
-      await uploadScene(
-        newUniqueId,
+      // save json to firebase with other metadata
+      await updateScene(
+        currentSceneId,
         this.props.currentUser.uid,
         filteredData.data,
-        newUniqueId,
         filteredData.title,
         filteredData.version
       );
 
-      // TODO: for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
-      const newUrl = `${location.protocol}//${location.host}/#/scenes/${newUniqueId}.json`;
-      window.open(newUrl, '_blank');
+      // for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
+      // const newUrl = `${location.protocol}//${location.host}/#/scenes/${currentSceneId}.json`;
+      // window.open(newUrl, '_blank');
 
       // Change the hash URL without reloading
-      window.location.hash = `#/scenes/${newUniqueId}.json`;
-      AFRAME.scenes[0].components['notify'].message(
-        'Scene saved to 3DStreet Cloud.',
-        'success'
-      );
+      window.location.hash = `#/scenes/${currentSceneId}.json`;
+      if (this.state.savedNewDocument) {
+        AFRAME.scenes[0].components['notify'].message(
+          'Scene saved to 3DStreet Cloud as a new file.',
+          'success'
+        );
+        this.setState({ savedNewDocument: false }); // go back to default assumption of save overwrite
+      } else {
+        AFRAME.scenes[0].components['notify'].message(
+          'Scene saved to 3DStreet Cloud in existing file.',
+          'success'
+        );
+      }
     } catch (error) {
       AFRAME.scenes[0].components['notify'].message(
         `Error trying to save 3DStreet scene to cloud. Error: ${error}`,
@@ -296,7 +338,7 @@ export default class Toolbar extends Component {
               </Button>
               {this.state.isSaveActionActive && (
                 <div className="dropdownedButtons">
-                  <Button variant="white" onClick={this.uploadSceneHandler}>
+                  <Button variant="white" onClick={this.cloudSaveHandler}>
                     <div
                       className="icon"
                       style={{
