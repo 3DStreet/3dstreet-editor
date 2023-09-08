@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { generateSceneId, updateScene } from '../../api/scene';
+import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
 import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix } from '../../lib/toolbar';
@@ -119,7 +119,11 @@ export default class Toolbar extends Component {
     return match && match[1] ? match[1] : null;
   };
 
-  cloudSaveHandler = async () => {
+  cloudSaveAsHandler = async () => {
+    this.cloudSaveHandler({ doSaveAs: true });
+  };
+
+  cloudSaveHandler = async ({ doSaveAs = false }) => {
     try {
       // if there is no current user, show sign in modal
       if (!this.props.currentUser) {
@@ -141,9 +145,21 @@ export default class Toolbar extends Component {
         }
       }
 
+      // if owner != doc.id then doSaveAs = true;
+      const isCurrentUserTheSceneAuthor = await isSceneAuthor({
+        sceneId: currentSceneId,
+        authorId: this.props.currentUser.uid
+      });
+      console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
+      if (!isCurrentUserTheSceneAuthor) {
+        doSaveAs = true;
+      }
+
       // we want to save, so if we *still* have no sceneID at this point, then create a new one
-      if (!currentSceneId) {
-        console.log('no urlSceneId, therefore generate new one');
+      if (!currentSceneId || !!doSaveAs) {
+        console.log(
+          'no urlSceneId or doSaveAs is true, therefore generate new one'
+        );
         currentSceneId = await generateSceneId(this.props.currentUser.uid);
         console.log('newly generated currentSceneId', currentSceneId);
         window.location.hash = `#/scenes/${currentSceneId}.json`;
@@ -349,6 +365,18 @@ export default class Toolbar extends Component {
                       <Cloud24Icon />
                     </div>
                     Save
+                  </Button>
+                  <Button variant="white" onClick={this.cloudSaveAsHandler}>
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Save As...
                   </Button>
                   <Button onClick={this.exportSceneToGLTF} variant="white">
                     <div

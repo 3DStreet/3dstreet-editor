@@ -5,4 +5,4 @@ export {
   getScenes
 } from './user';
 
-export { getUserScenes, updateScene } from './scene';
+export { getUserScenes, updateScene, isSceneAuthor } from './scene';
