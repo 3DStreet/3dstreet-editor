@@ -50,7 +50,7 @@ const updateScene = async (sceneId, userUID, sceneData, title, version) => {
       throw new Error('No existing sceneSnapshot exists.');
     }
   } catch (error) {
-    console.error('error', error);
+    throw new Error(error);
   }
 };
 
