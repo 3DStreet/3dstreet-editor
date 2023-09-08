@@ -10,6 +10,7 @@ import { createEntity } from './lib/entity';
 import { Shortcuts } from './lib/shortcuts';
 import { Viewport } from './lib/viewport';
 import './style/index.styl';
+
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
   this.exporters = { gltf: new GLTFExporter() };
@@ -163,7 +164,7 @@ Inspector.prototype = {
     if (entity === this.sceneEl) {
       return;
     }
-    entity?.object3D?.traverse((node) => {
+    entity.object3D.traverse((node) => {
       if (this.helpers[node.uuid]) {
         this.helpers[node.uuid].visible = true;
       }
