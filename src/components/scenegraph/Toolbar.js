@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
 import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
 import Events from '../../lib/Events';
-import { inputStreetmix } from '../../lib/toolbar';
+import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
 
@@ -472,7 +472,7 @@ export default class Toolbar extends Component {
                     >
                       <input
                         type="file"
-                        onChange={this.fileJSON}
+                        onChange={fileJSON}
                         style={{ display: 'none' }}
                         accept=".js, .json, .txt"
                       />
