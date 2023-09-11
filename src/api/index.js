@@ -5,4 +5,10 @@ export {
   getScenes
 } from './user';
 
-export { getUserScenes, updateScene, isSceneAuthor } from './scene';
+export {
+  getUserScenes,
+  updateScene,
+  isSceneAuthor,
+  subscribeToUserScenes,
+  getCommunityScenes
+} from './scene';

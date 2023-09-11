@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../contexts';
-import { SceneCard } from '../../components';
+import { SceneCard, Tabs } from '../../components';
 import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
 import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
-import { subscribeToUserScenes } from '../../../api/scene';
+import {
+  getCommunityScenes,
+  getUserScenes,
+  subscribeToUserScenes
+} from '../../../api/scene';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
 
+  const tabs = [
+    {
+      label: 'My Scenes',
+      value: 'owner'
+    },
+    {
+      label: 'Community Scenes',
+      value: 'community'
+    }
+  ];
+
+  const [selectedTab, setSelectedTab] = useState('owner');
   useEffect(() => {
     if (currentUser) {
       const unsubscribe = subscribeToUserScenes(
@@ -24,6 +40,23 @@ const ScenesModal = ({ isOpen, onClose }) => {
       };
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    async function fetchScenes() {
+      if (selectedTab === 'owner' && currentUser) {
+        const userScenes = await getUserScenes(currentUser.uid);
+        userScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
+
+        setScenesData(userScenes);
+      } else if (selectedTab === 'community') {
+        const communityScenes = await getCommunityScenes();
+        communityScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
+
+        setScenesData(communityScenes);
+      }
+    }
+    fetchScenes();
+  }, [selectedTab, currentUser]);
 
   const handleSceneClick = (scene) => {
     if (scene && scene.data) {
@@ -43,7 +76,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
       console.error('Scene data is undefined or invalid.');
     }
   };
-
   return (
     <Modal
       className={styles.modalWrapper}
@@ -53,6 +85,17 @@ const ScenesModal = ({ isOpen, onClose }) => {
       title="Open scene"
     >
       <div className={styles.contentWrapper}>
+        <Tabs
+          tabs={tabs.map((tab) => {
+            return {
+              ...tab,
+              isSelected: selectedTab === tab.value,
+              onClick: () => setSelectedTab(tab.value)
+            };
+          })}
+          selectedTabClassName={'selectedTab'}
+          className={styles.tabs}
+        />
         <div className={styles.scrollContainer}>
           <SceneCard
             scenesData={scenesData}

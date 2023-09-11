@@ -84,6 +84,20 @@ const getUserScenes = async (currentUserUID) => {
   return scenesData;
 };
 
+const getCommunityScenes = async () => {
+  const communityScenesQuery = query(collection(db, 'scenes'));
+  try {
+    const communityScenesSnapshot = await getDocs(communityScenesQuery);
+    const communityScenesData = communityScenesSnapshot.docs.map((doc) =>
+      doc.data()
+    );
+    return communityScenesData;
+  } catch (error) {
+    console.error('Error fetching community scenes:', error);
+    return [];
+  }
+};
+
 const subscribeToUserScenes = (currentUserUID, onUpdate) => {
   const userScenesQuery = query(
     collection(db, 'scenes'),
@@ -106,5 +120,6 @@ export {
   getUserScenes,
   subscribeToUserScenes,
   generateSceneId,
-  isSceneAuthor
+  isSceneAuthor,
+  getCommunityScenes
 };
