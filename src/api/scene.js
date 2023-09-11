@@ -4,7 +4,6 @@ import {
   getDocs,
   query,
   where,
-  onSnapshot,
   serverTimestamp,
   getDoc,
   setDoc,
@@ -98,27 +97,9 @@ const getCommunityScenes = async () => {
   }
 };
 
-const subscribeToUserScenes = (currentUserUID, onUpdate) => {
-  const userScenesQuery = query(
-    collection(db, 'scenes'),
-    where('author', '==', currentUserUID)
-  );
-
-  const unsubscribe = onSnapshot(userScenesQuery, (querySnapshot) => {
-    const scenesData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    onUpdate(scenesData);
-  });
-
-  return unsubscribe;
-};
-
 export {
   updateScene,
   getUserScenes,
-  subscribeToUserScenes,
   generateSceneId,
   isSceneAuthor,
   getCommunityScenes

@@ -9,6 +9,5 @@ export {
   getUserScenes,
   updateScene,
   isSceneAuthor,
-  subscribeToUserScenes,
   getCommunityScenes
 } from './scene';

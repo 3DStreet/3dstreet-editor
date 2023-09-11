@@ -4,15 +4,12 @@ import { SceneCard, Tabs } from '../../components';
 import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
 import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
-import {
-  getCommunityScenes,
-  getUserScenes,
-  subscribeToUserScenes
-} from '../../../api/scene';
+import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
+  const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
 
   const tabs = [
     {
@@ -24,39 +21,29 @@ const ScenesModal = ({ isOpen, onClose }) => {
       value: 'community'
     }
   ];
-
   const [selectedTab, setSelectedTab] = useState('owner');
-  useEffect(() => {
-    if (currentUser) {
-      const unsubscribe = subscribeToUserScenes(
-        currentUser.uid,
-        (updatedScenes) => {
-          setScenesData(updatedScenes);
-        }
-      );
-
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [currentUser]);
 
   useEffect(() => {
-    async function fetchScenes() {
-      if (selectedTab === 'owner' && currentUser) {
-        const userScenes = await getUserScenes(currentUser.uid);
-        userScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
+    if (!isOpen) return; // Only proceed if the modal is open
 
-        setScenesData(userScenes);
-      } else if (selectedTab === 'community') {
-        const communityScenes = await getCommunityScenes();
-        communityScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
-
-        setScenesData(communityScenes);
-      }
+    async function fetchScenesCommunity() {
+      const communityScenes = await getCommunityScenes();
+      communityScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
+      setScenesDataCommunity(communityScenes);
     }
-    fetchScenes();
-  }, [selectedTab, currentUser]);
+    fetchScenesCommunity();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || !currentUser) return; // Only proceed if modal open and currentUser exists
+
+    async function fetchScenesUser() {
+      const userScenes = await getUserScenes(currentUser.uid);
+      userScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
+      setScenesData(userScenes);
+    }
+    fetchScenesUser();
+  }, [currentUser, isOpen]);
 
   const handleSceneClick = (scene) => {
     if (scene && scene.data) {
@@ -96,12 +83,21 @@ const ScenesModal = ({ isOpen, onClose }) => {
           selectedTabClassName={'selectedTab'}
           className={styles.tabs}
         />
-        <div className={styles.scrollContainer}>
-          <SceneCard
-            scenesData={scenesData}
-            handleSceneClick={handleSceneClick}
-          />
-        </div>
+        {selectedTab === 'owner' ? (
+          <div className={styles.scrollContainer}>
+            <SceneCard
+              scenesData={scenesData}
+              handleSceneClick={handleSceneClick}
+            />
+          </div>
+        ) : (
+          <div className={styles.scrollContainer}>
+            <SceneCard
+              scenesData={scenesDataCommunity}
+              handleSceneClick={handleSceneClick}
+            />
+          </div>
+        )}
       </div>
     </Modal>
   );
