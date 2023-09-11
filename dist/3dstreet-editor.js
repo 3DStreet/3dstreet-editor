@@ -6494,8 +6494,10 @@ var ScreenshotModal = /*#__PURE__*/function (_Component) {
     }
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "saveScreenshot", function (value) {
-      AFRAME.scenes[0].setAttribute('screentock', 'type', value);
-      AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+      var screenshotEl = document.getElementById('screenshot');
+      screenshotEl.play();
+      screenshotEl.setAttribute('screentock', 'type', value);
+      screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
     });
     return _this;
   }
@@ -7290,10 +7292,12 @@ var Toolbar = /*#__PURE__*/function (_Component) {
         var imgHTML = '<img id="screentock-destination">';
         // Set the screenshot in local storage
         localStorage.setItem('screenshot', JSON.stringify(imgHTML));
-        AFRAME.scenes[0].setAttribute('screentock', 'type', 'img');
-        AFRAME.scenes[0].setAttribute('screentock', 'imgElementSelector', '#screentock-destination');
+        var screenshotEl = document.getElementById('screenshot');
+        screenshotEl.play();
+        screenshotEl.setAttribute('screentock', 'type', 'img');
+        screenshotEl.setAttribute('screentock', 'imgElementSelector', '#screentock-destination');
         // take the screenshot
-        AFRAME.scenes[0].setAttribute('screentock', 'takeScreenshot', true);
+        screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
         setTimeout(function () {
           return resolve();
         }, 1000);
@@ -9440,9 +9444,9 @@ var Compass32Icon = function Compass32Icon() {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
       d: "M12 12.5L7.5 24.5L21 20.5M12 12.5L25.5 8.5L21 20.5M12 12.5L21 20.5",
       stroke: "#DBDBDB",
-      "stroke-width": "2",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
     })]
   });
 };
