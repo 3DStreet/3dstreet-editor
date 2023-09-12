@@ -55,6 +55,10 @@ const updateScene = async (sceneId, userUID, sceneData, title, version) => {
 };
 
 const isSceneAuthor = async ({ sceneId, authorId }) => {
+  if (!sceneId || !authorId) {
+    console.log('sceneId or authorId is not provided in isSceneAuthor');
+    return false;
+  }
   try {
     // Get a reference to the scene document
     const sceneRef = doc(db, 'scenes', sceneId);
