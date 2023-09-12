@@ -3,3 +3,13 @@
   width: 80vw;
   margin: auto auto;
 }
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.tabs {
+  margin: 32px 0px 0px;
+}

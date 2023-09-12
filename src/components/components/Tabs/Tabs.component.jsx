@@ -1,8 +1,8 @@
-import { arrayOf, bool, func, shape, string } from 'prop-types';
-
-import { Hint } from './components';
+import React from 'react';
 import classNames from 'classnames';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 import styles from './Tabs.module.scss';
+import { Hint } from './components';
 
 /**
  * Tabs component.
@@ -20,8 +20,8 @@ import styles from './Tabs.module.scss';
  *  selectedTabClassName: string;
  * }} props
  */
-const Tabs = ({ tabs, selectedTabClassName }) => (
-  <div id={'tabsWrapper'} className={styles.wrapper}>
+const Tabs = ({ tabs, selectedTabClassName, className }) => (
+  <div id={'tabsWrapper'} className={classNames(styles.wrapper, className)}>
     {!!tabs?.length &&
       tabs.map(({ label, value, onClick, isSelected, hint }) => (
         <button
