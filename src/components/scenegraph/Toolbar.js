@@ -134,6 +134,10 @@ export default class Toolbar extends Component {
       // how: first check state, if not there then use URL hash, otherwise null
       let currentSceneId = AFRAME.scenes[0].getAttribute('metadata').sceneId;
       console.log('currentSceneId from scene metadata', currentSceneId);
+      let currentSceneTitle =
+        AFRAME.scenes[0].getAttribute('metadata').sceneTitle;
+      console.log('currentSceneTitle', currentSceneTitle);
+
       const urlSceneId = this.getSceneUuidFromURLHash();
       console.log('urlSceneId', urlSceneId);
       if (!currentSceneId) {
@@ -175,8 +179,6 @@ export default class Toolbar extends Component {
         filterJSONstreet(removeProps, renameProps, data)
       );
 
-      let currentSceneTitle =
-        AFRAME.scenes[0].getAttribute('metadata').sceneTitle;
       // save json to firebase with other metadata
       await updateScene(
         currentSceneId,
