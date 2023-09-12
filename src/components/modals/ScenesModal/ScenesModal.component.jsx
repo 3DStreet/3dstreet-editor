@@ -28,8 +28,8 @@ const ScenesModal = ({ isOpen, onClose }) => {
 
     async function fetchScenesCommunity() {
       const communityScenes = await getCommunityScenes();
-      communityScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
       setScenesDataCommunity(communityScenes);
+      console.log('communityScenes', communityScenes);
     }
     fetchScenesCommunity();
   }, [isOpen]);
@@ -39,17 +39,16 @@ const ScenesModal = ({ isOpen, onClose }) => {
 
     async function fetchScenesUser() {
       const userScenes = await getUserScenes(currentUser.uid);
-      userScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
       setScenesData(userScenes);
     }
     fetchScenesUser();
   }, [currentUser, isOpen]);
 
   const handleSceneClick = (scene) => {
-    if (scene && scene.data) {
-      createElementsForScenesFromJSON(scene.data);
-      const sceneId = scene.id;
-      window.location.hash = `#/scenes/${sceneId}.json`;
+    if (scene.data() && scene.data().data) {
+      createElementsForScenesFromJSON(scene.data().data);
+      // const sceneId = scene.id;
+      window.location.hash = `#/scenes/${scene.id}.json`;
       onClose();
       AFRAME.scenes[0].components['notify'].message(
         'Scene loaded from 3DStreet Cloud.',

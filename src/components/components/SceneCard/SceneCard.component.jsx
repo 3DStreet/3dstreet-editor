@@ -9,10 +9,10 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         key={index}
         className={styles.card}
         onClick={() => handleSceneClick(scene)}
-        title={scene.title}
+        title={scene.data().title}
       >
         <img src={ScenePlaceholder} alt="scene" className={styles.img} />
-        <p className={styles.title}>{scene.title}</p>
+        <p className={styles.title}>{scene.data().title}</p>
         {/* <p className={styles.date}>
           Last modified 2 hours ago
         </p> */}
