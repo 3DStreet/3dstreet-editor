@@ -411,31 +411,42 @@ AFRAME.registerComponent('set-loader-from-hash', {
     defaultURL: { type: 'string' }
   },
   init: function () {
-    // get hash from window
-    const streetURL = window.location.hash.substring(1);
-    if (!streetURL) {
-      return;
+    this.runOnce = false;
+  },
+  play: function () {
+    // using play instead of init method so scene loads before setting its metadata component
+    if (!this.runOnce) {
+      this.runOnce = true;
+      // get hash from window
+      const streetURL = window.location.hash.substring(1);
+      if (!streetURL) {
+        return;
+      }
+      if (streetURL.includes('//streetmix.net')) {
+        console.log(
+          '[set-loader-from-hash]',
+          'Set streetmix-loader streetmixStreetURL to',
+          streetURL
+        );
+        this.el.setAttribute(
+          'streetmix-loader',
+          'streetmixStreetURL',
+          streetURL
+        );
+      } else {
+        // try to load JSON file from remote resource
+        console.log(
+          '[set-loader-from-hash]',
+          'Load 3DStreet scene with fetchJSON from',
+          streetURL
+        );
+        this.fetchJSON(streetURL);
+      }
+      // else {
+      //   console.log('[set-loader-from-hash]','Using default URL', this.data.defaultURL)
+      //   this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', this.data.defaultURL);
+      // }
     }
-    if (streetURL.includes('//streetmix.net')) {
-      console.log(
-        '[set-loader-from-hash]',
-        'Set streetmix-loader streetmixStreetURL to',
-        streetURL
-      );
-      this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', streetURL);
-    } else {
-      // try to load JSON file from remote resource
-      console.log(
-        '[set-loader-from-hash]',
-        'Load 3DStreet scene with fetchJSON from',
-        streetURL
-      );
-      this.fetchJSON(streetURL);
-    }
-    // else {
-    //   console.log('[set-loader-from-hash]','Using default URL', this.data.defaultURL)
-    //   this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', this.data.defaultURL);
-    // }
   },
   fetchJSON: function (requestURL) {
     let sceneId = getUUIDFromPath(requestURL);
