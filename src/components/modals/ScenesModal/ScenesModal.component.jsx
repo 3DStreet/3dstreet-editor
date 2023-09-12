@@ -5,6 +5,7 @@ import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
 import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
+import Events from '../../../lib/Events';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
@@ -28,7 +29,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
 
     async function fetchScenesCommunity() {
       const communityScenes = await getCommunityScenes();
-      communityScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
       setScenesDataCommunity(communityScenes);
     }
     fetchScenesCommunity();
@@ -39,22 +39,28 @@ const ScenesModal = ({ isOpen, onClose }) => {
 
     async function fetchScenesUser() {
       const userScenes = await getUserScenes(currentUser.uid);
-      userScenes.sort((a, b) => b.updateTimestamp - a.updateTimestamp);
       setScenesData(userScenes);
     }
     fetchScenesUser();
   }, [currentUser, isOpen]);
 
   const handleSceneClick = (scene) => {
-    if (scene && scene.data) {
-      createElementsForScenesFromJSON(scene.data);
+    if (scene.data() && scene.data().data) {
+      createElementsForScenesFromJSON(scene.data().data);
+      // const sceneId = scene.id;
+      window.location.hash = `#/scenes/${scene.id}.json`;
+      // this is where we should update sceneid and scenetitle in metadata and toolbar state
       const sceneId = scene.id;
-      window.location.hash = `#/scenes/${sceneId}.json`;
-      onClose();
+      const sceneTitle = scene.data().title;
+      AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
+      AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
+      // also should update
+      Events.emit('entitycreate', { element: 'a-entity', components: {} });
       AFRAME.scenes[0].components['notify'].message(
         'Scene loaded from 3DStreet Cloud.',
         'success'
       );
+      onClose();
     } else {
       AFRAME.scenes[0].components['notify'].message(
         'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.',

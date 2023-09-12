@@ -7,7 +7,8 @@ import {
   serverTimestamp,
   getDoc,
   setDoc,
-  updateDoc
+  updateDoc,
+  orderBy
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
@@ -54,6 +55,10 @@ const updateScene = async (sceneId, userUID, sceneData, title, version) => {
 };
 
 const isSceneAuthor = async ({ sceneId, authorId }) => {
+  if (!sceneId || !authorId) {
+    console.log('sceneId or authorId is not provided in isSceneAuthor');
+    return false;
+  }
   try {
     // Get a reference to the scene document
     const sceneRef = doc(db, 'scenes', sceneId);
@@ -74,23 +79,27 @@ const isSceneAuthor = async ({ sceneId, authorId }) => {
 const getUserScenes = async (currentUserUID) => {
   const userScenesQuery = query(
     collection(db, 'scenes'),
-    where('author', '==', currentUserUID)
+    where('author', '==', currentUserUID),
+    orderBy('updateTimestamp', 'desc')
   );
 
   const scenesSnapshot = await getDocs(userScenesQuery);
-  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+  //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
 
-  return scenesData;
+  return scenesSnapshot.docs;
 };
 
 const getCommunityScenes = async () => {
-  const communityScenesQuery = query(collection(db, 'scenes'));
+  const communityScenesQuery = query(
+    collection(db, 'scenes'),
+    orderBy('updateTimestamp', 'desc')
+  );
   try {
     const communityScenesSnapshot = await getDocs(communityScenesQuery);
-    const communityScenesData = communityScenesSnapshot.docs.map((doc) =>
-      doc.data()
-    );
-    return communityScenesData;
+    // const communityScenesData = communityScenesSnapshot.docs.map((doc) =>
+    //   doc.data()
+    // );
+    return communityScenesSnapshot.docs;
   } catch (error) {
     console.error('Error fetching community scenes:', error);
     return [];
