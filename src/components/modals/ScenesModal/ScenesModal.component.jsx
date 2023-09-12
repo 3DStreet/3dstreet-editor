@@ -70,19 +70,33 @@ const ScenesModal = ({ isOpen, onClose }) => {
       onClose={onClose}
       extraCloseKeyCode={72}
       title="Open scene"
+      titleElement={
+        <>
+          <h3
+            style={{
+              fontSize: '20px',
+              marginTop: '26px',
+              marginBottom: '0px',
+              position: 'relative'
+            }}
+          >
+            Open scene
+          </h3>
+          <Tabs
+            tabs={tabs.map((tab) => {
+              return {
+                ...tab,
+                isSelected: selectedTab === tab.value,
+                onClick: () => setSelectedTab(tab.value)
+              };
+            })}
+            selectedTabClassName={'selectedTab'}
+            className={styles.tabs}
+          />
+        </>
+      }
     >
       <div className={styles.contentWrapper}>
-        <Tabs
-          tabs={tabs.map((tab) => {
-            return {
-              ...tab,
-              isSelected: selectedTab === tab.value,
-              onClick: () => setSelectedTab(tab.value)
-            };
-          })}
-          selectedTabClassName={'selectedTab'}
-          className={styles.tabs}
-        />
         {selectedTab === 'owner' ? (
           <div className={styles.scrollContainer}>
             <SceneCard
