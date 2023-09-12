@@ -29,7 +29,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
     async function fetchScenesCommunity() {
       const communityScenes = await getCommunityScenes();
       setScenesDataCommunity(communityScenes);
-      console.log('communityScenes', communityScenes);
     }
     fetchScenesCommunity();
   }, [isOpen]);
