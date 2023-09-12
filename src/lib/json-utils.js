@@ -449,11 +449,6 @@ AFRAME.registerComponent('set-loader-from-hash', {
     }
   },
   fetchJSON: function (requestURL) {
-    let sceneId = getUUIDFromPath(requestURL);
-    if (sceneId) {
-      console.log('sceneId from fetchJSON from url hash loader', sceneId);
-      AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
-    }
     const request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
     request.onload = function () {
@@ -474,12 +469,24 @@ AFRAME.registerComponent('set-loader-from-hash', {
           console.log('sceneId from fetchJSON from url hash loader', sceneId);
           AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
         }
+      } else if (this.status === 404) {
+        console.error(
+          '[set-loader-from-hash] Error trying to load scene: Resource not found.'
+        );
+        AFRAME.scenes[0].components['notify'].message(
+          'Error trying to load scene: Resource not found.',
+          'error'
+        );
       }
     };
     request.onerror = function () {
       // There was a connection error of some sort
-      console.log(
+      console.error(
         'Loading Error: There was a connection error during JSON loading'
+      );
+      AFRAME.scenes[0].components['notify'].message(
+        'Could not fetch scene.',
+        'error'
       );
     };
     request.send();
