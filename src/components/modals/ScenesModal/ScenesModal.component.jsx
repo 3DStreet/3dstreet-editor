@@ -97,21 +97,14 @@ const ScenesModal = ({ isOpen, onClose }) => {
       }
     >
       <div className={styles.contentWrapper}>
-        {selectedTab === 'owner' ? (
-          <div className={styles.scrollContainer}>
-            <SceneCard
-              scenesData={scenesData}
-              handleSceneClick={handleSceneClick}
-            />
-          </div>
-        ) : (
-          <div className={styles.scrollContainer}>
-            <SceneCard
-              scenesData={scenesDataCommunity}
-              handleSceneClick={handleSceneClick}
-            />
-          </div>
-        )}
+        <div className={styles.scrollContainer}>
+          <SceneCard
+            scenesData={
+              selectedTab === 'owner' ? scenesData : scenesDataCommunity
+            }
+            handleSceneClick={handleSceneClick}
+          />
+        </div>
       </div>
     </Modal>
   );
