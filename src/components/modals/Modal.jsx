@@ -92,9 +92,18 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { children, id, title, titleElement, className } = this.props;
+    const {
+      children,
+      id,
+      title,
+      titleElement,
+      className,
+      currentUser,
+      selectedTab
+    } = this.props;
     const modalClassName =
       title === 'Open scene' ? 'modal-scene' : 'modal-body';
+
     return (
       <div
         id={id}
@@ -124,7 +133,15 @@ export default class Modal extends Component {
               </h3>
             )}
           </div>
-          <div className={modalClassName}>{children}</div>
+          <div
+            className={
+              currentUser || selectedTab !== 'owner'
+                ? modalClassName
+                : 'modal-sign-in-first'
+            }
+          >
+            {children}
+          </div>
         </div>
       </div>
     );

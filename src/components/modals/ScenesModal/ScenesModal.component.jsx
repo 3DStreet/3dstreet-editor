@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../contexts';
-import { SceneCard, Tabs } from '../../components';
+import { Button, SceneCard, Tabs } from '../../components';
 import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
 import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 import Events from '../../../lib/Events';
+import { loginHandler } from '../SignInModal';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-
   const tabs = [
     {
       label: 'My Scenes',
@@ -22,6 +22,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
       value: 'community'
     }
   ];
+
   const [selectedTab, setSelectedTab] = useState('owner');
 
   useEffect(() => {
@@ -75,6 +76,8 @@ const ScenesModal = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
       extraCloseKeyCode={72}
+      currentUser={currentUser}
+      selectedTab={selectedTab}
       title="Open scene"
       titleElement={
         <>
@@ -103,14 +106,33 @@ const ScenesModal = ({ isOpen, onClose }) => {
       }
     >
       <div className={styles.contentWrapper}>
-        <div className={styles.scrollContainer}>
-          <SceneCard
-            scenesData={
-              selectedTab === 'owner' ? scenesData : scenesDataCommunity
-            }
-            handleSceneClick={handleSceneClick}
-          />
-        </div>
+        <>
+          {currentUser || selectedTab !== 'owner' ? (
+            <SceneCard
+              scenesData={
+                selectedTab === 'owner' ? scenesData : scenesDataCommunity
+              }
+              handleSceneClick={handleSceneClick}
+            />
+          ) : (
+            <div className={styles.signInFirst}>
+              <div className={styles.title}>
+                To view your scenes you have to sign in:
+              </div>
+              <div className={styles.buttons}>
+                <Button onClick={() => loginHandler()}>
+                  Sign in to 3DStreet Cloud
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => setSelectedTab('community')}
+                >
+                  View Community Scenes
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
       </div>
     </Modal>
   );
