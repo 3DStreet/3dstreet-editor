@@ -11,5 +11,19 @@
 }
 
 .tabs {
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 32px 0px 0px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 16px;
 }

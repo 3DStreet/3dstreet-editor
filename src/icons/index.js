@@ -2,6 +2,7 @@ export {
   Camera32Icon,
   Save24Icon,
   Load24Icon,
+  Upload24Icon,
   Cross32Icon,
   Cross24Icon,
   Compass32Icon,

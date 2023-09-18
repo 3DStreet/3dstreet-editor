@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
-import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
+import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
@@ -423,7 +423,7 @@ export default class Toolbar extends Component {
                     margin: '-2.5px 0px -2.5px -2px'
                   }}
                 >
-                  <Load24Icon />
+                  <Upload24Icon />
                 </div>
                 <div className={'innerText'}>Open</div>
               </Button>
@@ -452,7 +452,7 @@ export default class Toolbar extends Component {
                         margin: '-2.5px 0px -2.5px -2px'
                       }}
                     >
-                      <Load24Icon />
+                      <Upload24Icon />
                     </div>
                     Streetmix URL
                   </Button>
@@ -464,7 +464,7 @@ export default class Toolbar extends Component {
                         margin: '-2.5px 0px -2.5px -2px'
                       }}
                     >
-                      <Load24Icon />
+                      <Upload24Icon />
                     </div>
                     <label
                       style={{
