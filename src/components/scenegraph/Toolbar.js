@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
-import { Cloud24Icon, Load24Icon, Save24Icon } from '../../icons';
+import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
@@ -45,34 +45,21 @@ export default class Toolbar extends Component {
     this.state = {
       // isPlaying: false,
       isSaveActionActive: false,
-      isLoadActionActive: false,
       isCapturingScreen: false,
       showSaveBtn: true,
       showLoadBtn: true,
       savedNewDocument: false
     };
-    this.loadButtonRef = React.createRef();
     this.saveButtonRef = React.createRef();
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutsideLoad);
     document.addEventListener('click', this.handleClickOutsideSave);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutsideLoad);
     document.removeEventListener('click', this.handleClickOutsideSave);
   }
-
-  handleClickOutsideLoad = (event) => {
-    if (
-      this.loadButtonRef.current &&
-      !this.loadButtonRef.current.contains(event.target)
-    ) {
-      this.setState({ isLoadActionActive: false });
-    }
-  };
 
   handleClickOutsideSave = (event) => {
     if (
@@ -411,80 +398,21 @@ export default class Toolbar extends Component {
           )}
 
           {this.state.showLoadBtn && (
-            <div className="saveButtonWrapper" ref={this.loadButtonRef}>
-              <Button
-                className={'actionBtn'}
-                onClick={this.toggleLoadActionState}
+            <Button
+              className={'actionBtn'}
+              onClick={() => Events.emit('openscenesmodal')}
+            >
+              <div
+                className="iconContainer"
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
               >
-                <div
-                  className="iconContainer"
-                  style={{
-                    display: 'flex',
-                    margin: '-2.5px 0px -2.5px -2px'
-                  }}
-                >
-                  <Load24Icon />
-                </div>
-                <div className={'innerText'}>Open</div>
-              </Button>
-              {this.state.isLoadActionActive && (
-                <div className="dropdownedButtons">
-                  <Button
-                    variant="white"
-                    onClick={() => Events.emit('openscenesmodal')}
-                  >
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Cloud24Icon />
-                    </div>
-                    Open
-                  </Button>
-                  <Button onClick={inputStreetmix} variant="white">
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Load24Icon />
-                    </div>
-                    Streetmix URL
-                  </Button>
-                  <Button variant="white">
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Load24Icon />
-                    </div>
-                    <label
-                      style={{
-                        display: 'inherit',
-                        alignItems: 'center',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <input
-                        type="file"
-                        onChange={fileJSON}
-                        style={{ display: 'none' }}
-                        accept=".js, .json, .txt"
-                      />
-                      Load 3DStreet JSON
-                    </label>
-                  </Button>
-                </div>
-              )}
-            </div>
+                <Upload24Icon />
+              </div>
+              <div className={'innerText'}>Open</div>
+            </Button>
           )}
           <div
             onClick={() =>

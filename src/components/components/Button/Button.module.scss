@@ -55,6 +55,14 @@
   &:focus {
     border: 1px solid #fff;
   }
+
+  &.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .outlinedButton {
@@ -151,4 +159,12 @@
     color: rgba(50, 50, 50, 0.4);
     transition: all 0.3s;
   }
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
 }

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../contexts';
-import { SceneCard, Tabs } from '../../components';
+import { Button, SceneCard, Tabs } from '../../components';
 import Modal from '../Modal.jsx';
 import styles from './ScenesModal.module.scss';
-import { createElementsForScenesFromJSON } from '../../../lib/toolbar';
+import {
+  createElementsForScenesFromJSON,
+  fileJSON,
+  inputStreetmix
+} from '../../../lib/toolbar';
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 import Events from '../../../lib/Events';
+import { Load24Icon, Upload24Icon } from '../../../icons';
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
@@ -88,17 +93,54 @@ const ScenesModal = ({ isOpen, onClose }) => {
           >
             Open scene
           </h3>
-          <Tabs
-            tabs={tabs.map((tab) => {
-              return {
-                ...tab,
-                isSelected: selectedTab === tab.value,
-                onClick: () => setSelectedTab(tab.value)
-              };
-            })}
-            selectedTabClassName={'selectedTab'}
-            className={styles.tabs}
-          />
+          <div className={styles.header}>
+            <Tabs
+              tabs={tabs.map((tab) => {
+                return {
+                  ...tab,
+                  isSelected: selectedTab === tab.value,
+                  onClick: () => setSelectedTab(tab.value)
+                };
+              })}
+              selectedTabClassName={'selectedTab'}
+              className={styles.tabs}
+            />
+            <div className={styles.buttons}>
+              <Button
+                onClick={() => {
+                  inputStreetmix();
+                  onClose(); // Close the modal
+                }}
+                leadingicon={<Load24Icon />}
+              >
+                Load from Streetmix
+              </Button>
+
+              <Button
+                leadingicon={<Upload24Icon />}
+                className={styles.uploadBtn}
+              >
+                <label
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      fileJSON(e);
+                      onClose(); // Close the modal
+                    }}
+                    style={{ display: 'none' }}
+                    accept=".js, .json, .txt"
+                  />
+                  Upload 3DStreet JSON File
+                </label>
+              </Button>
+            </div>
+          </div>
         </>
       }
     >
