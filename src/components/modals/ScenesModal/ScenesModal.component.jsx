@@ -106,7 +106,13 @@ const ScenesModal = ({ isOpen, onClose }) => {
               className={styles.tabs}
             />
             <div className={styles.buttons}>
-              <Button onClick={inputStreetmix} leadingicon={<Load24Icon />}>
+              <Button
+                onClick={() => {
+                  inputStreetmix();
+                  onClose(); // Close the modal
+                }}
+                leadingicon={<Load24Icon />}
+              >
                 Load from Streetmix
               </Button>
 
@@ -123,7 +129,10 @@ const ScenesModal = ({ isOpen, onClose }) => {
                 >
                   <input
                     type="file"
-                    onChange={fileJSON}
+                    onChange={(e) => {
+                      fileJSON(e);
+                      onClose(); // Close the modal
+                    }}
                     style={{ display: 'none' }}
                     accept=".js, .json, .txt"
                   />
