@@ -5,17 +5,17 @@ import { auth } from '../../../services/firebase';
 import Modal from '../Modal.jsx';
 import styles from './SignInModal.module.scss';
 
+const loginHandler = async (onClose) => {
+  try {
+    await signInWithPopup(auth, new GoogleAuthProvider());
+
+    onClose();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const SignInModal = ({ isOpen, onClose }) => {
-  const loginHandler = async () => {
-    try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
-
-      onClose();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <Modal
       className={styles.modalWrapper}
@@ -38,7 +38,7 @@ const SignInModal = ({ isOpen, onClose }) => {
           </p>
         </div>
         <img
-          onClick={loginHandler}
+          onClick={() => loginHandler(onClose)}
           src={GoogleSignIn}
           alt="Google Sign-In"
           className={styles.signInButton}
@@ -47,5 +47,5 @@ const SignInModal = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
-
+export { loginHandler };
 export { SignInModal };
