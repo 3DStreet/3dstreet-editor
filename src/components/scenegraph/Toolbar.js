@@ -1,10 +1,10 @@
-import { Button, ScreenshotButton } from '../components';
-import { Load24Icon, Save24Icon } from '../../icons';
-import { fileJSON, inputStreetmix } from '../../lib/toolbar';
-
 import React, { Component } from 'react';
+import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
+import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
+import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
+import { Button, ProfileButton, ScreenshotButton } from '../components';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -45,33 +45,21 @@ export default class Toolbar extends Component {
     this.state = {
       // isPlaying: false,
       isSaveActionActive: false,
-      isLoadActionActive: false,
       isCapturingScreen: false,
       showSaveBtn: true,
-      showLoadBtn: true
+      showLoadBtn: true,
+      savedNewDocument: false
     };
-    this.loadButtonRef = React.createRef();
     this.saveButtonRef = React.createRef();
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutsideLoad);
     document.addEventListener('click', this.handleClickOutsideSave);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutsideLoad);
     document.removeEventListener('click', this.handleClickOutsideSave);
   }
-
-  handleClickOutsideLoad = (event) => {
-    if (
-      this.loadButtonRef.current &&
-      !this.loadButtonRef.current.contains(event.target)
-    ) {
-      this.setState({ isLoadActionActive: false });
-    }
-  };
 
   handleClickOutsideSave = (event) => {
     if (
@@ -83,21 +71,135 @@ export default class Toolbar extends Component {
   };
 
   convertToObject = () => {
-    const entity = document.getElementById('street-container');
+    try {
+      const entity = document.getElementById('street-container');
 
-    const data = convertDOMElToObject(entity);
+      const data = convertDOMElToObject(entity);
 
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      //JSON.stringify(data)
-      filterJSONstreet(removeProps, renameProps, data)
-    )}`;
+      const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+        filterJSONstreet(removeProps, renameProps, data)
+      )}`;
 
-    const link = document.createElement('a');
-    link.href = jsonString;
-    link.download = 'data.json';
+      const link = document.createElement('a');
+      link.href = jsonString;
+      link.download = 'data.json';
 
-    link.click();
-    link.remove();
+      link.click();
+      link.remove();
+      AFRAME.scenes[0].components['notify'].message(
+        '3DStreet JSON file saved successfully.',
+        'success'
+      );
+    } catch (error) {
+      AFRAME.scenes[0].components['notify'].message(
+        `Error trying to save 3DStreet JSON file. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
+    }
+  };
+
+  getSceneUuidFromURLHash = () => {
+    const currentHash = window.location.hash;
+    const match = currentHash.match(/#\/scenes\/([a-zA-Z0-9-]+)\.json/);
+    return match && match[1] ? match[1] : null;
+  };
+
+  cloudSaveAsHandler = async () => {
+    this.cloudSaveHandler({ doSaveAs: true });
+  };
+
+  cloudSaveHandler = async ({ doSaveAs = false }) => {
+    try {
+      // if there is no current user, show sign in modal
+      if (!this.props.currentUser) {
+        Events.emit('opensigninmodal');
+        return;
+      }
+
+      // determine what is the currentSceneId?
+      // how: first check state, if not there then use URL hash, otherwise null
+      let currentSceneId = AFRAME.scenes[0].getAttribute('metadata').sceneId;
+      console.log('currentSceneId from scene metadata', currentSceneId);
+      let currentSceneTitle =
+        AFRAME.scenes[0].getAttribute('metadata').sceneTitle;
+      console.log('currentSceneTitle', currentSceneTitle);
+
+      const urlSceneId = this.getSceneUuidFromURLHash();
+      console.log('urlSceneId', urlSceneId);
+      if (!currentSceneId) {
+        console.log('no currentSceneId from state');
+        if (urlSceneId) {
+          currentSceneId = urlSceneId;
+          console.log('setting currentSceneId to urlSceneId');
+        }
+      }
+
+      // if owner != doc.id then doSaveAs = true;
+      const isCurrentUserTheSceneAuthor = await isSceneAuthor({
+        sceneId: currentSceneId,
+        authorId: this.props.currentUser.uid
+      });
+      console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
+      if (!isCurrentUserTheSceneAuthor) {
+        doSaveAs = true;
+      }
+
+      // we want to save, so if we *still* have no sceneID at this point, then create a new one
+      if (!currentSceneId || !!doSaveAs) {
+        console.log(
+          'no urlSceneId or doSaveAs is true, therefore generate new one'
+        );
+        currentSceneId = await generateSceneId(this.props.currentUser.uid);
+        console.log('newly generated currentSceneId', currentSceneId);
+        window.location.hash = `#/scenes/${currentSceneId}.json`;
+        this.setState({ savedNewDocument: true });
+      }
+
+      // after all those save shenanigans let's set currentSceneId in state
+      this.setState({ currentSceneId });
+
+      // generate json from 3dstreet core
+      const entity = document.getElementById('street-container');
+      const data = convertDOMElToObject(entity);
+      const filteredData = JSON.parse(
+        filterJSONstreet(removeProps, renameProps, data)
+      );
+
+      // save json to firebase with other metadata
+      await updateScene(
+        currentSceneId,
+        this.props.currentUser.uid,
+        filteredData.data,
+        currentSceneTitle,
+        filteredData.version
+      );
+
+      // for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
+      // const newUrl = `${location.protocol}//${location.host}/#/scenes/${currentSceneId}.json`;
+      // window.open(newUrl, '_blank');
+
+      // Change the hash URL without reloading
+      window.location.hash = `#/scenes/${currentSceneId}.json`;
+      if (this.state.savedNewDocument) {
+        AFRAME.scenes[0].components['notify'].message(
+          'Scene saved to 3DStreet Cloud as a new file.',
+          'success'
+        );
+        this.setState({ savedNewDocument: false }); // go back to default assumption of save overwrite
+      } else {
+        AFRAME.scenes[0].components['notify'].message(
+          'Scene saved to 3DStreet Cloud in existing file.',
+          'success'
+        );
+      }
+    } catch (error) {
+      AFRAME.scenes[0].components['notify'].message(
+        `Error trying to save 3DStreet scene to cloud. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
+    }
   };
 
   makeScreenshot = (component) =>
@@ -136,24 +238,36 @@ export default class Toolbar extends Component {
   // }
 
   exportSceneToGLTF() {
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'SceneGraph', 'exportGLTF');
+    try {
+      if (typeof ga !== 'undefined') {
+        ga('send', 'event', 'SceneGraph', 'exportGLTF');
+      }
+      const sceneName = getSceneName(AFRAME.scenes[0]);
+      const scene = AFRAME.scenes[0].object3D;
+      filterHelpers(scene, false);
+      AFRAME.INSPECTOR.exporters.gltf.parse(
+        scene,
+        function (buffer) {
+          filterHelpers(scene, true);
+          const blob = new Blob([buffer], { type: 'application/octet-stream' });
+          saveBlob(blob, sceneName + '.glb');
+        },
+        function (error) {
+          console.error(error);
+        },
+        { binary: true }
+      );
+      AFRAME.scenes[0].components['notify'].message(
+        '3DStreet scene exported as glTF file.',
+        'success'
+      );
+    } catch (error) {
+      AFRAME.scenes[0].components['notify'].message(
+        `Error while trying to save glTF file. Error: ${error}`,
+        'error'
+      );
+      console.error(error);
     }
-    const sceneName = getSceneName(AFRAME.scenes[0]);
-    const scene = AFRAME.scenes[0].object3D;
-    filterHelpers(scene, false);
-    AFRAME.INSPECTOR.exporters.gltf.parse(
-      scene,
-      function (buffer) {
-        filterHelpers(scene, true);
-        const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        saveBlob(blob, sceneName + '.glb');
-      },
-      function (error) {
-        console.error(error);
-      },
-      { binary: true }
-    );
   }
 
   addEntity() {
@@ -230,6 +344,30 @@ export default class Toolbar extends Component {
               </Button>
               {this.state.isSaveActionActive && (
                 <div className="dropdownedButtons">
+                  <Button variant="white" onClick={this.cloudSaveHandler}>
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Save
+                  </Button>
+                  <Button variant="white" onClick={this.cloudSaveAsHandler}>
+                    <div
+                      className="icon"
+                      style={{
+                        display: 'flex',
+                        margin: '-2.5px 0px -2.5px -2px'
+                      }}
+                    >
+                      <Cloud24Icon />
+                    </div>
+                    Save As...
+                  </Button>
                   <Button onClick={this.exportSceneToGLTF} variant="white">
                     <div
                       className="icon"
@@ -260,65 +398,21 @@ export default class Toolbar extends Component {
           )}
 
           {this.state.showLoadBtn && (
-            <div className="saveButtonWrapper" ref={this.loadButtonRef}>
-              <Button
-                className={'actionBtn'}
-                onClick={this.toggleLoadActionState}
+            <Button
+              className={'actionBtn'}
+              onClick={() => Events.emit('openscenesmodal')}
+            >
+              <div
+                className="iconContainer"
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
               >
-                <div
-                  className="iconContainer"
-                  style={{
-                    display: 'flex',
-                    margin: '-2.5px 0px -2.5px -2px'
-                  }}
-                >
-                  <Load24Icon />
-                </div>
-                <div className={'innerText'}>Open</div>
-              </Button>
-              {this.state.isLoadActionActive && (
-                <div className="dropdownedButtons">
-                  <Button onClick={inputStreetmix} variant="white">
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Load24Icon />
-                    </div>
-                    Streetmix URL
-                  </Button>
-                  <Button variant="white">
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Load24Icon />
-                    </div>
-                    <label
-                      style={{
-                        display: 'inherit',
-                        alignItems: 'center',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <input
-                        type="file"
-                        onChange={fileJSON}
-                        style={{ display: 'none' }}
-                        accept=".js, .json, .txt"
-                      />
-                      3DStreet JSON
-                    </label>
-                  </Button>
-                </div>
-              )}
-            </div>
+                <Upload24Icon />
+              </div>
+              <div className={'innerText'}>Open</div>
+            </Button>
           )}
           <div
             onClick={() =>
@@ -330,6 +424,17 @@ export default class Toolbar extends Component {
             className={'cameraButton'}
           >
             <ScreenshotButton />
+          </div>
+          <div
+            onClick={() =>
+              this.setState((prevState) => ({
+                ...prevState,
+                isSignInModalActive: true
+              }))
+            }
+            className={'cameraButton'}
+          >
+            <ProfileButton />
           </div>
         </div>
       </div>

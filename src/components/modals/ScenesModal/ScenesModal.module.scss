@@ -1,0 +1,53 @@
+.modalWrapper {
+  position: relative;
+  width: 80vw;
+  margin: auto auto;
+  height: 100%;
+
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+    height: 100%;
+
+    .signInFirst {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      min-height: 100%;
+      row-gap: 28px;
+      height: calc(80vh - 240px);
+
+      .title {
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      .buttons {
+        display: flex;
+        column-gap: 24px;
+      }
+    }
+  }
+}
+
+.tabs {
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 0px 0px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 16px;
+}

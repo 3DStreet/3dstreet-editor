@@ -1,7 +1,5 @@
 import './Modal.styles.styl';
-
 import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Cross24Icon } from '../../icons';
@@ -94,7 +92,17 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { children, id, title, titleElement, className } = this.props;
+    const {
+      children,
+      id,
+      title,
+      titleElement,
+      className,
+      currentUser,
+      selectedTab
+    } = this.props;
+    const modalClassName =
+      title === 'Open scene' ? 'modal-scene' : 'modal-body';
 
     return (
       <div
@@ -102,19 +110,38 @@ export default class Modal extends Component {
         className={classNames('modal', !this.state.isOpen && 'hide')}
       >
         <div className={classNames('modal-content', className)} ref={this.self}>
-          <div className="modal-header">
+          <div
+            className={classNames(
+              title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
+            )}
+          >
             <span className="close" onClick={this.close}>
-              {/* <span />
-              <span /> */}
               <Cross24Icon />
             </span>
             {typeof titleElement !== 'undefined' ? (
               titleElement
             ) : (
-              <h3>{title}</h3>
+              <h3
+                style={{
+                  fontSize: '20px',
+                  marginTop: '26px',
+                  marginBottom: '0px',
+                  position: 'relative'
+                }}
+              >
+                {title}
+              </h3>
             )}
           </div>
-          <div className="modal-body">{children}</div>
+          <div
+            className={
+              currentUser || selectedTab !== 'owner'
+                ? modalClassName
+                : 'modal-sign-in-first'
+            }
+          >
+            {children}
+          </div>
         </div>
       </div>
     );

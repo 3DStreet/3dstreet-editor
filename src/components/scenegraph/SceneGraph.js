@@ -1,13 +1,11 @@
 /* eslint-disable no-unused-vars, react/no-danger */
+import classNames from 'classnames';
+import debounce from 'lodash-es/debounce';
 import PropTypes from 'prop-types';
 import React from 'react';
-import debounce from 'lodash-es/debounce';
-import classNames from 'classnames';
-
-import Entity from './Entity';
-import Toolbar from './Toolbar';
 import Events from '../../lib/Events';
-
+import Entity from './Entity';
+import { ToolbarWrapper } from './ToolbarWrapper';
 export default class SceneGraph extends React.Component {
   static propTypes = {
     id: PropTypes.string,
@@ -58,6 +56,7 @@ export default class SceneGraph extends React.Component {
   /**
    * Selected entity updated from somewhere else in the app.
    */
+
   componentDidUpdate(prevProps) {
     if (prevProps.selectedEntity !== this.props.selectedEntity) {
       this.selectEntity(this.props.selectedEntity);
@@ -206,7 +205,7 @@ export default class SceneGraph extends React.Component {
     if (!curr) {
       return false;
     }
-    while (curr !== undefined && curr.isEntity) {
+    while (curr !== undefined && curr?.isEntity) {
       if (!this.isExpanded(curr)) {
         return false;
       }
@@ -373,7 +372,7 @@ export default class SceneGraph extends React.Component {
     return (
       <div id="scenegraph" className="scenegraph">
         <div className="scenegraph-toolbar">
-          <Toolbar />
+          <ToolbarWrapper />
           <div className="search">
             <input
               id="filter"

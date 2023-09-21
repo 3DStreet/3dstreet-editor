@@ -360,6 +360,14 @@ function createEntityFromObj(entityData, parentEl) {
     entity.setAttribute('geometry', 'primitive', entityData['primitive']);
   }
 
+  // load this attributes in advance in right order to correctly apply other specific components
+  for (const attr of ['geometry', 'material']) {
+    if (entityData.components[attr]) {
+      entity.setAttribute(attr, entityData.components[attr]);
+      delete entityData.components[attr];
+    }
+  }
+
   if (entityData.id) {
     entity.setAttribute('id', entityData.id);
   }
@@ -391,4 +399,194 @@ function createEntityFromObj(entityData, parentEl) {
       createEntityFromObj(childEntityData, entity);
     }
   }
+}
+
+/*
+  Code imported from index.html, mix of save load utils and some ui functions
+*/
+
+AFRAME.registerComponent('metadata', {
+  schema: {
+    sceneTitle: { default: '' },
+    sceneId: { default: '' }
+  },
+  init: function () {}
+});
+
+AFRAME.registerComponent('set-loader-from-hash', {
+  dependencies: ['streetmix-loader'],
+  schema: {
+    defaultURL: { type: 'string' }
+  },
+  init: function () {
+    this.runOnce = false;
+  },
+  play: function () {
+    // using play instead of init method so scene loads before setting its metadata component
+    if (!this.runOnce) {
+      this.runOnce = true;
+      // get hash from window
+      const streetURL = window.location.hash.substring(1);
+      if (!streetURL) {
+        return;
+      }
+      if (streetURL.includes('//streetmix.net')) {
+        console.log(
+          '[set-loader-from-hash]',
+          'Set streetmix-loader streetmixStreetURL to',
+          streetURL
+        );
+        this.el.setAttribute(
+          'streetmix-loader',
+          'streetmixStreetURL',
+          streetURL
+        );
+      } else {
+        // try to load JSON file from remote resource
+        console.log(
+          '[set-loader-from-hash]',
+          'Load 3DStreet scene with fetchJSON from',
+          streetURL
+        );
+        this.fetchJSON(streetURL);
+      }
+      // else {
+      //   console.log('[set-loader-from-hash]','Using default URL', this.data.defaultURL)
+      //   this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', this.data.defaultURL);
+      // }
+    }
+  },
+  fetchJSON: function (requestURL) {
+    const request = new XMLHttpRequest();
+    request.open('GET', requestURL, true);
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        // Connection success
+        // remove 'set-loader-from-hash' component from json data
+        const jsonData = JSON.parse(this.response, (key, value) =>
+          key === 'set-loader-from-hash' ? undefined : value
+        );
+
+        console.log(
+          '[set-loader-from-hash]',
+          '200 response received and JSON parsed, now createElementsFromJSON'
+        );
+        createElementsFromJSON(jsonData);
+        let sceneId = getUUIDFromPath(requestURL);
+        if (sceneId) {
+          console.log('sceneId from fetchJSON from url hash loader', sceneId);
+          AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
+        }
+      } else if (this.status === 404) {
+        console.error(
+          '[set-loader-from-hash] Error trying to load scene: Resource not found.'
+        );
+        AFRAME.scenes[0].components['notify'].message(
+          'Error trying to load scene: Resource not found.',
+          'error'
+        );
+      }
+    };
+    request.onerror = function () {
+      // There was a connection error of some sort
+      console.error(
+        'Loading Error: There was a connection error during JSON loading'
+      );
+      AFRAME.scenes[0].components['notify'].message(
+        'Could not fetch scene.',
+        'error'
+      );
+    };
+    request.send();
+  }
+});
+
+function getUUIDFromPath(path) {
+  // UUID regex pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+  const uuidPattern =
+    /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+
+  const match = path.match(uuidPattern);
+  if (match) {
+    return match[0];
+  }
+
+  return null; // return null or whatever default value you prefer if no UUID found
+}
+
+// this use os text input prompt, delete current scene, then load streetmix file
+function inputStreetmix() {
+  streetmixURL = prompt(
+    'Please enter a Streetmix URL',
+    'https://streetmix.net/kfarr/3/example-street'
+  );
+  setTimeout(function () {
+    window.location.hash = streetmixURL;
+  });
+  streetContainerEl = document.getElementById('street-container');
+  while (streetContainerEl.firstChild) {
+    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  }
+  AFRAME.scenes[0].setAttribute('metadata', 'sceneId', '');
+  AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', '');
+  streetContainerEl.innerHTML =
+    '<a-entity street streetmix-loader="streetmixStreetURL: ' +
+    streetmixURL +
+    '""></a-entity>';
+}
+
+// JSON loading starts here
+function getValidJSON(stringJSON) {
+  // Preserve newlines, etc. - use valid JSON
+  // Remove non-printable and other non-valid JSON characters
+  return stringJSON
+    .replace(/\'/g, '')
+    .replace(/\n/g, '')
+    .replace(/[\u0000-\u0019]+/g, '');
+}
+
+function createElementsFromJSON(streetJSON) {
+  let streetObject = {};
+  if (typeof streetJSON == 'string') {
+    const validJSONString = getValidJSON(streetJSON);
+    streetObject = JSON.parse(validJSONString);
+  } else if (typeof streetJSON == 'object') {
+    streetObject = streetJSON;
+  }
+
+  let sceneTitle = streetObject.title;
+  if (sceneTitle) {
+    console.log('sceneTitle from createElementsFromJSON', sceneTitle);
+    AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
+  }
+
+  streetContainerEl = document.getElementById('street-container');
+  while (streetContainerEl.firstChild) {
+    streetContainerEl.removeChild(streetContainerEl.lastChild);
+  }
+
+  createEntities(streetObject.data, streetContainerEl);
+  AFRAME.scenes[0].components['notify'].message(
+    'Scene loaded from JSON',
+    'success'
+  );
+}
+
+// viewer widget click to paste json string of 3dstreet scene
+function inputJSON() {
+  const stringJSON = prompt('Please paste 3DStreet JSON string');
+  if (stringJSON) {
+    createElementsFromJSON(stringJSON);
+  }
+}
+
+// handle viewer widget click to open 3dstreet json scene
+function fileJSON() {
+  let reader = new FileReader();
+  reader.onload = function () {
+    AFRAME.scenes[0].setAttribute('metadata', 'sceneId', '');
+    AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', '');
+    createElementsFromJSON(reader.result);
+  };
+  reader.readAsText(this.files[0]);
 }

@@ -50,6 +50,7 @@
       inspector="url: ./dist/3dstreet-editor.js"
       timed-inspector="2"
       notify
+      metadata
       >
       <a-assets>
         <!-- you can specify a custom asset path using below syntax  -->
@@ -101,25 +102,6 @@
       }
     })
 
-    AFRAME.registerComponent('set-loader-from-hash', {
-      dependencies: ['streetmix-loader'],
-      schema: {
-        defaultURL: { type: 'string' }
-      },
-      init: function () {
-        // get hash from window
-        const streetURL = window.location.hash.substring(1);
-        if (streetURL !== undefined && streetURL.length > 0) {
-          console.log('[set-loader-from-hash]','Using URL from hash', streetURL)
-          this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', streetURL);
-        }
-        // else {
-        //   console.log('[set-loader-from-hash]','Using default URL', this.data.defaultURL)
-        //   this.el.setAttribute('streetmix-loader', 'streetmixStreetURL', this.data.defaultURL);
-        // }
-      }
-    });
-
     function screenshot() {
       AFRAME.scenes[0].setAttribute('screenshot','width',AFRAME.scenes[0].canvas.width)
       AFRAME.scenes[0].setAttribute('screenshot','height',AFRAME.scenes[0].canvas.height)
@@ -139,50 +121,6 @@
         }, this.data * 1000)
       }
     });    
-
-    function inputStreetmix() {
-      streetmixURL = prompt("Please enter a Streetmix URL", "https://streetmix.net/kfarr/3/example-street");
-      setTimeout(function() { window.location.hash = streetmixURL; });
-      streetContainerEl = document.getElementById('street-container');
-      while (streetContainerEl.firstChild) {
-        streetContainerEl.removeChild(streetContainerEl.lastChild);
-      }
-      streetContainerEl.innerHTML = '<a-entity street streetmix-loader="streetmixStreetURL: '+streetmixURL+'""></a-entity>';
-    }
-
-    // JSON loading starts here
-    function getValidJSON(stringJSON) {
-      // Preserve newlines, etc. - use valid JSON
-      // Remove non-printable and other non-valid JSON characters
-      return stringJSON.replace(/\'/g, "")
-                       .replace(/\n/g, "")
-                       .replace(/[\u0000-\u0019]+/g,"");
-    }
-    
-    function createElementsFromJSON(streetJSONString) {
-      const validJSONString = getValidJSON(streetJSONString);
-      streetContainerEl = document.getElementById('street-container');
-      while (streetContainerEl.firstChild) {
-        streetContainerEl.removeChild(streetContainerEl.lastChild);
-      }
-      var streetObject = JSON.parse(validJSONString);
-      createEntities(streetObject.data, streetContainerEl);
-    }
-
-    function inputJSON() {
-      const stringJSON = prompt("Please paste 3DStreet JSON string");
-      if (stringJSON) {
-        createElementsFromJSON(stringJSON);
-      }      
-    }
-
-    function fileJSON() {
-      let reader=new FileReader();
-      reader.onload=function(){
-        createElementsFromJSON(reader.result);
-      }
-      reader.readAsText(this.files[0]);
-    }
 
     document.getElementById('inputfile')
             .addEventListener('change', fileJSON);

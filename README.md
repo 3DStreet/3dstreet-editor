@@ -12,7 +12,16 @@ An editor tool for 3DStreet scenes.
 git clone https://github.com/3DStreet/3dstreet-editor.git
 cd 3dstreet-editor
 npm install
-npm start
+npm run start:dev
 ```
 
 Then navigate to __[http://localhost:3333/](http://localhost:3333/)__
+
+## Deployment instructions
+
+* Ensure you have .env.production in /config/ (see /config/README.md)
+* `npm run dist`
+* `npm run prefirebase`
+* `cd public`
+* `firebase use [PROJECT]` // ensure PROJECT matches target environment
+* `firebase deploy`
