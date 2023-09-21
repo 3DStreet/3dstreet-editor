@@ -17,7 +17,6 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-      console.log(user);
       if (!user) {
         localStorage.removeItem('token');
       } else {
