@@ -4,6 +4,7 @@ admin.initializeApp();
 
 exports.getScene = functions.https.onRequest(async (req, res) => {
   // Extract scene id from the path, remove the .json part
+  res.set('Access-Control-Allow-Origin', '*');
   const documentId = req.path
     .split('/')
     .filter(Boolean)[1]
