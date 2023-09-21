@@ -27,13 +27,15 @@ const SignInModal = ({ isOpen, onClose }) => {
         <h2 className={styles.title}>Sign in to 3DStreet Cloud</h2>
         <div className={styles.content}>
           <p className={styles.p1}>
-            Save and share your street scenes with a 3DStreet Cloud account.{' '}
+            Save and share your street scenes with 3DStreet Cloud.{' '}
+          </p>
+          <p className={styles.p1}>
             <a
               className={styles.docsLink}
               href="https://www.3dstreet.org/docs/3dstreet-editor/saving-and-loading-scenes/#3dstreet-cloud-account"
               target="_blank"
             >
-              This is optional, learn more in the docs.{' '}
+              This is beta software which may not work as expected.{' '}
             </a>
           </p>
         </div>
