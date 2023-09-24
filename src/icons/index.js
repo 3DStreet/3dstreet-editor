@@ -11,5 +11,6 @@ export {
   CheckIcon,
   DropdownArrowIcon,
   Cloud24Icon,
-  Mangnifier20Icon
+  Mangnifier20Icon,
+  Copy32Icon
 } from './icons.jsx';

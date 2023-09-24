@@ -70,7 +70,7 @@ export default class Toolbar extends Component {
     }
   };
 
-  convertToObject = () => {
+  static convertToObject = () => {
     try {
       const entity = document.getElementById('street-container');
 
@@ -237,7 +237,7 @@ export default class Toolbar extends Component {
   //   AFRAME.INSPECTOR.close();
   // }
 
-  exportSceneToGLTF() {
+  static exportSceneToGLTF() {
     try {
       if (typeof ga !== 'undefined') {
         ga('send', 'event', 'SceneGraph', 'exportGLTF');
