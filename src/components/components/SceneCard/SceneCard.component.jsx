@@ -22,7 +22,14 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         onClick={() => handleSceneClick(scene)}
         title={scene.data().title}
       >
-        <img src={ScenePlaceholder} alt="scene" className={styles.img} />
+        <div
+          className={styles.img}
+          style={{
+            backgroundImage: `url(${ScenePlaceholder})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
         <p className={styles.title}>{scene.data().title}</p>
         <p className={styles.date}>
           <LastModified timestamp={scene.data().updateTimestamp} />
