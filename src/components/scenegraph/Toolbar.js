@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
 import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
-import { inputStreetmix, fileJSON } from '../../lib/toolbar';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
+import { SavingModal } from '../modals/SavingModal';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -48,7 +48,8 @@ export default class Toolbar extends Component {
       isCapturingScreen: false,
       showSaveBtn: true,
       showLoadBtn: true,
-      savedNewDocument: false
+      savedNewDocument: false,
+      isSavingScene: false
     };
     this.saveButtonRef = React.createRef();
   }
@@ -165,7 +166,7 @@ export default class Toolbar extends Component {
       const filteredData = JSON.parse(
         filterJSONstreet(removeProps, renameProps, data)
       );
-
+      this.setState({ isSavingScene: true });
       // save json to firebase with other metadata
       await updateScene(
         currentSceneId,
@@ -199,6 +200,8 @@ export default class Toolbar extends Component {
         'error'
       );
       console.error(error);
+    } finally {
+      this.setState({ isSavingScene: false });
     }
   };
 
@@ -304,6 +307,7 @@ export default class Toolbar extends Component {
 
   toggleSaveActionState = () => {
     this.setState((prevState) => ({
+      isCapturingScreen: true,
       isSaveActionActive: !prevState.isSaveActionActive
     }));
   };
@@ -342,9 +346,14 @@ export default class Toolbar extends Component {
                 </div>
                 <div className={'innerText'}>Save</div>
               </Button>
+              {this.state.isSavingScene && <SavingModal />}
               {this.state.isSaveActionActive && (
                 <div className="dropdownedButtons">
-                  <Button variant="white" onClick={this.cloudSaveHandler}>
+                  <Button
+                    variant="white"
+                    onClick={this.cloudSaveHandler}
+                    disabled={this.state.isSavingScene}
+                  >
                     <div
                       className="icon"
                       style={{
@@ -356,7 +365,11 @@ export default class Toolbar extends Component {
                     </div>
                     Save
                   </Button>
-                  <Button variant="white" onClick={this.cloudSaveAsHandler}>
+                  <Button
+                    variant="white"
+                    onClick={this.cloudSaveAsHandler}
+                    disabled={this.state.isSavingScene}
+                  >
                     <div
                       className="icon"
                       style={{
@@ -368,7 +381,11 @@ export default class Toolbar extends Component {
                     </div>
                     Save As...
                   </Button>
-                  <Button onClick={this.exportSceneToGLTF} variant="white">
+                  <Button
+                    onClick={this.exportSceneToGLTF}
+                    variant="white"
+                    disabled={this.state.isSavingScene}
+                  >
                     <div
                       className="icon"
                       style={{
@@ -380,7 +397,11 @@ export default class Toolbar extends Component {
                     </div>
                     Download glTF
                   </Button>
-                  <Button onClick={this.convertToObject} variant="white">
+                  <Button
+                    onClick={this.convertToObject}
+                    variant="white"
+                    disabled={this.state.isSavingScene}
+                  >
                     <div
                       className="icon"
                       style={{
@@ -396,7 +417,6 @@ export default class Toolbar extends Component {
               )}
             </div>
           )}
-
           {this.state.showLoadBtn && (
             <Button
               className={'actionBtn'}
