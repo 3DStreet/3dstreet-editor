@@ -134,6 +134,9 @@
       background: transparent !important;
       background-color: transparent !important;
       transition: all 0.3s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:focus,
       &:active {

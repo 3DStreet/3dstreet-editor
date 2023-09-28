@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ScreenshotModal.module.scss';
 
 import { Button, Dropdown, Input } from '../../components';
@@ -19,8 +19,13 @@ function ScreenshotModal({ isOpen, onClose }) {
     screenshotEl.setAttribute('screentock', 'type', value);
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
   };
-  const [selectedOption, setSelectedOption] = useState(null);
+  const currentUrl = window.location.href;
+  const [inputValue, setInputValue] = useState(currentUrl);
+  useEffect(() => {
+    setInputValue(currentUrl);
+  }, [currentUrl]);
 
+  const [selectedOption, setSelectedOption] = useState(null);
   const options = [
     {
       value: 'PNG',
@@ -47,6 +52,16 @@ function ScreenshotModal({ isOpen, onClose }) {
   const handleSelect = (value) => {
     setSelectedOption(value);
   };
+
+  const copyToClipboardTailing = async () => {
+    try {
+      const updatedUrl = window.location.href;
+      await navigator.clipboard.writeText(updatedUrl);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <Modal
       className={styles.screenshotModalWrapper}
@@ -54,17 +69,48 @@ function ScreenshotModal({ isOpen, onClose }) {
       onClose={onClose}
       extraCloseKeyCode={72}
       title={'Share scene'}
+      titleElement={
+        <>
+          <h3
+            style={{
+              fontSize: '20px',
+              marginTop: '26px',
+              marginBottom: '0px',
+              position: 'relative'
+            }}
+          >
+            Share scene
+          </h3>
+        </>
+      }
     >
       <div className={styles.wrapper}>
         <div className={styles.header}>
           {currentUser ? (
-            <div className={styles.inputContainer}>
-              <Input
-                copyToClipboard={true}
-                className={styles.input}
-                tailingIcon={<Copy32Icon />}
-                readOnly={true}
-                leadingSubtext={window.location.href}
+            <div className={styles.forms}>
+              <div className={styles.inputContainer}>
+                <Input
+                  className={styles.input}
+                  defaultValue={inputValue}
+                  value={inputValue}
+                  readOnly={true}
+                  hideBorderAndBackground={true}
+                />
+                <Button
+                  variant="outlinedButton"
+                  onClick={copyToClipboardTailing}
+                  className={styles.button}
+                >
+                  <Copy32Icon />
+                </Button>
+              </div>
+              <Dropdown
+                placeholder="Download scene as..."
+                options={options}
+                onSelect={handleSelect}
+                selectedOptionValue={selectedOption}
+                icon={<Save24Icon />}
+                className={styles.dropdown}
               />
             </div>
           ) : (
@@ -79,14 +125,6 @@ function ScreenshotModal({ isOpen, onClose }) {
         <div
           className={styles.imageWrapper}
           dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
-        />
-        <Dropdown
-          placeholder="Download scene as..."
-          options={options}
-          onSelect={handleSelect}
-          selectedOptionValue={selectedOption}
-          icon={<Save24Icon />}
-          className={styles.dropdown}
         />
       </div>
     </Modal>

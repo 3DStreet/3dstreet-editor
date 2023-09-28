@@ -26,8 +26,8 @@ const id = v4();
  *  errorMessage?: string;
  *  successMessage?: string;
  *  disabled?: boolean;
- *  readonly?: boolean;
- *  copyToClipboard? boolean;
+ *  readOnly?: boolean;
+ *  hideBorderAndBackground?: boolean;
  * }} props
  */
 const Input = ({
@@ -43,19 +43,19 @@ const Input = ({
   placeholder,
   errorMessage,
   successMessage,
+  defaultValue,
   disabled,
-  readonly,
-  copyToClipboard
+  readOnly,
+  hideBorderAndBackground,
+  value
 }) => {
   const inputElement = useRef(null);
-  const copyToClipboardTailing = async () => {
-    try {
-      await navigator.clipboard.writeText(leadingSubtext);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
+  const hideBorderAndBackgroundStyles = {
+    border: 'none',
+    background: 'none',
+    padding: '0px',
+    width: 'calc(100% - 12px)'
   };
-
   return (
     <div className={classnames(styles.wrapper, className)}>
       {label && (
@@ -73,7 +73,6 @@ const Input = ({
           inputElement.current.focus();
         }}
         className={classnames(
-          className,
           styles.inputElementContainer,
           disabled && styles.disabledInputContainer,
           errorMessage &&
@@ -85,6 +84,7 @@ const Input = ({
             !disabled &&
             styles.successInputContainer
         )}
+        style={hideBorderAndBackground && hideBorderAndBackgroundStyles}
       >
         {leadingIcon && (
           <div className={styles.iconContainer}>{leadingIcon}</div>
@@ -100,18 +100,15 @@ const Input = ({
           placeholder={placeholder}
           className={styles.inputElement}
           disabled={disabled}
-          readOnly={readonly}
+          defaultValue={defaultValue}
+          value={value}
+          readOnly={readOnly}
         />
         {tailingSubtext && (
           <span className={styles.subtext}>{tailingSubtext}</span>
         )}
         {tailingIcon && (
-          <div
-            className={styles.iconContainer}
-            onClick={copyToClipboard && copyToClipboardTailing}
-          >
-            {tailingIcon}
-          </div>
+          <div className={styles.iconContainer}>{tailingIcon}</div>
         )}
       </div>
       {errorMessage && !successMessage && !disabled && (
@@ -138,8 +135,8 @@ Input.propTypes = {
   errorMessage: string,
   successMessage: string,
   disabled: bool,
-  readonly: bool,
-  copyToClipboard: bool
+  readOnly: bool,
+  hideBorderAndBackground: bool
 };
 
 export { Input };
