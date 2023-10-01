@@ -45,6 +45,8 @@ export function fileJSON(event) {
 
   reader.onload = function () {
     createElementsFromJSON(reader.result);
+    // update sceneGraph
+    Events.emit('entitycreated', streetContainerEl.sceneEl);
   };
 
   reader.readAsText(event.target.files[0]);
