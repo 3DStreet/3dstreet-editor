@@ -25,7 +25,7 @@
         .inputContainer {
           display: flex;
           align-items: center;
-          min-width: 469px;
+          width: 50%;
 
           .input {
             border: none;
@@ -34,15 +34,32 @@
 
           .button {
             padding: 0px 10px 0px 0px !important;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
+            filter: brightness(85%);
+
             svg {
               width: 30px;
               height: 30px;
+            }
+            &:hover {
+              filter: brightness(100%);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            &:focus {
+              outline: none;
+            }
+
+            &:active {
+              filter: brightness(70%);
+              box-shadow: none;
             }
           }
         }
 
         .dropdown {
-          max-width: 220px;
+          max-width: 50%;
         }
       }
     }
@@ -52,9 +69,7 @@
       padding: 8px 0px 0px;
 
       img {
-        height: 483px;
         width: 100%;
-        object-fit: cover;
       }
     }
   }
