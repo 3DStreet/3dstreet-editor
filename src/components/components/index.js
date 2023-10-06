@@ -10,3 +10,4 @@ export { Logo } from './Logo';
 export { ScreenshotButton } from './ScreenshotButton';
 export { ProfileButton } from './ProfileButton';
 export { SceneCard } from './SceneCard';
+export { SceneEditTitle } from './SceneEditTitle';

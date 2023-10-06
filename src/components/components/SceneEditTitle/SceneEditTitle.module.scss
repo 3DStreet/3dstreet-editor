@@ -1,0 +1,54 @@
+.wrapper {
+  position: absolute;
+  left: 110px;
+  bottom: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+    width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 24px;
+    font-size: 20px !important;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .buttons {
+    display: flex;
+    row-gap: 8px;
+    cursor: pointer;
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .readOnly {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+input {
+  background: none !important;
+  color: #fff !important;
+  font-size: 20px;
+  user-select: text;
+}
+
+input::selection {
+  background-color: #774dee;
+  opacity: 0.4;
+  color: #ffffff;
+}
