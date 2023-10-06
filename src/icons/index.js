@@ -13,5 +13,6 @@ export {
   Cloud24Icon,
   Mangnifier20Icon,
   Edit32Icon,
-  CheckMark32Icon
+  CheckMark32Icon,
+  Copy32Icon
 } from './icons.jsx';
