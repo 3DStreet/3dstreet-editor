@@ -46,6 +46,14 @@ const SceneEditTitle = ({ sceneData }) => {
   const handleChange = (event) => {
     setTitle(event.target.value);
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSaveClick();
+    } else if (event.key === 'Escape') {
+      handleCancelClick();
+    }
+  };
   return (
     <div className={styles.wrapper}>
       {editMode ? (
@@ -54,12 +62,13 @@ const SceneEditTitle = ({ sceneData }) => {
             className={styles.title}
             value={title}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
           <div className={styles.buttons}>
-            <div onClick={handleSaveClick}>
+            <div onClick={handleSaveClick} className={styles.check}>
               <CheckMark32Icon />
             </div>
-            <div onClick={handleCancelClick}>
+            <div onClick={handleCancelClick} className={styles.cross}>
               <Cross32Icon />
             </div>
           </div>
