@@ -54,6 +54,27 @@ const updateScene = async (sceneId, userUID, sceneData, title, version) => {
   }
 };
 
+const updateSceneIdAndTitle = async (sceneId, title) => {
+  try {
+    const userScenesRef = collection(db, 'scenes');
+    const sceneDocRef = doc(userScenesRef, sceneId);
+
+    const sceneSnapshot = await getDoc(sceneDocRef);
+    if (sceneSnapshot.exists()) {
+      await updateDoc(sceneDocRef, {
+        title: title,
+        updateTimestamp: serverTimestamp()
+      });
+
+      console.log('Firebase updateDoc (sceneId and title) fired');
+    } else {
+      throw new Error('No existing sceneSnapshot exists.');
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const isSceneAuthor = async ({ sceneId, authorId }) => {
   if (!sceneId || !authorId) {
     console.log('sceneId or authorId is not provided in isSceneAuthor');
@@ -111,5 +132,6 @@ export {
   getUserScenes,
   generateSceneId,
   isSceneAuthor,
-  getCommunityScenes
+  getCommunityScenes,
+  updateSceneIdAndTitle
 };

@@ -14,6 +14,7 @@ import { injectCSS } from '../lib/utils';
 import { SignInModal } from './modals/SignInModal';
 import { ProfileModal } from './modals/ProfileModal';
 import { ScenesModal } from './modals/ScenesModal';
+import { SceneEditTitle } from './components/SceneEditTitle';
 THREE.ImageUtils.crossOrigin = '';
 // Megahack to include font-awesome.
 injectCSS(
@@ -185,6 +186,8 @@ export default class Main extends Component {
   render() {
     const scene = this.state.sceneEl;
     const isEditor = !!this.state.inspectorEnabled;
+    const sceneData = AFRAME.scenes[0].getAttribute('metadata', 'sceneTitle');
+
     return (
       <div>
         <Logo onToggleEdit={this.toggleEdit} isEditor={isEditor} />
@@ -237,6 +240,11 @@ export default class Main extends Component {
         {this.state.inspectorEnabled && (
           <div id="help">
             <HelpButton />
+          </div>
+        )}
+        {this.state.inspectorEnabled && (
+          <div id="scene-title">
+            <SceneEditTitle sceneData={sceneData} />
           </div>
         )}
         {this.state.inspectorEnabled && (
