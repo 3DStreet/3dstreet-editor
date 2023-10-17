@@ -147,11 +147,15 @@ export default class Toolbar extends Component {
       }
 
       // we want to save, so if we *still* have no sceneID at this point, then create a new one
-      if (!currentSceneId || !!doSaveAs) {
+      if (!currentSceneId || (!!doSaveAs && !isCurrentUserTheSceneAuthor)) {
         console.log(
           'no urlSceneId or doSaveAs is true, therefore generate new one'
         );
+
         currentSceneId = await generateSceneId(this.props.currentUser.uid);
+        if (!doSaveAs) {
+          window.location.hash = `#/scenes/${currentSceneId}.json`;
+        }
         console.log('newly generated currentSceneId', currentSceneId);
         window.location.hash = `#/scenes/${currentSceneId}.json`;
         this.setState({ savedNewDocument: true });

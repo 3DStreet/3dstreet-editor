@@ -8,17 +8,73 @@ import { Copy32Icon, Save24Icon } from '../../../icons';
 import { loginHandler } from '../SignInModal';
 import { useAuthContext } from '../../../contexts';
 import Toolbar from '../../scenegraph/Toolbar';
+import { db, storage } from '../../../services/firebase';
+import html2canvas from 'html2canvas';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import {
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc
+} from 'firebase/firestore';
 
 function ScreenshotModal({ isOpen, onClose }) {
   const storedScreenshot = localStorage.getItem('screenshot');
   const parsedScreenshot = JSON.parse(storedScreenshot);
   const { currentUser } = useAuthContext();
-  const saveScreenshot = (value) => {
+  const saveScreenshot = async (value) => {
     const screenshotEl = document.getElementById('screenshot');
     screenshotEl.play();
     screenshotEl.setAttribute('screentock', 'type', value);
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const aframeScene = document.getElementById('screentock-destination');
+      const canvas = await html2canvas(aframeScene);
+      const resizedCanvas = document.createElement('canvas');
+      resizedCanvas.width = 320;
+      resizedCanvas.height = 240;
+      const context = resizedCanvas.getContext('2d');
+
+      context.drawImage(canvas, 0, 0, 320, 240);
+      const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
+      const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
+
+      const currentUrl = window.location.href;
+      const urlSegments = currentUrl.split('/');
+      const sceneDocId = urlSegments[urlSegments.length - 1].split('.')[0];
+
+      const thumbnailRef = ref(
+        storage,
+        `scenes/${sceneDocId}/files/preview.jpg`
+      );
+
+      const uploadedImg = await uploadBytes(thumbnailRef, blobFile);
+
+      const downloadURL = await getDownloadURL(uploadedImg.ref);
+      const userScenesRef = collection(db, 'scenes');
+      const sceneDocRef = doc(userScenesRef, sceneDocId);
+      const sceneSnapshot = await getDoc(sceneDocRef);
+      if (sceneSnapshot.exists()) {
+        await updateDoc(sceneDocRef, {
+          imagePath: downloadURL,
+          updateTimestamp: serverTimestamp()
+        });
+        console.log('Firebase updateDoc fired');
+      } else {
+        throw new Error('No existing sceneSnapshot exists.');
+      }
+
+      console.log('Thumbnail uploaded and Firestore updated successfully.');
+    } catch (error) {
+      console.error(
+        'Error capturing screenshot and updating Firestore:',
+        error
+      );
+    }
   };
+
   const currentUrl = window.location.href;
   const [inputValue, setInputValue] = useState(currentUrl);
   useEffect(() => {
@@ -61,7 +117,6 @@ function ScreenshotModal({ isOpen, onClose }) {
       console.error('Failed to copy text: ', err);
     }
   };
-
   return (
     <Modal
       className={styles.screenshotModalWrapper}
