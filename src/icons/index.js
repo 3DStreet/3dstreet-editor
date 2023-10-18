@@ -14,5 +14,7 @@ export {
   Mangnifier20Icon,
   Edit32Icon,
   CheckMark32Icon,
-  Copy32Icon
+  Copy32Icon,
+  StaticScenes,
+  Loader
 } from './icons.jsx';

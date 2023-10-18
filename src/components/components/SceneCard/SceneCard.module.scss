@@ -20,6 +20,8 @@
     height: 250px;
     position: relative;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 
     &:hover {
       border: 1px solid #6439df;
@@ -50,5 +52,24 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+  }
+}
+
+.loadingSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  .spinner {
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
