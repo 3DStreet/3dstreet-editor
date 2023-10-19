@@ -9,7 +9,6 @@ import { loginHandler } from '../SignInModal';
 import { useAuthContext } from '../../../contexts';
 import Toolbar from '../../scenegraph/Toolbar';
 import { db, storage } from '../../../services/firebase';
-import html2canvas from 'html2canvas';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import {
   collection,
@@ -30,14 +29,15 @@ function ScreenshotModal({ isOpen, onClose }) {
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const aframeScene = document.getElementById('screentock-destination');
-      const canvas = await html2canvas(aframeScene);
+      const screentockImgElement = document.getElementById(
+        'screentock-destination'
+      );
       const resizedCanvas = document.createElement('canvas');
       resizedCanvas.width = 320;
       resizedCanvas.height = 240;
       const context = resizedCanvas.getContext('2d');
 
-      context.drawImage(canvas, 0, 0, 320, 240);
+      context.drawImage(screentockImgElement, 0, 0, 320, 240);
       const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
       const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
 
