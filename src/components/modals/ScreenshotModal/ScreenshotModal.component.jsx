@@ -32,12 +32,38 @@ function ScreenshotModal({ isOpen, onClose }) {
       const screentockImgElement = document.getElementById(
         'screentock-destination'
       );
+
+      // Get the original image dimensions
+      const originalWidth = screentockImgElement.naturalWidth;
+      const originalHeight = screentockImgElement.naturalHeight;
+
+      // Define the target dimensions
+      const targetWidth = 320;
+      const targetHeight = 240;
+
+      // Calculate the scale factors
+      const scaleX = targetWidth / originalWidth;
+      const scaleY = targetHeight / originalHeight;
+
+      // Use the larger scale factor to fill the entire space
+      const scale = Math.max(scaleX, scaleY);
+
+      // Calculate the new dimensions
+      const newWidth = originalWidth * scale;
+      const newHeight = originalHeight * scale;
+
       const resizedCanvas = document.createElement('canvas');
-      resizedCanvas.width = 320;
-      resizedCanvas.height = 240;
+      resizedCanvas.width = targetWidth;
+      resizedCanvas.height = targetHeight;
       const context = resizedCanvas.getContext('2d');
 
-      context.drawImage(screentockImgElement, 0, 0, 320, 240);
+      // Calculate the position to center the image
+      const posX = (targetWidth - newWidth) / 2;
+      const posY = (targetHeight - newHeight) / 2;
+
+      // Draw the image on the canvas with the new dimensions and position
+      context.drawImage(screentockImgElement, posX, posY, newWidth, newHeight);
+      // Rest of the code...
       const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
       const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
 
