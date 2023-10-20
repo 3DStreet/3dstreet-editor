@@ -96,7 +96,6 @@ function ScreenshotModal({ isOpen, onClose }) {
     screenshotEl.play();
     screenshotEl.setAttribute('screentock', 'type', value);
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
-    uploadThumbnailImage();
   };
 
   const currentUrl = window.location.href;
