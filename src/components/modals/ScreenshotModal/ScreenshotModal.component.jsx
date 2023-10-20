@@ -18,6 +18,75 @@ import {
   updateDoc
 } from 'firebase/firestore';
 
+const uploadThumbnailImage = async () => {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const screentockImgElement = document.getElementById(
+      'screentock-destination'
+    );
+
+    // Get the original image dimensions
+    const originalWidth = screentockImgElement.naturalWidth;
+    const originalHeight = screentockImgElement.naturalHeight;
+
+    // Define the target dimensions
+    const targetWidth = 320;
+    const targetHeight = 240;
+
+    // Calculate the scale factors
+    const scaleX = targetWidth / originalWidth;
+    const scaleY = targetHeight / originalHeight;
+
+    // Use the larger scale factor to fill the entire space
+    const scale = Math.max(scaleX, scaleY);
+
+    // Calculate the new dimensions
+    const newWidth = originalWidth * scale;
+    const newHeight = originalHeight * scale;
+
+    const resizedCanvas = document.createElement('canvas');
+    resizedCanvas.width = targetWidth;
+    resizedCanvas.height = targetHeight;
+    const context = resizedCanvas.getContext('2d');
+
+    // Calculate the position to center the image
+    const posX = (targetWidth - newWidth) / 2;
+    const posY = (targetHeight - newHeight) / 2;
+
+    // Draw the image on the canvas with the new dimensions and position
+    context.drawImage(screentockImgElement, posX, posY, newWidth, newHeight);
+    // Rest of the code...
+    const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
+    const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
+
+    const currentUrl = window.location.href;
+    const urlSegments = currentUrl.split('/');
+    const sceneDocId = urlSegments[urlSegments.length - 1].split('.')[0];
+
+    const thumbnailRef = ref(storage, `scenes/${sceneDocId}/files/preview.jpg`);
+
+    const uploadedImg = await uploadBytes(thumbnailRef, blobFile);
+
+    const downloadURL = await getDownloadURL(uploadedImg.ref);
+    const userScenesRef = collection(db, 'scenes');
+    const sceneDocRef = doc(userScenesRef, sceneDocId);
+    const sceneSnapshot = await getDoc(sceneDocRef);
+    if (sceneSnapshot.exists()) {
+      await updateDoc(sceneDocRef, {
+        imagePath: downloadURL,
+        updateTimestamp: serverTimestamp()
+      });
+      console.log('Firebase updateDoc fired');
+    } else {
+      throw new Error('No existing sceneSnapshot exists.');
+    }
+
+    console.log('Thumbnail uploaded and Firestore updated successfully.');
+  } catch (error) {
+    console.error('Error capturing screenshot and updating Firestore:', error);
+  }
+};
+
 function ScreenshotModal({ isOpen, onClose }) {
   const storedScreenshot = localStorage.getItem('screenshot');
   const parsedScreenshot = JSON.parse(storedScreenshot);
@@ -27,78 +96,7 @@ function ScreenshotModal({ isOpen, onClose }) {
     screenshotEl.play();
     screenshotEl.setAttribute('screentock', 'type', value);
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const screentockImgElement = document.getElementById(
-        'screentock-destination'
-      );
-
-      // Get the original image dimensions
-      const originalWidth = screentockImgElement.naturalWidth;
-      const originalHeight = screentockImgElement.naturalHeight;
-
-      // Define the target dimensions
-      const targetWidth = 320;
-      const targetHeight = 240;
-
-      // Calculate the scale factors
-      const scaleX = targetWidth / originalWidth;
-      const scaleY = targetHeight / originalHeight;
-
-      // Use the larger scale factor to fill the entire space
-      const scale = Math.max(scaleX, scaleY);
-
-      // Calculate the new dimensions
-      const newWidth = originalWidth * scale;
-      const newHeight = originalHeight * scale;
-
-      const resizedCanvas = document.createElement('canvas');
-      resizedCanvas.width = targetWidth;
-      resizedCanvas.height = targetHeight;
-      const context = resizedCanvas.getContext('2d');
-
-      // Calculate the position to center the image
-      const posX = (targetWidth - newWidth) / 2;
-      const posY = (targetHeight - newHeight) / 2;
-
-      // Draw the image on the canvas with the new dimensions and position
-      context.drawImage(screentockImgElement, posX, posY, newWidth, newHeight);
-      // Rest of the code...
-      const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
-      const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
-
-      const currentUrl = window.location.href;
-      const urlSegments = currentUrl.split('/');
-      const sceneDocId = urlSegments[urlSegments.length - 1].split('.')[0];
-
-      const thumbnailRef = ref(
-        storage,
-        `scenes/${sceneDocId}/files/preview.jpg`
-      );
-
-      const uploadedImg = await uploadBytes(thumbnailRef, blobFile);
-
-      const downloadURL = await getDownloadURL(uploadedImg.ref);
-      const userScenesRef = collection(db, 'scenes');
-      const sceneDocRef = doc(userScenesRef, sceneDocId);
-      const sceneSnapshot = await getDoc(sceneDocRef);
-      if (sceneSnapshot.exists()) {
-        await updateDoc(sceneDocRef, {
-          imagePath: downloadURL,
-          updateTimestamp: serverTimestamp()
-        });
-        console.log('Firebase updateDoc fired');
-      } else {
-        throw new Error('No existing sceneSnapshot exists.');
-      }
-
-      console.log('Thumbnail uploaded and Firestore updated successfully.');
-    } catch (error) {
-      console.error(
-        'Error capturing screenshot and updating Firestore:',
-        error
-      );
-    }
+    uploadThumbnailImage();
   };
 
   const currentUrl = window.location.href;
@@ -210,7 +208,7 @@ function ScreenshotModal({ isOpen, onClose }) {
         />
         <Button
           variant="outlined"
-          onClick={saveScreenshot}
+          onClick={uploadThumbnailImage}
           className={styles.thumbnailButton}
         >
           Set as scene thumbnail
