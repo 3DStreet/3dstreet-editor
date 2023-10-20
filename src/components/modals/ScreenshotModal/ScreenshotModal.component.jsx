@@ -179,7 +179,7 @@ function ScreenshotModal({ isOpen, onClose }) {
                   hideBorderAndBackground={true}
                 />
                 <Button
-                  variant="outlinedButton"
+                  variant="toolbtn"
                   onClick={copyToClipboardTailing}
                   className={styles.button}
                 >
@@ -208,6 +208,13 @@ function ScreenshotModal({ isOpen, onClose }) {
           className={styles.imageWrapper}
           dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
         />
+        <Button
+          variant="outlined"
+          onClick={saveScreenshot}
+          className={styles.thumbnailButton}
+        >
+          Set as scene thumbnail
+        </Button>
       </div>
     </Modal>
   );
