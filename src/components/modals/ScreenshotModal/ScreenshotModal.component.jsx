@@ -143,6 +143,7 @@ function ScreenshotModal({ isOpen, onClose }) {
       console.error('Failed to copy text: ', err);
     }
   };
+
   return (
     <Modal
       className={styles.screenshotModalWrapper}

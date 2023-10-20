@@ -151,7 +151,6 @@ export default class Toolbar extends Component {
         console.log(
           'no urlSceneId or doSaveAs is true, therefore generate new one'
         );
-
         currentSceneId = await generateSceneId(this.props.currentUser.uid);
         console.log('newly generated currentSceneId', currentSceneId);
         window.location.hash = `#/scenes/${currentSceneId}.json`;
