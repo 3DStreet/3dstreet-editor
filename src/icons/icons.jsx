@@ -283,6 +283,29 @@ const Copy32Icon = () => (
   </svg>
 );
 
+const DropdownIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+  >
+    <path
+      d="M11.5 5C11.5 5.82843 10.8284 6.5 10 6.5C9.17157 6.5 8.5 5.82843 8.5 5C8.5 4.17157 9.17157 3.5 10 3.5C10.8284 3.5 11.5 4.17157 11.5 5Z"
+      fill="#DBDBDB"
+    />
+    <path
+      d="M11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10C8.5 9.17157 9.17157 8.5 10 8.5C10.8284 8.5 11.5 9.17157 11.5 10Z"
+      fill="#DBDBDB"
+    />
+    <path
+      d="M11.5 15C11.5 15.8284 10.8284 16.5 10 16.5C9.17157 16.5 8.5 15.8284 8.5 15C8.5 14.1716 9.17157 13.5 10 13.5C10.8284 13.5 11.5 14.1716 11.5 15Z"
+      fill="#DBDBDB"
+    />
+  </svg>
+);
+
 export {
   Camera32Icon,
   Save24Icon,
@@ -299,5 +322,6 @@ export {
   Upload24Icon,
   Edit32Icon,
   CheckMark32Icon,
-  Copy32Icon
+  Copy32Icon,
+  DropdownIcon
 };

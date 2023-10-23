@@ -13,21 +13,21 @@ import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
 import { Load24Icon, Upload24Icon } from '../../../icons';
 
+const tabs = [
+  {
+    label: 'My Scenes',
+    value: 'owner'
+  },
+  {
+    label: 'Community Scenes',
+    value: 'community'
+  }
+];
+
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
-  const [scenesData, setScenesData] = useState([]);
-  const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const tabs = [
-    {
-      label: 'My Scenes',
-      value: 'owner'
-    },
-    {
-      label: 'Community Scenes',
-      value: 'community'
-    }
-  ];
-
+  const [scenesData, setScenesData] = useState();
+  const [scenesDataCommunity, setScenesDataCommunity] = useState();
   const [selectedTab, setSelectedTab] = useState('owner');
 
   useEffect(() => {
@@ -155,6 +155,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
                 selectedTab === 'owner' ? scenesData : scenesDataCommunity
               }
               handleSceneClick={handleSceneClick}
+              setScenesData={setScenesData}
             />
           ) : (
             <div className={styles.signInFirst}>

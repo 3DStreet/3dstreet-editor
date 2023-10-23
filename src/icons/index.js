@@ -14,5 +14,6 @@ export {
   Mangnifier20Icon,
   Edit32Icon,
   CheckMark32Icon,
-  Copy32Icon
+  Copy32Icon,
+  DropdownIcon
 } from './icons.jsx';
