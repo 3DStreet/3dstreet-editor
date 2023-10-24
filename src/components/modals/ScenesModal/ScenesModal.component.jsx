@@ -165,6 +165,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
             handleSceneClick={handleSceneClick}
             setScenesData={setScenesData}
             isLoading={isLoading}
+            isCommunityTabSelected={selectedTab === 'community'}
           />
         ) : (
           <div className={styles.signInFirst}>

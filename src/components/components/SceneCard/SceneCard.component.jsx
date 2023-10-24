@@ -16,7 +16,12 @@ function LastModified({ timestamp }) {
   return <p className={styles.date}>Last modified {timeAgo}</p>;
 }
 
-const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
+const SceneCard = ({
+  scenesData,
+  handleSceneClick,
+  setScenesData,
+  isCommunityTabSelected
+}) => {
   const [showMenu, setShowMenu] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [title, setTitle] = useState('');
@@ -151,9 +156,11 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
                     <LastModified timestamp={scene.data().updateTimestamp} />
                   </p>
                 </div>
-                <div onClick={() => toggleMenu(index)}>
-                  <DropdownIcon />
-                </div>
+                {!isCommunityTabSelected && (
+                  <div onClick={() => toggleMenu(index)}>
+                    <DropdownIcon />
+                  </div>
+                )}
               </div>
               {/* Placeholder to return LastModified here when username + thumbnail done */}
               {/* <p className={styles.date}>
