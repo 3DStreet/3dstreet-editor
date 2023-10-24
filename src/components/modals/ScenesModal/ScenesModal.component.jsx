@@ -11,7 +11,7 @@ import {
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
-import { Load24Icon, Upload24Icon } from '../../../icons';
+import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
 
 const tabs = [
   {
@@ -26,16 +26,21 @@ const tabs = [
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
+
   const [scenesData, setScenesData] = useState();
   const [scenesDataCommunity, setScenesDataCommunity] = useState();
+  const [isLoading, setLoading] = useState(false);
+
   const [selectedTab, setSelectedTab] = useState('owner');
 
   useEffect(() => {
     if (!isOpen) return; // Only proceed if the modal is open
 
     async function fetchScenesCommunity() {
+      setLoading(true);
       const communityScenes = await getCommunityScenes();
       setScenesDataCommunity(communityScenes);
+      setLoading(false);
     }
     fetchScenesCommunity();
   }, [isOpen]);
@@ -148,34 +153,37 @@ const ScenesModal = ({ isOpen, onClose }) => {
       }
     >
       <div className={styles.contentWrapper}>
-        <>
-          {currentUser || selectedTab !== 'owner' ? (
-            <SceneCard
-              scenesData={
-                selectedTab === 'owner' ? scenesData : scenesDataCommunity
-              }
-              handleSceneClick={handleSceneClick}
-              setScenesData={setScenesData}
-            />
-          ) : (
-            <div className={styles.signInFirst}>
-              <div className={styles.title}>
-                To view your scenes you have to sign in:
-              </div>
-              <div className={styles.buttons}>
-                <Button onClick={() => loginHandler()}>
-                  Sign in to 3DStreet Cloud
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => setSelectedTab('community')}
-                >
-                  View Community Scenes
-                </Button>
-              </div>
+        {isLoading ? (
+          <div className={styles.loadingSpinner}>
+            <Loader className={styles.spinner} />
+          </div>
+        ) : currentUser || selectedTab !== 'owner' ? (
+          <SceneCard
+            scenesData={
+              selectedTab === 'owner' ? scenesData : scenesDataCommunity
+            }
+            handleSceneClick={handleSceneClick}
+            setScenesData={setScenesData}
+            isLoading={isLoading}
+          />
+        ) : (
+          <div className={styles.signInFirst}>
+            <div className={styles.title}>
+              To view your scenes you have to sign in:
             </div>
-          )}
-        </>
+            <div className={styles.buttons}>
+              <Button onClick={() => loginHandler()}>
+                Sign in to 3DStreet Cloud
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setSelectedTab('community')}
+              >
+                View Community Scenes
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </Modal>
   );
