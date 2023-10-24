@@ -20,6 +20,7 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
   const [showMenu, setShowMenu] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [title, setTitle] = useState('');
+  const editInputRef = React.useRef(null);
 
   const toggleMenu = (index) => {
     if (showMenu === index) {
@@ -53,6 +54,12 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
     setEditIndex(index);
     setTitle(scenesData[index].data().title);
     setShowMenu(null);
+
+    // After state updates, focus and select the input content
+    setTimeout(() => {
+      editInputRef.current.focus();
+      editInputRef.current.select();
+    }, 0);
   };
 
   const handleSaveClick = async () => {
@@ -121,6 +128,7 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
           <div>
             {editIndex === index ? (
               <input
+                ref={editInputRef}
                 type="text"
                 defaultValue={scene.data().title}
                 className={styles.editInput}
