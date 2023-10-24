@@ -100,12 +100,6 @@ export default class Toolbar extends Component {
     }
   };
 
-  getSceneUuidFromURLHash = () => {
-    const currentHash = window.location.hash;
-    const match = currentHash.match(/#\/scenes\/([a-zA-Z0-9-]+)\.json/);
-    return match && match[1] ? match[1] : null;
-  };
-
   cloudSaveAsHandler = async () => {
     this.cloudSaveHandler({ doSaveAs: true });
   };
@@ -120,21 +114,8 @@ export default class Toolbar extends Component {
 
       // determine what is the currentSceneId?
       // how: first check state, if not there then use URL hash, otherwise null
-      let currentSceneId = AFRAME.scenes[0].getAttribute('metadata').sceneId;
-      console.log('currentSceneId from scene metadata', currentSceneId);
-      let currentSceneTitle =
-        AFRAME.scenes[0].getAttribute('metadata').sceneTitle;
-      console.log('currentSceneTitle', currentSceneTitle);
-
-      const urlSceneId = this.getSceneUuidFromURLHash();
-      console.log('urlSceneId', urlSceneId);
-      if (!currentSceneId) {
-        console.log('no currentSceneId from state');
-        if (urlSceneId) {
-          currentSceneId = urlSceneId;
-          console.log('setting currentSceneId to urlSceneId');
-        }
-      }
+      let currentSceneId = STREET.utils.getCurrentSceneId();
+      let currentSceneTitle = STREET.utils.getCurrentSceneTitle();
 
       // if owner != doc.id then doSaveAs = true;
       const isCurrentUserTheSceneAuthor = await isSceneAuthor({

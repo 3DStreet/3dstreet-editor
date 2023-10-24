@@ -59,9 +59,7 @@ const uploadThumbnailImage = async () => {
     const thumbnailDataUrl = resizedCanvas.toDataURL('image/jpeg', 0.5);
     const blobFile = await fetch(thumbnailDataUrl).then((res) => res.blob());
 
-    const currentUrl = window.location.href;
-    const urlSegments = currentUrl.split('/');
-    const sceneDocId = urlSegments[urlSegments.length - 1].split('.')[0];
+    const sceneDocId = STREET.utils.getCurrentSceneId();
 
     const thumbnailRef = ref(storage, `scenes/${sceneDocId}/files/preview.jpg`);
 
