@@ -32,10 +32,21 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
 
   const handleDeleteScene = (scene, e) => {
     e.stopPropagation();
-    deleteScene(scene.id);
-    const updatedScenesData = scenesData.filter((item) => item.id !== scene.id);
-    setScenesData(updatedScenesData);
-    setShowMenu(null);
+
+    // Show the system confirm dialog
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this scene?'
+    );
+
+    // Only proceed with the delete if the user pressed OK
+    if (isConfirmed) {
+      deleteScene(scene.id);
+      const updatedScenesData = scenesData.filter(
+        (item) => item.id !== scene.id
+      );
+      setScenesData(updatedScenesData);
+      setShowMenu(null);
+    }
   };
 
   const handleEditScene = (index) => {
@@ -125,16 +136,21 @@ const SceneCard = ({ scenesData, handleSceneClick, setScenesData }) => {
             <>
               <div className={styles.userBlock}>
                 <div className={styles.userName}>
-                  <img src={'../../../../assets/avatar.svg'} alt="avatar" />
-                  <p>User Name</p>
+                  {/* Placeholder for username + thumbnail support */}
+                  {/* <img src={'../../../../assets/avatar.svg'} alt="avatar" /> */}
+                  {/* <p>User Name</p> */}
+                  <p>
+                    <LastModified timestamp={scene.data().updateTimestamp} />
+                  </p>
                 </div>
                 <div onClick={() => toggleMenu(index)}>
                   <DropdownIcon />
                 </div>
               </div>
-              <p className={styles.date}>
+              {/* Placeholder to return LastModified here when username + thumbnail done */}
+              {/* <p className={styles.date}>
                 <LastModified timestamp={scene.data().updateTimestamp} />
-              </p>
+              </p> */}
             </>
           ) : (
             <div className={styles.editButtons}>
