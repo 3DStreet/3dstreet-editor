@@ -157,9 +157,8 @@ export default class Toolbar extends Component {
         filteredData.version
       );
 
-      // for debug purposes to confirm "round trip" of saving scene correctly and reloading; this should be removed when confirmed working
-      // const newUrl = `${location.protocol}//${location.host}/#/scenes/${currentSceneId}.json`;
-      // window.open(newUrl, '_blank');
+      // make sure to update sceneId with new one in metadata component!
+      AFRAME.scenes[0].setAttribute('metadata', 'sceneId: ' + currentSceneId);
 
       // Change the hash URL without reloading
       window.location.hash = `#/scenes/${currentSceneId}.json`;
