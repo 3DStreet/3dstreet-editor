@@ -361,38 +361,6 @@ export default class Toolbar extends Component {
                     </div>
                     Save As...
                   </Button>
-                  <Button
-                    onClick={this.exportSceneToGLTF}
-                    variant="white"
-                    disabled={this.state.isSavingScene}
-                  >
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Save24Icon />
-                    </div>
-                    Download glTF
-                  </Button>
-                  <Button
-                    onClick={this.convertToObject}
-                    variant="white"
-                    disabled={this.state.isSavingScene}
-                  >
-                    <div
-                      className="icon"
-                      style={{
-                        display: 'flex',
-                        margin: '-2.5px 0px -2.5px -2px'
-                      }}
-                    >
-                      <Save24Icon />
-                    </div>
-                    Download 3DStreet JSON
-                  </Button>
                 </div>
               )}
             </div>
