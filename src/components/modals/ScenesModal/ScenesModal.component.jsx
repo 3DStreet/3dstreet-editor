@@ -17,7 +17,14 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const scenesPerPage = 20;
+  const [totalDisplayedUserScenes, setTotalDisplayedUserScenes] =
+    useState(scenesPerPage);
+  const [totalDisplayedCommunityScenes, setTotalDisplayedCommunityScenes] =
+    useState(scenesPerPage);
+  const [isLoadingScenes, setIsLoadingScenes] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const tabs = [
     {
       label: 'My Scenes',
@@ -30,28 +37,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
   ];
 
   const [selectedTab, setSelectedTab] = useState('owner');
-
-  useEffect(() => {
-    if (!isOpen) return; // Only proceed if the modal is open
-
-    async function fetchScenesCommunity() {
-      setLoading(true);
-      const communityScenes = await getCommunityScenes();
-      setScenesDataCommunity(communityScenes);
-      setLoading(false);
-    }
-    fetchScenesCommunity();
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || !currentUser) return; // Only proceed if modal open and currentUser exists
-
-    async function fetchScenesUser() {
-      const userScenes = await getUserScenes(currentUser.uid);
-      setScenesData(userScenes);
-    }
-    fetchScenesUser();
-  }, [currentUser, isOpen]);
 
   const handleSceneClick = (scene) => {
     if (scene.data() && scene.data().data) {
@@ -78,6 +63,78 @@ const ScenesModal = ({ isOpen, onClose }) => {
       console.error('Scene data is undefined or invalid.');
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoadingScenes(true);
+
+      let collections;
+      if (selectedTab === 'owner') {
+        collections = await getUserScenes(currentUser.uid);
+        setScenesData(collections.slice(0, scenesPerPage));
+      } else {
+        collections = await getCommunityScenes();
+        setScenesDataCommunity(collections.slice(0, scenesPerPage));
+      }
+
+      setIsLoadingScenes(false);
+    };
+
+    fetchData();
+  }, [isOpen, currentUser, selectedTab]);
+
+  const fetchUserScenes = async (start, end) => {
+    const userScenes = await getUserScenes(currentUser.uid);
+    return userScenes.slice(start, end);
+  };
+
+  const fetchCommunityScenes = async (start, end) => {
+    const communityScenes = await getCommunityScenes();
+    return communityScenes.slice(start, end);
+  };
+
+  const loadData = async (start, end) => {
+    setIsLoading(true);
+
+    if (selectedTab === 'owner') {
+      const userScenes = await fetchUserScenes(start, end);
+      setScenesData([...scenesData, ...userScenes]);
+      setTotalDisplayedUserScenes(end);
+    } else {
+      const communityScenes = await fetchCommunityScenes(start, end);
+      setScenesDataCommunity([...scenesDataCommunity, ...communityScenes]);
+      setTotalDisplayedCommunityScenes(end);
+    }
+
+    setIsLoading(false);
+  };
+
+  const loadMoreScenes = () => {
+    if (selectedTab === 'owner') {
+      const start = totalDisplayedUserScenes;
+      const end = start + scenesPerPage;
+      loadData(start, end);
+    } else {
+      const start = totalDisplayedCommunityScenes;
+      const end = start + scenesPerPage;
+      loadData(start, end);
+    }
+  };
+
+  useEffect(() => {
+    const preloadInitialData = async () => {
+      if (selectedTab === 'owner') {
+        const collections = await getUserScenes(currentUser.uid);
+        setScenesData(collections.slice(0, scenesPerPage));
+      } else {
+        const collections = await getCommunityScenes();
+        setScenesDataCommunity(collections.slice(0, scenesPerPage));
+      }
+    };
+
+    preloadInitialData();
+  }, [selectedTab, currentUser]);
+
   return (
     <Modal
       className={styles.modalWrapper}
@@ -151,17 +208,18 @@ const ScenesModal = ({ isOpen, onClose }) => {
       }
     >
       <div className={styles.contentWrapper}>
-        {isLoading ? (
+        {isLoadingScenes ? (
           <div className={styles.loadingSpinner}>
             <Loader className={styles.spinner} />
           </div>
         ) : currentUser || selectedTab !== 'owner' ? (
           <SceneCard
             scenesData={
-              selectedTab === 'owner' ? scenesData : scenesDataCommunity
+              selectedTab === 'owner'
+                ? scenesData.slice(0, totalDisplayedUserScenes)
+                : scenesDataCommunity.slice(0, totalDisplayedCommunityScenes)
             }
             handleSceneClick={handleSceneClick}
-            isLoading={isLoading}
           />
         ) : (
           <div className={styles.signInFirst}>
@@ -179,6 +237,26 @@ const ScenesModal = ({ isOpen, onClose }) => {
                 View Community Scenes
               </Button>
             </div>
+          </div>
+        )}
+        {!isLoadingScenes && isLoading ? (
+          <div className={styles.loadingSpinner}>
+            <Loader className={styles.spinner} />
+          </div>
+        ) : (
+          <div className={styles.loadMore}>
+            {selectedTab === 'owner' &&
+              totalDisplayedUserScenes <= scenesData.length && (
+                <Button className={styles.button} onClick={loadMoreScenes}>
+                  Load More
+                </Button>
+              )}
+            {selectedTab === 'community' &&
+              totalDisplayedCommunityScenes <= scenesDataCommunity.length && (
+                <Button className={styles.button} onClick={loadMoreScenes}>
+                  Load More
+                </Button>
+              )}
           </div>
         )}
       </div>
