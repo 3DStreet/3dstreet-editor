@@ -25,7 +25,9 @@ const SceneCard = ({ scenesData, handleSceneClick }) => (
         <div
           className={styles.img}
           style={{
-            backgroundImage: `url(${ScenePlaceholder})`,
+            backgroundImage: `url(${
+              scene.data().imagePath || ScenePlaceholder
+            })`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
