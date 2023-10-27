@@ -66,13 +66,21 @@ const SceneCard = ({
     }, 0);
   };
 
-  const handleSaveClick = async () => {
+  const handleSaveTitle = async () => {
     try {
       const scene = scenesData[editIndex];
       await updateSceneIdAndTitle(scene.id, editInputValue);
       setEditIndex(null);
+      AFRAME.scenes[0].components['notify'].message(
+        `New scene title saved, reopen modal to see changes: ${editInputValue}`,
+        'success'
+      );
     } catch (error) {
       console.error('Error with update title', error);
+      AFRAME.scenes[0].components['notify'].message(
+        `Error updating scene title: ${error}`,
+        'error'
+      );
     }
   };
 
@@ -92,7 +100,7 @@ const SceneCard = ({
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleSaveClick();
+      handleSaveTitle();
     } else if (event.key === 'Escape') {
       handleCancelClick();
     }
@@ -170,7 +178,7 @@ const SceneCard = ({
               <Button
                 variant="toolbtn"
                 className={styles.editButton}
-                onClick={handleSaveClick}
+                onClick={handleSaveTitle}
                 disabled={editInputValue === scene.data().title}
               >
                 Save changes
