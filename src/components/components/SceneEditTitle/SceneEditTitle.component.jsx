@@ -7,11 +7,19 @@ const SceneEditTitle = ({ sceneData }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(sceneData?.sceneTitle);
 
+  const getSceneIdFromURL = () => {
+    const url = window.location.href;
+    const match = url.match(/#\/scenes\/([a-f0-9-]+)\.json/);
+    return match ? match[1] : null;
+  };
+
+  const sceneId = getSceneIdFromURL();
+
   useEffect(() => {
-    if (sceneData && sceneData.sceneTitle !== undefined) {
+    if (sceneData.sceneId === sceneId) {
       setTitle(sceneData.sceneTitle);
     }
-  }, [sceneData?.sceneTitle]);
+  }, [sceneData?.sceneTitle, sceneData?.sceneId, sceneId]);
 
   const handleEditClick = () => {
     const newTitle = prompt('Edit the title:', title);
@@ -26,7 +34,6 @@ const SceneEditTitle = ({ sceneData }) => {
 
   const handleSaveClick = async (newTitle) => {
     setEditMode(false);
-
     try {
       await updateSceneIdAndTitle(sceneData?.sceneId, newTitle);
 

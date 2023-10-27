@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ScenePlaceholder from '../../../../assets/scene.png';
 import styles from './SceneCard.module.scss';
 import { formatDistanceToNow } from 'date-fns';
@@ -20,12 +20,13 @@ const SceneCard = ({
   scenesData,
   handleSceneClick,
   setScenesData,
-  isCommunityTabSelected
+  isCommunityTabSelected,
+  setIsExtraCloseEnabled
 }) => {
   const [showMenu, setShowMenu] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
-  const [title, setTitle] = useState('');
-  const editInputRef = React.useRef(null);
+  const [editInputValue, setEditInputValue] = useState('');
+  const editInputRef = useRef(null);
 
   const toggleMenu = (index) => {
     if (showMenu === index) {
@@ -57,9 +58,9 @@ const SceneCard = ({
 
   const handleEditScene = (index) => {
     setEditIndex(index);
-    setTitle(scenesData[index].data().title);
+    setEditInputValue(scenesData[index].data().title);
     setShowMenu(null);
-
+    setIsExtraCloseEnabled(true);
     // After state updates, focus and select the input content
     setTimeout(() => {
       editInputRef.current.focus();
@@ -70,8 +71,8 @@ const SceneCard = ({
   const handleSaveClick = async () => {
     try {
       const scene = scenesData[editIndex];
-      await updateSceneIdAndTitle(scene.id, title);
-      AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', title);
+      await updateSceneIdAndTitle(scene.id, editInputValue);
+      AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', editInputValue);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', scene.id);
       setEditIndex(null);
     } catch (error) {
@@ -84,13 +85,13 @@ const SceneCard = ({
       scenesData[editIndex] &&
       scenesData[editIndex].data().title !== undefined
     ) {
-      setTitle(scenesData[editIndex].data().title);
+      setEditInputValue(scenesData[editIndex].data().title);
     }
     setEditIndex(null);
   };
 
   const handleChange = (event) => {
-    setTitle(event.target.value);
+    setEditInputValue(event.target.value);
   };
 
   const handleKeyDown = (event) => {
@@ -100,7 +101,6 @@ const SceneCard = ({
       handleCancelClick();
     }
   };
-
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
@@ -140,7 +140,7 @@ const SceneCard = ({
                 defaultValue={scene.data().title}
                 className={styles.editInput}
                 onChange={handleChange}
-                value={title}
+                value={editInputValue}
                 onKeyDown={handleKeyDown}
               />
             ) : (
@@ -175,7 +175,7 @@ const SceneCard = ({
                 variant="toolbtn"
                 className={styles.editButton}
                 onClick={handleSaveClick}
-                disabled={title === scene.data().title}
+                disabled={editInputValue === scene.data().title}
               >
                 Save changes
               </Button>
