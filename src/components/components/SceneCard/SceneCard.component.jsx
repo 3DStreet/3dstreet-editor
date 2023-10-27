@@ -20,8 +20,7 @@ const SceneCard = ({
   scenesData,
   handleSceneClick,
   setScenesData,
-  isCommunityTabSelected,
-  setIsExtraCloseEnabled
+  isCommunityTabSelected
 }) => {
   const [showMenu, setShowMenu] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
@@ -60,7 +59,6 @@ const SceneCard = ({
     setEditIndex(index);
     setEditInputValue(scenesData[index].data().title);
     setShowMenu(null);
-    setIsExtraCloseEnabled(true);
     // After state updates, focus and select the input content
     setTimeout(() => {
       editInputRef.current.focus();

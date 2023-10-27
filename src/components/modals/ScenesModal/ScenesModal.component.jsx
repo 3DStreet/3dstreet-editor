@@ -30,7 +30,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const [scenesData, setScenesData] = useState();
   const [scenesDataCommunity, setScenesDataCommunity] = useState();
   const [isLoading, setLoading] = useState(false);
-  const [isExtraCloseEnabled, setIsExtraCloseEnabled] = useState(false);
   const [selectedTab, setSelectedTab] = useState('owner');
 
   useEffect(() => {
@@ -85,7 +84,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
       className={styles.modalWrapper}
       isOpen={isOpen}
       onClose={onClose}
-      extraCloseKeyCode={!isExtraCloseEnabled && 72}
       currentUser={currentUser}
       selectedTab={selectedTab}
       title="Open scene"
@@ -166,7 +164,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
             setScenesData={setScenesData}
             isLoading={isLoading}
             isCommunityTabSelected={selectedTab === 'community'}
-            setIsExtraCloseEnabled={setIsExtraCloseEnabled}
           />
         ) : (
           <div className={styles.signInFirst}>
