@@ -80,7 +80,9 @@ const SceneEditTitle = ({ sceneData }) => {
         </div>
       ) : (
         <div className={styles.readOnly}>
-          <p className={styles.title}>{title}</p>
+          <p className={styles.title} onClick={handleEditClick}>
+            {title}
+          </p>
           {!editMode && (
             <div className={styles.editButton} onClick={handleEditClick}>
               <Edit32Icon />
