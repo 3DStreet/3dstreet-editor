@@ -70,8 +70,6 @@ const SceneCard = ({
     try {
       const scene = scenesData[editIndex];
       await updateSceneIdAndTitle(scene.id, editInputValue);
-      AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', editInputValue);
-      AFRAME.scenes[0].setAttribute('metadata', 'sceneId', scene.id);
       setEditIndex(null);
     } catch (error) {
       console.error('Error with update title', error);
