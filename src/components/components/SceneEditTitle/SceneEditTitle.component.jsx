@@ -7,13 +7,7 @@ const SceneEditTitle = ({ sceneData }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(sceneData?.sceneTitle);
 
-  const getSceneIdFromURL = () => {
-    const url = window.location.href;
-    const match = url.match(/#\/scenes\/([a-f0-9-]+)\.json/);
-    return match ? match[1] : null;
-  };
-
-  const sceneId = getSceneIdFromURL();
+  const sceneId = STREET.utils.getCurrentSceneId();
 
   useEffect(() => {
     if (sceneData.sceneId === sceneId) {
