@@ -21,20 +21,27 @@ const SceneEditTitle = ({ sceneData }) => {
     if (newTitle !== null) {
       if (newTitle !== title) {
         setTitle(newTitle);
-        handleSaveClick(newTitle);
+        saveNewTitle(newTitle);
       }
     }
   };
 
-  const handleSaveClick = async (newTitle) => {
+  const saveNewTitle = async (newTitle) => {
     setEditMode(false);
     try {
       await updateSceneIdAndTitle(sceneData?.sceneId, newTitle);
-
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', newTitle);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneData?.sceneId);
+      AFRAME.scenes[0].components['notify'].message(
+        `New scene title saved: ${newTitle}`,
+        'success'
+      );
     } catch (error) {
       console.error('Error with update title', error);
+      AFRAME.scenes[0].components['notify'].message(
+        `Error updating scene title: ${error}`,
+        'error'
+      );
     }
   };
 
@@ -47,7 +54,7 @@ const SceneEditTitle = ({ sceneData }) => {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleSaveClick();
+      saveNewTitle();
     } else if (event.key === 'Escape') {
       handleCancelClick();
     }
@@ -63,10 +70,7 @@ const SceneEditTitle = ({ sceneData }) => {
             onKeyDown={handleKeyDown}
           />
           <div className={styles.buttons}>
-            <div
-              onClick={() => handleSaveClick(title)}
-              className={styles.check}
-            >
+            <div onClick={() => saveNewTitle(title)} className={styles.check}>
               <CheckMark32Icon />
             </div>
             <div onClick={handleCancelClick} className={styles.cross}>
