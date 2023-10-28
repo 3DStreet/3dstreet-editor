@@ -8,7 +8,8 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  orderBy
+  orderBy,
+  deleteDoc
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
@@ -29,6 +30,16 @@ const generateSceneId = async (authorId) => {
   });
 
   return newSceneId;
+};
+
+const deleteScene = async (sceneId) => {
+  try {
+    const sceneDocRef = doc(db, 'scenes', sceneId);
+
+    await deleteDoc(sceneDocRef);
+  } catch (error) {
+    throw new Error('Error deleting scene');
+  }
 };
 
 const updateScene = async (sceneId, userUID, sceneData, title, version) => {
@@ -133,5 +144,6 @@ export {
   generateSceneId,
   isSceneAuthor,
   getCommunityScenes,
-  updateSceneIdAndTitle
+  updateSceneIdAndTitle,
+  deleteScene
 };

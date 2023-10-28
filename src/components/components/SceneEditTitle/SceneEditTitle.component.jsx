@@ -7,11 +7,13 @@ const SceneEditTitle = ({ sceneData }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(sceneData?.sceneTitle);
 
+  const sceneId = STREET.utils.getCurrentSceneId();
+
   useEffect(() => {
-    if (sceneData && sceneData.sceneTitle !== undefined) {
+    if (sceneData.sceneId === sceneId) {
       setTitle(sceneData.sceneTitle);
     }
-  }, [sceneData?.sceneTitle]);
+  }, [sceneData?.sceneTitle, sceneData?.sceneId, sceneId]);
 
   const handleEditClick = () => {
     const newTitle = prompt('Edit the title:', title);
@@ -19,21 +21,27 @@ const SceneEditTitle = ({ sceneData }) => {
     if (newTitle !== null) {
       if (newTitle !== title) {
         setTitle(newTitle);
-        handleSaveClick(newTitle);
+        saveNewTitle(newTitle);
       }
     }
   };
 
-  const handleSaveClick = async (newTitle) => {
+  const saveNewTitle = async (newTitle) => {
     setEditMode(false);
-
     try {
       await updateSceneIdAndTitle(sceneData?.sceneId, newTitle);
-
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', newTitle);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneData?.sceneId);
+      AFRAME.scenes[0].components['notify'].message(
+        `New scene title saved: ${newTitle}`,
+        'success'
+      );
     } catch (error) {
       console.error('Error with update title', error);
+      AFRAME.scenes[0].components['notify'].message(
+        `Error updating scene title: ${error}`,
+        'error'
+      );
     }
   };
 
@@ -46,7 +54,7 @@ const SceneEditTitle = ({ sceneData }) => {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleSaveClick();
+      saveNewTitle();
     } else if (event.key === 'Escape') {
       handleCancelClick();
     }
@@ -62,10 +70,7 @@ const SceneEditTitle = ({ sceneData }) => {
             onKeyDown={handleKeyDown}
           />
           <div className={styles.buttons}>
-            <div
-              onClick={() => handleSaveClick(title)}
-              className={styles.check}
-            >
+            <div onClick={() => saveNewTitle(title)} className={styles.check}>
               <CheckMark32Icon />
             </div>
             <div onClick={handleCancelClick} className={styles.cross}>
@@ -75,7 +80,9 @@ const SceneEditTitle = ({ sceneData }) => {
         </div>
       ) : (
         <div className={styles.readOnly}>
-          <p className={styles.title}>{title}</p>
+          <p className={styles.title} onClick={handleEditClick}>
+            {title}
+          </p>
           {!editMode && (
             <div className={styles.editButton} onClick={handleEditClick}>
               <Edit32Icon />

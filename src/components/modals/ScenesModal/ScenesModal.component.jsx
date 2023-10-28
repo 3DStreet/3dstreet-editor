@@ -13,22 +13,23 @@ import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
 import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
 
+const tabs = [
+  {
+    label: 'My Scenes',
+    value: 'owner'
+  },
+  {
+    label: 'Community Scenes',
+    value: 'community'
+  }
+];
+
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
-  const [scenesData, setScenesData] = useState([]);
-  const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const tabs = [
-    {
-      label: 'My Scenes',
-      value: 'owner'
-    },
-    {
-      label: 'Community Scenes',
-      value: 'community'
-    }
-  ];
 
+  const [scenesData, setScenesData] = useState();
+  const [scenesDataCommunity, setScenesDataCommunity] = useState();
+  const [isLoading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState('owner');
 
   useEffect(() => {
@@ -83,7 +84,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
       className={styles.modalWrapper}
       isOpen={isOpen}
       onClose={onClose}
-      extraCloseKeyCode={72}
       currentUser={currentUser}
       selectedTab={selectedTab}
       title="Open scene"
@@ -161,7 +161,9 @@ const ScenesModal = ({ isOpen, onClose }) => {
               selectedTab === 'owner' ? scenesData : scenesDataCommunity
             }
             handleSceneClick={handleSceneClick}
+            setScenesData={setScenesData}
             isLoading={isLoading}
+            isCommunityTabSelected={selectedTab === 'community'}
           />
         ) : (
           <div className={styles.signInFirst}>
