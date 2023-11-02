@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
-import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
+import { Cloud24Icon, RemixIcon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
@@ -309,7 +309,7 @@ export default class Toolbar extends Component {
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          {this.state.showSaveBtn && (
+          {this.state.showSaveBtn && this.props.currentUser ? (
             <div className="saveButtonWrapper" ref={this.saveButtonRef}>
               <Button
                 className={'actionBtn'}
@@ -364,6 +364,22 @@ export default class Toolbar extends Component {
                 </div>
               )}
             </div>
+          ) : (
+            <Button
+              onClick={this.cloudSaveAsHandler}
+              disabled={this.state.isSavingScene}
+            >
+              <div
+                className="icon"
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
+              >
+                <RemixIcon />
+              </div>
+              Remix
+            </Button>
           )}
           {this.state.showLoadBtn && (
             <Button
