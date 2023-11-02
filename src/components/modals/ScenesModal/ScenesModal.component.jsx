@@ -24,6 +24,8 @@ const ScenesModal = ({ isOpen, onClose }) => {
     useState(scenesPerPage);
   const [isLoadingScenes, setIsLoadingScenes] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
+  const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
 
   const tabs = [
     {
@@ -69,10 +71,16 @@ const ScenesModal = ({ isOpen, onClose }) => {
       setIsLoadingScenes(true);
 
       let collections;
-      if (selectedTab === 'owner') {
+      if (selectedTab === 'owner' && isOpen && !isUserLoadedOnce) {
+        setIsUserLoadedOnce(true);
         collections = await getUserScenes(currentUser.uid);
         setScenesData(collections.slice(0, scenesPerPage));
-      } else {
+      } else if (
+        selectedTab === 'community' &&
+        isOpen &&
+        !isCommunityLoadedOnce
+      ) {
+        setIsCommunityLoadedOnce(true);
         collections = await getCommunityScenes();
         setScenesDataCommunity(collections.slice(0, scenesPerPage));
       }
@@ -100,7 +108,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
       const userScenes = await fetchUserScenes(start, end);
       setScenesData([...scenesData, ...userScenes]);
       setTotalDisplayedUserScenes(end);
-    } else {
+    } else if (selectedTab === 'community') {
       const communityScenes = await fetchCommunityScenes(start, end);
       setScenesDataCommunity([...scenesDataCommunity, ...communityScenes]);
       setTotalDisplayedCommunityScenes(end);
@@ -114,26 +122,12 @@ const ScenesModal = ({ isOpen, onClose }) => {
       const start = totalDisplayedUserScenes;
       const end = start + scenesPerPage;
       loadData(start, end);
-    } else {
+    } else if (selectedTab === 'community') {
       const start = totalDisplayedCommunityScenes;
       const end = start + scenesPerPage;
       loadData(start, end);
     }
   };
-
-  useEffect(() => {
-    const preloadInitialData = async () => {
-      if (selectedTab === 'owner') {
-        const collections = await getUserScenes(currentUser.uid);
-        setScenesData(collections.slice(0, scenesPerPage));
-      } else {
-        const collections = await getCommunityScenes();
-        setScenesDataCommunity(collections.slice(0, scenesPerPage));
-      }
-    };
-
-    preloadInitialData();
-  }, [selectedTab, currentUser]);
 
   return (
     <Modal
