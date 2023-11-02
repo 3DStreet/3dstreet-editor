@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ScenePlaceholder from '../../../../assets/scene.png';
 import styles from './SceneCard.module.scss';
 import { formatDistanceToNow } from 'date-fns';
@@ -105,6 +105,23 @@ const SceneCard = ({
       handleCancelClick();
     }
   };
+
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    // Handler to close menu if clicked outside
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
@@ -121,7 +138,7 @@ const SceneCard = ({
             }}
           />
           {showMenu === index && (
-            <div className={styles.menuBlock}>
+            <div ref={menuRef} className={styles.menuBlock}>
               <div
                 className={styles.menuItem}
                 onClick={() => handleEditScene(index)}
