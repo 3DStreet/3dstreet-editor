@@ -81,7 +81,7 @@ const SceneCard = ({
       setScenesData(updatedScenes);
       setEditIndex(null);
       AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved, reopen modal to open scene: ${editInputValue}`,
+        `New scene title saved: ${editInputValue}`,
         'success'
       );
     } catch (error) {
