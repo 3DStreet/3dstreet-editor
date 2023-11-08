@@ -49,7 +49,9 @@ export default class Toolbar extends Component {
       showSaveBtn: true,
       showLoadBtn: true,
       savedNewDocument: false,
-      isSavingScene: false
+      isSavingScene: false,
+      pendingSceneSave: false,
+      signInSuccess: false
     };
     this.saveButtonRef = React.createRef();
   }
@@ -63,32 +65,26 @@ export default class Toolbar extends Component {
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState({ currentUser: this.props.currentUser });
 
-      if (
-        localStorage.getItem('pendingSceneSave') === 'true' &&
-        this.props.currentUser
-      ) {
-        localStorage.removeItem('pendingSceneSave');
+      if (this.state.pendingSceneSave && this.props.currentUser) {
+        // Remove the flag from state, as we're going to handle the save now.
+        this.setState({ pendingSceneSave: false });
         setTimeout(() => this.cloudSaveHandler({ doSaveAs: true }), 500);
       }
     }
 
-    if (this.state.isCapturingScreen) {
+    if (
+      this.state.isCapturingScreen &&
+      prevProps.isCapturingScreen !== this.state.isCapturingScreen
+    ) {
       this.makeScreenshot(this);
     }
   }
 
   checkSignInStatus = async () => {
-    const signInSuccess = localStorage.getItem('signInSuccess');
-    const pendingSceneSave = localStorage.getItem('pendingSceneSave');
-
-    if (
-      String(signInSuccess) === 'true' &&
-      String(pendingSceneSave) === 'true'
-    ) {
-      localStorage.removeItem('signInSuccess');
-      localStorage.removeItem('pendingSceneSave');
+    if (this.state.signInSuccess && this.state.pendingSceneSave) {
       if (this.props.currentUser) {
         await this.cloudSaveHandler({ doSaveAs: true });
+        this.setState({ signInSuccess: false, pendingSceneSave: false });
       } else {
         setTimeout(this.checkSignInStatus, 500);
       }
@@ -222,7 +218,7 @@ export default class Toolbar extends Component {
 
   handleRemixClick = () => {
     if (!this.props.currentUser) {
-      localStorage.setItem('pendingSceneSave', 'true');
+      this.setState({ pendingSceneSave: true });
       Events.emit('opensigninmodal');
     } else {
       this.cloudSaveHandler({ doSaveAs: true });
