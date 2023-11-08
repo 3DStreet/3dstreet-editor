@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import React from 'react';
 import GoogleSignIn from '../../../../assets/google_sign_in.png';
 import { auth } from '../../../services/firebase';
@@ -7,8 +7,7 @@ import styles from './SignInModal.module.scss';
 
 const loginHandler = async (onClose) => {
   try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-
+    await signInWithRedirect(auth, new GoogleAuthProvider());
     onClose();
   } catch (error) {
     console.log(error);

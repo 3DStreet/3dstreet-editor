@@ -56,7 +56,44 @@ export default class Toolbar extends Component {
 
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutsideSave);
+    this.checkSignInStatus();
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState({ currentUser: this.props.currentUser });
+
+      if (
+        localStorage.getItem('pendingSceneSave') === 'true' &&
+        this.props.currentUser
+      ) {
+        localStorage.removeItem('pendingSceneSave');
+        setTimeout(() => this.cloudSaveHandler({ doSaveAs: true }), 500);
+      }
+    }
+
+    if (this.state.isCapturingScreen) {
+      this.makeScreenshot(this);
+    }
+  }
+
+  checkSignInStatus = async () => {
+    const signInSuccess = localStorage.getItem('signInSuccess');
+    const pendingSceneSave = localStorage.getItem('pendingSceneSave');
+
+    if (
+      String(signInSuccess) === 'true' &&
+      String(pendingSceneSave) === 'true'
+    ) {
+      localStorage.removeItem('signInSuccess');
+      localStorage.removeItem('pendingSceneSave');
+      if (this.props.currentUser) {
+        await this.cloudSaveHandler({ doSaveAs: true });
+      } else {
+        setTimeout(this.checkSignInStatus, 500);
+      }
+    }
+  };
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickOutsideSave);
@@ -111,12 +148,10 @@ export default class Toolbar extends Component {
         Events.emit('opensigninmodal');
         return;
       }
-
       // determine what is the currentSceneId?
       // how: first check state, if not there then use URL hash, otherwise null
       let currentSceneId = STREET.utils.getCurrentSceneId();
       let currentSceneTitle = STREET.utils.getCurrentSceneTitle();
-
       // if owner != doc.id then doSaveAs = true;
       const isCurrentUserTheSceneAuthor = await isSceneAuthor({
         sceneId: currentSceneId,
@@ -185,6 +220,15 @@ export default class Toolbar extends Component {
     }
   };
 
+  handleRemixClick = () => {
+    if (!this.props.currentUser) {
+      localStorage.setItem('pendingSceneSave', 'true');
+      Events.emit('opensigninmodal');
+    } else {
+      this.cloudSaveHandler({ doSaveAs: true });
+    }
+  };
+
   makeScreenshot = (component) =>
     new Promise((resolve) => {
       // use vanilla js to create an img element as destination for our screenshot
@@ -210,12 +254,6 @@ export default class Toolbar extends Component {
           isCapturingScreen: false
         }));
     });
-
-  componentDidUpdate() {
-    if (this.state.isCapturingScreen) {
-      this.makeScreenshot(this);
-    }
-  }
   // openViewMode() {
   //   AFRAME.INSPECTOR.close();
   // }
@@ -309,7 +347,9 @@ export default class Toolbar extends Component {
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          {this.state.showSaveBtn && this.props.currentUser ? (
+          {this.state.showSaveBtn &&
+          !!this.props.isAuthor &&
+          this.props.currentUser ? (
             <div className="saveButtonWrapper" ref={this.saveButtonRef}>
               <Button
                 className={'actionBtn'}
@@ -366,7 +406,7 @@ export default class Toolbar extends Component {
             </div>
           ) : (
             <Button
-              onClick={this.cloudSaveAsHandler}
+              onClick={this.handleRemixClick}
               disabled={this.state.isSavingScene}
             >
               <div
