@@ -68,7 +68,17 @@ export default class Toolbar extends Component {
       if (this.state.pendingSceneSave && this.props.currentUser) {
         // Remove the flag from state, as we're going to handle the save now.
         this.setState({ pendingSceneSave: false });
-        setTimeout(() => this.cloudSaveHandler({ doSaveAs: true }), 500);
+        setTimeout(() => {
+          this.cloudSaveHandler({ doSaveAs: true })
+            .then(() => {
+              // The promise from cloudSaveHandler has resolved, now update the state.
+              this.setState({ showSaveBtn: true });
+            })
+            .catch((error) => {
+              // Handle any errors here
+              console.error('Save failed:', error);
+            });
+        }, 500);
       }
     }
 

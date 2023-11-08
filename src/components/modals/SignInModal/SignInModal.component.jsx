@@ -8,6 +8,7 @@ import styles from './SignInModal.module.scss';
 const loginHandler = async (onClose) => {
   try {
     await signInWithPopup(auth, new GoogleAuthProvider());
+
     onClose();
   } catch (error) {
     console.log(error);
