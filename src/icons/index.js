@@ -16,5 +16,6 @@ export {
   CheckMark32Icon,
   Copy32Icon,
   DropdownIcon,
-  Loader
+  Loader,
+  RemixIcon
 } from './icons.jsx';
