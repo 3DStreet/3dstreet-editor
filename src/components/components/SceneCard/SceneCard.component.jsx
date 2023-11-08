@@ -69,6 +69,7 @@ const SceneCard = ({
   const handleSaveTitle = async () => {
     try {
       const scene = scenesData[editIndex];
+      if (!scene) return;
       await updateSceneIdAndTitle(scene.id, editInputValue);
       const updatedScenes = scenesData.map((s) => {
         if (s.id === scene.id) {
@@ -80,7 +81,7 @@ const SceneCard = ({
       setScenesData(updatedScenes);
       setEditIndex(null);
       AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved: ${editInputValue}`,
+        `New scene title saved, reopen modal to open scene: ${editInputValue}`,
         'success'
       );
     } catch (error) {
@@ -113,13 +114,14 @@ const SceneCard = ({
       handleCancelClick();
     }
   };
+
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
         <div key={index} className={styles.card} title={scene.data().title}>
           <div
             className={styles.img}
-            onClick={() => handleSceneClick(scene)}
+            onClick={() => scene.id && handleSceneClick(scene, scene.id)}
             style={{
               backgroundImage: `url(${
                 scene.data().imagePath || ScenePlaceholder

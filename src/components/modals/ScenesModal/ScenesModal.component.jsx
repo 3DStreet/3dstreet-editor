@@ -54,13 +54,13 @@ const ScenesModal = ({ isOpen, onClose }) => {
     fetchScenesUser();
   }, [currentUser, isOpen]);
 
-  const handleSceneClick = (scene) => {
+  const handleSceneClick = (scene, currentId) => {
     if (scene.data() && scene.data().data) {
       createElementsForScenesFromJSON(scene.data().data);
       // const sceneId = scene.id;
       window.location.hash = `#/scenes/${scene.id}.json`;
       // this is where we should update sceneid and scenetitle in metadata and toolbar state
-      const sceneId = scene.id;
+      const sceneId = scene.id || currentId;
       const sceneTitle = scene.data().title;
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
