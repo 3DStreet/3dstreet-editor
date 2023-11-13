@@ -66,10 +66,19 @@ const SceneCard = ({
   const handleSaveTitle = async () => {
     try {
       const scene = scenesData[editIndex];
+      if (!scene) return;
       await updateSceneIdAndTitle(scene.id, editInputValue);
+      const updatedScenes = scenesData.map((s) => {
+        if (s.id === scene.id) {
+          // Since it appears `data()` is a method that returns an object, spread its content and only update the title.
+          return { ...s, data: () => ({ ...s.data(), title: editInputValue }) };
+        }
+        return s;
+      });
+      setScenesData(updatedScenes);
       setEditIndex(null);
       AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved, reopen modal to see changes: ${editInputValue}`,
+        `New scene title saved: ${editInputValue}`,
         'success'
       );
     } catch (error) {
@@ -121,14 +130,14 @@ const SceneCard = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showMenu]);
-
+  
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
         <div key={index} className={styles.card} title={scene.data().title}>
           <div
             className={styles.img}
-            onClick={() => handleSceneClick(scene)}
+            onClick={() => scene.id && handleSceneClick(scene, scene.id)}
             style={{
               backgroundImage: `url(${
                 scene.data().imagePath || ScenePlaceholder

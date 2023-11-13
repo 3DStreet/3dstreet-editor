@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
-import { Cloud24Icon, Save24Icon, Upload24Icon } from '../../icons';
+import { Cloud24Icon, RemixIcon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
@@ -49,14 +49,57 @@ export default class Toolbar extends Component {
       showSaveBtn: true,
       showLoadBtn: true,
       savedNewDocument: false,
-      isSavingScene: false
+      isSavingScene: false,
+      pendingSceneSave: false,
+      signInSuccess: false
     };
     this.saveButtonRef = React.createRef();
   }
 
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutsideSave);
+    this.checkSignInStatus();
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState({ currentUser: this.props.currentUser });
+
+      if (this.state.pendingSceneSave && this.props.currentUser) {
+        // Remove the flag from state, as we're going to handle the save now.
+        this.setState({ pendingSceneSave: false });
+        setTimeout(() => {
+          this.cloudSaveHandler({ doSaveAs: true })
+            .then(() => {
+              // The promise from cloudSaveHandler has resolved, now update the state.
+              this.setState({ showSaveBtn: true });
+            })
+            .catch((error) => {
+              // Handle any errors here
+              console.error('Save failed:', error);
+            });
+        }, 500);
+      }
+    }
+
+    if (
+      this.state.isCapturingScreen &&
+      prevProps.isCapturingScreen !== this.state.isCapturingScreen
+    ) {
+      this.makeScreenshot(this);
+    }
+  }
+
+  checkSignInStatus = async () => {
+    if (this.state.signInSuccess && this.state.pendingSceneSave) {
+      if (this.props.currentUser) {
+        await this.cloudSaveHandler({ doSaveAs: true });
+        this.setState({ signInSuccess: false, pendingSceneSave: false });
+      } else {
+        setTimeout(this.checkSignInStatus, 500);
+      }
+    }
+  };
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickOutsideSave);
@@ -111,12 +154,10 @@ export default class Toolbar extends Component {
         Events.emit('opensigninmodal');
         return;
       }
-
       // determine what is the currentSceneId?
       // how: first check state, if not there then use URL hash, otherwise null
       let currentSceneId = STREET.utils.getCurrentSceneId();
       let currentSceneTitle = STREET.utils.getCurrentSceneTitle();
-
       // if owner != doc.id then doSaveAs = true;
       const isCurrentUserTheSceneAuthor = await isSceneAuthor({
         sceneId: currentSceneId,
@@ -185,6 +226,15 @@ export default class Toolbar extends Component {
     }
   };
 
+  handleRemixClick = () => {
+    if (!this.props.currentUser) {
+      this.setState({ pendingSceneSave: true });
+      Events.emit('opensigninmodal');
+    } else {
+      this.cloudSaveHandler({ doSaveAs: true });
+    }
+  };
+
   makeScreenshot = (component) =>
     new Promise((resolve) => {
       // use vanilla js to create an img element as destination for our screenshot
@@ -210,12 +260,6 @@ export default class Toolbar extends Component {
           isCapturingScreen: false
         }));
     });
-
-  componentDidUpdate() {
-    if (this.state.isCapturingScreen) {
-      this.makeScreenshot(this);
-    }
-  }
   // openViewMode() {
   //   AFRAME.INSPECTOR.close();
   // }
@@ -309,7 +353,9 @@ export default class Toolbar extends Component {
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          {this.state.showSaveBtn && (
+          {this.state.showSaveBtn &&
+          !!this.props.isAuthor &&
+          this.props.currentUser ? (
             <div className="saveButtonWrapper" ref={this.saveButtonRef}>
               <Button
                 className={'actionBtn'}
@@ -364,6 +410,22 @@ export default class Toolbar extends Component {
                 </div>
               )}
             </div>
+          ) : (
+            <Button
+              onClick={this.handleRemixClick}
+              disabled={this.state.isSavingScene}
+            >
+              <div
+                className="icon"
+                style={{
+                  display: 'flex',
+                  margin: '-2.5px 0px -2.5px -2px'
+                }}
+              >
+                <RemixIcon />
+              </div>
+              Remix
+            </Button>
           )}
           {this.state.showLoadBtn && (
             <Button
