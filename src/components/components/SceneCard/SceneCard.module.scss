@@ -18,7 +18,7 @@
     border: 1px solid rgba(237, 235, 239, 0.2);
     padding: 8px 8px 12px 8px;
     width: 272px;
-    height: 250px;
+    height: 292px;
     position: relative;
     cursor: pointer;
 
@@ -38,11 +38,73 @@
     }
   }
 
+  .menuBlock {
+    display: flex;
+    flex-direction: column;
+    width: 189px;
+    border-radius: 8px;
+    border: 1px solid #8d56e8;
+    position: absolute;
+    height: 70px;
+    width: 190px;
+    background-color: #2d2d2d;
+    padding: 6px 0px;
+    top: 140px;
+    right: -75px;
+    z-index: 10;
+
+    .menuItem {
+      font-size: 16px;
+      padding: 8px 8px 8px 20px;
+    }
+  }
+
+  .userBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .dropdown {
+      width: 20px;
+      padding: 0px;
+      background: none;
+      border-radius: 0;
+    }
+
+    .userName {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+    }
+  }
+
+  .editButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 8px;
+
+    .editButton {
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+
+  .editInput {
+    font-size: 16px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
   .title {
     font-size: 16px !important;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    margin-bottom: 12px;
   }
 
   .date {

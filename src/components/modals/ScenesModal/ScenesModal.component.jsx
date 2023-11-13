@@ -13,6 +13,17 @@ import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
 import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
 
+const tabs = [
+  {
+    label: 'My Scenes',
+    value: 'owner'
+  },
+  {
+    label: 'Community Scenes',
+    value: 'community'
+  }
+];
+
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
@@ -39,14 +50,39 @@ const ScenesModal = ({ isOpen, onClose }) => {
   ];
 
   const [selectedTab, setSelectedTab] = useState('owner');
+  
+  
+const handleSceneClick = (scene) => {
+  useEffect(() => {
+    if (!isOpen) return; // Only proceed if the modal is open
 
-  const handleSceneClick = (scene) => {
+    async function fetchScenesCommunity() {
+      setLoading(true);
+      const communityScenes = await getCommunityScenes();
+      setScenesDataCommunity(communityScenes);
+      setLoading(false);
+    }
+    fetchScenesCommunity();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || !currentUser) return; // Only proceed if modal open and currentUser exists
+
+    async function fetchScenesUser() {
+      const userScenes = await getUserScenes(currentUser.uid);
+      setScenesData(userScenes);
+    }
+    fetchScenesUser();
+  }, [currentUser, isOpen]);
+
+  const handleSceneClick = (scene, currentId) => {
+
     if (scene.data() && scene.data().data) {
       createElementsForScenesFromJSON(scene.data().data);
       // const sceneId = scene.id;
       window.location.hash = `#/scenes/${scene.id}.json`;
       // this is where we should update sceneid and scenetitle in metadata and toolbar state
-      const sceneId = scene.id;
+      const sceneId = scene.id || currentId;
       const sceneTitle = scene.data().title;
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
@@ -134,7 +170,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
       className={styles.modalWrapper}
       isOpen={isOpen}
       onClose={onClose}
-      extraCloseKeyCode={72}
       currentUser={currentUser}
       selectedTab={selectedTab}
       title="Open scene"
@@ -214,6 +249,9 @@ const ScenesModal = ({ isOpen, onClose }) => {
                 : scenesDataCommunity.slice(0, totalDisplayedCommunityScenes)
             }
             handleSceneClick={handleSceneClick}
+            setScenesData={setScenesData}
+            isLoading={isLoading}
+            isCommunityTabSelected={selectedTab === 'community'}
           />
         ) : (
           <div className={styles.signInFirst}>
