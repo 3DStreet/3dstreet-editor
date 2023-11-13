@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ScenePlaceholder from '../../../../assets/scene.png';
 import styles from './SceneCard.module.scss';
 import { formatDistanceToNow } from 'date-fns';
@@ -28,26 +28,9 @@ const SceneCard = ({
   const editInputRef = useRef(null);
   const menuRefs = useRef({});
 
-  const handleClickOutside = (event) => {
-    if (
-      showMenu !== null &&
-      !menuRefs.current[showMenu]?.contains(event.target)
-    ) {
-      setShowMenu(null); // Close the dropdown if the click is outside
-    }
-  };
-
-  // Effect for handling outside click
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu]);
-
-  const toggleMenu = (index, event) => {
-    event.stopPropagation(); // Prevent the click from "bubbling" up to the document
+  const toggleMenu = (index) => {
     setShowMenu(showMenu === index ? null : index);
+    setEditIndex(null);
   };
 
   const handleDeleteScene = (scene, e) => {
@@ -129,6 +112,25 @@ const SceneCard = ({
     }
   };
 
+  const handleClickOutside = (event) => {
+    if (showMenu !== null) {
+      const menuRef = menuRefs.current[showMenu];
+      const isClickInsideMenu = menuRef && menuRef.contains(event.target);
+      const isClickOnToggle = event.target.closest('.menu-toggle');
+      const isClickOnMenuItem = event.target.closest('.menu-item');
+      if (!isClickInsideMenu && !isClickOnToggle && !isClickOnMenuItem) {
+        setShowMenu(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
+  
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
@@ -144,6 +146,22 @@ const SceneCard = ({
               backgroundPosition: 'center'
             }}
           />
+          {showMenu === index && (
+            <div className={styles.menuBlock}>
+              <div
+                className={`${styles.menuItem} menu-item`}
+                onClick={() => handleEditScene(index)}
+              >
+                Edit scene name
+              </div>
+              <div
+                className={`${styles.menuItem} menu-item`}
+                onClick={(e) => handleDeleteScene(scene, e)}
+              >
+                Delete scene
+              </div>
+            </div>
+          )}
           <div>
             {editIndex === index ? (
               <input
@@ -175,7 +193,7 @@ const SceneCard = ({
                     ref={(el) => (menuRefs.current[index] = el)}
                     onClick={(e) => toggleMenu(index, e)}
                   >
-                    <DropdownIcon />
+                    <DropdownIcon className="menu-toggle" />
                   </div>
                 )}
               </div>
@@ -201,22 +219,6 @@ const SceneCard = ({
               >
                 Cancel
               </Button>
-            </div>
-          )}
-          {showMenu === index && (
-            <div className={styles.menuBlock}>
-              <div
-                className={styles.menuItem}
-                onClick={() => handleEditScene(index)}
-              >
-                Edit scene name
-              </div>
-              <div
-                className={styles.menuItem}
-                onClick={(e) => handleDeleteScene(scene, e)}
-              >
-                Delete scene
-              </div>
             </div>
           )}
         </div>
