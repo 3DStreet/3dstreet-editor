@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ScenePlaceholder from '../../../../assets/scene.png';
 import styles from './SceneCard.module.scss';
 import { formatDistanceToNow } from 'date-fns';
@@ -26,13 +26,10 @@ const SceneCard = ({
   const [editIndex, setEditIndex] = useState(null);
   const [editInputValue, setEditInputValue] = useState('');
   const editInputRef = useRef(null);
+  const menuRefs = useRef({});
 
   const toggleMenu = (index) => {
-    if (showMenu === index) {
-      setShowMenu(null);
-    } else {
-      setShowMenu(index);
-    }
+    setShowMenu(showMenu === index ? null : index);
     setEditIndex(null);
   };
 
@@ -115,6 +112,25 @@ const SceneCard = ({
     }
   };
 
+  const handleClickOutside = (event) => {
+    if (showMenu !== null) {
+      const menuRef = menuRefs.current[showMenu];
+      const isClickInsideMenu = menuRef && menuRef.contains(event.target);
+      const isClickOnToggle = event.target.closest('.menu-toggle');
+      const isClickOnMenuItem = event.target.closest('.menu-item');
+      if (!isClickInsideMenu && !isClickOnToggle && !isClickOnMenuItem) {
+        setShowMenu(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
+  
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (
@@ -133,13 +149,13 @@ const SceneCard = ({
           {showMenu === index && (
             <div className={styles.menuBlock}>
               <div
-                className={styles.menuItem}
+                className={`${styles.menuItem} menu-item`}
                 onClick={() => handleEditScene(index)}
               >
                 Edit scene name
               </div>
               <div
-                className={styles.menuItem}
+                className={`${styles.menuItem} menu-item`}
                 onClick={(e) => handleDeleteScene(scene, e)}
               >
                 Delete scene
@@ -173,8 +189,11 @@ const SceneCard = ({
                   </p>
                 </div>
                 {!isCommunityTabSelected && (
-                  <div onClick={() => toggleMenu(index)}>
-                    <DropdownIcon />
+                  <div
+                    ref={(el) => (menuRefs.current[index] = el)}
+                    onClick={(e) => toggleMenu(index, e)}
+                  >
+                    <DropdownIcon className="menu-toggle" />
                   </div>
                 )}
               </div>
