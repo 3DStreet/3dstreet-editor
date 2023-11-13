@@ -73,7 +73,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
       let collections;
       if (selectedTab === 'owner' && isOpen && !isUserLoadedOnce) {
         setIsUserLoadedOnce(true);
-        collections = await getUserScenes(currentUser.uid);
+        collections = await getUserScenes(currentUser?.uid);
         setScenesData(collections.slice(0, scenesPerPage));
       } else if (
         selectedTab === 'community' &&
@@ -92,7 +92,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
   }, [isOpen, currentUser, selectedTab]);
 
   const fetchUserScenes = async (start, end) => {
-    const userScenes = await getUserScenes(currentUser.uid);
+    const userScenes = await getUserScenes(currentUser?.uid);
     return userScenes.slice(start, end);
   };
 
