@@ -12,7 +12,7 @@ import styles from './Logo.module.scss';
  */
 const Logo = ({ onToggleEdit, isEditor }) => (
   <div className={styles.wrapper}>
-    <div className={styles.logo}>
+    <div className={styles.logo} id="logoImg">
       {isEditor ? <EditorLogo /> : <ViewerLogo />}
     </div>
     <Button onClick={onToggleEdit} className={styles.btn}>
