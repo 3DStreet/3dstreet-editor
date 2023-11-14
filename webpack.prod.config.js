@@ -11,14 +11,14 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].[contenthash].bundle.min.js',
+    filename: 'bundle.min.js',
     publicPath: '/'
   },
   optimization: {
-    minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})],
-    splitChunks: {
-      chunks: 'all'
-    }
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})]
+    // splitChunks: {
+    //   chunks: 'all'
+    // }
   },
   plugins: [
     new CleanWebpackPlugin(),

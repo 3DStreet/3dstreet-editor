@@ -250,7 +250,7 @@ Inspector.prototype = {
       this.sceneEl.setAttribute('aframe-inspector-removed-embedded');
     }
 
-    document.body.classList.add('aframe-inspector-isOpened');
+    document.body.classList.add('aframe-inspector-opened');
     this.sceneEl.resize();
     this.sceneEl.pause();
     this.sceneEl.exitVR();
