@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { generateSceneId, updateScene, isSceneAuthor } from '../../api/scene';
+import {
+  generateSceneId,
+  updateScene,
+  isSceneAuthor,
+  checkIfImagePathIsEmpty
+} from '../../api/scene';
 import { Cloud24Icon, RemixIcon, Save24Icon, Upload24Icon } from '../../icons';
 import Events from '../../lib/Events';
 import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
 import { SavingModal } from '../modals/SavingModal';
+import { uploadThumbnailImage } from '../modals/ScreenshotModal/ScreenshotModal.component.jsx';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -158,11 +164,13 @@ export default class Toolbar extends Component {
       // how: first check state, if not there then use URL hash, otherwise null
       let currentSceneId = STREET.utils.getCurrentSceneId();
       let currentSceneTitle = STREET.utils.getCurrentSceneTitle();
+
       // if owner != doc.id then doSaveAs = true;
       const isCurrentUserTheSceneAuthor = await isSceneAuthor({
         sceneId: currentSceneId,
         authorId: this.props.currentUser.uid
       });
+
       console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
       if (!isCurrentUserTheSceneAuthor) {
         doSaveAs = true;
@@ -190,6 +198,7 @@ export default class Toolbar extends Component {
       );
       this.setState({ isSavingScene: true });
       // save json to firebase with other metadata
+
       await updateScene(
         currentSceneId,
         this.props.currentUser.uid,
@@ -198,6 +207,11 @@ export default class Toolbar extends Component {
         filteredData.version
       );
 
+      const isImagePathEmpty = await checkIfImagePathIsEmpty(currentSceneId);
+
+      if (!doSaveAs && isImagePathEmpty && !doSaveAs && isImagePathEmpty) {
+        await uploadThumbnailImage(true);
+      }
       // make sure to update sceneId with new one in metadata component!
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId: ' + currentSceneId);
 
@@ -349,7 +363,6 @@ export default class Toolbar extends Component {
     //   'fa-save': true
     // });
     // const watcherTitle = 'Write changes with aframe-watcher.';
-
     return (
       <div id="toolbar">
         <div className="toolbarActions">

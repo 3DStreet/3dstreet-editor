@@ -9,5 +9,6 @@ export {
   getUserScenes,
   updateScene,
   isSceneAuthor,
-  getCommunityScenes
+  getCommunityScenes,
+  checkIfImagePathIsEmpty
 } from './scene';

@@ -138,6 +138,20 @@ const getCommunityScenes = async () => {
   }
 };
 
+const checkIfImagePathIsEmpty = async (sceneId) => {
+  const userScenesRef = collection(db, 'scenes');
+  const sceneDocRef = doc(userScenesRef, sceneId);
+
+  const sceneSnapshot = await getDoc(sceneDocRef);
+  if (sceneSnapshot.exists()) {
+    const sceneData = sceneSnapshot.data();
+    return !sceneData.imagePath;
+  } else {
+    console.error('Scene document not found');
+    return true;
+  }
+};
+
 export {
   updateScene,
   getUserScenes,
@@ -145,5 +159,6 @@ export {
   isSceneAuthor,
   getCommunityScenes,
   updateSceneIdAndTitle,
-  deleteScene
+  deleteScene,
+  checkIfImagePathIsEmpty
 };
