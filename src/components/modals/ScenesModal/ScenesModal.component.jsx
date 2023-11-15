@@ -77,16 +77,16 @@ const ScenesModal = ({ isOpen, onClose }) => {
         currentUser?.uid
       ) {
         setIsUserLoadedOnce(true);
-        collections = await getUserScenes(currentUser.uid);
-        setScenesData(collections.slice(0, scenesPerPage));
+        collections = await getUserScenes(currentUser.uid, true);
+        setScenesData(collections);
       } else if (
         selectedTab === 'community' &&
         isOpen &&
         !isCommunityLoadedOnce
       ) {
         setIsCommunityLoadedOnce(true);
-        collections = await getCommunityScenes();
-        setScenesDataCommunity(collections.slice(0, scenesPerPage));
+        collections = await getCommunityScenes(true);
+        setScenesDataCommunity(collections);
       }
 
       setIsLoadingScenes(false);
@@ -95,26 +95,24 @@ const ScenesModal = ({ isOpen, onClose }) => {
     fetchData();
   }, [isOpen, currentUser, selectedTab]);
 
-  const fetchUserScenes = async (start, end) => {
-    const userScenes = await getUserScenes(currentUser?.uid);
-    return userScenes.slice(start, end);
+  const fetchUserScenes = async () => {
+    return await getUserScenes(currentUser?.uid);
   };
 
-  const fetchCommunityScenes = async (start, end) => {
-    const communityScenes = await getCommunityScenes();
-    return communityScenes.slice(start, end);
+  const fetchCommunityScenes = async () => {
+    return await getCommunityScenes();
   };
 
-  const loadData = async (start, end) => {
+  const loadData = async (end) => {
     setIsLoading(true);
 
     if (selectedTab === 'owner') {
-      const userScenes = await fetchUserScenes(start, end);
+      const userScenes = await fetchUserScenes();
 
       setScenesData([...scenesData, ...userScenes]);
       setTotalDisplayedUserScenes(end);
     } else if (selectedTab === 'community') {
-      const communityScenes = await fetchCommunityScenes(start, end);
+      const communityScenes = await fetchCommunityScenes();
 
       setScenesDataCommunity([...scenesDataCommunity, ...communityScenes]);
       setTotalDisplayedCommunityScenes(end);
@@ -128,12 +126,12 @@ const ScenesModal = ({ isOpen, onClose }) => {
       const start = totalDisplayedUserScenes;
       const end = start + scenesPerPage;
 
-      loadData(start, end);
+      loadData(end);
     } else if (selectedTab === 'community') {
       const start = totalDisplayedCommunityScenes;
       const end = start + scenesPerPage;
 
-      loadData(start, end);
+      loadData(end);
     }
   };
 
@@ -216,9 +214,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
         ) : currentUser || selectedTab !== 'owner' ? (
           <SceneCard
             scenesData={
-              selectedTab === 'owner'
-                ? scenesData.slice(0, totalDisplayedUserScenes)
-                : scenesDataCommunity.slice(0, totalDisplayedCommunityScenes)
+              selectedTab === 'owner' ? scenesData : scenesDataCommunity
             }
             setScenesData={setScenesData}
             isCommunityTabSelected={selectedTab === 'community'}
@@ -249,13 +245,13 @@ const ScenesModal = ({ isOpen, onClose }) => {
         ) : (
           <div className={styles.loadMore}>
             {selectedTab === 'owner' &&
-              totalDisplayedUserScenes <= scenesData.length && (
+              totalDisplayedUserScenes <= scenesData?.length && (
                 <Button className={styles.button} onClick={loadMoreScenes}>
                   Load More
                 </Button>
               )}
             {selectedTab === 'community' &&
-              totalDisplayedCommunityScenes <= scenesDataCommunity.length && (
+              totalDisplayedCommunityScenes <= scenesDataCommunity?.length && (
                 <Button className={styles.button} onClick={loadMoreScenes}>
                   Load More
                 </Button>
