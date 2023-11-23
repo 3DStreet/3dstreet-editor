@@ -1,35 +1,36 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devServer: {
-    hot: true,
-    liveReload: false,
-    port: 3333,
-    static: {
-      directory: '.'
-    }
-  },
-  devtool: 'source-map',
+  mode: 'production',
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '3dstreet-editor.js',
-    publicPath: '/dist/'
+    filename: 'bundle.min.js',
+    publicPath: '/'
   },
-  externals: {
-    // Stubs out `import ... from 'three'` so it returns `import ... from window.THREE` effectively using THREE global variable that is defined by AFRAME.
-    three: 'THREE'
+  optimization: {
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})]
+    // splitChunks: {
+    //   chunks: 'all'
+    // }
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
     }),
     new Dotenv({
-      path: './config/.env.development'
+      path: './config/.env.production'
+    }),
+    new HtmlWebpackPlugin({
+      template: '/public/index.html'
     })
   ],
   module: {
@@ -100,5 +101,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  devtool: 'source-map'
 };
