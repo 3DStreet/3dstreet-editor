@@ -4,9 +4,9 @@
   "description": "A visual inspector tool for A-Frame.",
   "main": "dist/aframe-inspector.min.js",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --open -d eval-source-map",
-    "start:prod": "cross-env NODE_ENV=production webpack-dev-server --progress --open -d eval-source-map",
-    "start:build": "cross-env NODE_ENV=production webpack --progress",
+    "start:dev": "webpack serve --config webpack.config.js --mode development --open --hot --progress",
+    "start:prod": "serve -s dist --single",
+    "start:build": "webpack --config webpack.prod.config.js --mode production --progress",
     "dist": "npm run dist:max && npm run dist:min",
     "dist:max": "cross-env MINIFY=false npm run start:build",
     "dist:min": "cross-env MINIFY=true npm run start:build",
@@ -69,7 +69,10 @@
     "stylus-loader": "^7.1.0",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.0"
+    "webpack-dev-server": "^4.11.0",
+    "html-webpack-plugin": "^5.5.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-minimizer-webpack-plugin": "^5.0.1"
   },
   "keywords": [
     "3d",
