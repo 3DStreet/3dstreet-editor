@@ -9,7 +9,9 @@ import {
   setDoc,
   updateDoc,
   orderBy,
-  deleteDoc
+  deleteDoc,
+  startAfter,
+  limit
 } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
@@ -108,30 +110,65 @@ const isSceneAuthor = async ({ sceneId, authorId }) => {
   }
 };
 
-const getUserScenes = async (currentUserUID) => {
-  const userScenesQuery = query(
-    collection(db, 'scenes'),
-    where('author', '==', currentUserUID),
-    orderBy('updateTimestamp', 'desc')
-  );
+let scenesSnapshot;
+const getUserScenes = async (currentUserUID, isInitialFetch) => {
+  try {
+    if (isInitialFetch) {
+      const userScenesQuery = query(
+        collection(db, 'scenes'),
+        where('author', '==', currentUserUID),
+        orderBy('updateTimestamp', 'desc'),
+        limit(20)
+      );
 
-  const scenesSnapshot = await getDocs(userScenesQuery);
-  //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+      scenesSnapshot = await getDocs(userScenesQuery);
+      //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+      return scenesSnapshot.docs;
+    } else {
+      const lastVisible = scenesSnapshot.docs[scenesSnapshot.docs.length - 1];
+      const userScenesQuery = query(
+        collection(db, 'scenes'),
+        where('author', '==', currentUserUID),
+        orderBy('updateTimestamp', 'desc'),
+        startAfter(lastVisible),
+        limit(20)
+      );
 
-  return scenesSnapshot.docs;
+      scenesSnapshot = await getDocs(userScenesQuery);
+      //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+      return scenesSnapshot.docs;
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const getCommunityScenes = async () => {
-  const communityScenesQuery = query(
-    collection(db, 'scenes'),
-    orderBy('updateTimestamp', 'desc')
-  );
+let communityScenesSnapshot;
+const getCommunityScenes = async (isInitialFetch) => {
   try {
-    const communityScenesSnapshot = await getDocs(communityScenesQuery);
-    // const communityScenesData = communityScenesSnapshot.docs.map((doc) =>
-    //   doc.data()
-    // );
-    return communityScenesSnapshot.docs;
+    if (isInitialFetch) {
+      const communityScenesQuery = query(
+        collection(db, 'scenes'),
+        orderBy('updateTimestamp', 'desc'),
+        limit(20)
+      );
+
+      communityScenesSnapshot = await getDocs(communityScenesQuery);
+      return communityScenesSnapshot.docs;
+    } else {
+      const lastVisible =
+        communityScenesSnapshot.docs[communityScenesSnapshot.docs.length - 1];
+
+      const communityScenesQuery = query(
+        collection(db, 'scenes'),
+        orderBy('updateTimestamp', 'desc'),
+        startAfter(lastVisible),
+        limit(20)
+      );
+
+      communityScenesSnapshot = await getDocs(communityScenesQuery);
+      return communityScenesSnapshot.docs;
+    }
   } catch (error) {
     console.error('Error fetching community scenes:', error);
     return [];
