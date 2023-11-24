@@ -18,7 +18,7 @@ import {
   updateDoc
 } from 'firebase/firestore';
 
-const uploadThumbnailImage = async () => {
+export const uploadThumbnailImage = async (uploadedFirstTime) => {
   try {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const screentockImgElement = document.getElementById(
@@ -80,10 +80,11 @@ const uploadThumbnailImage = async () => {
     }
 
     console.log('Thumbnail uploaded and Firestore updated successfully.');
-    AFRAME.scenes[0].components['notify'].message(
-      'Scene thumbnail updated in 3DStreet Cloud.',
-      'success'
-    );
+    uploadedFirstTime &&
+      AFRAME.scenes[0].components['notify'].message(
+        'Scene thumbnail updated in 3DStreet Cloud.',
+        'success'
+      );
   } catch (error) {
     console.error('Error capturing screenshot and updating Firestore:', error);
     let errorMessage = `Error updating scene thumbnail: ${error}`;
