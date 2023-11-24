@@ -207,13 +207,13 @@ export default class Toolbar extends Component {
         filteredData.version
       );
 
-      const isImagePathEmpty = await checkIfImagePathIsEmpty(currentSceneId);
-
-      if (!doSaveAs && isImagePathEmpty && !doSaveAs && isImagePathEmpty) {
-        await uploadThumbnailImage(true);
-      }
       // make sure to update sceneId with new one in metadata component!
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId: ' + currentSceneId);
+
+      const isImagePathEmpty = await checkIfImagePathIsEmpty(currentSceneId);
+      if (!doSaveAs && isImagePathEmpty) {
+        await uploadThumbnailImage(true);
+      }
 
       // Change the hash URL without reloading
       window.location.hash = `#/scenes/${currentSceneId}.json`;
