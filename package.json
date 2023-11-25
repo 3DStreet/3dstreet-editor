@@ -1,8 +1,8 @@
 {
   "name": "3dstreet-editor",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "An open source street editor.",
-  "main": "dist/3dstreet-editor.min.js",
+  "main": "dist/3dstreet-editor.js",
   "scripts": {
     "start:dev": "webpack serve --config webpack.config.js --mode development --open --hot --progress",
     "start:prod": "serve dist",
