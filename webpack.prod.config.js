@@ -11,15 +11,15 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.min.js',
+    filename: '3dstreet-editor.js',
     publicPath: '/'
   },
-  optimization: {
-    minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})]
-    // splitChunks: {
-    //   chunks: 'all'
-    // }
-  },
+  // optimization: {
+  //   minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})]
+  //   // splitChunks: {
+  //   //   chunks: 'all'
+  //   // }
+  // },
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
