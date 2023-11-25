@@ -1,8 +1,8 @@
 {
-  "name": "aframe-inspector",
-  "version": "1.3.0",
-  "description": "A visual inspector tool for A-Frame.",
-  "main": "dist/aframe-inspector.min.js",
+  "name": "3dstreet-editor",
+  "version": "0.4.2",
+  "description": "An open source street editor.",
+  "main": "dist/3dstreet-editor.min.js",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --open -d eval-source-map",
     "start:prod": "cross-env NODE_ENV=production webpack-dev-server --progress --open -d eval-source-map",
