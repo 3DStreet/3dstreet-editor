@@ -19,12 +19,14 @@ Then navigate to __[http://localhost:3333/](http://localhost:3333/)__
 
 ## Deployment instructions
 
-* Ensure you have .env.development in /config/ (see /config/README.md)
+* Ensure you have .env.production in /config/ (see /config/README.md)
 * `npm run dist`
 * `npm run prefirebase`
 * `cd public`
 * `firebase use [PROJECT]` // ensure PROJECT matches target environment
 * `firebase deploy`
+
+Note: If you are deploying to a development server and want to use development (not production) firebase credentials, you'll need to copy your .env.development credentials to .env.production for the `npm run dist` step to ensure the output dist build uses the intended keys. (In other words, when running npm run dist it always uses firebase app credentials from .env.production, so be careful not to mistakingly deploy production firebase keys to a development server.)
 
 ## Release checklist (for Editor only)
 
