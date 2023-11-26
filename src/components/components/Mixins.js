@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import Events from '../../lib/Events';
 import { DropdownArrowIcon } from '../../icons';
 
@@ -28,6 +28,22 @@ export default class Mixin extends React.Component {
       .map((v) => ({ label: v, value: v }));
   }
 
+  getGroupedMixinOptions = () => {
+    const groupedMixinJSON = JSON.parse(
+      document.querySelector('street-assets').getAttribute('grouped-assets')
+    );
+    const groupedArray = [];
+    for (let [groupName, mixinIdArray] of Object.entries(groupedMixinJSON)) {
+      groupedArray.push({
+        label: groupName,
+        options: mixinIdArray.map((mixinId) => {
+          return { label: mixinId, value: mixinId };
+        })
+      });
+    }
+    return groupedArray;
+  };
+  /*
   getMixinOptions = () => {
     const mixinIds = this.props.entity.mixinEls.map(function (mixin) {
       return mixin.id;
@@ -38,8 +54,8 @@ export default class Mixin extends React.Component {
       .map(function (mixin) {
         return { value: mixin.id, label: mixin.id };
       });
-  };
-
+  }
+*/
   updateMixins = (value) => {
     const entity = this.props.entity;
     this.setState({ mixins: value });
@@ -77,6 +93,40 @@ export default class Mixin extends React.Component {
   };
 
   render() {
+    const groupStyles = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    };
+
+    const formatGroupLabel = (data) => (
+      <div style={groupStyles}>
+        <span>{data.label}</span>
+      </div>
+    );
+
+    const handleHeaderClick = (id) => {
+      const node = document.querySelector(`#${id}`).parentElement
+        .nextElementSibling;
+      const classes = node.classList;
+      if (classes.contains('collapsed')) {
+        node.classList.remove('collapsed');
+      } else {
+        node.classList.add('collapsed');
+      }
+    };
+
+    const CustomGroupHeading = (props) => {
+      return (
+        <div
+          className="group-heading-wrapper"
+          onClick={() => handleHeaderClick(props.id)}
+        >
+          <components.GroupHeading className="collapsed" {...props} />
+        </div>
+      );
+    };
+
     return (
       <div className="mixinOptions">
         <div className="propertyRow">
@@ -86,11 +136,13 @@ export default class Mixin extends React.Component {
               <Select
                 id="mixinSelect"
                 classNamePrefix="select"
-                options={this.getMixinOptions()}
+                options={this.getGroupedMixinOptions()}
                 components={{
+                  GroupHeading: CustomGroupHeading,
                   DropdownIndicator: DropdownArrowIcon,
                   IndicatorSeparator: () => null
                 }}
+                formatGroupLabel={formatGroupLabel}
                 isMulti={true}
                 placeholder="Search mixins..."
                 noResultsText="No mixins found"
@@ -102,11 +154,13 @@ export default class Mixin extends React.Component {
               <Select
                 id="mixinSelect"
                 classNamePrefix="select-single"
-                options={this.getMixinOptions()}
+                options={this.getGroupedMixinOptions()}
                 components={{
+                  GroupHeading: CustomGroupHeading,
                   DropdownIndicator: DropdownArrowIcon,
                   IndicatorSeparator: () => null
                 }}
+                formatGroupLabel={formatGroupLabel}
                 isMulti={false}
                 isSearchable={true}
                 isClearable={false}
