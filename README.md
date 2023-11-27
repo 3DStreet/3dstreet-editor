@@ -33,6 +33,7 @@ npm run start:prod
 * `npm run prefirebase`
 * `cd public`
 * `firebase use [PROJECT]` // ensure PROJECT matches target environment
+* ensure that in firebase.json the hosting SITE matches the target site for the project, such as "dev-3dstreet" or "app3dstreet" etc. -- [note this could be automated](https://stackoverflow.com/questions/61331567/firebase-cli-change-hosting-target)
 * `firebase deploy`
 
 Note: If you are deploying to a development server and want to use development (not production) firebase credentials, you'll need to copy your .env.development credentials to .env.production for the `npm run dist` step to ensure the output dist build uses the intended keys. (In other words, when running npm run dist it always uses firebase app credentials from .env.production, so be careful not to mistakingly deploy production firebase keys to a development server.)
