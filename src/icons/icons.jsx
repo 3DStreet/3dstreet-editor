@@ -349,7 +349,7 @@ const RemixIcon = ({ className }) => (
   </svg>
 );
 
-const ArrowLeft = ({ className }) => (
+const ArrowLeftIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="8"
@@ -362,7 +362,7 @@ const ArrowLeft = ({ className }) => (
   </svg>
 );
 
-const ArrowRight = ({ className }) => (
+const ArrowRightIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="32"
@@ -375,7 +375,7 @@ const ArrowRight = ({ className }) => (
   </svg>
 );
 
-const Layers = ({ className }) => (
+const LayersIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -425,7 +425,7 @@ export {
   DropdownIcon,
   Loader,
   RemixIcon,
-  ArrowLeft,
-  ArrowRight,
-  Layers
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  LayersIcon
 };

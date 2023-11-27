@@ -18,7 +18,7 @@ export {
   DropdownIcon,
   Loader,
   RemixIcon,
-  ArrowLeft,
-  ArrowRight,
-  Layers
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  LayersIcon
 } from './icons.jsx';
