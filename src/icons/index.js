@@ -17,5 +17,8 @@ export {
   Copy32Icon,
   DropdownIcon,
   Loader,
-  RemixIcon
+  RemixIcon,
+  ArrowLeft,
+  ArrowRight,
+  Layers
 } from './icons.jsx';

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
+import { ArrowRight, Layers } from '../../icons';
 export default class Sidebar extends React.Component {
   static propTypes = {
     entity: PropTypes.object,
@@ -62,8 +63,13 @@ export default class Sidebar extends React.Component {
           {this.state.rightBarHide ? (
             <>
               <div id="layers-title" onClick={this.toggleRightBar}>
-                <span>{entityName || formattedMixin}</span>
-                <div id="toggle-rightbar" />
+                <div className={'layersBlock'}>
+                  <Layers />
+                  <span>{entityName || formattedMixin}</span>
+                </div>
+                <div id="toggle-rightbar">
+                  <ArrowRight />
+                </div>
               </div>
               <div className="scroll">
                 {!!entity.mixinEls.length && (

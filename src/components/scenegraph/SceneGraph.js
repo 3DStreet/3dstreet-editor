@@ -6,6 +6,7 @@ import React from 'react';
 import Events from '../../lib/Events';
 import Entity from './Entity';
 import { ToolbarWrapper } from './ToolbarWrapper';
+import { Layers, ArrowLeft } from '../../icons';
 export default class SceneGraph extends React.Component {
   static propTypes = {
     id: PropTypes.string,
@@ -391,9 +392,18 @@ export default class SceneGraph extends React.Component {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
         >
-          <div id="layers-title" onClick={this.toggleLeftBar}>
-            <div id="toggle-leftbar" />
-            <span>Layers</span>
+          <div
+            className={'layersBlock'}
+            id="layers-title"
+            onClick={this.toggleLeftBar}
+          >
+            <div id="toggle-leftbar">
+              <ArrowLeft />
+            </div>
+            <div className={'layersBlock'}>
+              <Layers />
+              <span>Layers</span>
+            </div>
           </div>
           <div className="layers">{this.renderEntities()}</div>
         </div>
