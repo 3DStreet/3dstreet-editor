@@ -4,20 +4,21 @@
   justify-content: flex-start;
   row-gap: 24px;
   column-gap: 20px;
+  padding-bottom: 20px;
 
   .img {
     margin-bottom: 6px;
     object-fit: cover;
-    width: 246px;
-    height: 144px;
+    width: 272px;
+    height: 204px;
   }
 
   .card {
     border-radius: 4px;
     border: 1px solid rgba(237, 235, 239, 0.2);
     padding: 8px 8px 12px 8px;
-    width: 246px;
-    height: 187px;
+    width: 272px;
+    height: 292px;
     position: relative;
     cursor: pointer;
 
@@ -37,11 +38,90 @@
     }
   }
 
+  .menuBlock {
+    display: flex;
+    flex-direction: column;
+    width: 189px;
+    border-radius: 8px;
+    border: 1px solid #8d56e8;
+    position: absolute;
+    height: 70px;
+    width: 190px;
+    background-color: #2d2d2d;
+    padding: 6px 0px;
+    top: 140px;
+    right: -75px;
+    z-index: 10;
+
+    .menuItem {
+      font-size: 16px;
+      padding: 8px 8px 8px 20px;
+
+      &:hover {
+        background-color: #262626;
+        transition: all 0.3s;
+      }
+
+      &:active {
+        background-color: #1e1e1e;
+        color: #b6b6b6;
+        transition: all 0.3s;
+      }
+
+      &:disabled {
+        background-color: rgba(50, 50, 50, 0.6);
+        color: #636363;
+        transition: all 0.3s;
+      }
+    }
+  }
+
+  .userBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .dropdown {
+      width: 20px;
+      padding: 0px;
+      background: none;
+      border-radius: 0;
+    }
+
+    .userName {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+    }
+  }
+
+  .editButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 8px;
+
+    .editButton {
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+
+  .editInput {
+    font-size: 16px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
   .title {
     font-size: 16px !important;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    margin-bottom: 12px;
   }
 
   .date {

@@ -11,44 +11,33 @@ import {
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
-import { Load24Icon, Upload24Icon } from '../../../icons';
+import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
+
+const tabs = [
+  {
+    label: 'My Scenes',
+    value: 'owner'
+  },
+  {
+    label: 'Community Scenes',
+    value: 'community'
+  }
+];
 
 const ScenesModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuthContext();
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const tabs = [
-    {
-      label: 'My Scenes',
-      value: 'owner'
-    },
-    {
-      label: 'Community Scenes',
-      value: 'community'
-    }
-  ];
-
+  const scenesPerPage = 20;
+  const [totalDisplayedUserScenes, setTotalDisplayedUserScenes] =
+    useState(scenesPerPage);
+  const [totalDisplayedCommunityScenes, setTotalDisplayedCommunityScenes] =
+    useState(scenesPerPage);
+  const [isLoadingScenes, setIsLoadingScenes] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
+  const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
   const [selectedTab, setSelectedTab] = useState('owner');
-
-  useEffect(() => {
-    if (!isOpen) return; // Only proceed if the modal is open
-
-    async function fetchScenesCommunity() {
-      const communityScenes = await getCommunityScenes();
-      setScenesDataCommunity(communityScenes);
-    }
-    fetchScenesCommunity();
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || !currentUser) return; // Only proceed if modal open and currentUser exists
-
-    async function fetchScenesUser() {
-      const userScenes = await getUserScenes(currentUser.uid);
-      setScenesData(userScenes);
-    }
-    fetchScenesUser();
-  }, [currentUser, isOpen]);
 
   const handleSceneClick = (scene) => {
     if (scene.data() && scene.data().data) {
@@ -75,6 +64,77 @@ const ScenesModal = ({ isOpen, onClose }) => {
       console.error('Scene data is undefined or invalid.');
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoadingScenes(true);
+      let collections;
+
+      if (
+        selectedTab === 'owner' &&
+        isOpen &&
+        !isUserLoadedOnce &&
+        currentUser?.uid
+      ) {
+        setIsUserLoadedOnce(true);
+        collections = await getUserScenes(currentUser.uid, true);
+        setScenesData(collections);
+      } else if (
+        selectedTab === 'community' &&
+        isOpen &&
+        !isCommunityLoadedOnce
+      ) {
+        setIsCommunityLoadedOnce(true);
+        collections = await getCommunityScenes(true);
+        setScenesDataCommunity(collections);
+      }
+
+      setIsLoadingScenes(false);
+    };
+
+    fetchData();
+  }, [isOpen, currentUser, selectedTab]);
+
+  const fetchUserScenes = async () => {
+    return await getUserScenes(currentUser?.uid);
+  };
+
+  const fetchCommunityScenes = async () => {
+    return await getCommunityScenes();
+  };
+
+  const loadData = async (end) => {
+    setIsLoading(true);
+
+    if (selectedTab === 'owner') {
+      const userScenes = await fetchUserScenes();
+
+      setScenesData([...scenesData, ...userScenes]);
+      setTotalDisplayedUserScenes(end);
+    } else if (selectedTab === 'community') {
+      const communityScenes = await fetchCommunityScenes();
+
+      setScenesDataCommunity([...scenesDataCommunity, ...communityScenes]);
+      setTotalDisplayedCommunityScenes(end);
+    }
+
+    setIsLoading(false);
+  };
+
+  const loadMoreScenes = () => {
+    if (selectedTab === 'owner') {
+      const start = totalDisplayedUserScenes;
+      const end = start + scenesPerPage;
+
+      loadData(end);
+    } else if (selectedTab === 'community') {
+      const start = totalDisplayedCommunityScenes;
+      const end = start + scenesPerPage;
+
+      loadData(end);
+    }
+  };
+
   return (
     <Modal
       className={styles.modalWrapper}
@@ -118,7 +178,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
               >
                 Load from Streetmix
               </Button>
-
               <Button
                 leadingicon={<Upload24Icon />}
                 className={styles.uploadBtn}
@@ -148,33 +207,57 @@ const ScenesModal = ({ isOpen, onClose }) => {
       }
     >
       <div className={styles.contentWrapper}>
-        <>
-          {currentUser || selectedTab !== 'owner' ? (
-            <SceneCard
-              scenesData={
-                selectedTab === 'owner' ? scenesData : scenesDataCommunity
-              }
-              handleSceneClick={handleSceneClick}
-            />
-          ) : (
-            <div className={styles.signInFirst}>
-              <div className={styles.title}>
-                To view your scenes you have to sign in:
-              </div>
-              <div className={styles.buttons}>
-                <Button onClick={() => loginHandler()}>
-                  Sign in to 3DStreet Cloud
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => setSelectedTab('community')}
-                >
-                  View Community Scenes
-                </Button>
-              </div>
+        {isLoadingScenes ? (
+          <div className={styles.loadingSpinner}>
+            <Loader className={styles.spinner} />
+          </div>
+        ) : currentUser || selectedTab !== 'owner' ? (
+          <SceneCard
+            scenesData={
+              selectedTab === 'owner' ? scenesData : scenesDataCommunity
+            }
+            setScenesData={setScenesData}
+            isCommunityTabSelected={selectedTab === 'community'}
+            handleSceneClick={handleSceneClick}
+          />
+        ) : (
+          <div className={styles.signInFirst}>
+            <div className={styles.title}>
+              To view your scenes you have to sign in:
             </div>
-          )}
-        </>
+            <div className={styles.buttons}>
+              <Button onClick={() => loginHandler()}>
+                Sign in to 3DStreet Cloud
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setSelectedTab('community')}
+              >
+                View Community Scenes
+              </Button>
+            </div>
+          </div>
+        )}
+        {!isLoadingScenes && isLoading ? (
+          <div className={styles.loadingSpinner}>
+            <Loader className={styles.spinner} />
+          </div>
+        ) : (
+          <div className={styles.loadMore}>
+            {selectedTab === 'owner' &&
+              totalDisplayedUserScenes <= scenesData?.length && (
+                <Button className={styles.button} onClick={loadMoreScenes}>
+                  Load More
+                </Button>
+              )}
+            {selectedTab === 'community' &&
+              totalDisplayedCommunityScenes <= scenesDataCommunity?.length && (
+                <Button className={styles.button} onClick={loadMoreScenes}>
+                  Load More
+                </Button>
+              )}
+          </div>
+        )}
       </div>
     </Modal>
   );

@@ -29,12 +29,13 @@ const Dropdown = ({
   label,
   icon,
   placeholder,
-  disabled
+  disabled,
+  className
 }) => {
   const [isOptionsMenuOpen, setIsMenuOptionsOpen] = useState(false);
-
   const toggleOptionsMenu = () =>
     setIsMenuOptionsOpen((prevState) => !prevState);
+
   const findSelectedOptionLabel = () =>
     options.find(({ value }) => value === selectedOptionValue)?.label;
 
@@ -43,7 +44,7 @@ const Dropdown = ({
   useClickOutside(ref, () => setIsMenuOptionsOpen(false));
 
   return (
-    <div className={styles.wrapper}>
+    <div className={classNames(styles.wrapper, className)}>
       {label && (
         <span
           className={classNames(styles.label, disabled && styles.disabledLabel)}
@@ -81,12 +82,13 @@ const Dropdown = ({
                     return 0;
                   }
                 })
-                .map(({ value, label, disabled }, index) => (
+                .map(({ value, label, disabled, onClick }, index) => (
                   <button
                     type={'button'}
                     tabIndex={0}
                     onClick={() => {
                       onSelect(value);
+                      onClick();
                       toggleOptionsMenu();
                     }}
                     className={classNames(

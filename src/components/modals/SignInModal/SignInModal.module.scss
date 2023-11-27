@@ -9,6 +9,7 @@
   flex-direction: column;
   align-items: center;
   row-gap: 28px;
+  padding: 0px 14px 0px 4px;
 
   .title {
     position: absolute;
@@ -51,8 +52,6 @@
 
   .signInButton {
     cursor: pointer;
-    width: 210px;
-    height: 48px;
     background-color: transparent;
     border: none;
     cursor: pointer;
