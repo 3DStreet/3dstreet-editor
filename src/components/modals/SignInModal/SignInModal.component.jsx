@@ -1,9 +1,9 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React from 'react';
-import GoogleSignIn from '../../../../assets/google_sign_in.png';
 import { auth } from '../../../services/firebase';
 import Modal from '../Modal.jsx';
 import styles from './SignInModal.module.scss';
+import { GoogleSignInButtonSVG } from '../../../icons';
 
 const loginHandler = async (onClose) => {
   try {
@@ -39,12 +39,13 @@ const SignInModal = ({ isOpen, onClose }) => {
             </a>
           </p>
         </div>
-        <img
+        <div
           onClick={() => loginHandler(onClose)}
-          src={GoogleSignIn}
-          alt="Google Sign-In"
+          alt="Sign In with Google Button"
           className={styles.signInButton}
-        />
+        >
+          <GoogleSignInButtonSVG />
+        </div>
       </div>
     </Modal>
   );

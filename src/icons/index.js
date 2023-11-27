@@ -20,5 +20,6 @@ export {
   RemixIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
-  LayersIcon
+  LayersIcon,
+  GoogleSignInButtonSVG
 } from './icons.jsx';
