@@ -17,5 +17,9 @@ export {
   Copy32Icon,
   DropdownIcon,
   Loader,
-  RemixIcon
+  RemixIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  LayersIcon,
+  GoogleSignInButtonSVG
 } from './icons.jsx';

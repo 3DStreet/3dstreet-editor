@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ScenePlaceholder from '../../../../assets/scene.png';
+import ScenePlaceholder from '../../../../assets/ScenePlaceholder.svg';
 import styles from './SceneCard.module.scss';
 import { formatDistanceToNow } from 'date-fns';
 import { DropdownIcon } from '../../../icons';
@@ -130,7 +130,7 @@ const SceneCard = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showMenu]);
-  
+
   return (
     <div className={styles.wrapper}>
       {scenesData?.map((scene, index) => (

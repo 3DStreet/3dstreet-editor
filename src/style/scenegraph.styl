@@ -80,6 +80,12 @@
     margin-top: 84px;
   }
 
+  .layersBlock {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
   .layer {
     width: 100%;
     margin-top: 12px;
@@ -347,9 +353,9 @@
         width: 56px;
         height: 72px;
         background: #323232;
-        background-image: url('/assets/arrow-left.svg');
-        background-repeat: no-repeat;
-        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
       }
 
@@ -366,27 +372,34 @@
         font-size: 24px;
         color: #FFF;
         line-height: 28px;
-        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCA3LjhMMTIgMTIuNUw0IDcuOEwxMiAzTDIwIDcuOFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTQgMTJMMTIgMTYuOEwyMCAxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNCAxNi4yTDEyIDIxTDIwIDE2LjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==');
-        background-repeat: no-repeat;
-        background-position: left;
-        padding-left: 36px;
-        margin-left: 20px;
       }
     }
   }
 
   .outliner.hide, .outliner.hide #layers-title {
     transition: all 0.4s ease-in-out 0s;
-    width: 56px;
+    width: 70px;
     height: 72px;
     display: flex;
     border-radius: 0px 12px 12px 0px;
+
+    svg {
+      display: none;
+    }
+  }
+
+  .outliner.hide .layersBlock .hide {
+    display: none;
   }
 
   .outliner.hide:hover, .outliner.hide #layers-title:hover {
     width: 115px;
     background-color: $buttonHover;
     cursor: pointer;
+
+    svg {
+      padding-left: 15px;
+    }
   }
 
   .outliner.hide #layers-title span {
@@ -401,7 +414,6 @@
       font-size: 18px;
       color: $colorPressed;
       background-position: left;
-      background-image: url($iconLayersActive) !important;
     }
   }
 
@@ -412,6 +424,11 @@
     padding-left: 40px;
     line-height: 29px;
     background-image: url($iconLayers);
+    background-repeat: no-repeat !important;
+
+    svg {
+      display: none;
+    }
   }
 
   .outliner.hide #layers-title:hover #toggle-leftbar {
