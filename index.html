@@ -22,20 +22,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
     <link rel="stylesheet" href="//github.3dstreet.org/src/viewer-styles.css">
-    <link rel="stylesheet" href="./assets/loader/loader.css" />
   </head>
 
   <body>
     <div class="loader__wrapper">
       <div class="loader">
         <div class="entities">
-          <img src="./assets/loader/entities.svg" alt="entities" />
+          <img src="//github.3dstreet.org/ui_assets/loader/entities.svg" alt="entities" />
         </div>
         <div class="transport">
           <div class="wrapper__transport">
-            <img src="./assets/loader/car.svg" class="car" alt="car" />
-            <img src="./assets/loader/bus.svg" class="bus" alt="bus" />
-            <img src="./assets/loader/bike.svg" class="bike" alt="bike" />
+            <img src="//github.3dstreet.org/ui_assets/loader/car.svg" class="car" alt="car" />
+            <img src="//github.3dstreet.org/ui_assets/loader/bus.svg" class="bus" alt="bus" />
+            <img src="//github.3dstreet.org/ui_assets/loader/bike.svg" class="bike" alt="bike" />
           </div>
         </div>
         <div class="road">Loading 3DStreet</div>
@@ -92,6 +91,7 @@
     </a-scene>
   </body>
   <script>
+    /* loading animation script */
     document.addEventListener('DOMContentLoaded', function () {
       const scene = document.querySelector('a-scene');
       const splash = document.querySelector('.loader__wrapper');
