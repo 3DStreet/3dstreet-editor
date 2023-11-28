@@ -29,33 +29,30 @@ export default class Mixin extends React.Component {
   }
 
   getGroupedMixinOptions = () => {
-    const groupedMixinJSON = JSON.parse(
-      document.querySelector('street-assets').getAttribute('grouped-assets')
-    );
+    const mixinElements = document.querySelectorAll('a-mixin');
     const groupedArray = [];
-    for (let [groupName, mixinIdArray] of Object.entries(groupedMixinJSON)) {
+    let categoryName, mixinId;
+
+    const groupedObject = {};
+    for (let mixinEl of Array.from(mixinElements)) {
+      categoryName = mixinEl.getAttribute('category');
+      if (!categoryName) continue;
+      mixinId = mixinEl.id;
+      if (!groupedObject[categoryName]) {
+        groupedObject[categoryName] = [];
+      }
+      groupedObject[categoryName].push({ label: mixinId, value: mixinId });
+    }
+
+    for (let categoryName of Object.keys(groupedObject)) {
       groupedArray.push({
-        label: groupName,
-        options: mixinIdArray.map((mixinId) => {
-          return { label: mixinId, value: mixinId };
-        })
+        label: categoryName,
+        options: groupedObject[categoryName]
       });
     }
     return groupedArray;
   };
-  /*
-  getMixinOptions = () => {
-    const mixinIds = this.props.entity.mixinEls.map(function (mixin) {
-      return mixin.id;
-    });
-    return Array.prototype.slice
-      .call(document.querySelectorAll('a-mixin'))
-      .sort()
-      .map(function (mixin) {
-        return { value: mixin.id, label: mixin.id };
-      });
-  }
-*/
+
   updateMixins = (value) => {
     const entity = this.props.entity;
     this.setState({ mixins: value });
