@@ -5,7 +5,7 @@
   "main": "dist/3dstreet-editor.js",
   "scripts": {
     "start:dev": "webpack serve --config webpack.config.js --mode development --open --hot --progress",
-    "start:prod": "serve dist",
+    "start:prod": "serve dist -l 3333",
     "start:build": "webpack --config webpack.prod.config.js --mode production --progress",
     "dist": "npm run dist:max && npm run dist:min",
     "dist:max": "cross-env MINIFY=false npm run start:build",
