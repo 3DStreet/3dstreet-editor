@@ -1,20 +1,43 @@
 import { Button, HelpButton, Logo, ZoomButtons } from './components';
 import { CameraToolbar } from './viewport';
 import { Compass32Icon } from '../icons';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import ComponentsSidebar from './components/Sidebar';
 import Events from '../lib/Events';
-import { ModalHelp } from './modals/ModalHelp';
-import ModalTextures from './modals/ModalTextures';
 import SceneGraph from './scenegraph/SceneGraph';
-import { ScreenshotModal } from './modals/ScreenshotModal';
-import TransformToolbar from './viewport/TransformToolbar';
-// import ViewportHUD from "./viewport/ViewportHUD";
 import { injectCSS } from '../lib/utils';
-import { SignInModal } from './modals/SignInModal';
-import { ProfileModal } from './modals/ProfileModal';
-import { ScenesModal } from './modals/ScenesModal';
 import { SceneEditTitle } from './components/SceneEditTitle';
+import { TransformToolbar } from './viewport/TransformToolbar';
+
+const ModalHelp = React.lazy(() =>
+  import('./modals/ModalHelp').then((module) => ({ default: module.ModalHelp }))
+);
+const ModalTextures = React.lazy(() =>
+  import('./modals/ModalTextures/ModalTextures').then((module) => ({
+    default: module.ModalTextures
+  }))
+);
+const ScreenshotModal = React.lazy(() =>
+  import('./modals/ScreenshotModal').then((module) => ({
+    default: module.ScreenshotModal
+  }))
+);
+const SignInModal = React.lazy(() =>
+  import('./modals/SignInModal').then((module) => ({
+    default: module.SignInModal
+  }))
+);
+const ProfileModal = React.lazy(() =>
+  import('./modals/ProfileModal').then((module) => ({
+    default: module.ProfileModal
+  }))
+);
+const ScenesModal = React.lazy(() =>
+  import('./modals/ScenesModal').then((module) => ({
+    default: module.ScenesModal
+  }))
+);
+
 THREE.ImageUtils.crossOrigin = '';
 // Megahack to include font-awesome.
 injectCSS(
