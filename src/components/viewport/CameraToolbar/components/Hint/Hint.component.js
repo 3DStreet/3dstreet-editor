@@ -1,4 +1,4 @@
-import './Hint.styl';
+import './Hint.scss';
 
 import { Component } from 'react';
 

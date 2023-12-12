@@ -4,15 +4,12 @@
   background-color: rgba(50, 50, 50, 0.6);
   transition: all 0.3s;
 }
-
 .close:active {
   background-color: #282828;
-
   span {
-    background-color: #B6B6B6;
+    background-color: #b6b6b6;
   }
 }
-
 .input {
   width: 262px;
   height: 36px;

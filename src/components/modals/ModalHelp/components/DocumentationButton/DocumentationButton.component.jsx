@@ -1,4 +1,4 @@
-import './DocumentationButton.styles.styl';
+import './DocumentationButton.scss';
 import { Button } from '../../../../components';
 import { Component } from 'react';
 import { Open } from './icons.jsx';

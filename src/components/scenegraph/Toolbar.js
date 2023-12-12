@@ -475,7 +475,6 @@ export default class Toolbar extends Component {
                 isSignInModalActive: true
               }))
             }
-            className={'cameraButton'}
           >
             <ProfileButton />
           </div>

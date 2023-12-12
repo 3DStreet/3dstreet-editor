@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProfileButton.styles.styl';
+import './ProfileButton.scss';
 
 import { Button } from '../Button';
 import Events from '../../../lib/Events.js';

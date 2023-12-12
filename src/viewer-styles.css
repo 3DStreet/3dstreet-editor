@@ -92,7 +92,8 @@ body {
   transition: all 0.4s ease-in-out 0s;
   text-align: left;
   width: 200px;
-  letter-spacing: 0.5;
+  letter-spacing: 0.5px;
+  font-size: 18px;
   margin-right: -270px;
   padding-left: 60px;
   color: rgba(50, 50, 50, 0.5);

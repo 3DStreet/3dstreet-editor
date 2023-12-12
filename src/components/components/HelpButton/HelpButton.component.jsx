@@ -1,4 +1,4 @@
-import './HelpButton.styles.styl';
+import './HelpButton.scss';
 
 import { Button } from '../Button';
 import { Component } from 'react';

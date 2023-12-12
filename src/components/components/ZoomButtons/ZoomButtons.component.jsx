@@ -1,4 +1,4 @@
-import './ZoomButton.styles.styl';
+import './ZoomButtons.scss';
 
 import { Button } from '../Button';
 import { Component } from 'react';

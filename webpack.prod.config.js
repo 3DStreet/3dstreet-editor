@@ -70,6 +70,20 @@ module.exports = {
         ]
       },
       {
+        test: /\.scss$/,
+        exclude: /\.module\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
         test: /\.styl$/,
         exclude: /node_modules/,
         use: [

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import './Shortcuts.styles.styl';
+import './Shortcuts.scss';
 import { DocumentationButton } from '../DocumentationButton';
 
 const shortcuts = [

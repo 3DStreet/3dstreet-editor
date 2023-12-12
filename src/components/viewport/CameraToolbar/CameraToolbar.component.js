@@ -1,4 +1,4 @@
-import './CameraToolbar.styl';
+import './CameraToolbar.scss';
 
 import { Component } from 'react';
 
