@@ -1,4 +1,4 @@
-import './SavingModal.scss';
+import styles from './SavingModal.module.scss';
 
 import { Component } from 'react';
 
@@ -11,10 +11,10 @@ import { Component } from 'react';
 class SavingModal extends Component {
   render() {
     return (
-      <div className="savingModalWrapper">
-        <div className="preloaderBox">
+      <div className={styles.savingModalWrapper}>
+        <div className={styles.preloaderBox}>
           <svg
-            className={'preloader'}
+            className={styles.preloader}
             width="60"
             height="60"
             viewBox="0 0 60 60"
@@ -34,7 +34,7 @@ class SavingModal extends Component {
             </defs>
           </svg>
         </div>
-        <span className="action">Saving ...</span>
+        <span className={styles.action}>Saving ...</span>
       </div>
     );
   }

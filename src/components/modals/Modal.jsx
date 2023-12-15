@@ -1,4 +1,4 @@
-import './Modal.scss';
+import styles from './Modal.module.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -115,7 +115,7 @@ export default class Modal extends Component {
               title === 'Open scene' ? 'modal-scene-header' : 'modal-header'
             )}
           >
-            <span className="close" onClick={this.close}>
+            <span className={styles.close} onClick={this.close}>
               <Cross24Icon />
             </span>
             {typeof titleElement !== 'undefined' ? (

@@ -1,5 +1,5 @@
 import { string } from 'prop-types';
-import styles from './Hint.module.scss';
+import './Hint.scss';
 import { useEffect } from 'react';
 
 /**
@@ -15,7 +15,7 @@ import { useEffect } from 'react';
  */
 const Hint = ({ hint, tab }) => {
   useEffect(() => {
-    const hintElement = document?.getElementById(this.props.tab.concat('Tab'));
+    const hintElement = document?.getElementById(tab.concat('Tab'));
 
     hintElement &&
       !hintElement.hasAttribute('style') &&
@@ -26,7 +26,7 @@ const Hint = ({ hint, tab }) => {
   }, [document]);
 
   return (
-    <div id={tab.concat('Tab')} className={styles.wrapper}>
+    <div id={tab.concat('Tab')} className={'wrapper'}>
       <span>{hint}</span>
     </div>
   );

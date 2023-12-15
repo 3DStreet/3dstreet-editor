@@ -1,9 +1,11 @@
-.help-lists {
+@use '../../../../../style/variables.scss';
+
+.helpLists {
   display: grid;
   width: 100%;
   grid-template-columns: 50% 50%;
   max-width: 782px;
-  .help-list {
+  .helpList {
     display: flex;
     flex-direction: column;
     row-gap: 12px;
@@ -15,18 +17,18 @@
       padding-right: 60px;
       width: calc(100% - 60px);
     }
-    .help-key-unit {
+    .helpKeyUnit {
       display: flex;
       width: max-content;
       max-width: 100%;
       align-items: center;
       column-gap: 12px;
-      .help-key {
+      .helpKey {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 32px;
-        border: 1px solid #fff;
+        border: 1px solid variables.$white;
         border-radius: 16px;
         span {
           padding: 9px 11px;
@@ -36,8 +38,8 @@
           white-space: nowrap;
         }
       }
-      .help-key-def {
-        color: #fff;
+      .helpKeyDef {
+        color: variables.$white;
         font-size: 1rem;
         line-height: 1.2rem;
         font-weight: 400;

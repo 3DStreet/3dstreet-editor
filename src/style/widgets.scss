@@ -1,19 +1,19 @@
 @use './variables.scss';
 .Select-control {
-  background-color: #222 !important;
+  background-color: variables.$black !important;
   border: none;
   border-radius: 0;
-  color: variables.$primary;
+  color: variables.$blue-100;
 }
 .Select-menu-outer {
   border: none;
 }
 .Select-menu-outer .is-focused {
-  background-color: variables.$primary !important;
-  color: variables.$white;
+  background-color: variables.$blue-100 !important;
+  color: variables.$lightgray-100;
 }
 .Select-option {
-  background-color: #222 !important;
+  background-color: variables.$black !important;
 }
 .select-widget {
   display: inline-block;
@@ -21,16 +21,16 @@
 }
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
-  color: variables.$primary !important;
+  color: variables.$blue-100 !important;
 }
 .Select-value-label {
-  color: variables.$primary !important;
+  color: variables.$blue-100 !important;
 }
 
 /* Dropdown menu */
 .dropbtn {
   border: none;
-  color: variables.$white;
+  color: variables.$lightgray-100;
   cursor: pointer;
 }
 .dropdown {
@@ -38,7 +38,7 @@
   position: relative;
 }
 .dropdown-content {
-  background-color: #f9f9f9;
+  background-color: variables.$white-200;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   display: none;
   left: 8px;
@@ -47,19 +47,19 @@
   z-index: 999;
 }
 .dropdown-content a {
-  background-color: #232323;
-  color: #7d7d7d;
+  background-color: variables.$black-500;
+  color: variables.$gray-600;
   display: block;
   padding: 10px 14px;
   text-decoration: none;
 }
 .dropdown-content a:hover {
-  background-color: #4ecbff;
-  color: variables.$white;
+  background-color: variables.$aqua-100;
+  color: variables.$lightgray-100;
 }
 .dropdownhover .dropdown-content {
   display: block;
 }
 .dropdownhover .dropbtn {
-  color: variables.$primary;
+  color: variables.$blue-100;
 }

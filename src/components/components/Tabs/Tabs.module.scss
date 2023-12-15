@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -15,7 +17,7 @@
     outline: unset;
     background-color: transparent;
     padding: 8.5px 12px;
-    color: #ffffff;
+    color: variables.$white;
     border-radius: 11px;
     transition: all 0.3s;
     font-size: 16px;
@@ -31,19 +33,18 @@
       [class*='wrapper'] {
         visibility: visible;
         opacity: 1;
-        transition: all 0.3s;
       }
     }
 
     &:active {
-      background-color: #282828;
-      color: #b6b6b6;
+      background-color: variables.$black-600;
+      color: variables.$lightgray-200;
       transition: all 0.3s;
     }
   }
 
   .selectedTab {
-    background-color: #2d2d2d;
+    background-color: variables.$darkgray-300;
     transition: all 0.3s;
   }
 }

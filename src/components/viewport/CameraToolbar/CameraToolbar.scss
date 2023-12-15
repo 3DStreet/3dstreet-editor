@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 #cameraToolbar {
   margin-left: 5px;
   align-items: center;
@@ -16,7 +18,7 @@
     outline: unset;
     background-color: transparent;
     padding: 8.5px 12px;
-    color: #ffffff;
+    color: variables.$white;
     border-radius: 11px;
     transition: all 0.3s;
     font-size: 16px;
@@ -28,18 +30,18 @@
       transition: all 0.3s;
     }
     &:active {
-      background-color: #282828;
-      color: #b6b6b6;
+      background-color: variables.$black-600;
+      color: variables.$lightgray-200;
       transition: all 0.3s;
     }
     &:hover .wrapper {
-      visibility: visible;
+      visibility: visible; // need to be global for working with Tab component over wrapper class
       opacity: 1;
       transition: all 0.3s;
     }
   }
   .selectedCamera {
-    background-color: #2d2d2d;
+    background-color: variables.$darkgray-300;
     transition: all 0.3s;
   }
   a {
@@ -51,9 +53,9 @@
     padding: 2px 15px 2px 6px;
   }
   .select__single-value {
-    color: #fff;
+    color: variables.$white;
     &:hover {
-      color: #1faaf2; // You may need to replace this with the actual variable or color value you want to use
+      color: variables.$blue-100;
     }
   }
   @media screen and (max-width: 1024px) {

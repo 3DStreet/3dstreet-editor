@@ -57,13 +57,13 @@
 }
 .closehover,
 .closefocus {
-  color: #08f;
+  color: variables.$blue-500;
   cursor: pointer;
   text-decoration: none;
 }
 .modal-header {
   position: relative;
-  color: white;
+  color: variables.$white;
   padding: 2px 50px 2px 32px;
 }
 .modal-body {
@@ -72,10 +72,11 @@
   max-height: calc(100% - 140px);
   padding: 0px 26px 0px 32px;
   margin-bottom: 40px;
+  overflow-y: scroll;
 }
 .modal-scene-header {
   position: relative;
-  color: white;
+  color: variables.$white;
   padding: 2px 50px 2px 35px;
 }
 .modal-sign-in-first {
@@ -92,7 +93,7 @@
   max-height: calc(100vh - 140px);
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: #fff rgba(237, 235, 239, 0.5);
+  scrollbar-color: variables.$white rgba(237, 235, 239, 0.5);
   margin-right: 20px;
   &::-webkit-scrollbar {
     width: 4px;
@@ -102,11 +103,11 @@
     background-color: rgba(237, 235, 239, 0.5);
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #fff;
+    background-color: variables.$white;
     border-radius: 1px;
   }
   &::-webkit-scrollbar-thumb:vertical {
-    background-color: #fff;
+    background-color: variables.$white;
   }
   &::-webkit-scrollbar-thumb:vertical::after {
     content: '';
@@ -120,12 +121,12 @@
   }
 }
 .modal-footer {
-  color: white;
+  color: variables.$white;
   padding: 2px 16px;
 }
 /* Gallery */
 .gallery {
-  background: #232323;
+  background: variables.$black-500;
   display: flex;
   flex-wrap: wrap;
   margin: 15px auto 0;
@@ -144,11 +145,11 @@
   width: 155px;
 }
 .gallery li.selected,
-.gallery lihover {
-  box-shadow: 0 0 0 2px #1eaaf1;
+.gallery {
+  box-shadow: 0 0 0 2px variables.$blue-400;
 }
 .gallery li .detail {
-  background-color: #323232;
+  background-color: variables.$darkgray-900;
   margin: 0;
   min-height: 60px;
   padding: 3px 10px;
@@ -171,7 +172,7 @@
   width: 155px;
 }
 .preview .detail .title {
-  color: #fff;
+  color: variables.$white;
   display: inline-block;
   max-width: 155px;
   overflow: hidden;
@@ -179,11 +180,11 @@
   white-space: nowrap;
 }
 .gallery li.selected .detail,
-.gallery lihover .detail {
-  background-color: #444;
+.gallery .detail {
+  background-color: variables.$darkgray-600;
 }
 .gallery li .detail span {
-  color: #777;
+  color: variables.$gray-400;
   display: block;
   margin-top: 4px;
   overflow: hidden;
@@ -192,11 +193,11 @@
   width: 140px;
 }
 .gallery li.selected .detail span,
-.gallery lihover .detail span {
-  color: #888;
+.gallery .detail span {
+  color: variables.$lightgray-900;
 }
 .gallery li .detail span.title {
-  color: #fff !important;
+  color: variables.$white !important;
 }
 .modal button:focus {
   outline: none;
@@ -204,23 +205,14 @@
 .modal button {
   font-size: 16px;
 }
-.modal buttonhover,
-.modal button.hover {
-  background-color: #346392;
-  text-shadow: -1px 1px #27496d;
+.modal .modal button.hover {
+  background-color: variables.$blue-600;
+  text-shadow: -1px 1px variables.$blue-700;
 }
-.modal buttonactive,
-.modal button.active {
-  background-color: #27496d;
-  text-shadow: -1px 1px #193047;
-}
-.modal buttondisabled {
-  background-color: #888;
-  cursor: none;
-}
+
 .newimage {
-  background-color: #323232;
-  color: #bcbcbc;
+  background-color: variables.$darkgray-900;
+  color: variables.$gray-100;
   display: flex;
   font-size: 13px;
   justify-content: space-between;
@@ -229,7 +221,7 @@
   padding: 10px;
 }
 .newimage input {
-  color: #1eaaf1;
+  color: variables.$blue-400;
   padding: 3px 5px;
 }
 .texture canvas + input {
@@ -271,6 +263,6 @@
   width: 350px;
 }
 .texture canvas {
-  border: 1px solid variables.$bglight;
+  border: 1px solid variables.$darkgray-400;
   cursor: pointer;
 }

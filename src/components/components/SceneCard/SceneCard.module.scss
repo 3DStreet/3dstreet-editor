@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -23,12 +25,12 @@
     cursor: pointer;
 
     &:hover {
-      border: 1px solid #6439df;
+      border: 1px solid variables.$purple-100;
       transition: ease-out 0.3s;
     }
 
     &:active {
-      border-color: #5b37c0;
+      border-color: variables.$purple-200;
       transition: all 0.3s;
     }
 
@@ -43,11 +45,11 @@
     flex-direction: column;
     width: 189px;
     border-radius: 8px;
-    border: 1px solid #8d56e8;
+    border: 1px solid variables.$purple-700;
     position: absolute;
     height: 70px;
     width: 190px;
-    background-color: #2d2d2d;
+    background-color: variables.$darkgray-300;
     padding: 6px 0px;
     top: 140px;
     right: -75px;
@@ -58,19 +60,19 @@
       padding: 8px 8px 8px 20px;
 
       &:hover {
-        background-color: #262626;
+        background-color: variables.$black-400;
         transition: all 0.3s;
       }
 
       &:active {
-        background-color: #1e1e1e;
-        color: #b6b6b6;
+        background-color: variables.$black-700;
+        color: variables.$lightgray-200;
         transition: all 0.3s;
       }
 
       &:disabled {
         background-color: rgba(50, 50, 50, 0.6);
-        color: #636363;
+        color: variables.$gray-500;
         transition: all 0.3s;
       }
     }
