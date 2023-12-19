@@ -6,10 +6,12 @@
   width: 80vw;
   height: 90vh;
   overflow-y: scroll;
+
   .wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
+    row-gap: 8px;
 
     .header {
       display: flex;
@@ -60,23 +62,28 @@
         }
 
         .dropdown {
-          max-width: 50%;
+          max-width: fit-content;
         }
       }
     }
     .imageWrapper {
-      padding: 8px 0px 0px;
       justify-content: center;
       display: flex;
+      min-width: 100%;
+      min-height: calc(100% - 28px);
+      position: relative;
 
-      img {
-        width: 65%;
+      .screenshotWrapper,
+      div img {
+        width: 100%;
+        height: 100%;
       }
-    }
-    .thumbnailButton {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+
+      .thumbnailButton {
+        position: absolute !important;
+        bottom: 16px;
+        right: 16px;
+      }
     }
   }
 }

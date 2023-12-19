@@ -161,6 +161,31 @@
   }
 }
 
+.customButton {
+  background-color: rgba(50, 50, 50, 0.8);
+  color: #dbdbdb;
+  border-radius: 10px;
+
+  &:active {
+    background-color: #282828;
+  }
+
+  &:focus {
+    border: 1px solid #fff;
+    background-color: #2d2d2d;
+  }
+
+  &:hover {
+    background-color: #2d2d2d;
+    transition: all 0.3s;
+  }
+
+  &:disabled {
+    color: #474747;
+    transition: all 0.3s;
+  }
+}
+
 .icon {
   display: flex;
   justify-content: center;

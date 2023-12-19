@@ -1,15 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ScreenshotModal.module.scss';
 
-import { Button, Dropdown, Input } from '../../components';
-import Modal from '../Modal.jsx';
-import PropTypes from 'prop-types';
-import { Copy32Icon, Save24Icon } from '../../../icons';
-import { loginHandler } from '../SignInModal';
-import { useAuthContext } from '../../../contexts';
-import Toolbar from '../../scenegraph/Toolbar';
-import { db, storage } from '../../../services/firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import {
   collection,
   doc,
@@ -17,6 +8,16 @@ import {
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import PropTypes from 'prop-types';
+import { useAuthContext } from '../../../contexts';
+import { Copy32Icon, Save24Icon } from '../../../icons';
+import { db, storage } from '../../../services/firebase';
+import { Button, Dropdown, Input } from '../../components';
+import Toolbar from '../../scenegraph/Toolbar';
+import Modal from '../Modal.jsx';
+import { loginHandler } from '../SignInModal';
+import { uploadGlbScene } from '../../../api';
 
 export const uploadThumbnailImage = async (uploadedFirstTime) => {
   try {
@@ -96,6 +97,22 @@ export const uploadThumbnailImage = async (uploadedFirstTime) => {
   }
 };
 
+const uploadGlbToCloud = async (sceneId) => {
+  try {
+    uploadGlbScene(await Toolbar.convertSceneToGLTFBlob(), sceneId);
+  } catch (error) {
+    console.error('Error uploading and updating Firestore:', error);
+
+    let errorMessage = `Error updating scene thumbnail: ${error}`;
+    if (error.code === 'storage/unauthorized') {
+      errorMessage =
+        'Error updating glb file: only the scene author may upload glb file. Save this scene as your own for uploading.';
+    }
+
+    AFRAME.scenes[0].components['notify'].message(errorMessage, 'error');
+  }
+};
+
 function ScreenshotModal({ isOpen, onClose }) {
   const storedScreenshot = localStorage.getItem('screenshot');
   const parsedScreenshot = JSON.parse(storedScreenshot);
@@ -135,7 +152,12 @@ function ScreenshotModal({ isOpen, onClose }) {
     {
       value: 'GLB glTF',
       label: 'GLB glTF',
-      onClick: Toolbar.exportSceneToGLTF
+      onClick: () => Toolbar.exportGLTFScene()
+    },
+    {
+      value: 'Upload glTF to cloud',
+      label: 'Upload glTF to cloud',
+      onClick: () => uploadGlbToCloud(sceneId)
     },
     {
       value: '.3dstreet.json',
@@ -198,7 +220,7 @@ function ScreenshotModal({ isOpen, onClose }) {
                   hideBorderAndBackground={true}
                 />
                 <Button
-                  variant="toolbtn"
+                  variant="ghost"
                   onClick={copyToClipboardTailing}
                   className={styles.button}
                 >
@@ -223,17 +245,19 @@ function ScreenshotModal({ isOpen, onClose }) {
             </div>
           )}
         </div>
-        <div
-          className={styles.imageWrapper}
-          dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
-        />
-        <Button
-          variant="outlined"
-          onClick={uploadThumbnailImage}
-          className={styles.thumbnailButton}
-        >
-          Set as scene thumbnail
-        </Button>
+        <div className={styles.imageWrapper}>
+          <div
+            className={styles.screenshotWrapper}
+            dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
+          />
+          <Button
+            variant="custom"
+            onClick={uploadThumbnailImage}
+            className={styles.thumbnailButton}
+          >
+            Set as scene thumbnail
+          </Button>
+        </div>
       </div>
     </Modal>
   );
