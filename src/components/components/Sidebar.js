@@ -57,7 +57,6 @@ export default class Sidebar extends React.Component {
       const formattedMixin = entityMixin
         ? capitalize(entityMixin.replaceAll('-', ' ').replaceAll('_', ' '))
         : null;
-
       return (
         <div className={className} tabIndex="0">
           {this.state.rightBarHide ? (
@@ -72,25 +71,21 @@ export default class Sidebar extends React.Component {
                 </div>
               </div>
               <div className="scroll">
-                {!!entity.mixinEls.length && (
-                  <>
-                    <Mixins entity={entity} />
-                    <div id="sidebar-buttons">
-                      <Button
-                        variant={'toolbtn'}
-                        onClick={() => cloneEntity(entity)}
-                      >
-                        Duplicate
-                      </Button>
-                      <Button
-                        variant={'toolbtn'}
-                        onClick={() => removeSelectedEntity()}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </>
-                )}
+                <Mixins entity={entity} />
+                <div id="sidebar-buttons">
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => cloneEntity(entity)}
+                  >
+                    Duplicate
+                  </Button>
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => removeSelectedEntity()}
+                  >
+                    Delete
+                  </Button>
+                </div>
                 <ComponentsContainer entity={entity} />
               </div>
             </>
