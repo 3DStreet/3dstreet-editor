@@ -192,7 +192,6 @@ function ScreenshotModal({ isOpen, onClose }) {
               <div className={styles.inputContainer}>
                 <Input
                   className={styles.input}
-                  defaultValue={inputValue}
                   value={inputValue}
                   readOnly={true}
                   hideBorderAndBackground={true}
