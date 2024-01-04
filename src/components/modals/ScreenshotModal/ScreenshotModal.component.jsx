@@ -107,7 +107,14 @@ function ScreenshotModal({ isOpen, onClose }) {
     screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
   };
 
-  const currentUrl = window.location.href;
+  const sceneId = STREET.utils.getCurrentSceneId();
+  let currentUrl;
+  if (!!sceneId) {
+    currentUrl = 'https://3dstreet.app/#/scenes/' + sceneId + '.json';
+  } else {
+    currentUrl = window.location.href;
+  }
+
   const [inputValue, setInputValue] = useState(currentUrl);
   useEffect(() => {
     setInputValue(currentUrl);
@@ -143,7 +150,13 @@ function ScreenshotModal({ isOpen, onClose }) {
 
   const copyToClipboardTailing = async () => {
     try {
-      const updatedUrl = window.location.href;
+      const sceneId = STREET.utils.getCurrentSceneId();
+      let updatedUrl;
+      if (!!sceneId) {
+        updatedUrl = 'https://3dstreet.app/#/scenes/' + sceneId + '.json';
+      } else {
+        updatedUrl = window.location.href;
+      }
       await navigator.clipboard.writeText(updatedUrl);
     } catch (err) {
       console.error('Failed to copy text: ', err);
@@ -179,7 +192,6 @@ function ScreenshotModal({ isOpen, onClose }) {
               <div className={styles.inputContainer}>
                 <Input
                   className={styles.input}
-                  defaultValue={inputValue}
                   value={inputValue}
                   readOnly={true}
                   hideBorderAndBackground={true}

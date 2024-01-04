@@ -37,7 +37,7 @@ const ProfileButton = () => {
           className={'photoURL'}
           src={currentUser.photoURL}
           alt="userPhoto"
-          referrerpolicy="no-referrer"
+          referrerPolicy="no-referrer"
         />
       ) : (
         Profile32Icon

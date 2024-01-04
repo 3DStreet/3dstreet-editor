@@ -124,7 +124,7 @@ const Input = ({
 Input.propTypes = {
   className: string,
   type: string,
-  onChange: func.isRequired,
+  onChange: func,
   leadingIcon: node,
   tailingIcon: node,
   leadingSubtext: string,
