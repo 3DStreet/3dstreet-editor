@@ -9,11 +9,8 @@ html {
 }
 
 body {
-  font-family: 'Lato', sans-serif;
   background-color: #c4c4c4;
   color: #283237;
-  padding: 0;
-  margin: 0;
 }
 
 /********* viewer header css *********/
