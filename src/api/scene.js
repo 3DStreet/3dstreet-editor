@@ -13,7 +13,8 @@ import {
   startAfter,
   limit
 } from 'firebase/firestore';
-import { db } from '../services/firebase';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { db, storage } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
 
 const generateSceneId = async (authorId) => {
@@ -189,6 +190,42 @@ const checkIfImagePathIsEmpty = async (sceneId) => {
   }
 };
 
+const uploadGlbScene = async (glbBlobFile, sceneId) => {
+  if (!sceneId || !glbBlobFile) {
+    throw new Error('Scene id or blob file is not exist');
+  }
+
+  try {
+    const thumbnailRef = ref(storage, `scenes/${sceneId}/files/scene.glb`);
+
+    const uploadedFile = uploadBytesResumable(thumbnailRef, glbBlobFile).on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.info(`uploading: ${progress}%`);
+      }
+    );
+
+    const downloadURL = await getDownloadURL(uploadedFile.ref);
+    const userScenesRef = collection(db, 'scenes');
+    const sceneDocRef = doc(userScenesRef, sceneId);
+    const sceneSnapshot = await getDoc(sceneDocRef);
+
+    if (sceneSnapshot.exists()) {
+      await updateDoc(sceneDocRef, {
+        glbPath: downloadURL,
+        updateTimestamp: serverTimestamp()
+      });
+      console.log('Firebase updateDoc fired');
+    } else {
+      throw new Error('No existing sceneSnapshot exists.');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export {
   updateScene,
   getUserScenes,
@@ -197,5 +234,6 @@ export {
   getCommunityScenes,
   updateSceneIdAndTitle,
   deleteScene,
-  checkIfImagePathIsEmpty
+  checkIfImagePathIsEmpty,
+  uploadGlbScene
 };
