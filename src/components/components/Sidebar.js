@@ -71,7 +71,7 @@ export default class Sidebar extends React.Component {
                 </div>
               </div>
               <div className="scroll">
-                <Mixins entity={entity} />
+                {!!entity.mixinEls.length && <Mixins entity={entity} />}
                 <div id="sidebar-buttons">
                   <Button
                     variant={'toolbtn'}
