@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .screenshotModalWrapper {
   position: absolute;
   top: 115px;
@@ -73,7 +75,7 @@
       }
     }
     .thumbnailButton {
-      position: absolute;
+      position: relative;
       top: 10px;
       right: 10px;
     }
@@ -85,7 +87,7 @@
   border: none;
   background: none;
   padding: 0px;
-  color: #fff;
+  color: variables.$white;
   display: flex;
   justify-content: center;
 }

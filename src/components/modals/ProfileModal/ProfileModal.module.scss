@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .modalWrapper {
   position: relative;
   margin: auto auto;
@@ -56,7 +58,7 @@
           .email {
             font-size: 20px;
             font-weight: 400;
-            color: #b6b6b6;
+            color: variables.$lightgray-200;
           }
         }
       }
@@ -64,8 +66,8 @@
       .logOut {
         border-radius: 18px;
         background: none;
-        color: #774dee !important;
-        border: 1px solid #774dee !important;
+        color: variables.$purple !important;
+        border: 1px solid variables.$purple !important;
       }
     }
 
@@ -115,7 +117,7 @@
 
           .json,
           .streetmix {
-            color: #774dee;
+            color: variables.$purple;
             font-size: 16px;
             font-weight: 500;
           }
@@ -145,7 +147,7 @@
           }
 
           .date {
-            color: #b6b6b6;
+            color: variables.$lightgray-200;
             font-size: 14px;
             font-weight: 400;
           }

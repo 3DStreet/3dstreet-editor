@@ -1,6 +1,6 @@
 @use './variables.scss';
 [class^='select-single'] {
-  color: #ffffff;
+  color: variables.$white;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -9,33 +9,33 @@
 [class^='select-single']:hover {
   cursor: pointer;
   [class^='select-single__single-value'] {
-    color: #cbcbcb;
+    color: variables.$gray-300;
   }
   [class^='select-single__indicator'] {
     * {
-      fill: #ffffff;
+      fill: variables.$white;
     }
   }
   [class^='select-single__indicator']:active {
     [class^='select-single__single-value'] {
-      color: #ffffff;
+      color: variables.$white;
     }
     [class^='select-single__indicator'] {
       * {
-        fill: #ffffff;
+        fill: variables.$white;
       }
     }
   }
 }
 [class^='select-single__control'] {
   background: rgba(50, 50, 50, 0.8);
-  border: 1px solid #543e79;
+  border: 1px solid variables.$purple-400;
   border-radius: 10px;
   padding: 12px 16px;
   height: 48px;
 }
 [class^='select-single__control']:hover {
-  border: 1px solid #6439ab;
+  border: 1px solid variables.$purple-500;
 }
 [class^='select-single__value-container'],
 [class^='select-single__input-container'] {
@@ -47,49 +47,49 @@
 }
 [class^='select-single__indicator'] {
   * {
-    fill: #ffffff;
+    fill: variables.$white;
   }
 }
 [class^='select-single__menu'] {
-  background: #2d2d2d;
+  background: variables.$darkgray-300;
   border-radius: 8px;
 }
 [class^='select-single__option'] {
   padding: 8px;
-  background: #2d2d2d;
+  background: variables.$darkgray-300;
 }
 [class^='select-single__option']:hover {
-  background: #373737;
+  background: variables.$darkgray-800;
   cursor: pointer;
 }
 .select-single__option--is-focused {
-  background: #373737;
+  background: variables.$darkgray-800;
 }
 [class^='select-single__menu-list'] {
-  border: 1px solid #8d56e8;
+  border: 1px solid variables.$purple-700;
 }
 .select-single__control--is-focused {
-  border: 1px solid #8d56e8 !important;
+  border: 1px solid variables.$purple-700 !important;
   box-shadow: none;
   .select-single__single-value {
-    color: #b6b6b6 !important;
+    color: variables.$lightgray-200 !important;
   }
   svg {
     * {
-      fill: #ffffff;
+      fill: variables.$white;
     }
   }
 }
 .select-single__control--is-disabled {
   background: rgba(50, 50, 50, 0.8);
-  border: 1px solid #382a50 !important;
+  border: 1px solid variables.$darkpurple !important;
   box-shadow: none;
   .select-single__single-value {
-    color: #636363 !important;
+    color: variables.$gray-500 !important;
   }
   svg {
     * {
-      fill: #636363;
+      fill: variables.$gray-500;
     }
   }
 }
@@ -109,9 +109,9 @@
 .select__menu {
   margin-top: 18px;
   padding: 0px;
-  border: 1px solid #6439ab;
+  border: 1px solid variables.$purple-500;
   border-radius: 10px;
-  background: variables.$bggrey;
+  background: variables.$darkgray-300;
   font-family: variables.$mainFont;
   font-size: 18px !important;
   overflow: hidden;
@@ -129,14 +129,14 @@
 }
 .select__placeholder,
 .select__menu {
-  color: #fff;
+  color: variables.$white;
 }
 .select__single-value {
-  color: variables.$primary;
+  color: variables.$blue-100;
 }
 .select__control--is-focused {
   box-shadow: none !important;
-  background: variables.$bgdark;
+  background: variables.$darkgray-200;
 }
 .select__option {
   cursor: pointer;
@@ -164,28 +164,28 @@
 }
 .select__dropdown-indicator {
   padding: 3px 8px;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEyIDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMC4xNjY3IDEuNUw2IDUuNjY2NjdMMS44MzMzNCAxLjUiIHN0cm9rZT0iI0RCREJEQiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==');
+  background-image: url(variables.$selectDropdownIndicator);
   background-repeat: no-repeat;
   background-position: center;
   width: 12px;
 }
 .select__dropdown-indicator:active {
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEyIDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjgzMzM3IDUuNjY2NjZMNi4wMDAwNCAxLjQ5OTk5TDEwLjE2NjcgNS42NjY2NiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==');
+  background-image: url(variables.$selectDropdownIndicatorActive);
 }
 .select__dropdown-indicator svg {
   display: none;
 }
 .select__multi-value {
-  background: variables.$bg;
-  color: variables.$primary;
+  background: variables.$darkgray-100;
+  color: variables.$blue-100;
 }
 .select__multi-value__label {
-  color: variables.$primary;
+  color: variables.$blue-100;
 }
 .select__value-container--is-multi > :last-child {
   display: none;
 }
 .select__multi-value__remove:hover {
-  color: #fff;
-  background: variables.$bg;
+  color: variables.$white;
+  background: variables.$darkgray-100;
 }

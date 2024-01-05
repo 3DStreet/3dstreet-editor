@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .buttonWrapper {
   display: flex;
   justify-content: center;
@@ -32,17 +34,17 @@
 }
 
 .filledButton {
-  background-color: #774dee;
-  color: #fff;
+  background-color: variables.$purple;
+  color: variables.$white;
 
   &:hover {
-    background-color: #6439df;
+    background-color: variables.$purple-100;
     transition: all 0.3s;
   }
 
   &:active {
-    background-color: #5b37c0;
-    color: #b6b6b6;
+    background-color: variables.$purple-200;
+    color: variables.$lightgray-200;
     transition: all 0.3s;
   }
 
@@ -53,7 +55,7 @@
   }
 
   &:focus {
-    border: 1px solid #fff;
+    border: 1px solid variables.$white;
   }
 
   &.icon {
@@ -67,23 +69,23 @@
 
 .outlinedButton {
   background-color: transparent;
-  color: #774dee;
-  border-color: #774dee;
+  color: variables.$purple;
+  border-color: variables.$purple;
 
   &:hover {
-    color: #6439df;
-    border-color: #6439df;
+    color: variables.$purple-100;
+    border-color: variables.$purple-100;
     transition: all 0.3s;
   }
 
   &:active {
-    color: #5b37c0;
-    border-color: #5b37c0;
+    color: variables.$purple-200;
+    border-color: variables.$purple-200;
     transition: all 0.3s;
   }
 
   &:focus {
-    border: 1px solid #fff;
+    border: 1px solid variables.$white;
   }
 
   &:disabled {
@@ -94,15 +96,15 @@
 }
 
 .ghostButton {
-  color: #774dee;
+  color: variables.$purple;
 
   &:hover {
-    color: #6439df;
+    color: variables.$purple-100;
     transition: all 0.3s;
   }
 
   &:active {
-    color: #5b37c0;
+    color: variables.$purple-200;
     transition: all 0.3s;
   }
 
@@ -114,48 +116,48 @@
 
 .toolButton {
   background-color: rgba(50, 50, 50, 0.8);
-  color: #ffffff;
+  color: variables.$white;
 
   &:hover {
-    background-color: #262626;
+    background-color: variables.$black-400;
     transition: all 0.3s;
   }
 
   &:active {
-    background-color: #1e1e1e;
-    color: #b6b6b6;
+    background-color: variables.$black-700;
+    color: variables.$lightgray-200;
     transition: all 0.3s;
   }
 
   &:disabled {
     background-color: rgba(50, 50, 50, 0.6);
-    color: #636363;
+    color: variables.$gray-500;
     transition: all 0.3s;
   }
 }
 
 .whiteButton {
-  background-color: #ededed;
-  color: #3d3d3d;
+  background-color: variables.$lightgray-500;
+  color: variables.$gray-200;
   border-radius: 18px;
   box-shadow: 0px 7px 3px 0px rgba(0, 0, 0, 0.32);
 
   &:active {
-    border: 1px solid #fff;
-    background-color: #dbdbdb;
+    border: 1px solid variables.$white;
+    background-color: variables.$lightgray-400;
   }
 
   &:focus {
-    border: 1px solid #fff;
+    border: 1px solid variables.$white;
   }
 
   &:hover {
-    background-color: #fff;
+    background-color: variables.$white;
     transition: all 0.3s;
   }
 
   &:disabled {
-    background-color: #636363;
+    background-color: variables.$gray-500;
     color: rgba(50, 50, 50, 0.4);
     transition: all 0.3s;
   }

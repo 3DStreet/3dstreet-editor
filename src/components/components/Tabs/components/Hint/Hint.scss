@@ -1,8 +1,11 @@
+@use '../../../../../style/variables.scss';
+
+// need to be global for working with Tab component
+
 .wrapper {
   position: absolute;
   top: 50px;
-  width: fit-content;
-  min-width: 100px;
+  min-width: 150px;
   max-width: 245px;
   display: flex;
   visibility: hidden;
@@ -21,7 +24,7 @@
     font-size: 12px;
     line-height: 14.4px;
     font-weight: 500;
-    color: #ffffff;
+    color: variables.$white;
 
     &::before {
       position: absolute;
@@ -34,5 +37,10 @@
       background-color: rgba(55, 55, 55, 0.8);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
+  }
+
+  &.hintVisible {
+    visibility: visible;
+    opacity: 1;
   }
 }

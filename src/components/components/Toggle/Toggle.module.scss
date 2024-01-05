@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -9,13 +11,13 @@
     font-size: 1rem;
     line-height: 1.1875rem;
     font-weight: 400;
-    color: #ffffff;
+    color: variables.$white;
     transition: all 0.3s;
   }
 
   .disabledLabel {
     transition: all 0.3s;
-    color: #474747;
+    color: variables.$gray-700;
   }
 
   .toggleContainer {
@@ -32,7 +34,7 @@
       display: flex;
       width: 100%;
       height: 20px;
-      border: 1px solid #dbdbdb;
+      border: 1px solid variables.$lightgray-400;
       border-radius: 10px;
       box-sizing: border-box;
 
@@ -54,19 +56,19 @@
     }
 
     .activeToggle {
-      background-color: #dbdbdb;
+      background-color: variables.$lightgray-400;
       transition: all 0.3s;
 
       .switcher {
         transform: translateX(22.33px);
         transition: all 0.3s;
-        background-color: #8941ff;
+        background-color: variables.$darkpurple-100;
       }
 
       &:hover {
         transition: all 0.3s;
-        background-color: #ffffff;
-        border-color: #ffffff;
+        background-color: variables.$white;
+        border-color: variables.$white;
       }
 
       &:active {
@@ -83,16 +85,16 @@
       .switcher {
         transform: translateX(3.33px);
         transition: all 0.3s;
-        background-color: #dbdbdb;
+        background-color: variables.$lightgray-400;
       }
 
       &:hover {
         transition: all 0.3s;
-        border-color: #ffffff;
+        border-color: variables.$white;
 
         .switcher {
           transition: all 0.3s;
-          background-color: #ffffff;
+          background-color: variables.$white;
         }
       }
 
@@ -111,12 +113,12 @@
     .disabledActiveToggle:hover,
     .disabledActiveToggle:active {
       transition: all 0.3s;
-      background-color: #474747;
-      border-color: #474747;
+      background-color: variables.$gray-700;
+      border-color: variables.$gray-700;
 
       .switcher {
         transition: all 0.3s;
-        background-color: #2e2e2e;
+        background-color: variables.$black-800;
       }
 
       &:hover {
@@ -129,11 +131,11 @@
     .disabledInactiveToggle:active {
       transition: all 0.3s;
       background-color: transparent;
-      border-color: #474747;
+      border-color: variables.$gray-700;
 
       .switcher {
         transition: all 0.3s;
-        background-color: #474747;
+        background-color: variables.$gray-700;
       }
 
       &:hover {

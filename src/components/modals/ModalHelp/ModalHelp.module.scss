@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .helpModalWrapper {
   position: absolute;
   top: 115px;
@@ -38,7 +40,7 @@
   justify-content: center;
   align-items: center;
   height: 32px;
-  border: 1px solid #fff;
+  border: 1px solid variables.$white;
   border-radius: 16px;
   span {
     padding: 9px 11px;
@@ -49,11 +51,11 @@
   }
 }
 .help-key-def {
-  color: #fff;
+  color: variables.$white;
   font-size: 1rem;
   line-height: 1.2rem;
   font-weight: 400;
 }
 .selectedTab {
-  background-color: #636363 !important;
+  background-color: variables.$gray-500 !important;
 }

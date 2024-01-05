@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   column-gap: 0.75rem;
@@ -19,7 +21,7 @@
       justify-content: center;
       width: 15px;
       height: 15px;
-      border: 1.5px solid #dbdbdb;
+      border: 1.5px solid variables.$lightgray-400;
       border-radius: 3px;
       transition: all 0.2s;
 
@@ -29,7 +31,7 @@
         transition: all 0.2s;
 
         path {
-          stroke: #dbdbdb;
+          stroke: variables.$lightgray-400;
           transition: all 0.2s;
         }
       }
@@ -42,24 +44,24 @@
 
       &:hover {
         transition: all 0.2s;
-        border-color: #ffffff;
+        border-color: variables.$white;
         cursor: pointer;
 
         .uncheckedIcon {
           transition: all 0.2s;
           opacity: 0.2;
-          color: #000000;
+          color: variables.$black;
           visibility: visible;
 
           path {
             transition: all 0.2s;
-            stroke: #ffffff;
+            stroke: variables.$white;
           }
         }
 
         .checkedIcon path {
           transition: all 0.2s;
-          stroke: #ffffff;
+          stroke: variables.$white;
         }
       }
 
@@ -75,7 +77,7 @@
 
           path {
             transition: all 0.2s;
-            stroke: #000000;
+            stroke: variables.$black;
           }
         }
       }
@@ -84,7 +86,7 @@
     .disabledCheckbox,
     .disabledCheckbox:hover,
     .disabledCheckbox:active {
-      border-color: #474747;
+      border-color: variables.$gray-700;
       transition: all 0.2s;
 
       .checkedIcon {
@@ -92,7 +94,7 @@
 
         path {
           transition: all 0.2s;
-          stroke: #474747;
+          stroke: variables.$gray-700;
         }
       }
 
@@ -109,7 +111,7 @@
     font-size: 1rem;
     line-height: 1.1875rem;
     font-weight: 400;
-    color: #ffffff;
+    color: variables.$white;
     transition: all 0.2s;
 
     &:hover {
@@ -119,6 +121,6 @@
 
   .disabledLabel {
     transition: all 0.3;
-    color: #474747;
+    color: variables.$gray-700;
   }
 }

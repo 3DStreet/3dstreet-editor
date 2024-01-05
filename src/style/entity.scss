@@ -14,13 +14,13 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 14px;
-  color: #ffffff;
+  color: variables.$white;
 }
 
 [data-entity-name-type='class'] {
-  color: #ffffff;
+  color: variables.$white;
 }
 
 [data-entity-name-type='mixin'] {
-  color: variables.$orange;
+  color: variables.$orange-100;
 }

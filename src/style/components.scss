@@ -1,6 +1,7 @@
 @use './variables.scss';
+
 .components {
-  color: variables.$white;
+  color: variables.$lightgray-100;
   width: 364px;
 }
 div.vec2,
@@ -20,7 +21,7 @@ div.vec4 {
   display: flex;
   justify-content: space-between;
   .entityPrint {
-    color: #fff;
+    color: variables.$white;
   }
 }
 .componentTitle span {
@@ -29,7 +30,7 @@ div.vec4 {
   text-overflow: ellipsis;
   text-transform: capitalize;
   white-space: nowrap;
-  color: #fff;
+  color: variables.$white;
   font-weight: 500;
   vertical-align: bottom !important;
 }
@@ -40,15 +41,15 @@ div.vec4 {
   vertical-align: bottom;
   font-size: 16px;
   &:hover {
-    background: variables.$bglighter;
+    background: variables.$darkgray-500;
   }
 }
 .collapsible.component ~ .collapsible.component {
-  border-top: 1px solid #4b4b4b;
+  border-top: 1px solid variables.$darkgray-700;
   width: 348px;
 }
 .collapsible:first-child {
-  border-bottom: 1px solid variables.$colorPressed;
+  border-bottom: 1px solid variables.$lightgray-200;
 }
 .collapsible:last-child {
   border-bottom: none;
@@ -57,7 +58,7 @@ div.vec4 {
   text-align: right;
 }
 .collapsible .menuafter {
-  color: #bbb;
+  color: variables.$lightgray-300;
   content: '\2807';
   font-size: 12px;
   padding: 5px;
@@ -78,11 +79,11 @@ div.vec4 {
   width: 0;
 }
 .collapsible.collapsed .static .collapse-button {
-  border-left-color: variables.$white;
+  border-left-color: variables.$lightgray-100;
   margin-top: 4px;
 }
 .collapsible:not(.collapsed) .static .collapse-button {
-  border-top-color: variables.$white;
+  border-top-color: variables.$lightgray-100;
   margin-top: 7px;
 }
 .details .propertyRow {
@@ -125,7 +126,7 @@ div.vec4 {
     box-sizing: border-box;
     padding: 12px 16px !important;
     background: rgba(50, 50, 50, 0.8);
-    border: 1px solid #543e79;
+    border: 1px solid variables.$purple-400;
     border-radius: 10px;
     box-sizing: border-box;
     white-space: nowrap;
@@ -145,12 +146,12 @@ div.vec4 {
     display: block;
   }
   .select__single-value {
-    color: #fff;
+    color: variables.$white;
   }
   .select__control {
     padding: 12px 16px !important;
     background: rgba(50, 50, 50, 0.8);
-    border: 1px solid #543e79;
+    border: 1px solid variables.$purple-400;
     border-radius: 10px;
     box-sizing: border-box;
     white-space: nowrap;
@@ -162,12 +163,12 @@ div.vec4 {
     width: 40px;
     height: 20px;
     margin: 2px 5px;
-    border: 1px solid #dbdbdb;
+    border: 1px solid variables.$lightgray-400;
     border-radius: 10px;
     box-sizing: border-box;
     cursor: pointer;
     &.checked {
-      background: #dbdbdb;
+      background: variables.$lightgray-400;
     }
     input {
       background: none;
@@ -182,15 +183,15 @@ div.vec4 {
       position: absolute;
       top: 3px;
       left: 3.3px;
-      background: #dbdbdb;
+      background: variables.$lightgray-400;
     }
     input[type='checkbox']:checked + label {
       left: 22px;
-      background: #373737;
+      background: variables.$darkgray-800;
     }
   }
   .text {
-    color: #fff !important;
+    color: variables.$white !important;
     font-weight: 400;
     font-size: 16px;
     text-transform: capitalize;
@@ -213,7 +214,7 @@ div.vec4 {
       height: 48px;
       padding: 12px 16px;
       background: rgba(50, 50, 50, 0.8);
-      border: 1px solid #543e79;
+      border: 1px solid variables.$purple-400;
       border-radius: 10px;
       box-sizing: border-box;
       white-space: nowrap;
@@ -224,7 +225,7 @@ div.vec4 {
         margin-right: 8px;
         font-weight: 400;
         font-size: 16px;
-        color: variables.$colorPressed;
+        color: variables.$lightgray-200;
         text-transform: uppercase;
       }
     }
@@ -245,7 +246,7 @@ div.vec4 {
       height: 48px;
       padding: 12px 16px;
       background: rgba(50, 50, 50, 0.8);
-      border: 1px solid #543e79;
+      border: 1px solid variables.$purple-400;
       border-radius: 10px;
       box-sizing: border-box;
       white-space: nowrap;
@@ -256,12 +257,12 @@ div.vec4 {
         margin-right: 8px;
         font-weight: 400;
         font-size: 16px;
-        color: variables.$colorPressed;
+        color: variables.$lightgray-200;
         text-transform: uppercase;
       }
       .number {
         width: 56px;
-        color: variables.$lightColor;
+        color: variables.$lightgray-500;
         font-weight: 400;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -296,7 +297,7 @@ div.vec4 {
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-    color: #fff;
+    color: variables.$white;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -311,14 +312,14 @@ div.vec4 {
   }
 }
 .propertyRowDefined .text {
-  color: #fafafa;
+  color: variables.$white-100;
   font-weight: 500;
 }
 .components * {
   vertical-align: middle;
 }
 span.subcomponent {
-  color: #999;
+  color: variables.$lightgray-700;
   float: none !important;
   margin-left: 10px;
   vertical-align: top !important;
@@ -335,20 +336,20 @@ a.help-linkhover {
   flex-direction: column;
   justify-content: center;
   padding: 20px 10px;
-  background: variables.$bgdark;
+  background: variables.$darkgray-200;
   #addComponent {
     text-align: left;
     width: 200px;
     .select__control {
-      background: #161616;
+      background: variables.$black-100;
       height: 35px;
-      color: variables.$primary;
+      color: variables.$blue-100;
     }
     .option {
       display: flex;
       justify-content: space-between;
       span {
-        color: variables.$primary;
+        color: variables.$blue-100;
       }
     }
   }
@@ -358,7 +359,7 @@ a.help-linkhover {
   }
 }
 .Select-menu-outer .is-focused span {
-  color: #fff;
+  color: variables.$white;
 }
 .component-title {
   align-items: center;
@@ -387,7 +388,7 @@ a.help-linkhover {
     top: 0;
   }
   .entityIcons {
-    color: #fafafa;
+    color: variables.$white-100;
   }
 }
 #mixinSelect {
@@ -404,9 +405,9 @@ a.help-linkhover {
   top: 0;
 }
 .fa {
-  color: variables.$white;
+  color: variables.$lightgray-100;
   &:hover {
-    color: variables.$primary;
+    color: variables.$blue-100;
   }
 }
 .fa-clipboard,

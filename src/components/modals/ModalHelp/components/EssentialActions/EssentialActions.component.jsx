@@ -1,4 +1,4 @@
-import './EssentialActions.scss';
+import styles from './EssentialActions.module.scss';
 
 import {
   Angle,
@@ -49,18 +49,21 @@ const actions = [
 class EssentialActions extends Component {
   render() {
     return (
-      <div className="essentialActionsWrapper">
+      <div className={styles.essentialActionsWrapper}>
         {actions.map(({ title, description, items }) => (
-          <div className="action" key={title}>
-            <div className="text">
-              <h3 className="actionTitle">{title}</h3>
-              <p className="actionDescription">{description}</p>
+          <div className={styles.action} key={title}>
+            <div className={styles.text}>
+              <h3 className={styles.actionTitle}>{title}</h3>
+              <p className={styles.actionDescription}>{description}</p>
             </div>
-            <div className="icons">
+            <div className={styles.icons}>
               {items.map((row, index) => (
-                <div className="itemsRow" key={title.concat(index.toString())}>
+                <div
+                  className={styles.itemsRow}
+                  key={title.concat(index.toString())}
+                >
                   {row.map((item, index) => (
-                    <span className="item" key={index.toString()}>
+                    <span className={styles.item} key={index.toString()}>
                       {item}
                     </span>
                   ))}
