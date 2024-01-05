@@ -1,4 +1,4 @@
-import './ScreenshotButton.styles.styl';
+import './ScreenshotButton.scss';
 
 import { Button } from '../Button';
 import { Component } from 'react';

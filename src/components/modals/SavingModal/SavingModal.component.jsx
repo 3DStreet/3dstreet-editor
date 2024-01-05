@@ -1,4 +1,4 @@
-import './SavingModal.styles.styl';
+import './SavingModal.scss';
 
 import { Component } from 'react';
 

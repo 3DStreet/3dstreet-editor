@@ -1,4 +1,4 @@
-import './Modal.styles.styl';
+import './Modal.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

@@ -1,4 +1,4 @@
-import './ModalHelp.styles.styl';
+import './ModalHelp.scss';
 
 import { EssentialActions, Shortcuts } from './components/index.js';
 import { Component } from 'react';

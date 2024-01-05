@@ -1,4 +1,4 @@
-import './EssentialActions.styles.styl';
+import './EssentialActions.scss';
 
 import {
   Angle,

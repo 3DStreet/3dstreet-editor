@@ -9,7 +9,7 @@ import { initCameras } from './lib/cameras';
 import { createEntity } from './lib/entity';
 import { Shortcuts } from './lib/shortcuts';
 import { Viewport } from './lib/viewport';
-import './style/index.styl';
+import './style/index.scss';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();

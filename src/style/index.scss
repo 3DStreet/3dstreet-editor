@@ -1,16 +1,18 @@
-@import './lib';
+@use './variables.scss';
 @import '../normalize.css';
 
-body.aframe-inspector-opened, .toggle-edit {
-  font-family: $mainFont;
+body.aframe-inspector-opened,
+.toggle-edit {
+  font-family: variables.$mainFont;
 }
 
-.wf-roboto-n4-active body.aframe-inspector-opened, .wf-roboto-n4-active .toggle-edit {
-  font-family: $mainFont;
+.wf-roboto-n4-active body.aframe-inspector-opened,
+.wf-roboto-n4-active .toggle-edit {
+  font-family: variables.$mainFont;
 }
 
 body.aframe-inspector-opened {
-  background: $bgdark;
+  background: variables.$bgdark;
   color: #fff;
   font-size: 12px;
   margin: 0;
@@ -27,16 +29,41 @@ body.aframe-inspector-opened {
   @import './widgets';
 
   body {
-    font-family: $mainFont !important;
+    font-family: variables.$mainFont !important;
   }
 
-  .Select, code, pre, input, textarea, select, button, a, p, h1, h2, h3, h4, nav, ul, ol, li, main, header, footer, aside {
-    font-family: $mainFont;
+  .Select,
+  code,
+  pre,
+  input,
+  textarea,
+  select,
+  button,
+  a,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  nav,
+  ul,
+  ol,
+  li,
+  main,
+  header,
+  footer,
+  aside {
+    font-family: variables.$mainFont;
     font-size: 13px;
   }
 
-  .wf-robotomono-n4-active .Select, .wf-robotomono-n4-active code, .wf-robotomono-n4-active pre, .wf-robotomono-n4-active input, .wf-robotomono-n4-active textarea, .wf-robotomono-n4-active select {
-    font-family: mainFont;
+  .wf-robotomono-n4-active .Select,
+  .wf-robotomono-n4-active code,
+  .wf-robotomono-n4-active pre,
+  .wf-robotomono-n4-active input,
+  .wf-robotomono-n4-active textarea,
+  .wf-robotomono-n4-active select {
+    font-family: variables.$mainFont;
   }
 
   hr {
@@ -53,7 +80,8 @@ body.aframe-inspector-opened {
   }
 
   code {
-    font-family: Consolas, Andale Mono, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    font-family: Consolas, Andale Mono, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   }
 
   textarea {
@@ -71,7 +99,8 @@ body.aframe-inspector-opened {
     border-color: #f00 !important;
   }
 
-  textarea, input {
+  textarea,
+  input {
     outline: none; /* osx */
   }
 
@@ -82,20 +111,22 @@ body.aframe-inspector-opened {
     width: 70px;
     height: 43px;
     padding: 12px 16px;
-    background: $button;
+    background: variables.$button;
     border-radius: 18px;
   }
 
   .viewButton:hover {
-    background: $buttonHover;
+    background: variables.$buttonHover;
   }
 
   .viewButton:active {
-    background-color: $buttonPressed;
-    color: $colorPressed;
+    background-color: variables.$buttonPressed;
+    color: variables.$colorPressed;
   }
 
-  #sidebar, #scenegraph, .panel {
+  #sidebar,
+  #scenegraph,
+  .panel {
     cursor: default;
     user-select: none;
   }
@@ -137,11 +168,16 @@ body.aframe-inspector-opened {
     color: #fff;
   }
 
-  input, .texture canvas {
-    transition: 0.1s background-color ease-in-out, 0.1s border-color ease-in-out, 0.1s color ease-in-out;
+  input,
+  .texture canvas {
+    transition: 0.1s background-color ease-in-out, 0.1s border-color ease-in-out,
+      0.1s color ease-in-out;
   }
 
-  input[type=text], input[type=number], input.string, input.number {
+  input[type='text'],
+  input[type='number'],
+  input.string,
+  input.number {
     min-height: 14px;
     outline: none;
   }
@@ -159,7 +195,8 @@ body.aframe-inspector-opened {
     padding: 2px;
   }
 
-  input.stringfocus, input.numberfocus {
+  input.stringfocus,
+  input.numberfocus {
     border: 1px solid #20b1fb;
     color: #fff;
     cursor: auto;
@@ -226,16 +263,17 @@ body.aframe-inspector-opened {
       }
 
       #toggle-rightbar:hover {
-        background-color: $buttonHover;
+        background-color: variables.$buttonHover;
       }
 
       #toggle-rightbar:active {
-        background-color: $buttonPressed;
+        background-color: variables.$buttonPressed;
       }
     }
   }
 
-  #sidebar.hide, #sidebar.hide #entity-name {
+  #sidebar.hide,
+  #sidebar.hide #entity-name {
     padding: 0px;
     width: 56px;
     height: 72px;
@@ -253,7 +291,7 @@ body.aframe-inspector-opened {
 
     #entity-name {
       width: auto;
-      background-color: $buttonHover;
+      background-color: variables.$buttonHover;
       cursor: pointer;
       padding-right: 16px;
 
@@ -263,7 +301,7 @@ body.aframe-inspector-opened {
         width: auto;
         display: block !important;
         margin-top: 22px;
-        background-image: url($iconProps);
+        background-image: url(variables.$iconProps);
         background-position: right;
         padding-left: 4px;
         padding-right: 36px;
@@ -281,28 +319,28 @@ body.aframe-inspector-opened {
   }
 
   #sidebar.hide:active #entity-name {
-    background-color: $buttonPressed;
+    background-color: variables.$buttonPressed;
 
     span {
-      color: $colorPressed !important;
-      background-image: url($iconPropsActive);
+      color: variables.$colorPressed !important;
+      background-image: url(variables.$iconPropsActive);
     }
   }
 
   #sidebar.hide #toggle-rightbar {
     background: rgba(50, 50, 50, 0.5) !important;
     backdrop-filter: blur(24px);
-    background-image: url($iconProps) !important;
+    background-image: url(variables.$iconProps) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
   }
 
   #sidebar.hide #toggle-rightbar:hover {
-    background-color: $buttonHover !important;
+    background-color: variables.$buttonHover !important;
   }
 
   #sidebar.hide #toggle-rightbar:active {
-    background-color: $buttonPressed !important;
+    background-color: variables.$buttonPressed !important;
   }
 
   #sidebar * {
@@ -329,24 +367,26 @@ body.aframe-inspector-opened {
     width: 100%;
   }
 
-  input, textarea, select {
-    background: $black;
+  input,
+  textarea,
+  select {
+    background: variables.$black;
     border: 1px solid transparent;
     color: #888;
   }
 
   select {
-    background: $bglighter;
+    background: variables.$bglighter;
   }
 
-  input[type=color] {
+  input[type='color'] {
     background-color: #333;
     border: 1px solid #111;
     height: 28px;
     cursor: pointer;
   }
 
-  input[type=color] {
+  input[type='color'] {
     cursor: pointer;
     height: 25px;
     padding: 0;
@@ -354,19 +394,19 @@ body.aframe-inspector-opened {
   }
 
   /* Note these vendor-prefixed selectors cannot be grouped! */
-  input[type=color]-webkit-color-swatch {
+  input[type='color']-webkit-color-swatch {
     border: 0; /* To remove the gray border. */
   }
 
-  input[type=color]-webkit-color-swatch-wrapper {
+  input[type='color']-webkit-color-swatch-wrapper {
     padding: 0; /* To remove the inner padding. */
   }
 
-  input[type=color]-moz-color-swatch {
+  input[type='color']-moz-color-swatch {
     border: 0;
   }
 
-  input[type=color]-moz-focus-inner {
+  input[type='color']-moz-focus-inner {
     border: 0; /* To remove the inner border (specific to Firefox). */
     padding: 0;
   }
@@ -422,7 +462,9 @@ body.aframe-inspector-opened {
     z-index: 9;
   }
 
-  #scenegraph, #viewportBar, #rightPanel {
+  #scenegraph,
+  #viewportBar,
+  #rightPanel {
     pointer-events: all;
   }
 
@@ -479,20 +521,20 @@ body.aframe-inspector-opened {
   background: rgba(50, 50, 50, 0.8);
 
   &:hover {
-    background: #2D2D2D;
+    background: #2d2d2d;
 
     svg > path:first-child {
-      fill: #FFFFFF;
+      fill: #ffffff;
     }
 
     svg > path:last-child {
-      stroke: #FFFFFF;
+      stroke: #ffffff;
     }
   }
 }
 
 .outliner {
-  color: $white;
+  color: variables.$white;
   cursor: default;
   font-size: 16px;
   outline: none;
@@ -528,6 +570,7 @@ body.aframe-inspector-opened {
 
   li a span {
     margin-left: 16px;
+    font-size: 18px;
     transition: all 0.4s ease-in-out 0s;
     text-align: left;
     width: 200px;
@@ -587,12 +630,8 @@ body.aframe-inspector-opened {
     position: fixed;
     z-index: 1;
 
-    #toggle-rightbar:hover {
-      background-color: $buttonHover;
-    }
-
     #toggle-rightbar:active {
-      background-color: $buttonPressed;
+      background-color: variables.$buttonPressed;
     }
 
     .layersBlock {
@@ -605,7 +644,7 @@ body.aframe-inspector-opened {
     span {
       font-weight: 500;
       font-size: 24px;
-      color: #FFF;
+      color: #fff;
       line-height: 28px;
       background: none;
 
@@ -619,75 +658,73 @@ body.aframe-inspector-opened {
 .outliner.hide {
   display: block !important;
   height: 584px;
+  width: 372px;
+}
 
-  width 372px {
-    #toggle-rightbar:hover {
-      background-color: $buttonHover;
-    }
+#toggle-rightbar:hover {
+  background-color: variables.$buttonHover;
+}
 
-    #toggle-rightbar:active {
-      background-color: $buttonPressed;
-    }
+#toggle-rightbar:active {
+  background-color: variables.$buttonPressed;
+}
 
-    span {
-      font-weight: 500;
-      font-size: 24px;
-      color: #FFF;
-      line-height: 28px;
-      background-repeat: no-repeat;
-      background-position: left;
-      padding-left: 36px;
-      margin-left: 20px;
-    }
-  }
+span {
+  font-weight: 500;
+  color: #fff;
+  line-height: 28px;
+  background-repeat: no-repeat;
+  background-position: left;
+}
 
-  .outliner.hide:hover, .outliner.hide #layers-title:hover {
-    width: 115px;
-    background-color: $buttonHover;
-    cursor: pointer;
-  }
+.outliner.hide:hover,
+.outliner.hide #layers-title:hover {
+  // width: 115px;
+  // background-color: variables.$buttonHover;
+  cursor: pointer;
+}
 
-  .outliner.hide #layers-title span {
-    display: none;
-  }
+// .outliner.hide #layers-title span {
+//   display: none;
+// }
 
-  .outliner.hide #layers-title:active {
-    background-color: $buttonPressed;
+.outliner.hide #layers-title:active {
+  background-color: variables.$buttonPressed;
+}
 
-    span {
-      display: block;
-      font-size: 18px;
-      color: $colorPressed;
-      background-position: left;
-      background-image: url($iconLayersActive) !important;
-    }
-  }
+.outliner.hide #layers-title:active span {
+  display: block;
+  font-size: 18px;
+  color: variables.$colorPressed;
+  background-position: left;
+  background-image: url(variables.$iconLayersActive) !important;
+}
 
-  .outliner.hide #layers-title:hover span {
-    display: block;
-    font-size: 18px;
-    margin-left: 12px;
-    padding-left: 40px;
-    line-height: 29px;
-  }
+// .outliner.hide #layers-title:hover span {
+//   display: block;
+//   font-size: 18px;
+//   margin-left: 12px;
+//   padding-left: 40px;
+//   line-height: 29px;
+// }
 
-  .outliner.hide #layers-title:hover #toggle-rightbar {
-    display: none;
-  }
+// .outliner.hide #layers-title:hover #toggle-rightbar {
+//   display: none;
+// }
 
-  .outliner.hide #toggle-rightbar {
-    background: rgba(50, 50, 50, 0.5) !important;
-    backdrop-filter: blur(24px);
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    border-radius: 12px 0px 0px 12px;
-  }
+.outliner.hide #toggle-rightbar {
+  background: rgba(50, 50, 50, 0.5) !important;
+  backdrop-filter: blur(24px);
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border-radius: 12px 0px 0px 12px;
+}
 
-  .outliner.hide #toggle-rightbar:active {
-    background-color: $buttonPressed !important;
-  }
+.outliner.hide #toggle-rightbar:active {
+  background-color: variables.$buttonPressed !important;
+}
 
-  .outliner.hide .entity, .outliner.hide .layer {
-    display: none;
-  }
+.outliner.hide .entity,
+.outliner.hide .layer {
+  display: none;
 }
