@@ -1,4 +1,4 @@
-import './DocumentationButton.styles.styl';
+import styles from './DocumentationButton.module.scss';
 import { Button } from '../../../../components';
 import { Component } from 'react';
 import { Open } from './icons.jsx';
@@ -14,7 +14,7 @@ class DocumentationButton extends Component {
     return (
       <Button variant="toolbtn">
         <div
-          className="docsButtonWrapper"
+          className={styles.docsButtonWrapper}
           onClick={() => window.open('https://3dstreet.org/docs/')}
         >
           Documentation <Open />

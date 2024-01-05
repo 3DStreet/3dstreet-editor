@@ -13,7 +13,7 @@ function LastModified({ timestamp }) {
   // Use date-fns to get "time ago" format
   const timeAgo = formatDistanceToNow(date, { addSuffix: true });
 
-  return <p className={styles.date}>Last modified {timeAgo}</p>;
+  return <span className={styles.date}>Last modified {timeAgo}</span>;
 }
 
 const SceneCard = ({

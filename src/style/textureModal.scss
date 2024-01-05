@@ -1,3 +1,4 @@
+@use './variables.scss';
 .modal {
   animation: animateopacity 0.2s ease-out;
   background-color: rgba(0, 0, 0, 0.6);
@@ -10,18 +11,15 @@
   width: 100%;
   z-index: 9;
 }
-
 .modal h3 {
   font-size: 18px;
   font-weight: 100;
   margin: 0.6em 0;
 }
-
 #textureModal .modal-content {
   height: calc(100% - 50px);
   width: calc(100% - 50px);
 }
-
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -36,7 +34,6 @@
   border-radius: 12px;
   max-height: calc(100vh - 195px);
 }
-
 .close {
   display: flex;
   align-items: center;
@@ -46,7 +43,6 @@
   right: 1.3438rem;
   width: 32px;
   height: 32px;
-
   span {
     position: absolute;
     display: block;
@@ -55,43 +51,38 @@
     background-color: rgba(219, 219, 219, 1);
     transform: rotateZ(45deg);
   }
-
   spanfirst-child {
     transform: rotateZ(-45deg);
   }
 }
-
-.closehover, .closefocus {
-  color: #08f;
+.closehover,
+.closefocus {
+  color: variables.$blue-500;
   cursor: pointer;
   text-decoration: none;
 }
-
 .modal-header {
   position: relative;
-  color: white;
+  color: variables.$white;
   padding: 2px 50px 2px 32px;
 }
-
 .modal-body {
   display: flex;
   height: 100%;
   max-height: calc(100% - 140px);
   padding: 0px 26px 0px 32px;
   margin-bottom: 40px;
+  overflow-y: scroll;
 }
-
 .modal-scene-header {
   position: relative;
-  color: white;
+  color: variables.$white;
   padding: 2px 50px 2px 35px;
 }
-
 .modal-sign-in-first {
   overflow-y: none;
   height: 100%;
 }
-
 .modal-scene {
   display: flex;
   height: 100%;
@@ -102,59 +93,49 @@
   max-height: calc(100vh - 140px);
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: #fff rgba(237, 235, 239, 0.5);
+  scrollbar-color: variables.$white rgba(237, 235, 239, 0.5);
   margin-right: 20px;
-
   &::-webkit-scrollbar {
     width: 4px;
     margin-right: 20px;
   }
-
   &::-webkit-scrollbar-track {
     background-color: rgba(237, 235, 239, 0.5);
   }
-
   &::-webkit-scrollbar-thumb {
-    background-color: #fff;
+    background-color: variables.$white;
     border-radius: 1px;
   }
-
   &::-webkit-scrollbar-thumb:vertical {
-    background-color: #fff;
+    background-color: variables.$white;
   }
-
   &::-webkit-scrollbar-thumb:vertical::after {
     content: '';
     display: block;
     height: 80px;
   }
-
   &::-webkit-scrollbar::after {
     content: '';
     display: block;
     height: 20px;
   }
 }
-
 .modal-footer {
-  color: white;
+  color: variables.$white;
   padding: 2px 16px;
 }
-
 /* Gallery */
 .gallery {
-  background: #232323;
+  background: variables.$black-500;
   display: flex;
   flex-wrap: wrap;
   margin: 15px auto 0;
   overflow: auto;
   padding: 15px 3px 3px;
 }
-
 .newimage .gallery {
   padding: 16px;
 }
-
 .gallery li {
   border-radius: 2px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
@@ -163,54 +144,47 @@
   overflow: hidden;
   width: 155px;
 }
-
-.gallery li.selected, .gallery lihover {
-  box-shadow: 0 0 0 2px #1eaaf1;
+.gallery li.selected,
+.gallery {
+  box-shadow: 0 0 0 2px variables.$blue-400;
 }
-
 .gallery li .detail {
-  background-color: #323232;
+  background-color: variables.$darkgray-900;
   margin: 0;
   min-height: 60px;
   padding: 3px 10px;
 }
-
 .gallery li .button.fa-external-link {
   margin-left: 136px;
   margin-top: 5px;
   position: fixed;
 }
-
 .preview {
   padding: 10px;
   width: 150px;
 }
-
 .preview input {
   display: block;
   margin: 8px 0;
   width: 144px;
 }
-
 .preview button {
   width: 155px;
 }
-
 .preview .detail .title {
-  color: #fff;
+  color: variables.$white;
   display: inline-block;
   max-width: 155px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.gallery li.selected .detail, .gallery lihover .detail {
-  background-color: #444;
+.gallery li.selected .detail,
+.gallery .detail {
+  background-color: variables.$darkgray-600;
 }
-
 .gallery li .detail span {
-  color: #777;
+  color: variables.$gray-400;
   display: block;
   margin-top: 4px;
   overflow: hidden;
@@ -218,41 +192,27 @@
   white-space: nowrap;
   width: 140px;
 }
-
-.gallery li.selected .detail span, .gallery lihover .detail span {
-  color: #888;
+.gallery li.selected .detail span,
+.gallery .detail span {
+  color: variables.$lightgray-900;
 }
-
 .gallery li .detail span.title {
-  color: #fff !important;
+  color: variables.$white !important;
 }
-
 .modal button:focus {
   outline: none;
 }
-
 .modal button {
   font-size: 16px;
 }
-
-.modal buttonhover, .modal button.hover {
-  background-color: #346392;
-  text-shadow: -1px 1px #27496d;
-}
-
-.modal buttonactive, .modal button.active {
-  background-color: #27496d;
-  text-shadow: -1px 1px #193047;
-}
-
-.modal buttondisabled {
-  background-color: #888;
-  cursor: none;
+.modal .modal button.hover {
+  background-color: variables.$blue-600;
+  text-shadow: -1px 1px variables.$blue-700;
 }
 
 .newimage {
-  background-color: #323232;
-  color: #bcbcbc;
+  background-color: variables.$darkgray-900;
+  color: variables.$gray-100;
   display: flex;
   font-size: 13px;
   justify-content: space-between;
@@ -260,62 +220,49 @@
   overflow: auto;
   padding: 10px;
 }
-
 .newimage input {
-  color: #1eaaf1;
+  color: variables.$blue-400;
   padding: 3px 5px;
 }
-
 .texture canvas + input {
   margin-left: 5px;
 }
-
 .texture .fa {
   padding-right: 5px;
 }
-
 .texture .fa-external-link {
   font-size: 14px;
   padding-top: 2px;
 }
-
 .uploader-normal-button .hidden {
   display: none;
 }
-
 .gallery a.fa.texture-link {
   box-shadow: 0 0 14px -1px rgba(0, 0, 0, 0.75);
   position: fixed;
 }
-
 .assets.search {
   margin-top: 10px;
   width: 200px;
 }
-
 .assets.search .fa-search {
   top: 7px;
 }
-
 .new_asset_options {
   margin: 10px;
 }
-
 .new_asset_options > ul {
   margin-left: 10px;
   padding: 5px;
 }
-
 .new_asset_options > ul > li {
   padding: 10px 0;
 }
-
 .new_asset_options .imageUrl {
   margin-left: 5px;
   width: 350px;
 }
-
 .texture canvas {
-  border: 1px solid $bglight;
+  border: 1px solid variables.$darkgray-400;
   cursor: pointer;
 }

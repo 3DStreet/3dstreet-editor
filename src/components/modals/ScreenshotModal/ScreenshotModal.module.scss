@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .screenshotModalWrapper {
   position: absolute;
   top: 115px;
@@ -16,7 +18,6 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-
       .forms {
         display: flex;
         justify-content: space-between;
@@ -74,7 +75,7 @@
       }
     }
     .thumbnailButton {
-      position: absolute;
+      position: relative;
       top: 10px;
       right: 10px;
     }
@@ -86,7 +87,7 @@
   border: none;
   background: none;
   padding: 0px;
-  color: #fff;
+  color: variables.$white;
   display: flex;
   justify-content: center;
 }

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import './Shortcuts.styles.styl';
+import styles from './Shortcuts.module.scss';
 import { DocumentationButton } from '../DocumentationButton';
 
 const shortcuts = [
@@ -43,17 +43,17 @@ const shortcuts = [
 class Shortcuts extends Component {
   render() {
     return (
-      <div className="help-lists">
+      <div className={styles.helpLists}>
         {shortcuts.map((column, idx) => (
-          <ul className="help-list" key={idx}>
+          <ul className={styles.helpList} key={idx}>
             {column.map(({ description, key }) => (
-              <li key={key} className="help-key-unit">
+              <li key={key} className={styles.helpKeyUnit}>
                 {key.map((item) => (
-                  <kbd key={item} className="help-key">
+                  <kbd key={item} className={styles.helpKey}>
                     <span>{item}</span>
                   </kbd>
                 ))}
-                <span className="help-key-def">{description}</span>
+                <span className={styles.helpKeyDef}>{description}</span>
               </li>
             ))}
           </ul>

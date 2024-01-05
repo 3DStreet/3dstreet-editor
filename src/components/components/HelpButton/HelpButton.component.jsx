@@ -1,4 +1,4 @@
-import './HelpButton.styles.styl';
+import styles from './HelpButton.module.scss';
 
 import { Button } from '../Button';
 import { Component } from 'react';
@@ -16,16 +16,17 @@ class HelpButton extends Component {
     const onClick = () => Events.emit('openhelpmodal');
 
     return (
-      <Button
-        id={'helpButton'}
-        className={'helpButton'}
-        type="button"
-        onClick={onClick}
-        key="helpButton"
-        variant={'toolbtn'}
-      >
-        {QuestionMark}
-      </Button>
+      <div className={styles.wrapper}>
+        <Button
+          className={styles.helpButton}
+          type="button"
+          onClick={onClick}
+          key="helpButton"
+          variant={'toolbtn'}
+        >
+          {QuestionMark}
+        </Button>
+      </div>
     );
   }
 }
