@@ -67,16 +67,23 @@ const SceneCard = ({
     try {
       const scene = scenesData[editIndex];
       if (!scene) return;
+
       await updateSceneIdAndTitle(scene.id, editInputValue);
+
       const updatedScenes = scenesData.map((s) => {
         if (s.id === scene.id) {
-          // Since it appears `data()` is a method that returns an object, spread its content and only update the title.
-          return { ...s, data: () => ({ ...s.data(), title: editInputValue }) };
+          return {
+            ...s,
+            id: scene.id,
+            data: () => ({ ...s.data(), title: editInputValue })
+          };
         }
         return s;
       });
+
       setScenesData(updatedScenes);
       setEditIndex(null);
+
       AFRAME.scenes[0].components['notify'].message(
         `New scene title saved: ${editInputValue}`,
         'success'
@@ -146,6 +153,7 @@ const SceneCard = ({
               backgroundPosition: 'center'
             }}
           />
+          {JSON.stringify({ scene: scene.id })}
           {showMenu === index && (
             <div className={styles.menuBlock}>
               <div
