@@ -24,8 +24,9 @@ const tabs = [
   }
 ];
 
-const ScenesModal = ({ isOpen, onClose }) => {
+const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
   const { currentUser } = useAuthContext();
+  const [renderComponent, setRenderComponent] = useState(!delay);
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
   const scenesPerPage = 20;
@@ -37,7 +38,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
   const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('owner');
+  const [selectedTab, setSelectedTab] = useState(initialTab);
 
   const handleSceneClick = (scene) => {
     if (scene.data() && scene.data().data) {
@@ -64,6 +65,16 @@ const ScenesModal = ({ isOpen, onClose }) => {
       console.error('Scene data is undefined or invalid.');
     }
   };
+
+  useEffect(() => {
+    if (delay) {
+      const timeoutId = setTimeout(() => {
+        setRenderComponent(true);
+      }, delay);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,7 +146,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
     }
   };
 
-  return (
+  return renderComponent ? (
     <Modal
       className={styles.modalWrapper}
       isOpen={isOpen}
@@ -260,7 +271,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
         )}
       </div>
     </Modal>
-  );
+  ) : null;
 };
 
 export { ScenesModal };
