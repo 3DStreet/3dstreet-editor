@@ -50,6 +50,7 @@ export default class BooleanWidget extends React.Component {
           type="checkbox"
           checked={this.state.value}
           value={this.state.value}
+          onChange={() => null}
         />
         <label htmlFor={id} onClick={(e) => e.stopPropagation()} />
       </div>
