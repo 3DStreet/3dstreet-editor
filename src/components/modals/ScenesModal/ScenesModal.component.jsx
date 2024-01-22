@@ -10,8 +10,8 @@ import {
 } from '../../../lib/toolbar';
 import { getCommunityScenes, getUserScenes } from '../../../api/scene';
 import Events from '../../../lib/Events';
-import { loginHandler } from '../SignInModal';
 import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
+import { signIn } from '../../../api';
 
 const tabs = [
   {
@@ -226,7 +226,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
               To view your scenes you have to sign in:
             </div>
             <div className={styles.buttons}>
-              <Button onClick={() => loginHandler()}>
+              <Button onClick={() => signIn()}>
                 Sign in to 3DStreet Cloud
               </Button>
               <Button

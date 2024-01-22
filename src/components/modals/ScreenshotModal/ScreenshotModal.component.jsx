@@ -5,7 +5,6 @@ import { Button, Dropdown, Input } from '../../components';
 import Modal from '../Modal.jsx';
 import PropTypes from 'prop-types';
 import { Copy32Icon, Save24Icon } from '../../../icons';
-import { loginHandler } from '../SignInModal';
 import { useAuthContext } from '../../../contexts';
 import Toolbar from '../../scenegraph/Toolbar';
 import { db, storage } from '../../../services/firebase';
@@ -17,6 +16,7 @@ import {
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore';
+import { signIn } from '../../../api';
 
 export const uploadThumbnailImage = async (uploadedFirstTime) => {
   try {
@@ -216,7 +216,7 @@ function ScreenshotModal({ isOpen, onClose }) {
           ) : (
             <div>
               <h3>Please log in first to share the URL</h3>
-              <Button onClick={() => loginHandler()}>
+              <Button onClick={() => signIn()}>
                 Sign in to 3DStreet Cloud
               </Button>
             </div>

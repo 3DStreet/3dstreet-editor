@@ -171,7 +171,6 @@ export default class Toolbar extends Component {
         authorId: this.props.currentUser.uid
       });
 
-      console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
       if (!isCurrentUserTheSceneAuthor) {
         doSaveAs = true;
       }
@@ -228,6 +227,10 @@ export default class Toolbar extends Component {
           'Scene saved to 3DStreet Cloud in existing file.',
           'success'
         );
+      }
+
+      if (typeof ga !== 'undefined') {
+        ga('send', 'event', 'SaveSceneAction', doSaveAs ? 'saveAs' : 'save');
       }
     } catch (error) {
       AFRAME.scenes[0].components['notify'].message(

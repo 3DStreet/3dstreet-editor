@@ -12,3 +12,5 @@ export {
   getCommunityScenes,
   checkIfImagePathIsEmpty
 } from './scene';
+
+export { signIn } from './auth';
