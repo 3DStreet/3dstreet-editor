@@ -26,14 +26,16 @@
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 400;
+
+    transition: 0.3s ease-out;
   }
 
   .inactiveTab {
-    color: variables.$lightgray-200;
+    color: variables.$white;
 
     &:hover {
       cursor: pointer;
-      color: variables.$gray-300;
+      background-color: rgba($color: variables.$gray-500, $alpha: 0.4);
     }
 
     &:focus-visible {
@@ -54,24 +56,13 @@
   }
 
   .activeTab {
-    color: #ddd;
-    background-color: variables.$darkgray-300;
-
-    &:hover {
-      transition: all 0.3s;
-      background-color: variables.$black-400;
-      transition: all 0.3s;
-    }
+    color: variables.$white;
+    background-color: variables.$gray-500 !important;
 
     &:focus-visible {
       border-radius: 11px;
       border: 1px solid variables.$white;
       background-color: variables.$black-400;
-    }
-
-    &:not(:focus) {
-      color: #ddd;
-      background-color: variables.$darkgray-300;
     }
 
     &:active {
