@@ -77,16 +77,10 @@ const SceneCard = ({
       });
       setScenesData(updatedScenes);
       setEditIndex(null);
-      AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved: ${editInputValue}`,
-        'success'
-      );
+      STREET.notify.successMessage(`New scene title saved: ${editInputValue}`);
     } catch (error) {
       console.error('Error with update title', error);
-      AFRAME.scenes[0].components['notify'].message(
-        `Error updating scene title: ${error}`,
-        'error'
-      );
+      STREET.notify.errorMessage(`Error updating scene title: ${error}`);
     }
   };
 

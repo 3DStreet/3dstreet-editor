@@ -51,15 +51,11 @@ const ScenesModal = ({ isOpen, onClose }) => {
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
       // also should update
       Events.emit('entitycreate', { element: 'a-entity', components: {} });
-      AFRAME.scenes[0].components['notify'].message(
-        'Scene loaded from 3DStreet Cloud.',
-        'success'
-      );
+      STREET.notify.successMessage('Scene loaded from 3DStreet Cloud.');
       onClose();
     } else {
-      AFRAME.scenes[0].components['notify'].message(
-        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.',
-        'error'
+      STREET.notify.errorMessage(
+        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.'
       );
       console.error('Scene data is undefined or invalid.');
     }
