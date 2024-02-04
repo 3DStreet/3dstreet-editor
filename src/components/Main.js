@@ -20,6 +20,9 @@ THREE.ImageUtils.crossOrigin = '';
 injectCSS(
   'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'
 );
+
+const isStreetLoaded = window.location.hash.length;
+
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +32,7 @@ export default class Main extends Component {
       isModalTexturesOpen: false,
       isSignInModalOpened: false,
       isProfileModalOpened: false,
-      isScenesModalOpened: false,
+      isScenesModalOpened: !isStreetLoaded,
       sceneEl: AFRAME.scenes[0],
       visible: {
         scenegraph: true,
@@ -227,6 +230,8 @@ export default class Main extends Component {
         <ScenesModal
           isOpen={this.state.isScenesModalOpened}
           onClose={this.onCloseScenesModal}
+          initialTab={isStreetLoaded ? 'owner' : 'community'}
+          delay={!isStreetLoaded ? 1500 : undefined}
         />
         <ProfileModal
           isOpen={this.state.isProfileModalOpened}
