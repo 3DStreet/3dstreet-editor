@@ -26,16 +26,17 @@ export default class BooleanWidget extends React.Component {
     }
   }
 
-  onChange = (e) => {
-    var value = e.target.checked;
-    this.setState({ value: value });
+  onChange = () => {
+    const value = !this.state.value;
+
+    this.setState({ value });
     if (this.props.onChange) {
       this.props.onChange(this.props.name, value);
     }
   };
 
   render() {
-    var id = this.props.componentname + '.' + this.props.name;
+    const id = this.props.componentname + '.' + this.props.name;
 
     const checkboxClasses = classNames({
       checkboxAnim: true,
@@ -43,16 +44,13 @@ export default class BooleanWidget extends React.Component {
     });
 
     return (
-      <div
-        className={checkboxClasses}
-        onClick={() => this.setState({ value: !this.state.value })}
-      >
+      <div className={checkboxClasses} onClick={this.onChange}>
         <input
           id={id}
           type="checkbox"
           checked={this.state.value}
           value={this.state.value}
-          onChange={this.onChange}
+          onChange={() => null}
         />
         <label htmlFor={id} onClick={(e) => e.stopPropagation()} />
       </div>
