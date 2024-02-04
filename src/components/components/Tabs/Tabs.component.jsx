@@ -16,6 +16,7 @@ import { Hint } from './components';
  *    label: string;
  *    value: string;
  *    hint?: string;
+ *    disabled?: boolean
  *  };
  *  selectedTabClassName: string;
  * }} props
@@ -23,15 +24,16 @@ import { Hint } from './components';
 const Tabs = ({ tabs, selectedTabClassName, className }) => (
   <div id={'tabsWrapper'} className={classNames(styles.wrapper, className)}>
     {!!tabs?.length &&
-      tabs.map(({ label, value, onClick, isSelected, hint }) => (
+      tabs.map(({ label, value, onClick, isSelected, hint, disabled }) => (
         <button
           className={classNames(
-            styles.tabButton,
-            isSelected && (selectedTabClassName ?? styles.selectedTab)
+            styles.inactiveTab,
+            isSelected && (selectedTabClassName ?? styles.activeTab),
+            disabled && styles.disabled
           )}
           type={'button'}
-          tabIndex={0}
-          onClick={onClick}
+          // tabIndex={disabled ? -1 : 0}
+          onClick={!disabled && onClick}
           key={value}
         >
           {label}
