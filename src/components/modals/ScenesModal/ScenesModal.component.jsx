@@ -41,21 +41,24 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
   const handleSceneClick = (scene) => {
-    if (scene.data() && scene.data().data) {
-      createElementsForScenesFromJSON(scene.data().data);
-      // const sceneId = scene.id;
+    const sceneData = scene.data();
+    if (sceneData && sceneData.data) {
+      createElementsForScenesFromJSON(sceneData.data);
+
       window.location.hash = `#/scenes/${scene.id}.json`;
-      // this is where we should update sceneid and scenetitle in metadata and toolbar state
+
       const sceneId = scene.id;
-      const sceneTitle = scene.data().title;
+      const sceneTitle = sceneData.title;
+
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
-      // also should update
+
       Events.emit('entitycreate', { element: 'a-entity', components: {} });
       AFRAME.scenes[0].components['notify'].message(
         'Scene loaded from 3DStreet Cloud.',
         'success'
       );
+
       onClose();
     } else {
       AFRAME.scenes[0].components['notify'].message(
