@@ -67,14 +67,20 @@ const SceneCard = ({
     try {
       const scene = scenesData[editIndex];
       if (!scene) return;
+
       await updateSceneIdAndTitle(scene.id, editInputValue);
+
       const updatedScenes = scenesData.map((s) => {
         if (s.id === scene.id) {
-          // Since it appears `data()` is a method that returns an object, spread its content and only update the title.
-          return { ...s, data: () => ({ ...s.data(), title: editInputValue }) };
+          return {
+            ...s,
+            id: scene.id,
+            data: () => ({ ...s.data(), title: editInputValue })
+          };
         }
         return s;
       });
+
       setScenesData(updatedScenes);
       setEditIndex(null);
       STREET.notify.successMessage(`New scene title saved: ${editInputValue}`);
