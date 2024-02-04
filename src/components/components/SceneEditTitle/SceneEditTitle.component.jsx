@@ -32,16 +32,10 @@ const SceneEditTitle = ({ sceneData }) => {
       await updateSceneIdAndTitle(sceneData?.sceneId, newTitle);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', newTitle);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneData?.sceneId);
-      AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved: ${newTitle}`,
-        'success'
-      );
+      STREET.notify.successMessage(`New scene title saved: ${newTitle}`);
     } catch (error) {
       console.error('Error with update title', error);
-      AFRAME.scenes[0].components['notify'].message(
-        `Error updating scene title: ${error}`,
-        'error'
-      );
+      STREET.notify.errorMessage(`Error updating scene title: ${error}`);
     }
   };
 
