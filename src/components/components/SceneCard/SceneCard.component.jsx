@@ -153,7 +153,6 @@ const SceneCard = ({
               backgroundPosition: 'center'
             }}
           />
-          {JSON.stringify({ scene: scene.id })}
           {showMenu === index && (
             <div className={styles.menuBlock}>
               <div
