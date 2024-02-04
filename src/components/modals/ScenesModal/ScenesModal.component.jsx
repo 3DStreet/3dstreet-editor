@@ -13,6 +13,7 @@ import Events from '../../../lib/Events';
 import { loginHandler } from '../SignInModal';
 import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
 
+const SCENES_PER_PAGE = 20;
 const tabs = [
   {
     label: 'My Scenes',
@@ -29,11 +30,10 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
   const [renderComponent, setRenderComponent] = useState(!delay);
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const scenesPerPage = 20;
   const [totalDisplayedUserScenes, setTotalDisplayedUserScenes] =
-    useState(scenesPerPage);
+    useState(SCENES_PER_PAGE);
   const [totalDisplayedCommunityScenes, setTotalDisplayedCommunityScenes] =
-    useState(scenesPerPage);
+    useState(SCENES_PER_PAGE);
   const [isLoadingScenes, setIsLoadingScenes] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
@@ -78,29 +78,39 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoadingScenes(true);
-      let collections;
+      console.log({ scenesData, scenesDataCommunity });
+      if (isOpen) {
+        let collections;
+        setIsLoadingScenes(true);
 
-      if (
-        selectedTab === 'owner' &&
-        isOpen &&
-        !isUserLoadedOnce &&
-        currentUser?.uid
-      ) {
-        setIsUserLoadedOnce(true);
-        collections = await getUserScenes(currentUser.uid, true);
-        setScenesData(collections);
-      } else if (
-        selectedTab === 'community' &&
-        isOpen &&
-        !isCommunityLoadedOnce
-      ) {
-        setIsCommunityLoadedOnce(true);
-        collections = await getCommunityScenes(true);
-        setScenesDataCommunity(collections);
+        try {
+          if (
+            selectedTab === 'owner' &&
+            !scenesData.length &&
+            currentUser?.uid
+          ) {
+            collections = await getUserScenes(currentUser.uid, true);
+            setScenesData(collections);
+          }
+
+          if (selectedTab === 'community' && !scenesDataCommunity.length) {
+            collections = await getCommunityScenes(true);
+            setScenesDataCommunity(collections);
+          }
+        } catch (error) {
+          AFRAME.scenes[0].components['notify'].message(
+            `Error fetching scenes: ${error}`,
+            'error'
+          );
+        } finally {
+          setIsLoadingScenes(false);
+        }
       }
 
-      setIsLoadingScenes(false);
+      if (!isOpen) {
+        setScenesData([]);
+        setScenesDataCommunity([]);
+      }
     };
 
     fetchData();
@@ -135,12 +145,12 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
   const loadMoreScenes = () => {
     if (selectedTab === 'owner') {
       const start = totalDisplayedUserScenes;
-      const end = start + scenesPerPage;
+      const end = start + SCENES_PER_PAGE;
 
       loadData(end);
     } else if (selectedTab === 'community') {
       const start = totalDisplayedCommunityScenes;
-      const end = start + scenesPerPage;
+      const end = start + SCENES_PER_PAGE;
 
       loadData(end);
     }
@@ -176,7 +186,6 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
                   onClick: () => setSelectedTab(tab.value)
                 };
               })}
-              selectedTabClassName={'selectedTab'}
               className={styles.tabs}
             />
             <div className={styles.buttons}>
