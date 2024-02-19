@@ -13,6 +13,7 @@ import Events from '../../../lib/Events';
 import { Load24Icon, Loader, Upload24Icon } from '../../../icons';
 import { signIn } from '../../../api';
 
+const SCENES_PER_PAGE = 20;
 const tabs = [
   {
     label: 'My Scenes',
@@ -24,72 +25,90 @@ const tabs = [
   }
 ];
 
-const ScenesModal = ({ isOpen, onClose }) => {
+const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
   const { currentUser } = useAuthContext();
+  const [renderComponent, setRenderComponent] = useState(!delay);
   const [scenesData, setScenesData] = useState([]);
   const [scenesDataCommunity, setScenesDataCommunity] = useState([]);
-  const scenesPerPage = 20;
   const [totalDisplayedUserScenes, setTotalDisplayedUserScenes] =
-    useState(scenesPerPage);
+    useState(SCENES_PER_PAGE);
   const [totalDisplayedCommunityScenes, setTotalDisplayedCommunityScenes] =
-    useState(scenesPerPage);
+    useState(SCENES_PER_PAGE);
   const [isLoadingScenes, setIsLoadingScenes] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
   const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('owner');
+  const [selectedTab, setSelectedTab] = useState(initialTab);
 
   const handleSceneClick = (scene) => {
-    if (scene.data() && scene.data().data) {
-      createElementsForScenesFromJSON(scene.data().data);
-      // const sceneId = scene.id;
+    const sceneData = scene.data();
+    if (sceneData && sceneData.data) {
+      createElementsForScenesFromJSON(sceneData.data);
+
       window.location.hash = `#/scenes/${scene.id}.json`;
-      // this is where we should update sceneid and scenetitle in metadata and toolbar state
+
       const sceneId = scene.id;
-      const sceneTitle = scene.data().title;
+      const sceneTitle = sceneData.title;
+
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId', sceneId);
       AFRAME.scenes[0].setAttribute('metadata', 'sceneTitle', sceneTitle);
-      // also should update
+
       Events.emit('entitycreate', { element: 'a-entity', components: {} });
-      AFRAME.scenes[0].components['notify'].message(
-        'Scene loaded from 3DStreet Cloud.',
-        'success'
-      );
+      STREET.notify.successMessage('Scene loaded from 3DStreet Cloud.');
       onClose();
     } else {
-      AFRAME.scenes[0].components['notify'].message(
-        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.',
-        'error'
+      STREET.notify.errorMessage(
+        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.'
       );
       console.error('Scene data is undefined or invalid.');
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoadingScenes(true);
-      let collections;
+    if (delay) {
+      const timeoutId = setTimeout(() => {
+        setRenderComponent(true);
+      }, delay);
 
-      if (
-        selectedTab === 'owner' &&
-        isOpen &&
-        !isUserLoadedOnce &&
-        currentUser?.uid
-      ) {
-        setIsUserLoadedOnce(true);
-        collections = await getUserScenes(currentUser.uid, true);
-        setScenesData(collections);
-      } else if (
-        selectedTab === 'community' &&
-        isOpen &&
-        !isCommunityLoadedOnce
-      ) {
-        setIsCommunityLoadedOnce(true);
-        collections = await getCommunityScenes(true);
-        setScenesDataCommunity(collections);
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log({ scenesData, scenesDataCommunity });
+      if (isOpen) {
+        let collections;
+        setIsLoadingScenes(true);
+
+        try {
+          if (
+            selectedTab === 'owner' &&
+            !scenesData.length &&
+            currentUser?.uid
+          ) {
+            collections = await getUserScenes(currentUser.uid, true);
+            setScenesData(collections);
+          }
+
+          if (selectedTab === 'community' && !scenesDataCommunity.length) {
+            collections = await getCommunityScenes(true);
+            setScenesDataCommunity(collections);
+          }
+        } catch (error) {
+          AFRAME.scenes[0].components['notify'].message(
+            `Error fetching scenes: ${error}`,
+            'error'
+          );
+        } finally {
+          setIsLoadingScenes(false);
+        }
       }
 
-      setIsLoadingScenes(false);
+      if (!isOpen) {
+        setScenesData([]);
+        setScenesDataCommunity([]);
+      }
     };
 
     fetchData();
@@ -124,18 +143,18 @@ const ScenesModal = ({ isOpen, onClose }) => {
   const loadMoreScenes = () => {
     if (selectedTab === 'owner') {
       const start = totalDisplayedUserScenes;
-      const end = start + scenesPerPage;
+      const end = start + SCENES_PER_PAGE;
 
       loadData(end);
     } else if (selectedTab === 'community') {
       const start = totalDisplayedCommunityScenes;
-      const end = start + scenesPerPage;
+      const end = start + SCENES_PER_PAGE;
 
       loadData(end);
     }
   };
 
-  return (
+  return renderComponent ? (
     <Modal
       className={styles.modalWrapper}
       isOpen={isOpen}
@@ -165,7 +184,6 @@ const ScenesModal = ({ isOpen, onClose }) => {
                   onClick: () => setSelectedTab(tab.value)
                 };
               })}
-              selectedTabClassName={'selectedTab'}
               className={styles.tabs}
             />
             <div className={styles.buttons}>
@@ -260,7 +278,7 @@ const ScenesModal = ({ isOpen, onClose }) => {
         )}
       </div>
     </Modal>
-  );
+  ) : null;
 };
 
 export { ScenesModal };
