@@ -1,5 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../services/firebase';
+import { sendMetric } from '../services/ga';
 
 const signIn = async () => {
   try {
@@ -11,9 +12,7 @@ const signIn = async () => {
 
     // first signIn to ga
     if (creationTime !== lastSignInTime) return;
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Auth', 'newAccountCreation');
-    }
+    sendMetric('Auth', 'newAccountCreation');
   } catch (error) {
     console.error(error);
   }

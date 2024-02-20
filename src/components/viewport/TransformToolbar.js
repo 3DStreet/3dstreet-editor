@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Events from '../../lib/Events';
+import { sendMetric } from '../../services/ga';
 
 var TransformButtons = [
   { value: 'translate', icon: 'fa-arrows-alt' },
@@ -34,9 +35,7 @@ export default class TransformToolbar extends React.Component {
   changeTransformMode = (mode) => {
     this.setState({ selectedTransform: mode });
     Events.emit('transformmodechange', mode);
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Toolbar', 'selectHelper', mode);
-    }
+    sendMetric('Toolbar', 'selectHelper', mode);
   };
 
   onLocalChange = (e) => {

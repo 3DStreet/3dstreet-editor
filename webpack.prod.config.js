@@ -1,8 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,12 +12,6 @@ module.exports = {
     filename: '3dstreet-editor.js',
     publicPath: '/'
   },
-  // optimization: {
-  //   minimizer: [new TerserPlugin(), new CssMinimizerPlugin({})]
-  //   // splitChunks: {
-  //   //   chunks: 'all'
-  //   // }
-  // },
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
