@@ -1,4 +1,5 @@
 @use './variables.scss';
+
 .modal {
   animation: animateopacity 0.2s ease-out;
   background-color: rgba(0, 0, 0, 0.6);
@@ -11,15 +12,18 @@
   width: 100%;
   z-index: 9;
 }
+
 .modal h3 {
   font-size: 18px;
   font-weight: 100;
   margin: 0.6em 0;
 }
+
 #textureModal .modal-content {
   height: calc(100% - 50px);
   width: calc(100% - 50px);
 }
+
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -34,6 +38,7 @@
   border-radius: 12px;
   max-height: calc(100vh - 195px);
 }
+
 .close {
   display: flex;
   align-items: center;
@@ -43,6 +48,7 @@
   right: 1.3438rem;
   width: 32px;
   height: 32px;
+
   span {
     position: absolute;
     display: block;
@@ -51,32 +57,35 @@
     background-color: rgba(219, 219, 219, 1);
     transform: rotateZ(45deg);
   }
+
   spanfirst-child {
     transform: rotateZ(-45deg);
   }
 }
+
 .closehover,
 .closefocus {
   color: variables.$blue-500;
   cursor: pointer;
   text-decoration: none;
 }
+
 .modal-header {
-  position: relative;
-  color: variables.$white;
+  position: sticky;
+  top: 0;
+  color: white;
   padding: 2px 50px 2px 32px;
 }
 .modal-body {
   display: flex;
   height: 100%;
   max-height: calc(100% - 140px);
-  padding: 0px 26px 0px 32px;
+  padding: 0px 32px 0 32px;
   margin-bottom: 40px;
   overflow-y: scroll;
 }
 .modal-scene-header {
-  position: relative;
-  color: variables.$white;
+  color: white;
   padding: 2px 50px 2px 35px;
 }
 .modal-sign-in-first {

@@ -9,7 +9,8 @@ const variants = {
   outlined: styles.outlinedButton,
   ghost: styles.ghostButton,
   toolbtn: styles.toolButton,
-  white: styles.whiteButton
+  white: styles.whiteButton,
+  custom: styles.customButton
 };
 
 /**
