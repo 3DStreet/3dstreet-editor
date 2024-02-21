@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ScreenshotModal.module.scss';
 
-import { Button, Dropdown, Input } from '../../components';
-import Modal from '../Modal.jsx';
-import PropTypes from 'prop-types';
-import { Copy32Icon, Save24Icon } from '../../../icons';
-import { loginHandler } from '../SignInModal';
-import { useAuthContext } from '../../../contexts';
-import Toolbar from '../../scenegraph/Toolbar';
-import { db, storage } from '../../../services/firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import {
   collection,
   doc,
@@ -17,6 +8,15 @@ import {
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import PropTypes from 'prop-types';
+import { useAuthContext } from '../../../contexts';
+import { Copy32Icon, Save24Icon } from '../../../icons';
+import { db, storage } from '../../../services/firebase';
+import { Button, Dropdown, Input } from '../../components';
+import Toolbar from '../../scenegraph/Toolbar';
+import Modal from '../Modal.jsx';
+import { loginHandler } from '../SignInModal';
 
 export const uploadThumbnailImage = async (uploadedFirstTime) => {
   try {
@@ -208,7 +208,7 @@ function ScreenshotModal({ isOpen, onClose }) {
                   hideBorderAndBackground={true}
                 />
                 <Button
-                  variant="toolbtn"
+                  variant="ghost"
                   onClick={copyToClipboardTailing}
                   className={styles.button}
                 >
@@ -233,17 +233,19 @@ function ScreenshotModal({ isOpen, onClose }) {
             </div>
           )}
         </div>
-        <div
-          className={styles.imageWrapper}
-          dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
-        />
-        <Button
-          variant="outlined"
-          onClick={uploadThumbnailImage}
-          className={styles.thumbnailButton}
-        >
-          Set as scene thumbnail
-        </Button>
+        <div className={styles.imageWrapper}>
+          <div
+            className={styles.screenshotWrapper}
+            dangerouslySetInnerHTML={{ __html: parsedScreenshot }}
+          />
+          <Button
+            variant="custom"
+            onClick={uploadThumbnailImage}
+            className={styles.thumbnailButton}
+          >
+            Set as scene thumbnail
+          </Button>
+        </div>
       </div>
     </Modal>
   );

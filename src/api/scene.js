@@ -1,20 +1,20 @@
 import {
   collection,
-  doc,
-  getDocs,
-  query,
-  where,
-  serverTimestamp,
-  getDoc,
-  setDoc,
-  updateDoc,
-  orderBy,
   deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
   startAfter,
-  limit
+  updateDoc,
+  where
 } from 'firebase/firestore';
-import { db } from '../services/firebase';
 import { v4 as uuidv4 } from 'uuid';
+import { db } from '../services/firebase';
 
 const generateSceneId = async (authorId) => {
   const userScenesRef = collection(db, 'scenes');
@@ -190,12 +190,12 @@ const checkIfImagePathIsEmpty = async (sceneId) => {
 };
 
 export {
-  updateScene,
-  getUserScenes,
-  generateSceneId,
-  isSceneAuthor,
-  getCommunityScenes,
-  updateSceneIdAndTitle,
+  checkIfImagePathIsEmpty,
   deleteScene,
-  checkIfImagePathIsEmpty
+  generateSceneId,
+  getCommunityScenes,
+  getUserScenes,
+  isSceneAuthor,
+  updateScene,
+  updateSceneIdAndTitle
 };
