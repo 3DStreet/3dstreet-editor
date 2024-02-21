@@ -81,9 +81,8 @@ export const uploadThumbnailImage = async (uploadedFirstTime) => {
 
     console.log('Thumbnail uploaded and Firestore updated successfully.');
     uploadedFirstTime &&
-      AFRAME.scenes[0].components['notify'].message(
-        'Scene thumbnail updated in 3DStreet Cloud.',
-        'success'
+      STREET.notify.successMessage(
+        'Scene thumbnail updated in 3DStreet Cloud.'
       );
   } catch (error) {
     console.error('Error capturing screenshot and updating Firestore:', error);
@@ -92,7 +91,7 @@ export const uploadThumbnailImage = async (uploadedFirstTime) => {
       errorMessage =
         'Error updating scene thumbnail: only the scene author may change the scene thumbnail. Save this scene as your own to change the thumbnail.';
     }
-    AFRAME.scenes[0].components['notify'].message(errorMessage, 'error');
+    STREET.notify.errorMessage(errorMessage);
   }
 };
 
