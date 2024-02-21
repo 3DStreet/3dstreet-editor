@@ -67,26 +67,26 @@ const SceneCard = ({
     try {
       const scene = scenesData[editIndex];
       if (!scene) return;
+
       await updateSceneIdAndTitle(scene.id, editInputValue);
+
       const updatedScenes = scenesData.map((s) => {
         if (s.id === scene.id) {
-          // Since it appears `data()` is a method that returns an object, spread its content and only update the title.
-          return { ...s, data: () => ({ ...s.data(), title: editInputValue }) };
+          return {
+            ...s,
+            id: scene.id,
+            data: () => ({ ...s.data(), title: editInputValue })
+          };
         }
         return s;
       });
+
       setScenesData(updatedScenes);
       setEditIndex(null);
-      AFRAME.scenes[0].components['notify'].message(
-        `New scene title saved: ${editInputValue}`,
-        'success'
-      );
+      STREET.notify.successMessage(`New scene title saved: ${editInputValue}`);
     } catch (error) {
       console.error('Error with update title', error);
-      AFRAME.scenes[0].components['notify'].message(
-        `Error updating scene title: ${error}`,
-        'error'
-      );
+      STREET.notify.errorMessage(`Error updating scene title: ${error}`);
     }
   };
 

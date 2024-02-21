@@ -136,14 +136,10 @@ export default class Toolbar extends Component {
 
       link.click();
       link.remove();
-      AFRAME.scenes[0].components['notify'].message(
-        '3DStreet JSON file saved successfully.',
-        'success'
-      );
+      STREET.notify.successMessage('3DStreet JSON file saved successfully.');
     } catch (error) {
-      AFRAME.scenes[0].components['notify'].message(
-        `Error trying to save 3DStreet JSON file. Error: ${error}`,
-        'error'
+      STREET.notify.errorMessage(
+        `Error trying to save 3DStreet JSON file. Error: ${error}`
       );
       console.error(error);
     }
@@ -216,21 +212,18 @@ export default class Toolbar extends Component {
       // Change the hash URL without reloading
       window.location.hash = `#/scenes/${currentSceneId}.json`;
       if (this.state.savedNewDocument) {
-        AFRAME.scenes[0].components['notify'].message(
-          'Scene saved to 3DStreet Cloud as a new file.',
-          'success'
+        STREET.notify.successMessage(
+          'Scene saved to 3DStreet Cloud as a new file.'
         );
         this.setState({ savedNewDocument: false }); // go back to default assumption of save overwrite
       } else {
-        AFRAME.scenes[0].components['notify'].message(
-          'Scene saved to 3DStreet Cloud in existing file.',
-          'success'
+        STREET.notify.successMessage(
+          'Scene saved to 3DStreet Cloud in existing file.'
         );
       }
     } catch (error) {
-      AFRAME.scenes[0].components['notify'].message(
-        `Error trying to save 3DStreet scene to cloud. Error: ${error}`,
-        'error'
+      STREET.notify.errorMessage(
+        `Error trying to save 3DStreet scene to cloud. Error: ${error}`
       );
       console.error(error);
     } finally {
@@ -296,14 +289,10 @@ export default class Toolbar extends Component {
         },
         { binary: true }
       );
-      AFRAME.scenes[0].components['notify'].message(
-        '3DStreet scene exported as glTF file.',
-        'success'
-      );
+      STREET.notify.successMessage('3DStreet scene exported as glTF file.');
     } catch (error) {
-      AFRAME.scenes[0].components['notify'].message(
-        `Error while trying to save glTF file. Error: ${error}`,
-        'error'
+      STREET.notify.errorMessage(
+        `Error while trying to save glTF file. Error: ${error}`
       );
       console.error(error);
     }

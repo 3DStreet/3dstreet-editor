@@ -23,6 +23,7 @@ class ScreenshotButton extends Component {
         variant={'toolbtn'}
       >
         {ScreenshotIcon}
+        Share
       </Button>
     );
   }
