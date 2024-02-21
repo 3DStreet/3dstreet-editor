@@ -20,6 +20,8 @@ import { loginHandler } from '../SignInModal';
 
 export const uploadThumbnailImage = async (uploadedFirstTime) => {
   try {
+    saveScreenshot('img');
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const screentockImgElement = document.getElementById(
       'screentock-destination'
@@ -95,16 +97,26 @@ export const uploadThumbnailImage = async (uploadedFirstTime) => {
   }
 };
 
+const saveScreenshot = async (value) => {
+  const screenshotEl = document.getElementById('screenshot');
+  screenshotEl.play();
+
+  if (value == 'img') {
+    screenshotEl.setAttribute(
+      'screentock',
+      'imgElementSelector',
+      '#screentock-destination'
+    );
+  }
+
+  screenshotEl.setAttribute('screentock', 'type', value);
+  screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
+};
+
 function ScreenshotModal({ isOpen, onClose }) {
   const storedScreenshot = localStorage.getItem('screenshot');
   const parsedScreenshot = JSON.parse(storedScreenshot);
   const { currentUser } = useAuthContext();
-  const saveScreenshot = async (value) => {
-    const screenshotEl = document.getElementById('screenshot');
-    screenshotEl.play();
-    screenshotEl.setAttribute('screentock', 'type', value);
-    screenshotEl.setAttribute('screentock', 'takeScreenshot', true);
-  };
 
   const sceneId = STREET.utils.getCurrentSceneId();
   let currentUrl;

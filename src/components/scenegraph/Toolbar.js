@@ -207,7 +207,7 @@ export default class Toolbar extends Component {
       AFRAME.scenes[0].setAttribute('metadata', 'sceneId: ' + currentSceneId);
 
       const isImagePathEmpty = await checkIfImagePathIsEmpty(currentSceneId);
-      if (!doSaveAs && isImagePathEmpty) {
+      if (isImagePathEmpty) {
         await uploadThumbnailImage(true);
       }
 
