@@ -5,16 +5,13 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
     <!-- 3dstreet -->
-    <script src="https://cdn.jsdelivr.net/npm/3dstreet@0.4.6/dist/aframe-street-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/3dstreet@0.4.8/dist/aframe-street-component.min.js"></script>
 
     <!-- user controls - vr teleport -->
  
     <!-- mapbox -->
     <script src="https://github.3dstreet.org/src/lib/aframe-mapbox-component.min.js"></script>
 
-    <!-- save / load -->
-    <script src="https://github.3dstreet.org/src/json-utils.js"></script>
-    
     <title>3DStreet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
@@ -48,7 +45,7 @@
     <div class="right-fixed">
       <ul class="right-menu">
         <li onclick="buttonScreenshotTock()"> <a class="camera"  href="#"> <span> Capture image as JPG </span> <img src="//github.3dstreet.org/ui_assets/camera-icon.svg"> </a></li>
-        <li onclick="inputStreetmix()"> <a class="load"  href="#"> <span> Load Streetmix URL </span> <img src="//github.3dstreet.org/ui_assets/streetmix-logo.svg"> </a></li>
+        <li onclick="STREET.utils.inputStreetmix()"> <a class="load"  href="#"> <span> Load Streetmix URL </span> <img src="//github.3dstreet.org/ui_assets/streetmix-logo.svg"> </a></li>
         <!-- <li onclick="inputJSON()"> <a class="load"  href="#"> <span> Load JSON String </span> <img src="assets/ui_assets/upload-icon.svg"> </a></li> -->
         <li><a class="load"> <label for="inputfile" style="display: inherit; align-items: center; cursor: pointer"> <input type="file" id="inputfile" style="display:none" accept=".js, .json, .txt"> <span> Load JSON File </span> <img src="//github.3dstreet.org/ui_assets/upload-icon.svg"></label></a></li>
       </ul>
@@ -100,7 +97,7 @@
   </script>
   <script>
     document.getElementById('inputfile')
-        .addEventListener('change', fileJSON);
+        .addEventListener('change', STREET.utils.fileJSON);
 
     function buttonScreenshotTock() {
       const screenshotEl = document.getElementById('screenshot');
