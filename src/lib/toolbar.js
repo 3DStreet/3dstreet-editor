@@ -37,14 +37,14 @@ export function createElementsForScenesFromJSON(streetData) {
     return;
   }
 
-  STREET.utils.createEntities(streetData, streetContainerEl);
+  createEntities(streetData, streetContainerEl);
 }
 
 export function fileJSON(event) {
   let reader = new FileReader();
 
   reader.onload = function () {
-    STREET.utils.createElementsFromJSON(reader.result);
+    createElementsFromJSON(reader.result);
     // update sceneGraph
     Events.emit('entitycreated', streetContainerEl.sceneEl);
   };

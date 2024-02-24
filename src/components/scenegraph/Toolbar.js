@@ -124,10 +124,10 @@ export default class Toolbar extends Component {
     try {
       const entity = document.getElementById('street-container');
 
-      const data = STREET.utils.convertDOMElToObject(entity);
+      const data = convertDOMElToObject(entity);
 
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        STREET.utils.filterJSONstreet(data)
+        filterJSONstreet(removeProps, renameProps, data)
       )}`;
 
       const link = document.createElement('a');
@@ -188,8 +188,10 @@ export default class Toolbar extends Component {
 
       // generate json from 3dstreet core
       const entity = document.getElementById('street-container');
-      const data = STREET.utils.convertDOMElToObject(entity);
-      const filteredData = JSON.parse(STREET.utils.filterJSONstreet(data));
+      const data = convertDOMElToObject(entity);
+      const filteredData = JSON.parse(
+        filterJSONstreet(removeProps, renameProps, data)
+      );
       this.setState({ isSavingScene: true });
       // save json to firebase with other metadata
 
