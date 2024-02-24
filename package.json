@@ -1,6 +1,6 @@
 {
   "name": "3dstreet-editor",
-  "version": "0.4.9",
+  "version": "0.4.7",
   "description": "An open source street editor.",
   "main": "dist/3dstreet-editor.js",
   "scripts": {
