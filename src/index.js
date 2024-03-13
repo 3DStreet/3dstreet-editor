@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import '../vendor/ga';
 import Main from './components/Main';
 import { AuthProvider } from './contexts';
 import Events from './lib/Events';
