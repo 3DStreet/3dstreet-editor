@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Events from '../../lib/Events';
 import Select from 'react-select';
+import { sendMetric } from '../../services/ga';
 
 export default class AddComponent extends React.Component {
   static propTypes = {
@@ -26,9 +27,7 @@ export default class AddComponent extends React.Component {
 
     entity.setAttribute(componentName, '');
     Events.emit('componentadd', { entity: entity, component: componentName });
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Components', 'addComponent', componentName);
-    }
+    sendMetric('Components', 'addComponent', componentName);
   };
 
   /**

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Select, { components } from 'react-select';
 import Events from '../../lib/Events';
 import { DropdownArrowIcon } from '../../icons';
+import { sendMetric } from '../../services/ga';
 
 export default class Mixin extends React.Component {
   static propTypes = {
@@ -64,9 +65,7 @@ export default class Mixin extends React.Component {
       property: '',
       value: mixinStr
     });
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Components', 'addMixin');
-    }
+    sendMetric('Components', 'addMixin');
   };
 
   updateMixinSingle = (value) => {
@@ -84,9 +83,7 @@ export default class Mixin extends React.Component {
       property: '',
       value: mixinStr
     });
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Components', 'addMixin');
-    }
+    sendMetric('Components', 'addMixin');
   };
 
   render() {
