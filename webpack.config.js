@@ -2,11 +2,8 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 
-const MINIFY = JSON.parse(
-  process.env.MINIFY ?? process.env.NODE_ENV === 'production'
-);
-
 module.exports = {
+  mode: 'development',
   devServer: {
     hot: true,
     liveReload: false,
@@ -19,7 +16,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: MINIFY ? '3dstreet-editor.min.js' : '3dstreet-editor.js',
+    filename: '3dstreet-editor.js',
     publicPath: '/dist/'
   },
   externals: {
@@ -32,7 +29,7 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     new Dotenv({
-      path: `./config/.env.${process.env.NODE_ENV}`
+      path: './config/.env.development'
     })
   ],
   module: {
@@ -63,6 +60,20 @@ module.exports = {
               sourceMap: true
             }
           },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        exclude: /\.module\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
           {
             loader: 'sass-loader',
             options: {
@@ -103,6 +114,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  mode: process.env.NODE_ENV
+  }
 };

@@ -37,6 +37,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
                 className={'photoURL'}
                 src={currentUser?.photoURL}
                 alt="userPhoto"
+                referrerPolicy="no-referrer"
               />
               <div className={styles.credentials}>
                 <span className={styles.name}>{currentUser?.displayName}</span>

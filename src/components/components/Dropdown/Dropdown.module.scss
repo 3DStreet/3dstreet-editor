@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -9,12 +11,12 @@
     font-size: 0.875rem;
     line-height: 1.0625rem;
     font-weight: 500;
-    color: #ededed;
+    color: variables.$lightgray-500;
     transition: all 0.3s;
   }
 
   .disabledLabel {
-    color: #a0a0a0;
+    color: variables.$gray-800;
     transition: all 0.3s;
   }
 
@@ -30,7 +32,7 @@
       column-gap: 0.5rem;
       width: 100%;
       padding: 13px 13px 13px 15px;
-      border: 1px solid #543e79;
+      border: 1px solid variables.$purple-400;
       border-radius: 10px;
       background-color: rgba(50, 50, 50, 0.8);
       outline: unset;
@@ -39,30 +41,30 @@
       &:hover {
         transition: all 0.3s;
         cursor: pointer;
-        border-color: #6439ab;
-        background-color: #2d2d2d;
+        border-color: variables.$purple-500;
+        background-color: variables.$darkgray-300;
 
         .icon svg {
           transition: all 0.3s;
-          fill: #cbcbcb;
+          fill: variables.$gray-300;
 
           * {
             transition: all 0.3s;
-            fill: #cbcbcb;
+            fill: variables.$gray-300;
           }
         }
 
         .selectedOptionLabel {
           transition: all 0.3s;
-          color: #cbcbcb;
+          color: variables.$gray-300;
         }
 
         > svg {
           transition: all 0.3s;
-          stroke: #ffffff;
+          stroke: variables.$white;
 
           * {
-            stroke: #ffffff;
+            stroke: variables.$white;
           }
         }
       }
@@ -70,31 +72,31 @@
       &:focus {
         transition: all 0.3s;
         cursor: pointer;
-        border-color: #8d56e8;
-        background-color: #2d2d2d;
+        border-color: variables.$purple-700;
+        background-color: variables.$darkgray-300;
         outline: unset;
 
         .icon svg {
           transition: all 0.3s;
-          fill: #ffffff;
+          fill: variables.$white;
 
           * {
             transition: all 0.3s;
-            fill: #ffffff;
+            fill: variables.$white;
           }
         }
 
         .selectedOptionLabel {
           transition: all 0.3s;
-          color: #ffffff;
+          color: variables.$white;
         }
 
         > svg {
           transition: all 0.3s;
-          stroke: #ffffff;
+          stroke: variables.$white;
 
           * {
-            stroke: #ffffff;
+            stroke: variables.$white;
           }
         }
       }
@@ -102,30 +104,30 @@
       &:active {
         transition: all 0.3s;
         cursor: pointer;
-        border-color: #543e79;
+        border-color: variables.$purple-400;
         background-color: rgba(50, 50, 50, 0.8);
 
         .icon svg {
           transition: all 0.3s;
-          fill: #ffffff;
+          fill: variables.$white;
 
           * {
             transition: all 0.3s;
-            fill: #ffffff;
+            fill: variables.$white;
           }
         }
 
         .selectedOptionLabel {
           transition: all 0.3s;
-          color: #ffffff;
+          color: variables.$white;
         }
 
         > svg {
           transition: all 0.3s;
-          stroke: #ffffff;
+          stroke: variables.$white;
 
           * {
-            stroke: #ffffff;
+            stroke: variables.$white;
           }
         }
       }
@@ -133,30 +135,30 @@
       &:disabled {
         transition: all 0.3s;
         cursor: not-allowed;
-        border-color: #382a50;
+        border-color: variables.$darkpurple;
         background-color: rgba(50, 50, 50, 0.8);
 
         .icon svg {
           transition: all 0.3s;
-          fill: #636363;
+          fill: variables.$gray-500;
 
           * {
             transition: all 0.3s;
-            fill: #636363;
+            fill: variables.$gray-500;
           }
         }
 
         .selectedOptionLabel {
           transition: all 0.3s;
-          color: #636363;
+          color: variables.$gray-500;
         }
 
         > svg {
           transition: all 0.3s;
-          stroke: #636363;
+          stroke: variables.$gray-500;
 
           * {
-            stroke: #636363;
+            stroke: variables.$gray-500;
           }
         }
       }
@@ -170,11 +172,11 @@
 
         svg {
           transition: all 0.3s;
-          fill: #b6b6b6;
+          fill: variables.$lightgray-200;
 
           * {
             transition: all 0.3s;
-            fill: #b6b6b6;
+            fill: variables.$lightgray-200;
           }
         }
       }
@@ -186,7 +188,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: #b6b6b6;
+        color: variables.$lightgray-200;
         transition: all 0.3s;
       }
 
@@ -197,25 +199,25 @@
         width: 20px;
         height: 20px;
         transition: all 0.3s;
-        stroke: #636363;
+        stroke: variables.$gray-500;
 
         * {
-          stroke: #636363;
+          stroke: variables.$gray-500;
         }
       }
     }
 
     .selectorWithOpenedMenu {
       transition: all 0.3s;
-      border-color: #8d56e8;
-      background-color: #2d2d2d;
+      border-color: variables.$purple-700;
+      background-color: variables.$darkgray-300;
 
       > svg {
         transition: all 0.3s;
-        stroke: #ffffff;
+        stroke: variables.$white;
 
         * {
-          stroke: #ffffff;
+          stroke: variables.$white;
         }
       }
     }
@@ -228,7 +230,7 @@
       display: flex;
       flex-direction: column;
       width: calc(100% - 2px);
-      border: 1px solid #8d56e8;
+      border: 1px solid variables.$purple-700;
       border-radius: 8px;
       overflow: hidden;
 
@@ -236,7 +238,7 @@
         display: flex;
         width: 100%;
         padding: 16px 20px;
-        background-color: #2d2d2d;
+        background-color: variables.$darkgray-300;
         transition: all 0.3s;
         border: unset;
         outline: unset;
@@ -244,42 +246,42 @@
         &:hover {
           transition: all 0.3s;
           cursor: pointer;
-          background-color: #373737;
+          background-color: variables.$darkgray-800;
 
           .optionItemLabel {
             transition: all 0.3s;
-            color: #ffffff;
+            color: variables.$white;
           }
         }
 
         &:active {
           transition: all 0.3s;
-          background-color: #222222;
+          background-color: variables.$black;
 
           .optionItemLabel {
             transition: all 0.3s;
-            color: #ffffff;
+            color: variables.$white;
           }
         }
 
         &:focus {
           transition: all 0.3s;
-          background-color: #282828;
+          background-color: variables.$black-600;
 
           .optionItemLabel {
             transition: all 0.3s;
-            color: #ffffff;
+            color: variables.$white;
           }
         }
 
         &:disabled {
           transition: all 0.3s;
-          background-color: #222222;
+          background-color: variables.$black;
           cursor: not-allowed;
 
           .optionItemLabel {
             transition: all 0.3s;
-            color: #636363;
+            color: variables.$gray-500;
           }
         }
 
@@ -290,18 +292,18 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color: #ededed;
+          color: variables.$lightgray-500;
           transition: all 0.3s;
         }
       }
 
       .selectedItem {
         transition: all 0.3s;
-        background-color: #222222;
+        background-color: variables.$black;
 
         .optionItemLabel {
           transition: all 0.3s;
-          color: #ffffff;
+          color: variables.$white;
         }
       }
     }

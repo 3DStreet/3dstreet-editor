@@ -2,40 +2,33 @@
 <html>
   <head>
     <!-- aframe -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
     <!-- 3dstreet -->
-    <script src="https://github.3dstreet.org/dist/aframe-street-component.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/3dstreet@0.4.11/dist/aframe-street-component.min.js"></script>
 
     <!-- user controls - vr teleport -->
  
     <!-- mapbox -->
     <script src="https://github.3dstreet.org/src/lib/aframe-mapbox-component.min.js"></script>
 
-    <!-- save / load -->
-    <script src="https://github.3dstreet.org/src/json-utils.js"></script>
-    
-    <!-- ocean -->
-    <script src="https://github.3dstreet.org/src/components/ocean-plane.js"></script>
-
     <title>3DStreet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
     <link rel="stylesheet" href="//github.3dstreet.org/src/viewer-styles.css">
-    <link rel="stylesheet" href="./assets/loader/loader.css" />
   </head>
 
   <body>
     <div class="loader__wrapper">
       <div class="loader">
         <div class="entities">
-          <img src="./assets/loader/entities.svg" alt="entities" />
+          <img src="//github.3dstreet.org/ui_assets/loader/entities.svg" alt="entities" />
         </div>
         <div class="transport">
           <div class="wrapper__transport">
-            <img src="./assets/loader/car.svg" class="car" alt="car" />
-            <img src="./assets/loader/bus.svg" class="bus" alt="bus" />
-            <img src="./assets/loader/bike.svg" class="bike" alt="bike" />
+            <img src="//github.3dstreet.org/ui_assets/loader/car.svg" class="car" alt="car" />
+            <img src="//github.3dstreet.org/ui_assets/loader/bus.svg" class="bus" alt="bus" />
+            <img src="//github.3dstreet.org/ui_assets/loader/bike.svg" class="bike" alt="bike" />
           </div>
         </div>
         <div class="road">Loading 3DStreet</div>
@@ -52,22 +45,21 @@
     <div class="right-fixed">
       <ul class="right-menu">
         <li onclick="buttonScreenshotTock()"> <a class="camera"  href="#"> <span> Capture image as JPG </span> <img src="//github.3dstreet.org/ui_assets/camera-icon.svg"> </a></li>
-        <li onclick="inputStreetmix()"> <a class="load"  href="#"> <span> Load Streetmix URL </span> <img src="//github.3dstreet.org/ui_assets/streetmix-logo.svg"> </a></li>
+        <li onclick="STREET.utils.inputStreetmix()"> <a class="load"  href="#"> <span> Load Streetmix URL </span> <img src="//github.3dstreet.org/ui_assets/streetmix-logo.svg"> </a></li>
         <!-- <li onclick="inputJSON()"> <a class="load"  href="#"> <span> Load JSON String </span> <img src="assets/ui_assets/upload-icon.svg"> </a></li> -->
         <li><a class="load"> <label for="inputfile" style="display: inherit; align-items: center; cursor: pointer"> <input type="file" id="inputfile" style="display:none" accept=".js, .json, .txt"> <span> Load JSON File </span> <img src="//github.3dstreet.org/ui_assets/upload-icon.svg"></label></a></li>
-        <li> <a id="custom-enter-vr-button" class="vr" href="#"> <span class="vr">Enter VR mode</span> <img src="//github.3dstreet.org/ui_assets/vr-icon.svg"> </a></li>
       </ul>
     </div>
 
     <a-scene
-      vr-mode-ui="enterVRButton: #custom-enter-vr-button;"
-      vr-mode-ui-if-headset
-      renderer="colorManagement: true; physicallyCorrectLights: true;"
+      renderer="colorManagement: true; physicallyCorrectLights: true; anisotropy: 16; logarithmicDepthBuffer: true;"
       inspector="url: ./dist/3dstreet-editor.js"
       timed-inspector="1"
       loading-screen="enabled: false"
-      notify="ripple: false"
+      notify
       metadata
+      scene-title
+      reflection
     >
       <a-assets>
         <!-- you can specify a custom asset path using below syntax  -->
@@ -92,6 +84,7 @@
     </a-scene>
   </body>
   <script>
+    /* loading animation script */
     document.addEventListener('DOMContentLoaded', function () {
       const scene = document.querySelector('a-scene');
       const splash = document.querySelector('.loader__wrapper');
@@ -104,17 +97,7 @@
   </script>
   <script>
     document.getElementById('inputfile')
-        .addEventListener('change', fileJSON);
-
-    // only show VR button if headset connected
-    AFRAME.registerComponent('vr-mode-ui-if-headset', {
-      dependencies: ['vr-mode-ui'],
-      init: function () {
-        if (!AFRAME.utils.device.checkHeadsetConnected()) {
-          this.el.setAttribute('vr-mode-ui', 'enabled', false);
-        }
-      }
-    })
+        .addEventListener('change', STREET.utils.fileJSON);
 
     function buttonScreenshotTock() {
       const screenshotEl = document.getElementById('screenshot');

@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -9,11 +11,11 @@
     font-size: 0.875rem;
     line-height: 1.0625rem;
     font-weight: 500;
-    color: #ededed;
+    color: variables.$lightgray-500;
   }
 
   .disabledLabel {
-    color: #a0a0a0;
+    color: variables.$gray-800;
   }
 
   .inputElementContainer {
@@ -23,7 +25,7 @@
     width: calc(100% - 30px);
     white-space: nowrap;
     padding: 8px 12px;
-    border: 1px solid #543e79;
+    border: 1px solid variables.$purple-400;
     border-radius: 10px;
     background-color: rgba(50, 50, 50, 0.8);
     transition: all 0.3s;
@@ -31,61 +33,61 @@
     &:hover {
       cursor: pointer;
       transition: all 0.3s;
-      background-color: #2d2d2d;
-      border-color: #6439ab;
+      background-color: variables.$darkgray-300;
+      border-color: variables.$purple-500;
 
       svg {
         transition: all 0.3s;
-        fill: #cbcbcb;
+        fill: variables.$gray-300;
 
         * {
           transition: all 0.3s;
-          fill: #cbcbcb;
+          fill: variables.$gray-300;
         }
       }
 
       .inputElement {
         transition: all 0.3s;
-        color: #cbcbcb !important;
+        color: variables.$gray-300 !important;
       }
     }
 
     &:focus-within {
       transition: all 0.3s;
-      border-color: #8d56e8;
-      background-color: #2d2d2d;
+      border-color: variables.$purple-700;
+      background-color: variables.$darkgray-300;
 
       svg {
         transition: all 0.3s;
-        fill: #ffffff;
+        fill: variables.$white;
 
         * {
           transition: all 0.3s;
-          fill: #ffffff;
+          fill: variables.$white;
         }
       }
     }
 
     &:active {
       transition: all 0.3s;
-      border-color: #543e79;
+      border-color: variables.$purple-400;
       background-color: rgba(50, 50, 50, 0.8);
 
       svg {
         transition: all 0.3s;
-        fill: #ffffff;
+        fill: variables.$white;
 
         * {
           transition: all 0.3s;
-          fill: #ffffff;
+          fill: variables.$white;
         }
       }
     }
 
     .iconContainer {
       display: flex;
-      width: 20px;
-      height: 20px;
+      min-width: 32px;
+      min-height: 32px;
       align-items: center;
       justify-content: center;
 
@@ -96,11 +98,11 @@
         max-height: 100%;
         transition: all 0.3s;
 
-        fill: #b6b6b6;
+        fill: variables.$lightgray-200;
 
         * {
           transition: all 0.3s;
-          fill: #b6b6b6;
+          fill: variables.$lightgray-200;
         }
       }
     }
@@ -111,8 +113,12 @@
       font-size: 1rem;
       line-height: 1.1875rem;
       font-weight: 400;
-      color: #b6b6b6;
+      color: variables.$white;
       transition: all 0.3s;
+      min-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .inputElement {
@@ -126,21 +132,24 @@
       font-size: 1rem !important;
       line-height: 1.1875rem !important;
       font-weight: 400 !important;
-      color: #b6b6b6 !important;
+      color: variables.$lightgray-200 !important;
       background: transparent !important;
       background-color: transparent !important;
       transition: all 0.3s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:focus,
       &:active {
         outline: unset;
         transition: all 0.3s;
-        color: #ffffff !important;
+        color: variables.$white !important;
       }
 
       &:disabled {
         transition: all 0.3s;
-        color: #636363 !important;
+        color: variables.$gray-500 !important;
         cursor: not-allowed;
       }
     }
@@ -148,7 +157,7 @@
 
   .disabledInputContainer {
     transition: all 0.3s;
-    border-color: #382a50;
+    border-color: variables.$darkpurple;
     background-color: rgba(50, 50, 50, 0.8);
 
     &:hover,
@@ -156,65 +165,65 @@
     &:active {
       transition: all 0.3s;
       cursor: not-allowed;
-      border-color: #382a50;
+      border-color: variables.$darkpurple;
       background-color: rgba(50, 50, 50, 0.8);
     }
 
     svg {
       transition: all 0.3s;
-      fill: #636363;
+      fill: variables.$gray-500;
 
       * {
         transition: all 0.3s;
-        fill: #636363;
+        fill: variables.$gray-500;
       }
     }
 
     .subtext {
       transition: all 0.3s;
-      color: #636363;
+      color: variables.$gray-500;
     }
   }
 
   .erroredInputContainer {
     transition: all 0.3s;
-    border-color: #f2164b;
-    background-color: #2d2d2d;
+    border-color: variables.$red-300;
+    background-color: variables.$darkgray-300;
 
     svg {
       transition: all 0.3s;
-      fill: #ffffff;
+      fill: variables.$white;
 
       * {
         transition: all 0.3s;
-        fill: #ffffff;
+        fill: variables.$white;
       }
     }
 
     .inputElement {
       transition: all 0.3s;
-      color: #ffffff;
+      color: variables.$white;
     }
   }
 
   .successInputContainer {
     transition: all 0.3s;
-    border-color: #0eaf00;
-    background-color: #2d2d2d;
+    border-color: variables.$green-200;
+    background-color: variables.$darkgray-300;
 
     svg {
       transition: all 0.3s;
-      fill: #ffffff;
+      fill: variables.$white;
 
       * {
         transition: all 0.3s;
-        fill: #ffffff;
+        fill: variables.$white;
       }
     }
 
     .inputElement {
       transition: all 0.3s;
-      color: #ffffff;
+      color: variables.$white;
     }
   }
 
@@ -227,10 +236,10 @@
   }
 
   .errorMessage {
-    color: #f2164b;
+    color: variables.$red-300;
   }
 
   .successMessage {
-    color: #0eaf00;
+    color: variables.$green-200;
   }
 }

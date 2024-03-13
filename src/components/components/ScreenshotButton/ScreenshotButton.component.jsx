@@ -1,4 +1,4 @@
-import './ScreenshotButton.styles.styl';
+import styles from './ScreenshotButton.module.scss';
 
 import { Button } from '../Button';
 import { Component } from 'react';
@@ -16,14 +16,14 @@ class ScreenshotButton extends Component {
     const onClick = () => Events.emit('openscreenshotmodal');
     return (
       <Button
-        id={'screenshotButton'}
-        className={'screenshotButton'}
+        className={styles.screenshotButton}
         type="button"
         onClick={onClick}
         key="screenshotButton"
         variant={'toolbtn'}
       >
         {ScreenshotIcon}
+        Share
       </Button>
     );
   }

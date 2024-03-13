@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -8,42 +10,69 @@
   border-radius: 16px;
   padding: 8px 12px;
 
-  .tabButton {
+  .activeTab,
+  .inactiveTab {
     display: block;
     position: relative;
     border: unset;
     outline: unset;
     background-color: transparent;
+
+    margin: 0;
     padding: 8.5px 12px;
-    color: #ffffff;
     border-radius: 11px;
-    transition: all 0.3s;
+    border: 1px solid transparent;
+
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 400;
-    margin: 0;
+
+    transition: 0.3s ease-out;
+  }
+
+  .inactiveTab {
+    color: variables.$white;
 
     &:hover {
       cursor: pointer;
-      background-color: rgba(50, 50, 50, 0.6);
-      transition: all 0.3s;
+      background-color: rgba($color: variables.$gray-500, $alpha: 0.4);
+    }
 
-      [class*='wrapper'] {
-        visibility: visible;
-        opacity: 1;
-        transition: all 0.3s;
-      }
+    &:focus-visible {
+      border-radius: 0;
+      border: 1px solid variables.$white;
     }
 
     &:active {
-      background-color: #282828;
-      color: #b6b6b6;
+      color: variables.$white;
       transition: all 0.3s;
+    }
+
+    &.disabled {
+      color: variables.$gray-500;
+      transition: all 0.3s;
+      cursor: not-allowed;
     }
   }
 
-  .selectedTab {
-    background-color: #2d2d2d;
-    transition: all 0.3s;
+  .activeTab {
+    color: variables.$white;
+    background-color: variables.$gray-500 !important;
+
+    &:focus-visible {
+      border-radius: 11px;
+      border: 1px solid variables.$white;
+      background-color: variables.$black-400;
+    }
+
+    &:active {
+      background-color: variables.$black-700;
+      transition: all 0.3s;
+    }
+
+    &.disabled {
+      background-color: rgba(50, 50, 50, 0.6);
+      color: variables.$gray-500;
+    }
   }
 }

@@ -26,6 +26,8 @@ const id = v4();
  *  errorMessage?: string;
  *  successMessage?: string;
  *  disabled?: boolean;
+ *  readOnly?: boolean;
+ *  hideBorderAndBackground?: boolean;
  * }} props
  */
 const Input = ({
@@ -41,10 +43,19 @@ const Input = ({
   placeholder,
   errorMessage,
   successMessage,
-  disabled
+  defaultValue,
+  disabled,
+  readOnly,
+  hideBorderAndBackground,
+  value
 }) => {
   const inputElement = useRef(null);
-
+  const hideBorderAndBackgroundStyles = {
+    border: 'none',
+    background: 'none',
+    padding: '0px',
+    width: 'calc(100% - 12px)'
+  };
   return (
     <div className={classnames(styles.wrapper, className)}>
       {label && (
@@ -73,6 +84,7 @@ const Input = ({
             !disabled &&
             styles.successInputContainer
         )}
+        style={hideBorderAndBackground && hideBorderAndBackgroundStyles}
       >
         {leadingIcon && (
           <div className={styles.iconContainer}>{leadingIcon}</div>
@@ -88,6 +100,9 @@ const Input = ({
           placeholder={placeholder}
           className={styles.inputElement}
           disabled={disabled}
+          defaultValue={defaultValue}
+          value={value}
+          readOnly={readOnly}
         />
         {tailingSubtext && (
           <span className={styles.subtext}>{tailingSubtext}</span>
@@ -109,7 +124,7 @@ const Input = ({
 Input.propTypes = {
   className: string,
   type: string,
-  onChange: func.isRequired,
+  onChange: func,
   leadingIcon: node,
   tailingIcon: node,
   leadingSubtext: string,
@@ -119,7 +134,9 @@ Input.propTypes = {
   placeholder: string,
   errorMessage: string,
   successMessage: string,
-  disabled: bool
+  disabled: bool,
+  readOnly: bool,
+  hideBorderAndBackground: bool
 };
 
 export { Input };

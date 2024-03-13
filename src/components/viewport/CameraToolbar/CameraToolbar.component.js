@@ -1,10 +1,10 @@
-import './CameraToolbar.styl';
+import './CameraToolbar.scss';
 
 import { Component } from 'react';
 
 import Events from '../../../lib/Events.js';
-import { Hint } from './components';
 import classNames from 'classnames';
+import { Hint } from '../../components/Tabs/components/index.js';
 
 const options = [
   {

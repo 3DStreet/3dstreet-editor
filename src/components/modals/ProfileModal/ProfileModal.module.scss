@@ -1,3 +1,5 @@
+@use '../../../style/variables.scss';
+
 .modalWrapper {
   position: relative;
   margin: auto auto;
@@ -9,6 +11,7 @@
   align-items: center;
   width: 100%;
   row-gap: 28px;
+  padding: 0px 14px 0px 4px;
 
   .title {
     position: absolute;
@@ -26,6 +29,8 @@
 
     .header {
       display: flex;
+      justify-content: center;
+      align-items: center;
       column-gap: 80px;
       width: 100%;
 
@@ -43,6 +48,7 @@
           display: flex;
           flex-direction: column;
           row-gap: 12px;
+          justify-content: center;
 
           .name {
             font-size: 20px;
@@ -52,7 +58,7 @@
           .email {
             font-size: 20px;
             font-weight: 400;
-            color: #b6b6b6;
+            color: variables.$lightgray-200;
           }
         }
       }
@@ -60,8 +66,8 @@
       .logOut {
         border-radius: 18px;
         background: none;
-        color: #774dee !important;
-        border: 1px solid #774dee !important;
+        color: variables.$purple !important;
+        border: 1px solid variables.$purple !important;
       }
     }
 
@@ -111,7 +117,7 @@
 
           .json,
           .streetmix {
-            color: #774dee;
+            color: variables.$purple;
             font-size: 16px;
             font-weight: 500;
           }
@@ -141,7 +147,7 @@
           }
 
           .date {
-            color: #b6b6b6;
+            color: variables.$lightgray-200;
             font-size: 14px;
             font-weight: 400;
           }

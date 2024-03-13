@@ -1,4 +1,4 @@
-import './ModalHelp.styles.styl';
+import styles from './ModalHelp.module.scss';
 
 import { EssentialActions, Shortcuts } from './components/index.js';
 import { Component } from 'react';
@@ -39,7 +39,7 @@ class ModalHelp extends Component {
 
     return (
       <Modal
-        className={'helpModalWrapper'}
+        className={styles.helpModalWrapper}
         titleElement={
           <Tabs
             tabs={tabs.map((tab) => ({

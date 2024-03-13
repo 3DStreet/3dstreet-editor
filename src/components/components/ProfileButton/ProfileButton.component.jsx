@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProfileButton.styles.styl';
+import styles from './ProfileButton.module.scss';
 
 import { Button } from '../Button';
 import Events from '../../../lib/Events.js';
@@ -25,8 +25,7 @@ const ProfileButton = () => {
 
   return (
     <Button
-      id={'profileButton'}
-      className={'profileButton'}
+      className={styles.profileButton}
       type="button"
       onClick={onClick}
       key="profileButton"
@@ -34,9 +33,10 @@ const ProfileButton = () => {
     >
       {currentUser ? (
         <img
-          className={'photoURL'}
+          className={styles.photoURL}
           src={currentUser.photoURL}
           alt="userPhoto"
+          referrerPolicy="no-referrer"
         />
       ) : (
         Profile32Icon

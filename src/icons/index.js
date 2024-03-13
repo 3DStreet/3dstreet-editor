@@ -11,5 +11,15 @@ export {
   CheckIcon,
   DropdownArrowIcon,
   Cloud24Icon,
-  Mangnifier20Icon
+  Mangnifier20Icon,
+  Edit32Icon,
+  CheckMark32Icon,
+  Copy32Icon,
+  DropdownIcon,
+  Loader,
+  RemixIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  LayersIcon,
+  GoogleSignInButtonSVG
 } from './icons.jsx';

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
+import { ArrowRightIcon, LayersIcon } from '../../icons';
 export default class Sidebar extends React.Component {
   static propTypes = {
     entity: PropTypes.object,
@@ -56,35 +57,35 @@ export default class Sidebar extends React.Component {
       const formattedMixin = entityMixin
         ? capitalize(entityMixin.replaceAll('-', ' ').replaceAll('_', ' '))
         : null;
-
       return (
         <div className={className} tabIndex="0">
           {this.state.rightBarHide ? (
             <>
               <div id="layers-title" onClick={this.toggleRightBar}>
-                <span>{entityName || formattedMixin}</span>
-                <div id="toggle-rightbar" />
+                <div className={'layersBlock'}>
+                  <LayersIcon />
+                  <span>{entityName || formattedMixin}</span>
+                </div>
+                <div id="toggle-rightbar">
+                  <ArrowRightIcon />
+                </div>
               </div>
               <div className="scroll">
-                {!!entity.mixinEls.length && (
-                  <>
-                    <Mixins entity={entity} />
-                    <div id="sidebar-buttons">
-                      <Button
-                        variant={'toolbtn'}
-                        onClick={() => cloneEntity(entity)}
-                      >
-                        Duplicate
-                      </Button>
-                      <Button
-                        variant={'toolbtn'}
-                        onClick={() => removeSelectedEntity()}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </>
-                )}
+                {!!entity.mixinEls.length && <Mixins entity={entity} />}
+                <div id="sidebar-buttons">
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => cloneEntity(entity)}
+                  >
+                    Duplicate
+                  </Button>
+                  <Button
+                    variant={'toolbtn'}
+                    onClick={() => removeSelectedEntity()}
+                  >
+                    Delete
+                  </Button>
+                </div>
                 <ComponentsContainer entity={entity} />
               </div>
             </>

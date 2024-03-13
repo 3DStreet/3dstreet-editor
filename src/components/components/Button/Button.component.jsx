@@ -1,3 +1,4 @@
+import React from 'react';
 import { bool, func, node, number, string } from 'prop-types';
 
 import classNames from 'classnames';
@@ -8,7 +9,8 @@ const variants = {
   outlined: styles.outlinedButton,
   ghost: styles.ghostButton,
   toolbtn: styles.toolButton,
-  white: styles.whiteButton
+  white: styles.whiteButton,
+  custom: styles.customButton
 };
 
 /**
