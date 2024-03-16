@@ -168,6 +168,12 @@ export function Viewport(inspector) {
   Events.on('cameratoggle', (data) => {
     controls.setCamera(data.camera);
     transformControls.setCamera(data.camera);
+
+    // quick solution to change 3d tiles camera
+    const tilesElem = document.querySelector('a-entity[loader-3dtiles]');
+    if (tilesElem) {
+      tilesElem.emit('cameraChange', data.camera);
+    }
   });
 
   function disableControls() {
