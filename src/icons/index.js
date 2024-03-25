@@ -21,5 +21,8 @@ export {
   ArrowLeftIcon,
   ArrowRightIcon,
   LayersIcon,
-  GoogleSignInButtonSVG
+  GoogleSignInButtonSVG,
+  Chevron24Down,
+  Circle20Icon,
+  Plus20Circle
 } from './icons.jsx';
