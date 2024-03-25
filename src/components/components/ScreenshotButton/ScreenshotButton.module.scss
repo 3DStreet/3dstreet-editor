@@ -11,3 +11,9 @@
     background-color: variables.$purple-200;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .innerText {
+    display: none !important;
+  }
+}
