@@ -15,6 +15,8 @@ import { SignInModal } from './modals/SignInModal';
 import { ProfileModal } from './modals/ProfileModal';
 import { ScenesModal } from './modals/ScenesModal';
 import { SceneEditTitle } from './components/SceneEditTitle';
+import { AddLayerButton } from './components/AddLayerButton';
+import { AddLayerPanel } from './components/AddLayerPanel';
 THREE.ImageUtils.crossOrigin = '';
 // Megahack to include font-awesome.
 injectCSS(
@@ -32,6 +34,7 @@ export default class Main extends Component {
       isModalTexturesOpen: false,
       isSignInModalOpened: false,
       isProfileModalOpened: false,
+      isAddLayerPanelOpen: false,
       isScenesModalOpened: !isStreetLoaded,
       sceneEl: AFRAME.scenes[0],
       visible: {
@@ -114,6 +117,12 @@ export default class Main extends Component {
 
   onCloseHelpModal = (value) => {
     this.setState({ isHelpOpen: false });
+  };
+
+  toggleAddLayerPanel = () => {
+    this.setState((prevState) => ({
+      isAddLayerPanelOpen: !prevState.isAddLayerPanelOpen
+    }));
   };
 
   onCloseScreenshotModal = (value) => {
@@ -261,6 +270,17 @@ export default class Main extends Component {
           <Button id={'resetZoomButton'}>
             <Compass32Icon />
           </Button>
+        )}
+        {this.state.inspectorEnabled && (
+          <div id="layerWithCategory">
+            <AddLayerButton onClick={this.toggleAddLayerPanel} />
+          </div>
+        )}
+        {this.state.isAddLayerPanelOpen && (
+          <AddLayerPanel
+            onClose={this.toggleAddLayerPanel}
+            isAddLayerPanelOpen={this.state.isAddLayerPanelOpen}
+          />
         )}
       </div>
     );
