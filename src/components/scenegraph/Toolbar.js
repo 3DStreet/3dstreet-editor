@@ -424,7 +424,7 @@ export default class Toolbar extends Component {
               >
                 <RemixIcon />
               </div>
-              Remix
+              <div className={'innerText'}>Remix</div>
             </Button>
           )}
           {this.state.showLoadBtn && (
