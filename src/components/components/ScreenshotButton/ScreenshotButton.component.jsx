@@ -23,7 +23,7 @@ class ScreenshotButton extends Component {
         variant={'toolbtn'}
       >
         {ScreenshotIcon}
-        Share
+        <div className={styles.innerText}>Share</div>
       </Button>
     );
   }
