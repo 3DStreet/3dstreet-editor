@@ -11,6 +11,7 @@ import { saveBlob } from '../../lib/utils';
 import { Button, ProfileButton, ScreenshotButton } from '../components';
 import { SavingModal } from '../modals/SavingModal';
 import { uploadThumbnailImage } from '../modals/ScreenshotModal/ScreenshotModal.component.jsx';
+import { sendMetric } from '../../services/ga.js';
 
 // const LOCALSTORAGE_MOCAP_UI = "aframeinspectormocapuienabled";
 
@@ -167,7 +168,6 @@ export default class Toolbar extends Component {
         authorId: this.props.currentUser.uid
       });
 
-      console.log('isCurrentUserTheSceneAuthor', isCurrentUserTheSceneAuthor);
       if (!isCurrentUserTheSceneAuthor) {
         doSaveAs = true;
       }
@@ -221,6 +221,8 @@ export default class Toolbar extends Component {
           'Scene saved to 3DStreet Cloud in existing file.'
         );
       }
+
+      sendMetric('SaveSceneAction', doSaveAs ? 'saveAs' : 'save');
     } catch (error) {
       STREET.notify.errorMessage(
         `Error trying to save 3DStreet scene to cloud. Error: ${error}`
@@ -271,9 +273,7 @@ export default class Toolbar extends Component {
 
   static exportSceneToGLTF() {
     try {
-      if (typeof ga !== 'undefined') {
-        ga('send', 'event', 'SceneGraph', 'exportGLTF');
-      }
+      sendMetric('SceneGraph', 'exportGLTF');
       const sceneName = getSceneName(AFRAME.scenes[0]);
       const scene = AFRAME.scenes[0].object3D;
       filterHelpers(scene, false);
@@ -424,7 +424,7 @@ export default class Toolbar extends Component {
               >
                 <RemixIcon />
               </div>
-              Remix
+              <div className={'innerText'}>Remix</div>
             </Button>
           )}
           {this.state.showLoadBtn && (

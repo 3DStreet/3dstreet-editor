@@ -8,6 +8,8 @@ import {
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore';
+
+import { signIn } from '../../../api';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import PropTypes from 'prop-types';
 import { useAuthContext } from '../../../contexts';
@@ -227,7 +229,7 @@ function ScreenshotModal({ isOpen, onClose }) {
           ) : (
             <div>
               <h3>Please log in first to share the URL</h3>
-              <Button onClick={() => loginHandler()}>
+              <Button onClick={() => signIn()}>
                 Sign in to 3DStreet Cloud
               </Button>
             </div>

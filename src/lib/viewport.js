@@ -4,6 +4,7 @@ import EditorControls from './EditorControls.js';
 
 import { initRaycaster } from './raycaster';
 import Events from './Events';
+import { sendMetric } from '../services/ga.js';
 
 /**
  * Transform controls stuff mostly.
@@ -281,8 +282,6 @@ export function Viewport(inspector) {
           element.style.display = 'block';
         });
     }
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Viewport', 'toggleEditor', active);
-    }
+    sendMetric('Viewport', 'toggleEditor', active);
   });
 }

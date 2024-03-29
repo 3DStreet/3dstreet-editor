@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import PropertyRow from './PropertyRow';
 import React from 'react';
 import { getComponentClipboardRepresentation } from '../../lib/entity';
+import { sendMetric } from '../../services/ga';
 
 const isSingleProperty = AFRAME.schema.isSingleProperty;
 
@@ -35,15 +36,7 @@ export default class Component extends React.Component {
           var componentName = trigger
             .getAttribute('data-component')
             .toLowerCase();
-          if (typeof ga !== 'undefined') {
-            ga(
-              'send',
-              'event',
-              'Components',
-              'copyComponentToClipboard',
-              componentName
-            );
-          }
+          sendMetric('Components', 'copyComponentToClipboard', componentName);
           return getComponentClipboardRepresentation(
             this.state.entity,
             componentName
@@ -87,9 +80,7 @@ export default class Component extends React.Component {
         entity: this.props.entity,
         component: componentName
       });
-      if (typeof ga !== 'undefined') {
-        ga('send', 'event', 'Components', 'removeComponent', componentName);
-      }
+      sendMetric('Components', 'removeComponent', componentName);
     }
   };
 

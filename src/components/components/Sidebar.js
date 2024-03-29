@@ -8,6 +8,7 @@ import React from 'react';
 import capitalize from 'lodash-es/capitalize';
 import classnames from 'classnames';
 import { ArrowRightIcon, LayersIcon } from '../../icons';
+import { sendMetric } from '../../services/ga';
 export default class Sidebar extends React.Component {
   static propTypes = {
     entity: PropTypes.object,
@@ -38,9 +39,7 @@ export default class Sidebar extends React.Component {
 
   handleToggle = () => {
     this.setState({ open: !this.state.open });
-    if (typeof ga !== 'undefined') {
-      ga('send', 'event', 'Components', 'toggleSidebar');
-    }
+    sendMetric('Components', 'toggleSidebar');
   };
 
   render() {

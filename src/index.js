@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import '../vendor/ga';
 import Main from './components/Main';
 import { AuthProvider } from './contexts';
 import Events from './lib/Events';
@@ -10,6 +9,7 @@ import { createEntity } from './lib/entity';
 import { Shortcuts } from './lib/shortcuts';
 import { Viewport } from './lib/viewport';
 import './style/index.scss';
+import ReactGA from 'react-ga4';
 
 function Inspector() {
   this.assetsLoader = new AssetsLoader();
@@ -316,6 +316,7 @@ Inspector.prototype = {
   }
 };
 
+ReactGA.initialize(process.env.FIREBASE_MEASUREMENT_ID);
 const inspector = (AFRAME.INSPECTOR = new Inspector());
 
 export { inspector };
