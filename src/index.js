@@ -236,7 +236,17 @@ Inspector.prototype = {
       this.open();
     }
   },
-
+  /**
+   * Prevent pause elements with data-no-pause attribute while open inspector
+   */
+  playNoPauseElements: function () {
+    const noPauseElements = document.querySelectorAll(
+      'a-entity[data-no-pause]'
+    );
+    noPauseElements.forEach((elem) => {
+      elem.play();
+    });
+  },
   /**
    * Open the editor UI
    */
@@ -260,6 +270,9 @@ Inspector.prototype = {
     // Trick scene to run the cursor tick.
     this.sceneEl.isPlaying = true;
     this.cursor.play();
+
+    // emit play event on elements with data-no-pause attribute
+    this.playNoPauseElements();
 
     if (
       !focusEl &&
