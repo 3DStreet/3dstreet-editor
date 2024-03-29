@@ -21,7 +21,8 @@
 
   .dropdown {
     min-width: 285px;
-    height: 36px;
+    height: 36px !important; 
+    padding: 10px;
   }
 
   .button {

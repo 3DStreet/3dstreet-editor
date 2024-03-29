@@ -31,7 +31,7 @@
       align-items: center;
       column-gap: 0.5rem;
       width: 100%;
-      padding: 13px 13px 13px 15px;
+      padding: 8px 13px 8px 15px;
       border: 1px solid variables.$purple-400;
       border-radius: 10px;
       background-color: rgba(50, 50, 50, 0.8);
@@ -237,7 +237,7 @@
       .optionItem {
         display: flex;
         width: 100%;
-        padding: 16px 20px;
+        padding: 8px 20px;
         background-color: variables.$darkgray-300;
         transition: all 0.3s;
         border: unset;
