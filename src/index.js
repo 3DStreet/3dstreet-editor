@@ -313,6 +313,12 @@ Inspector.prototype = {
     this.sceneEl.resize();
     Shortcuts.disable();
     document.activeElement.blur();
+
+    // quick solution to change 3d tiles camera
+    const tilesElem = document.querySelector('a-entity[loader-3dtiles]');
+    if (tilesElem) {
+      tilesElem.emit('cameraChange', AFRAME.scenes[0].camera);
+    }
   }
 };
 
