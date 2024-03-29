@@ -116,11 +116,7 @@
         ></a-entity>
       </a-entity>
 
-      <a-entity
-        id="reference-layers"
-        data-layer-name="Reference Layers"
-        data-layer-show-children
-      ></a-entity>
+
 
       <a-entity
         id="environment"
@@ -153,6 +149,29 @@
           visible="false"
         ></a-entity>
       </a-entity>
+
+      <a-entity
+      id="reference-layers"
+      data-layer-name="Reference Layers"
+      data-layer-show-children
+    >
+  
+      <a-entity
+      id="tileset"
+      data-no-pause
+      loader-3dtiles="
+        url: https://tile.googleapis.com/v1/3dtiles/root.json; 
+        lat: 37.77522354250163;
+        long: -122.41931773049723;
+        height: -16.5;
+        googleApiKey: AIzaSyAQshwLVKTpwTfPJxFEkEzOdP_cgmixTCQ;
+        geoTransform: WGS84Cartesian;
+        maximumSSE: 48;
+        maximumMem: 400;
+        cameraEl: #camera">
+      </a-entity>
+  
+    </a-entity>
     </a-scene>
   </body>
   <script>
