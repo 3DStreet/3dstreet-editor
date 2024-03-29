@@ -108,12 +108,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         <Chevron24Down />
       </Button>
       <div className={styles.header}>
-        <div
-          type="button"
-          tabIndex={0}
-          className={styles.button}
-          onClick={() => console.log('add entity')}
-        >
+        <div className={styles.button}>
           <Plus20Circle />
           <p className={styles.buttonLabel}>Add New Entity</p>
         </div>
@@ -128,12 +123,15 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
       </div>
       <div className={styles.cards}>
         {cardsData?.map((card, idx) => (
-          <div key={Number(card.id + idx)} className={styles.card}>
+          <div
+            key={Number(card.id + idx)}
+            className={styles.card}
+            onClick={() =>
+              card.id && console.log((card.id, `card click ${card.id}`))
+            }
+          >
             <div
               className={styles.img}
-              onClick={() =>
-                card.id && console.log((card.id, `card click ${card.id}`))
-              }
               style={{
                 backgroundImage: `url(${card.img || CardPlaceholder})`,
                 backgroundSize: 'cover',
