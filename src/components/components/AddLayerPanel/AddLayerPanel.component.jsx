@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import cardsData from './cardsData';
 import styles from './AddLayerPanel.module.scss';
 import classNames from 'classnames';
 import { Button } from '../Button';
@@ -8,6 +9,49 @@ import CardPlaceholder from '../../../../assets/card-placeholder.svg';
 
 const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [groupedMixins, setGroupedMixins] = useState([]);
+
+  useEffect(() => {
+    // call getGroupedMixinOptions once time for getting mixinGroups
+    const data = getGroupedMixinOptions();
+    setGroupedMixins(data);
+  }, []);
+
+  // get all mixin data divided into groups, from a-mixin DOM elements
+  const getGroupedMixinOptions = () => {
+    const mixinElements = document.querySelectorAll('a-mixin');
+    const groupedArray = [];
+    let categoryName, mixinId;
+
+    const groupedObject = {};
+    let ind = 0;
+    for (let mixinEl of Array.from(mixinElements)) {
+      categoryName = mixinEl.getAttribute('category');
+      if (!categoryName) continue;
+      mixinId = mixinEl.id;
+      if (!groupedObject[categoryName]) {
+        groupedObject[categoryName] = [];
+      }
+      groupedObject[categoryName].push({
+        // here could be data from dataCards JSON file
+        img: '',
+        icon: '',
+        mixin: mixinId,
+        description: mixinId,
+        id: ind
+      });
+      ind += 1;
+    }
+
+    for (let categoryName of Object.keys(groupedObject)) {
+      groupedArray.push({
+        label: categoryName,
+        options: groupedObject[categoryName]
+      });
+    }
+    return groupedArray;
+  };
+
   const options = [
     {
       value: 'Layers: Streets & Intersections',
@@ -17,85 +61,73 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     {
       value: 'Models: Personal Vehicles',
       label: 'Models: Personal Vehicles',
+      mixinGroups: ['vehicles', 'vehicles-rigged'],
       onClick: () => console.log('Models: Personal Vehicles')
     },
     {
       value: 'Models: Transit Vehicles',
       label: 'Models: Transit Vehicles',
+      mixinGroups: ['vehicles-transit'],
       onClick: () => console.log('Models: Transit Vehicles')
     },
     {
       value: 'Models: Utility Vehicles',
       label: 'Models: Utility Vehicles',
+      mixinGroups: ['vehicles-rigged'],
       onClick: () => console.log('Models: Utility Vehicles')
     },
     {
       value: 'Models: Characters',
       label: 'Models: Characters',
+      mixinGroups: ['people', 'people-rigged'],
       onClick: () => console.log('Models: Characters')
     },
     {
       value: 'Models: Street Props',
       label: 'Models: Street Props',
+      mixinGroups: ['sidewalk-props', 'intersection-props'],
       onClick: () => console.log('Models: Street Props')
+    },
+    {
+      value: 'Models: dividers',
+      label: 'Models: dividers',
+      mixinGroups: ['dividers'],
+      onClick: () => console.log('Models: dividers')
     },
     {
       value: 'Models: Buildings',
       label: 'Models: Buildings',
+      mixinGroups: ['buildings'],
       onClick: () => console.log('Models: Buildings')
+    },
+    {
+      value: 'Models: stencils',
+      label: 'Models: stencils',
+      mixinGroups: ['stencils'],
+      onClick: () => console.log('Models: stencils')
     }
   ];
 
-  const cardsData = [
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 1
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 2
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 3
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 4
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 5
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 6
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 7
-    },
-    {
-      img: '',
-      icon: '',
-      description: 'Description',
-      id: 8
-    }
-  ];
+  // get array with objects data (cardsData) from mixinGroups of selectedOption
+  const getSelectedMixins = (selectedOption) => {
+    if (!selectedOption) return [];
+    const selectedOptionData = options.find(
+      (option) => option.value === selectedOption
+    );
+    const selectedMixinGroupNames = selectedOptionData.mixinGroups;
+
+    // there are no mixin groups
+    if (!selectedMixinGroupNames) return [];
+
+    // filter selected mixin groups from all mixin groups (groupedMixins)
+    const cardsData = groupedMixins
+      .filter((group) => selectedMixinGroupNames.includes(group.label))
+      .flatMap((mixinGroup) => mixinGroup.options);
+
+    return cardsData;
+  };
+
+  const selectedCards = getSelectedMixins(selectedOption);
 
   const handleSelect = (value) => {
     setSelectedOption(value);
@@ -122,7 +154,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         />
       </div>
       <div className={styles.cards}>
-        {cardsData?.map((card, idx) => (
+        {selectedCards?.map((card, idx) => (
           <div
             key={Number(card.id + idx)}
             className={styles.card}
