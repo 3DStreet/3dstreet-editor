@@ -36,15 +36,25 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
     useState(SCENES_PER_PAGE);
   const [isLoadingScenes, setIsLoadingScenes] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
-  const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
-  const handleSceneClick = (scene) => {
-    const sceneData = scene.data();
-    if (sceneData && sceneData.data) {
-      createElementsForScenesFromJSON(sceneData.data);
+  const handleSceneClick = (scene, event) => {
+    let sceneData = scene.data();
+    if (!sceneData || !sceneData.data) {
+      STREET.notify.errorMessage(
+        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.'
+      );
+      console.error('Scene data is undefined or invalid.');
+      return;
+    }
 
+    if (event.ctrlKey || event.metaKey) {
+      localStorage.setItem('sceneData', JSON.stringify(sceneData.data));
+      const newTabUrl = `#/scenes/${scene.id}.json`;
+      const newTab = window.open(newTabUrl, '_blank');
+      newTab.focus();
+    } else {
+      createElementsForScenesFromJSON(sceneData.data);
       window.location.hash = `#/scenes/${scene.id}.json`;
 
       const sceneId = scene.id;
@@ -56,13 +66,16 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
       Events.emit('entitycreate', { element: 'a-entity', components: {} });
       STREET.notify.successMessage('Scene loaded from 3DStreet Cloud.');
       onClose();
-    } else {
-      STREET.notify.errorMessage(
-        'Error trying to load 3DStreet scene from cloud. Error: Scene data is undefined or invalid.'
-      );
-      console.error('Scene data is undefined or invalid.');
     }
   };
+
+  useEffect(() => {
+    const sceneData = JSON.parse(localStorage.getItem('sceneData'));
+    if (sceneData) {
+      createElementsForScenesFromJSON(sceneData);
+      localStorage.removeItem('sceneData');
+    }
+  }, []);
 
   useEffect(() => {
     if (delay) {
@@ -73,6 +86,15 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
       return () => clearTimeout(timeoutId);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setScenesData([]);
+      setScenesDataCommunity([]);
+      setTotalDisplayedUserScenes(SCENES_PER_PAGE);
+      setTotalDisplayedCommunityScenes(SCENES_PER_PAGE);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const fetchData = async () => {
