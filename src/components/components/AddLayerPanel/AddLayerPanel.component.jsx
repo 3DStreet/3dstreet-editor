@@ -135,6 +135,46 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
 
   /* create and preview entity events */
 
+  // entity preview element
+  let preEntity = document.createElement('a-entity');
+  let cameraFrontVec = new THREE.Vector3();
+
+  preEntity.setAttribute('visible', false);
+  // rotate and scale for better view
+  preEntity.setAttribute('rotation', { y: 90 });
+
+  AFRAME.scenes[0].appendChild(preEntity);
+
+  const previewEntity = () => {
+    if (selectedOption == 'Models: Buildings') {
+      preEntity.setAttribute('scale', { x: 0.1, y: 0.1, z: 0.1 });
+    } else {
+      preEntity.setAttribute('scale', { x: 0.5, y: 0.5, z: 0.5 });
+    }
+    /* place object in front of active camera */
+    const direction = new THREE.Vector3();
+    // active camera object
+    const activeCamera = AFRAME.INSPECTOR.camera;
+    activeCamera.getWorldDirection(direction);
+    cameraFrontVec.copy(activeCamera.position);
+    cameraFrontVec.add(direction.multiplyScalar(5));
+
+    // place preview entity in front of camera in 5 meters
+    preEntity.setAttribute('position', cameraFrontVec);
+  };
+
+  const cardMouseEnter = (mixinId) => {
+    console.log('mouse enter: ', mixinId);
+    preEntity.setAttribute('visible', true);
+    preEntity.setAttribute('mixin', mixinId);
+    previewEntity();
+  };
+
+  const cardMouseLeave = (mixinId) => {
+    console.log('mouse leave: ', mixinId);
+    preEntity.setAttribute('visible', false);
+  };
+
   const createEntity = (mixinId, parentEl) => {
     console.log('create entity: ', mixinId);
     const newEntity = document.createElement('a-entity');
@@ -174,6 +214,8 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
           <div
             key={Number(card.id + idx)}
             className={styles.card}
+            onMouseEnter={() => card.mixinId && cardMouseEnter(card.mixinId)}
+            onMouseLeave={() => card.mixinId && cardMouseLeave(card.mixinId)}
             onClick={() =>
               card.mixinId &&
               createEntity(card.mixinId) &&
