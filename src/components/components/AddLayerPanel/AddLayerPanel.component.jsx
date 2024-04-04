@@ -36,7 +36,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         // here could be data from dataCards JSON file
         img: '',
         icon: '',
-        mixin: mixinId,
+        mixinId: mixinId,
         description: mixinId,
         id: ind
       });
@@ -132,6 +132,22 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   const handleSelect = (value) => {
     setSelectedOption(value);
   };
+
+  /* create and preview entity events */
+
+  const createEntity = (mixinId, parentEl) => {
+    console.log('create entity: ', mixinId);
+    const newEntity = document.createElement('a-entity');
+    newEntity.setAttribute('mixin', mixinId);
+    // apppend element in street-container for now. Then it could be a choosed segment for example
+    const streetContainer = document.querySelector('street-container');
+    if (streetContainer) {
+      streetContainer.appendChild(newEntity);
+    } else {
+      AFRAME.scenes[0].appendChild(newEntity);
+    }
+  };
+
   return (
     <div
       className={classNames(styles.panel, isAddLayerPanelOpen && styles.open)}
@@ -159,7 +175,9 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
             key={Number(card.id + idx)}
             className={styles.card}
             onClick={() =>
-              card.id && console.log((card.id, `card click ${card.id}`))
+              card.mixinId &&
+              createEntity(card.mixinId) &&
+              console.log((card.mixinId, `card click ${card.id}`))
             }
           >
             <div
