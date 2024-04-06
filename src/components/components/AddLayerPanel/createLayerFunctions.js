@@ -15,7 +15,7 @@ function createSvgExtrudedEntity() {
   );
   const newEl = document.createElement('a-entity');
   newEl.setAttribute('svg-extruder', `svgString: ${svgString}`);
-  newEl.setAttribute('data-layer-name', 'SVG Path � My Custom Path');
+  newEl.setAttribute('data-layer-name', 'SVG Path • My Custom Path');
   const parentEl = document.querySelector('#street-container');
   parentEl.appendChild(newEl);
   // update sceneGraph
@@ -36,7 +36,7 @@ function createMapbox() {
 		style: mapbox://styles/mapbox/satellite-streets-v11; 
 		pxToWorldRatio: 4;`
   );
-  newEl.setAttribute('data-layer-name', 'Aerial Imagery � Mapbox Satellite');
+  newEl.setAttribute('data-layer-name', 'Aerial Imagery • Mapbox Satellite');
   const parentEl = document.querySelector('#reference-layers');
   parentEl.appendChild(newEl);
   // update sceneGraph
@@ -61,38 +61,58 @@ function createStreetmixStreet() {
   Events.emit('entitycreated', newEl);
 }
 
-function create3DTiles() {
-  // This code snippet adds an entity to load and display 3d tiles from Google Maps Tiles API 3D Tiles endpoint. This will break your scene and you cannot save it yet, so beware before testing.
-  document.body.appendChild(document.createElement('script')).src =
-    'https://cdn.jsdelivr.net/npm/3dstreet@0.4.12/src/lib/aframe-loader-3dtiles-component.min.js';
-  const newEl = document.createElement('a-entity');
-  newEl.setAttribute('data-no-pause', '');
-  newEl.setAttribute('id', 'tileset');
-  newEl.setAttribute('data-layer-name', 'Aerial Imagery � Google 3D Tiles');
-  newEl.setAttribute(
-    'loader-3dtiles',
-    `
-	    lat: 37.77522354250163;
-	    long: -122.41931773049723;
-	    height: -16.5;
-	    url: https://tile.googleapis.com/v1/3dtiles/root.json; 
-	    googleApiKey: AIzaSyAQshwLVKTpwTfPJxFEkEzOdP_cgmixTCQ; 
-	    geoTransform: WGS84Cartesian; 
-	    maximumSSE: 48; 
-	    maximumMem: 400; 
-	    cameraEl: #camera">
-	`
-  );
+function loadScript(url, callback) {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = url;
 
-  const refLayers = document.querySelector('#reference-layers');
-  // remove all reference elements
-  while (refLayers.firstChild) {
-    refLayers.removeChild(refLayers.firstChild);
+  script.onload = function () {
+    callback();
+  };
+
+  document.appendChild(script);
+}
+
+function create3DTiles() {
+  const create3DtilesElement = () => {
+    const newEl = document.createElement('a-entity');
+    newEl.setAttribute('data-no-pause', '');
+    newEl.setAttribute('id', 'tileset');
+    newEl.setAttribute('data-layer-name', 'Aerial Imagery • Google 3D Tiles');
+    newEl.setAttribute(
+      'loader-3dtiles',
+      `
+		    lat: 37.77522354250163;
+		    long: -122.41931773049723;
+		    height: -16.5;
+		    url: https://tile.googleapis.com/v1/3dtiles/root.json; 
+		    googleApiKey: AIzaSyAQshwLVKTpwTfPJxFEkEzOdP_cgmixTCQ; 
+		    geoTransform: WGS84Cartesian; 
+		    maximumSSE: 48; 
+		    maximumMem: 400;
+		    cameraEl: #camera>
+		`
+    );
+
+    const refLayers = document.querySelector('#reference-layers');
+    // remove all reference elements
+    while (refLayers.firstChild) {
+      refLayers.removeChild(refLayers.firstChild);
+    }
+    refLayers.appendChild(newEl);
+    document.querySelector('#tileset').play();
+    // update sceneGraph
+    Events.emit('entitycreated', newEl);
+  };
+  // This code snippet adds an entity to load and display 3d tiles from Google Maps Tiles API 3D Tiles endpoint. This will break your scene and you cannot save it yet, so beware before testing.
+  if (AFRAME.components['loader-3dtiles']) {
+    create3DtilesElement();
+  } else {
+    loadScript(
+      'https://cdn.jsdelivr.net/npm/3dstreet@0.4.12/src/lib/aframe-loader-3dtiles-component.min.js',
+      create3DtilesElement
+    );
   }
-  refLayers.appendChild(newEl);
-  document.querySelector('#tileset').play();
-  // update sceneGraph
-  Events.emit('entitycreated', newEl);
 }
 
 export {
