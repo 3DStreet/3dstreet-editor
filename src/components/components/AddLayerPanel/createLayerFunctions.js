@@ -70,7 +70,7 @@ function loadScript(url, callback) {
     callback();
   };
 
-  document.appendChild(script);
+  document.head.appendChild(script);
 }
 
 function create3DTiles() {
@@ -90,7 +90,7 @@ function create3DTiles() {
 		    geoTransform: WGS84Cartesian; 
 		    maximumSSE: 48; 
 		    maximumMem: 400;
-		    cameraEl: #camera>
+		    cameraEl: #camera
 		`
     );
 
