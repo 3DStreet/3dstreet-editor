@@ -12,6 +12,7 @@ import {
   createStreetmixStreet,
   create3DTiles
 } from './createLayerFunctions';
+import Events from '/src/lib/Events';
 
 const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -237,6 +238,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     } else {
       AFRAME.scenes[0].appendChild(newEntity);
     }
+    Events.emit('entitycreated', newEntity);
   };
 
   const cardClick = (card) => {
