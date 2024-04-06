@@ -1,4 +1,4 @@
-const cardsData = {
+const mixinsData = {
   mixinId1: {
     img: '',
     icon: '',
@@ -25,4 +25,4 @@ const cardsData = {
   }
 };
 
-export default cardsData;
+export default { mixinsData };
