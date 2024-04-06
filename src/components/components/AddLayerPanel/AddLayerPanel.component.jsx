@@ -43,7 +43,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         img: '',
         icon: '',
         mixinId: mixinId,
-        description: mixinId,
+        name: mixinId,
         id: ind
       });
       ind += 1;
@@ -275,6 +275,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
             onMouseEnter={() => card.mixinId && cardMouseEnter(card.mixinId)}
             onMouseLeave={() => card.mixinId && cardMouseLeave(card.mixinId)}
             onClick={() => cardClick(card)}
+            title={card.description}
           >
             <div
               className={styles.img}
@@ -286,7 +287,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
             />
             <div className={styles.body}>
               {card.icon ? <img src={card.icon} /> : <Load24Icon />}
-              <p className={styles.description}>{card.description}</p>
+              <p className={styles.description}>{card.name}</p>
             </div>
           </div>
         ))}
