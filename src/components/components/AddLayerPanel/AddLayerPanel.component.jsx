@@ -231,7 +231,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     const newEntity = document.createElement('a-entity');
     newEntity.setAttribute('mixin', mixinId);
     // apppend element in street-container for now. Then it could be a choosed segment for example
-    const streetContainer = document.querySelector('street-container');
+    const streetContainer = document.querySelector('#default-street');
     if (streetContainer) {
       streetContainer.appendChild(newEntity);
     } else {
