@@ -212,8 +212,6 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   let cameraFrontVec = new THREE.Vector3();
 
   preEntity.setAttribute('visible', false);
-  // rotate and scale for better view
-  preEntity.setAttribute('rotation', { y: 90 });
 
   AFRAME.scenes[0].appendChild(preEntity);
 
@@ -239,7 +237,11 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     console.log('mouse enter: ', mixinId);
     preEntity.setAttribute('visible', true);
     preEntity.setAttribute('mixin', mixinId);
-    previewEntity();
+    const selectedElement = AFRAME.INSPECTOR.selected?.el;
+    if (selectedElement) {
+      // && selectedElement.className.includes('segment')) {
+      selectedElement.appendChild(preEntity);
+    }
   };
 
   const cardMouseLeave = (mixinId) => {
@@ -251,12 +253,20 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     console.log('create entity: ', mixinId);
     const newEntity = document.createElement('a-entity');
     newEntity.setAttribute('mixin', mixinId);
-    // apppend element in street-container for now. Then it could be a choosed segment for example
-    const streetContainer = document.querySelector('#default-street');
-    if (streetContainer) {
-      streetContainer.appendChild(newEntity);
+
+    const selectedElement = AFRAME.INSPECTOR.selected?.el;
+    if (selectedElement) {
+      // && selectedElement.className.includes('segment')) {
+      // append element as a child of the selected element
+      selectedElement.appendChild(newEntity);
     } else {
-      AFRAME.scenes[0].appendChild(newEntity);
+      const streetContainer = document.querySelector('street-container');
+      // apppend element as a child of street-container
+      if (streetContainer) {
+        streetContainer.appendChild(newEntity);
+      } else {
+        AFRAME.scenes[0].appendChild(newEntity);
+      }
     }
     Events.emit('entitycreated', newEntity);
   };
