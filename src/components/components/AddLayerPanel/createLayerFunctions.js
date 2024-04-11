@@ -115,9 +115,43 @@ function create3DTiles() {
   }
 }
 
+function createCustomModel() {
+  // accepts a path for a glTF (or glb) file hosted on any publicly accessible HTTP server.
+  // Then create entity with model from that path by using gltf-model component
+  const newEl = document.createElement('a-entity');
+  newEl.classList.add('custom-model');
+  const modelUrl = prompt(
+    'Please enter a URL to custom glTF/Glb model',
+    'https://cdn.glitch.global/690c7ea3-3f1c-434b-8b8d-3907b16de83c/Mission_Bay_school_low_poly_model_v03_draco.glb'
+  );
+  newEl.setAttribute('gltf-model', `url(${modelUrl})`);
+  newEl.setAttribute('data-layer-name', 'glTF Model • My Custom Object');
+  const parentEl = document.querySelector('#street-container');
+  parentEl.appendChild(newEl);
+  // update sceneGraph
+  Events.emit('entitycreated', newEl);
+}
+
+function createPrimitiveGeometry() {
+  const newEl = document.createElement('a-entity');
+  newEl.setAttribute('geometry', 'primitive: circle; radius: 50;');
+  newEl.setAttribute('rotation', '-90 0 0');
+  newEl.setAttribute(
+    'data-layer-name',
+    'Plane Geometry • Traffic Circle Asphalt'
+  );
+  newEl.setAttribute('material', 'src: #asphalt-texture; repeat: 5 5;');
+  const parentEl = document.querySelector('#street-container');
+  parentEl.appendChild(newEl);
+  // update sceneGraph
+  Events.emit('entitycreated', newEl);
+}
+
 export {
   createSvgExtrudedEntity,
   createMapbox,
   createStreetmixStreet,
-  create3DTiles
+  create3DTiles,
+  createCustomModel,
+  createPrimitiveGeometry
 };

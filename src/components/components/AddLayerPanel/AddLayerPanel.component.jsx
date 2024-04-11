@@ -10,7 +10,9 @@ import {
   createSvgExtrudedEntity,
   createMapbox,
   createStreetmixStreet,
-  create3DTiles
+  create3DTiles,
+  createCustomModel,
+  createPrimitiveGeometry
 } from './createLayerFunctions';
 import Events from '/src/lib/Events';
 
@@ -152,6 +154,24 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         'Adds an entity to load and display 3d tiles from Google Maps Tiles API 3D Tiles endpoint. This will break your scene and you cannot save it yet, so beware before testing.',
       id: 4,
       handlerFunction: create3DTiles
+    },
+    {
+      name: 'Create custom model',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with model from path for a glTF (or Glb) file hosted on any publicly accessible HTTP server.',
+      id: 5,
+      handlerFunction: createCustomModel
+    },
+    {
+      name: 'Create primitive geometry',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with A-Frame primitive geometry. Geometry type could be changed in properties panel.',
+      id: 6,
+      handlerFunction: createPrimitiveGeometry
     }
   ];
 
