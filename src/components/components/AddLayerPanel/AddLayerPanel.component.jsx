@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import cardsData from './cardsData';
 import styles from './AddLayerPanel.module.scss';
 import classNames from 'classnames';
 import { Button } from '../Button';
 import { Chevron24Down, Load24Icon, Plus20Circle } from '../../../icons';
 import { Dropdown } from '../Dropdown';
 import CardPlaceholder from '../../../../assets/card-placeholder.svg';
+import { cardsData } from './cardsData';
+import {
+  createSvgExtrudedEntity,
+  createMapbox,
+  createStreetmixStreet,
+  create3DTiles,
+  createCustomModel,
+  createPrimitiveGeometry
+} from './createLayerFunctions';
+import Events from '/src/lib/Events';
 
 const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -37,7 +46,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         img: '',
         icon: '',
         mixinId: mixinId,
-        description: mixinId,
+        name: mixinId,
         id: ind
       });
       ind += 1;
@@ -108,8 +117,66 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     }
   ];
 
+  // data for layers cards
+  const layersData = [
+    {
+      name: 'Mapbox',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with mapbox component, that accepts a long / lat and renders a plane with dimensions that (should be) at a correct scale.',
+      id: 1,
+      handlerFunction: createMapbox
+    },
+    {
+      name: 'Street from streetmixStreet',
+      img: '',
+      icon: '',
+      description:
+        'Create an additional Streetmix street in your 3DStreet scene without replacing any existing streets.',
+      id: 2,
+      handlerFunction: createStreetmixStreet
+    },
+    {
+      name: 'Entity from extruded SVG',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with svg-extruder component, that accepts a svgString and creates a new entity with geometry extruded from the svg and applies the default mixin material grass.',
+      id: 3,
+      handlerFunction: createSvgExtrudedEntity
+    },
+    {
+      name: '3D Tiles',
+      img: '',
+      icon: '',
+      description:
+        'Adds an entity to load and display 3d tiles from Google Maps Tiles API 3D Tiles endpoint. This will break your scene and you cannot save it yet, so beware before testing.',
+      id: 4,
+      handlerFunction: create3DTiles
+    },
+    {
+      name: 'Create custom model',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with model from path for a glTF (or Glb) file hosted on any publicly accessible HTTP server.',
+      id: 5,
+      handlerFunction: createCustomModel
+    },
+    {
+      name: 'Create primitive geometry',
+      img: '',
+      icon: '',
+      description:
+        'Create entity with A-Frame primitive geometry. Geometry type could be changed in properties panel.',
+      id: 6,
+      handlerFunction: createPrimitiveGeometry
+    }
+  ];
+
   // get array with objects data (cardsData) from mixinGroups of selectedOption
-  const getSelectedMixins = (selectedOption) => {
+  const getSelectedMixinCards = (selectedOption) => {
     if (!selectedOption) return [];
     const selectedOptionData = options.find(
       (option) => option.value === selectedOption
@@ -127,7 +194,12 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     return cardsData;
   };
 
-  const selectedCards = getSelectedMixins(selectedOption);
+  let selectedCards;
+  if (selectedOption == 'Layers: Streets & Intersections') {
+    selectedCards = layersData;
+  } else {
+    selectedCards = getSelectedMixinCards(selectedOption);
+  }
 
   const handleSelect = (value) => {
     setSelectedOption(value);
@@ -196,8 +268,16 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         AFRAME.scenes[0].appendChild(newEntity);
       }
     }
+    Events.emit('entitycreated', newEntity);
   };
 
+  const cardClick = (card) => {
+    if (card.mixinId) {
+      createEntity(card.mixinId);
+    } else if (card.handlerFunction) {
+      card.handlerFunction();
+    }
+  };
   return (
     <div
       className={classNames(styles.panel, isAddLayerPanelOpen && styles.open)}
@@ -226,11 +306,8 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
             className={styles.card}
             onMouseEnter={() => card.mixinId && cardMouseEnter(card.mixinId)}
             onMouseLeave={() => card.mixinId && cardMouseLeave(card.mixinId)}
-            onClick={() =>
-              card.mixinId &&
-              createEntity(card.mixinId) &&
-              console.log((card.mixinId, `card click ${card.id}`))
-            }
+            onClick={() => cardClick(card)}
+            title={card.description}
           >
             <div
               className={styles.img}
@@ -242,7 +319,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
             />
             <div className={styles.body}>
               {card.icon ? <img src={card.icon} /> : <Load24Icon />}
-              <p className={styles.description}>{card.description}</p>
+              <p className={styles.description}>{card.name}</p>
             </div>
           </div>
         ))}
