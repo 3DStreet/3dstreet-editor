@@ -236,7 +236,17 @@ Inspector.prototype = {
       this.open();
     }
   },
-
+  /**
+   * Prevent pause elements with data-no-pause attribute while open inspector
+   */
+  playNoPauseElements: function () {
+    const noPauseElements = document.querySelectorAll(
+      'a-entity[data-no-pause]'
+    );
+    noPauseElements.forEach((elem) => {
+      elem.play();
+    });
+  },
   /**
    * Open the editor UI
    */
@@ -260,6 +270,9 @@ Inspector.prototype = {
     // Trick scene to run the cursor tick.
     this.sceneEl.isPlaying = true;
     this.cursor.play();
+
+    // emit play event on elements with data-no-pause attribute
+    this.playNoPauseElements();
 
     if (
       !focusEl &&
@@ -300,6 +313,12 @@ Inspector.prototype = {
     this.sceneEl.resize();
     Shortcuts.disable();
     document.activeElement.blur();
+
+    // quick solution to change 3d tiles camera
+    const tilesElem = document.querySelector('a-entity[loader-3dtiles]');
+    if (tilesElem) {
+      tilesElem.emit('cameraChange', AFRAME.scenes[0].camera);
+    }
   }
 };
 
