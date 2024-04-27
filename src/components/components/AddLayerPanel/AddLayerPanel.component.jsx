@@ -210,6 +210,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   // entity preview element
   let preEntity = document.createElement('a-entity');
   let cameraFrontVec = new THREE.Vector3();
+  let selectedObjPos = new THREE.Vector3();
 
   preEntity.setAttribute('visible', false);
 
@@ -234,18 +235,17 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   };
 
   const cardMouseEnter = (mixinId) => {
-    console.log('mouse enter: ', mixinId);
     preEntity.setAttribute('visible', true);
     preEntity.setAttribute('mixin', mixinId);
     const selectedElement = AFRAME.INSPECTOR.selected?.el;
     if (selectedElement) {
       // && selectedElement.className.includes('segment')) {
-      selectedElement.appendChild(preEntity);
+      selectedElement.object3D.getWorldPosition(selectedObjPos);
+      preEntity.setAttribute('position', selectedObjPos);
     }
   };
 
   const cardMouseLeave = (mixinId) => {
-    console.log('mouse leave: ', mixinId);
     preEntity.setAttribute('visible', false);
   };
 
