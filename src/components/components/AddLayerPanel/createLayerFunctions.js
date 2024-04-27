@@ -13,13 +13,15 @@ function createSvgExtrudedEntity() {
             <path d="M832 1467C782.879 1472.52 753.742 1472.69 697 1467C729.414 1550.35 751.819 1619.31 761 1722H803.5C806.545 1646.07 790.668 1543.99 832 1467Z" fill="white"/>
         </svg>`
   );
-  const newEl = document.createElement('a-entity');
-  newEl.setAttribute('svg-extruder', `svgString: ${svgString}`);
-  newEl.setAttribute('data-layer-name', 'SVG Path • My Custom Path');
-  const parentEl = document.querySelector('#street-container');
-  parentEl.appendChild(newEl);
-  // update sceneGraph
-  Events.emit('entitycreated', newEl);
+  if (svgString !== '') {
+    const newEl = document.createElement('a-entity');
+    newEl.setAttribute('svg-extruder', `svgString: ${svgString}`);
+    newEl.setAttribute('data-layer-name', 'SVG Path • My Custom Path');
+    const parentEl = document.querySelector('#street-container');
+    parentEl.appendChild(newEl);
+    // update sceneGraph
+    Events.emit('entitycreated', newEl);
+  }
 }
 
 function createMapbox() {
@@ -46,19 +48,24 @@ function createMapbox() {
 function createStreetmixStreet() {
   // This code snippet allows the creation of an additional Streetmix street
   // in your 3DStreet scene without replacing any existing streets.
-  const newEl = document.createElement('a-entity');
   const streetmixURL = prompt(
     'Please enter a Streetmix URL',
     'https://streetmix.net/kfarr/128/owens-st'
   );
-  newEl.setAttribute('id', streetmixURL);
-  // position the street further from the current one so as not to overlap each other
-  newEl.setAttribute('position', '0 0 -100');
-  newEl.setAttribute('streetmix-loader', `streetmixStreetURL: ${streetmixURL}`);
-  const parentEl = document.querySelector('#street-container');
-  parentEl.appendChild(newEl);
-  // update sceneGraph
-  Events.emit('entitycreated', newEl);
+  if (streetmixURL !== '') {
+    const newEl = document.createElement('a-entity');
+    newEl.setAttribute('id', streetmixURL);
+    // position the street further from the current one so as not to overlap each other
+    newEl.setAttribute('position', '0 0 -100');
+    newEl.setAttribute(
+      'streetmix-loader',
+      `streetmixStreetURL: ${streetmixURL}`
+    );
+    const parentEl = document.querySelector('#street-container');
+    parentEl.appendChild(newEl);
+    // update sceneGraph
+    Events.emit('entitycreated', newEl);
+  }
 }
 
 function loadScript(url, callback) {
@@ -118,18 +125,20 @@ function create3DTiles() {
 function createCustomModel() {
   // accepts a path for a glTF (or glb) file hosted on any publicly accessible HTTP server.
   // Then create entity with model from that path by using gltf-model component
-  const newEl = document.createElement('a-entity');
-  newEl.classList.add('custom-model');
   const modelUrl = prompt(
     'Please enter a URL to custom glTF/Glb model',
     'https://cdn.glitch.global/690c7ea3-3f1c-434b-8b8d-3907b16de83c/Mission_Bay_school_low_poly_model_v03_draco.glb'
   );
-  newEl.setAttribute('gltf-model', `url(${modelUrl})`);
-  newEl.setAttribute('data-layer-name', 'glTF Model • My Custom Object');
-  const parentEl = document.querySelector('#street-container');
-  parentEl.appendChild(newEl);
-  // update sceneGraph
-  Events.emit('entitycreated', newEl);
+  if (modelUrl) {
+    const newEl = document.createElement('a-entity');
+    newEl.classList.add('custom-model');
+    newEl.setAttribute('gltf-model', `url(${modelUrl})`);
+    newEl.setAttribute('data-layer-name', 'glTF Model • My Custom Object');
+    const parentEl = document.querySelector('#street-container');
+    parentEl.appendChild(newEl);
+    // update sceneGraph
+    Events.emit('entitycreated', newEl);
+  }
 }
 
 function createPrimitiveGeometry() {
