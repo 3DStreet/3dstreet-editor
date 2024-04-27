@@ -13,7 +13,7 @@ function createSvgExtrudedEntity() {
             <path d="M832 1467C782.879 1472.52 753.742 1472.69 697 1467C729.414 1550.35 751.819 1619.31 761 1722H803.5C806.545 1646.07 790.668 1543.99 832 1467Z" fill="white"/>
         </svg>`
   );
-  if (svgString !== '') {
+  if (svgString && svgString !== '') {
     const newEl = document.createElement('a-entity');
     newEl.setAttribute('svg-extruder', `svgString: ${svgString}`);
     newEl.setAttribute('data-layer-name', 'SVG Path • My Custom Path');
@@ -52,7 +52,7 @@ function createStreetmixStreet() {
     'Please enter a Streetmix URL',
     'https://streetmix.net/kfarr/128/owens-st'
   );
-  if (streetmixURL !== '') {
+  if (streetmixURL && streetmixURL !== '') {
     const newEl = document.createElement('a-entity');
     newEl.setAttribute('id', streetmixURL);
     // position the street further from the current one so as not to overlap each other
@@ -129,7 +129,7 @@ function createCustomModel() {
     'Please enter a URL to custom glTF/Glb model',
     'https://cdn.glitch.global/690c7ea3-3f1c-434b-8b8d-3907b16de83c/Mission_Bay_school_low_poly_model_v03_draco.glb'
   );
-  if (modelUrl) {
+  if (modelUrl && modelUrl !== '') {
     const newEl = document.createElement('a-entity');
     newEl.classList.add('custom-model');
     newEl.setAttribute('gltf-model', `url(${modelUrl})`);
