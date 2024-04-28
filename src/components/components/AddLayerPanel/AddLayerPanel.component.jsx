@@ -211,6 +211,8 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   let preEntity = document.createElement('a-entity');
   let cameraFrontVec = new THREE.Vector3();
   let selectedObjPos = new THREE.Vector3();
+  let segmentElevationPosY = 0;
+  let segmentOfSelectedEl;
 
   preEntity.setAttribute('visible', false);
 
@@ -234,6 +236,24 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     preEntity.setAttribute('position', cameraFrontVec);
   };
 
+  const getParentSegmentEl = (element) => {
+    if (element.className.includes('segment-parent')) {
+      segmentOfSelectedEl = element;
+    } else if (element.parentEl) {
+      getParentSegmentEl(element.parentEl);
+    }
+  };
+
+  const getSegmentElevationPosY = (element) => {
+    getParentSegmentEl(element);
+    if (
+      segmentOfSelectedEl &&
+      segmentOfSelectedEl.hasAttribute('data-elevation-posY')
+    ) {
+      return segmentOfSelectedEl.getAttribute('data-elevation-posY');
+    } else return 0; // default value
+  };
+
   const cardMouseEnter = (mixinId) => {
     preEntity.setAttribute('visible', true);
     preEntity.setAttribute('mixin', mixinId);
@@ -241,6 +261,9 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     if (selectedElement) {
       // && selectedElement.className.includes('segment')) {
       selectedElement.object3D.getWorldPosition(selectedObjPos);
+      // get elevation position Y from attribute of segment element
+      segmentElevationPosY = getSegmentElevationPosY(selectedElement);
+      selectedObjPos.setY(segmentElevationPosY);
       preEntity.setAttribute('position', selectedObjPos);
     }
   };
@@ -256,9 +279,17 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
 
     const selectedElement = AFRAME.INSPECTOR.selected?.el;
     if (selectedElement) {
-      // && selectedElement.className.includes('segment')) {
-      // append element as a child of the selected element
-      selectedElement.appendChild(newEntity);
+      // append element as a child of the entity with .custom-group class.
+      let customGroupEl = segmentOfSelectedEl.querySelector('.custom-group');
+      if (!customGroupEl) {
+        customGroupEl = document.createElement('a-entity');
+        // .custom-group entity is a child of segment
+        segmentOfSelectedEl.appendChild(customGroupEl);
+        customGroupEl.classList.add('custom-group');
+        // set position y by elevation level of segment
+        customGroupEl.setAttribute('position', { y: segmentElevationPosY });
+      }
+      customGroupEl.appendChild(newEntity);
     } else {
       const streetContainer = document.querySelector('street-container');
       // apppend element as a child of street-container
