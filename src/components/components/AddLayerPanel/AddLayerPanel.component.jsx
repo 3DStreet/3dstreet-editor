@@ -260,9 +260,9 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     const selectedElement = AFRAME.INSPECTOR.selected?.el;
     if (selectedElement) {
       // && selectedElement.className.includes('segment')) {
-      selectedElement.object3D.getWorldPosition(selectedObjPos);
       // get elevation position Y from attribute of segment element
       segmentElevationPosY = getSegmentElevationPosY(selectedElement);
+      segmentOfSelectedEl.object3D.getWorldPosition(selectedObjPos);
       selectedObjPos.setY(segmentElevationPosY);
       preEntity.setAttribute('position', selectedObjPos);
     }
