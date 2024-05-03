@@ -122,7 +122,7 @@ const getUserScenes = async (currentUserUID, isInitialFetch) => {
       );
 
       scenesSnapshot = await getDocs(userScenesQuery);
-      //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
+
       return scenesSnapshot.docs;
     } else {
       const lastVisible = scenesSnapshot.docs[scenesSnapshot.docs.length - 1];
@@ -135,7 +135,6 @@ const getUserScenes = async (currentUserUID, isInitialFetch) => {
       );
 
       scenesSnapshot = await getDocs(userScenesQuery);
-      //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
       return scenesSnapshot.docs;
     }
   } catch (error) {

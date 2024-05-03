@@ -15,14 +15,23 @@ const getUserByQuery = async (query) => {
 
 const createInitialUsersCollection = async (author) => {
   await addDoc(collection(db, 'scenes'), {
-    author,
-    data
+    author
   });
+};
+
+const isUserPremium = async (userId) => {
+  const ordersCollection = query(
+    collection(db, 'orders'),
+    where('userId', '==', userId)
+  );
+
+  return !(await getDocs(ordersCollection)).empty;
 };
 
 export {
   userFindByUidQuery,
   getUserByQuery,
   createInitialUsersCollection,
-  getScenes
+  getScenes,
+  isUserPremium
 };

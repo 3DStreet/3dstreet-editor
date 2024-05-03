@@ -322,7 +322,7 @@ Inspector.prototype = {
   }
 };
 
-ReactGA.initialize(process.env.FIREBASE_MEASUREMENT_ID);
+// ReactGA.initialize(process.env.FIREBASE_MEASUREMENT_ID);
 const inspector = (AFRAME.INSPECTOR = new Inspector());
 
 export { inspector };

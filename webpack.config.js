@@ -1,11 +1,11 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   devServer: {
-    hot: true,
     liveReload: false,
     port: 3333,
     static: {
@@ -30,7 +30,8 @@ module.exports = {
     }),
     new Dotenv({
       path: './config/.env.development'
-    })
+    }),
+    new ReactRefreshPlugin()
   ],
   module: {
     rules: [

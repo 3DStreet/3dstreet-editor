@@ -36,8 +36,6 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
     useState(SCENES_PER_PAGE);
   const [isLoadingScenes, setIsLoadingScenes] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isUserLoadedOnce, setIsUserLoadedOnce] = useState(false);
-  const [isCommunityLoadedOnce, setIsCommunityLoadedOnce] = useState(false);
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
   const handleSceneClick = (scene) => {
@@ -88,6 +86,7 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
             currentUser?.uid
           ) {
             collections = await getUserScenes(currentUser.uid, true);
+            console.log({ collections });
             setScenesData(collections);
           }
 
