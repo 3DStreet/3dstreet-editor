@@ -110,8 +110,9 @@ const isSceneAuthor = async ({ sceneId, authorId }) => {
   }
 };
 
-let scenesSnapshot;
 const getUserScenes = async (currentUserUID, isInitialFetch) => {
+  let scenesSnapshot;
+
   try {
     if (isInitialFetch) {
       const userScenesQuery = query(
@@ -125,7 +126,8 @@ const getUserScenes = async (currentUserUID, isInitialFetch) => {
       //  const scenesData = scenesSnapshot.docs.map((doc) => doc.data());
       return scenesSnapshot.docs;
     } else {
-      const lastVisible = scenesSnapshot.docs[scenesSnapshot.docs.length - 1];
+      const lastVisible =
+        scenesSnapshot?.docs?.[scenesSnapshot?.docs?.length - 1];
       const userScenesQuery = query(
         collection(db, 'scenes'),
         where('author', '==', currentUserUID),
@@ -143,8 +145,9 @@ const getUserScenes = async (currentUserUID, isInitialFetch) => {
   }
 };
 
-let communityScenesSnapshot;
 const getCommunityScenes = async (isInitialFetch) => {
+  let communityScenesSnapshot;
+
   try {
     if (isInitialFetch) {
       const communityScenesQuery = query(
@@ -157,7 +160,9 @@ const getCommunityScenes = async (isInitialFetch) => {
       return communityScenesSnapshot.docs;
     } else {
       const lastVisible =
-        communityScenesSnapshot.docs[communityScenesSnapshot.docs.length - 1];
+        communityScenesSnapshot?.docs?.[
+          communityScenesSnapshot?.docs?.length - 1
+        ];
 
       const communityScenesQuery = query(
         collection(db, 'scenes'),
