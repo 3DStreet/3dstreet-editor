@@ -115,6 +115,7 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
 
           if (selectedTab === 'community' && !scenesDataCommunity.length) {
             collections = await getCommunityScenes(true);
+            console.log({ collections });
             setScenesDataCommunity(collections);
           }
         } catch (error) {
