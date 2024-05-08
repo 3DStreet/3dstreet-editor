@@ -19,13 +19,24 @@ const createInitialUsersCollection = async (author) => {
   });
 };
 
-const isUserPremium = async (userId) => {
-  const ordersCollection = query(
-    collection(db, 'orders'),
-    where('userId', '==', userId)
-  );
-
-  return !(await getDocs(ordersCollection)).empty;
+const isUserPremium = async (user) => {
+  if(user) {
+    user.getIdToken(true)
+    .then(() => {
+      user.getIdTokenResult().then(idTokenResult => {
+        if (idTokenResult.claims.plan === "PRO") {
+          console.log("PRO PLAN USER")
+          return true;
+        } else {
+          console.log("FREE PLAN USER")
+          return false;
+        }
+      })
+    })
+  } else {
+    console.log('refreshIdTokens : currentUser not set')
+  }
+  return false;
 };
 
 export {

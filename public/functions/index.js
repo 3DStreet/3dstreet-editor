@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const { getAuth } = require('firebase-admin/auth');
 admin.initializeApp();
 
 exports.getScene = functions.https.onRequest(async (req, res) => {
@@ -67,6 +68,12 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     paymentStatus: dataObject.payment_status,
     userId: dataObject.metadata.userId
   });
+
+  // Set custom user claims on this update.
+  const customClaims = {
+    plan: "PRO"
+  };
+  await getAuth().setCustomUserClaims(userId, customClaims);
 
   return res.sendStatus(200);
 });

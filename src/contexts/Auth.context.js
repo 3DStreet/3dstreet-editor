@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
       if (!user) {
         localStorage.removeItem('token');
       } else {
-        const isPremium = await isUserPremium(user.uid);
+        const isPremium = await isUserPremium(user);
         setCurrentUser({ ...user, isPremium });
 
         localStorage.setItem('token', await user.getIdToken());
