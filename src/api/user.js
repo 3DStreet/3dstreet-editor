@@ -20,9 +20,51 @@ const createInitialUsersCollection = async (author) => {
   });
 };
 
+const isUserPro = async (user) => {
+  if(user) {
+    user.getIdToken(true)
+    .then(() => {
+      user.getIdTokenResult().then(idTokenResult => {
+        if (idTokenResult.claims.plan === "PRO") {
+          console.log("PRO PLAN USER")
+          return true;
+        } else {
+          console.log("FREE PLAN USER")
+          return false;
+        }
+      })
+    })
+  } else {
+    console.log('refreshIdTokens : currentUser not set')
+  }
+  return false;
+};
+
+const isUserBeta = async (user) => {
+  if(user) {
+    user.getIdToken(true)
+    .then(() => {
+      user.getIdTokenResult().then(idTokenResult => {
+        if (!!idTokenResult.claims.beta) {
+          console.log("BETA USER")
+          return true;
+        } else {
+          console.log("NOT BETA USER")
+          return false;
+        }
+      })
+    })
+  } else {
+    console.log('refreshIdTokens : currentUser not set')
+  }
+  return false;
+};
+
 export {
   userFindByUidQuery,
   getUserByQuery,
   createInitialUsersCollection,
-  getScenes
+  getScenes,
+  isUserPro,
+  isUserBeta
 };
