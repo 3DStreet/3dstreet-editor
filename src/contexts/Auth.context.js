@@ -6,6 +6,7 @@ import {
 } from '../api';
 import { auth } from '../services/firebase';
 import PropTypes from 'prop-types';
+import { isUserPremium } from '../api/user';
 
 const AuthContext = createContext({
   currentUser: null,
@@ -20,7 +21,9 @@ const AuthProvider = ({ children }) => {
       if (!user) {
         localStorage.removeItem('token');
       } else {
-        setCurrentUser(user);
+        const isPremium = await isUserPremium(user);
+        setCurrentUser({ ...user, isPremium });
+
         localStorage.setItem('token', await user.getIdToken());
 
         try {

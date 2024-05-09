@@ -110,6 +110,7 @@ const ScenesModal = ({ isOpen, onClose, initialTab = 'owner', delay }) => {
             currentUser?.uid
           ) {
             collections = await getUserScenes(currentUser.uid, true);
+            console.log({ collections });
             setScenesData(collections);
           }
 

@@ -15,14 +15,34 @@ const getUserByQuery = async (query) => {
 
 const createInitialUsersCollection = async (author) => {
   await addDoc(collection(db, 'scenes'), {
-    author,
-    data
+    author
   });
+};
+
+const isUserPremium = async (user) => {
+  if(user) {
+    user.getIdToken(true)
+    .then(() => {
+      user.getIdTokenResult().then(idTokenResult => {
+        if (idTokenResult.claims.plan === "PRO") {
+          console.log("PRO PLAN USER")
+          return true;
+        } else {
+          console.log("FREE PLAN USER")
+          return false;
+        }
+      })
+    })
+  } else {
+    console.log('refreshIdTokens : currentUser not set')
+  }
+  return false;
 };
 
 export {
   userFindByUidQuery,
   getUserByQuery,
   createInitialUsersCollection,
-  getScenes
+  getScenes,
+  isUserPremium
 };

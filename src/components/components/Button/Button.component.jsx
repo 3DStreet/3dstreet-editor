@@ -37,7 +37,8 @@ const Button = ({
   disabled,
   id,
   leadingicon,
-  trailingicon
+  trailingicon,
+  ...rest
 }) => (
   <button
     className={classNames(styles.buttonWrapper, variants[variant], className)}
@@ -48,6 +49,7 @@ const Button = ({
     id={id}
     leadingicon={leadingicon}
     trailingicon={trailingicon}
+    {...rest}
   >
     {leadingicon && <div className={styles.icon}>{leadingicon}</div>}
     {children}
