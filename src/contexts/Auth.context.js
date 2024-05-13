@@ -6,6 +6,7 @@ import {
 } from '../api';
 import { auth } from '../services/firebase';
 import PropTypes from 'prop-types';
+import { isUserPro, isUserBeta } from '../api/user';
 
 const AuthContext = createContext({
   currentUser: null,
@@ -21,6 +22,10 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
       } else {
         setCurrentUser(user);
+        const isPro = await isUserPro(user);
+        setCurrentUser({ ...user, isPro })
+        const isBeta = await isUserBeta(user);
+        setCurrentUser({ ...user, isBeta})
         localStorage.setItem('token', await user.getIdToken());
 
         try {

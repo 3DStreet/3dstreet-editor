@@ -137,7 +137,7 @@ const SceneCard = ({
         <div key={index} className={styles.card} title={scene.data().title}>
           <div
             className={styles.img}
-            onClick={() => scene.id && handleSceneClick(scene, scene.id)}
+            onClick={(event) => scene.id && handleSceneClick(scene, event)}
             style={{
               backgroundImage: `url(${
                 scene.data().imagePath || ScenePlaceholder

@@ -48,3 +48,13 @@ Note: If you are deploying to a development server and want to use development (
 * Create a new GitHub release here: https://github.com/3DStreet/3dstreet-editor/releases/new. Choose the tag you used above. (If needed for the title simply use the new version such as "1.1" or "1.1.0")
 * Click to automatically "generate release notes." Consider summarizing a few key changes to put at the top.
 * Update CHANGELOG.md with a quick summary of the auto generated release notes under the "Major improvement" heading.
+
+## Editor Auth Notes
+
+* For testing we have a basic access control system using Firebase auth "claims." By default a user have no claims. They can be added in JSON format via direct database editing for a given user's claims field. Example claim for a user with beta access on a Pro plan:
+```
+{
+  "plan": "PRO",
+  "beta": true
+}
+```
