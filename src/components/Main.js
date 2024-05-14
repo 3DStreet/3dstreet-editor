@@ -198,6 +198,7 @@ export default class Main extends Component {
 
   render() {
     const { currentUser } = this.props;
+    console.log(currentUser); // this is null
     const scene = this.state.sceneEl;
     const isEditor = !!this.state.inspectorEnabled;
     const sceneData = AFRAME.scenes[0].getAttribute('metadata', 'sceneTitle');
@@ -273,12 +274,12 @@ export default class Main extends Component {
             <Compass32Icon />
           </Button>
         )}
-        {currentUser && currentUser.isBeta ? (this.state.inspectorEnabled && (
+        {currentUser && currentUser.isBeta && this.state.inspectorEnabled && (
           <div id="layerWithCategory">
             <AddLayerButton onClick={this.toggleAddLayerPanel} />
           </div>
           )
-        ) : ('')}
+        }
         {this.state.isAddLayerPanelOpen && (
           <AddLayerPanel
             onClose={this.toggleAddLayerPanel}
