@@ -213,6 +213,8 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   let segmentElevationPosY = 0;
   // ancestor element in which the added elements will be placed, inside the .custom-group
   let ancestorOfSelectedEl;
+  // a flag indicating that the preview entity is inside one of the segments (segment-parent-0, ...)
+  let inSegment = false;
 
   preEntity.setAttribute('visible', false);
 
@@ -228,6 +230,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   const getAncestorEl = (element) => {
     if (element.className.includes('segment-parent')) {
       ancestorOfSelectedEl = element;
+      inSegment = true;
     } else if (
       // if there is no segment-parent for element then let Ancestor will be .buildings-parent or .street-parent
       element.classList.contains('street-parent') || 
@@ -235,10 +238,12 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
       // if we are not in the #street-container and this is the scene child element
       element.parentEl.isScene) {
       ancestorOfSelectedEl = element;
+      inSegment = false;
     } else if (element.parentEl) {
       getAncestorEl(element.parentEl);
     }
   };
+
   const getSegmentElevationPosY = (element) => {
     getAncestorEl(element);
     if (
@@ -263,8 +268,11 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
 
       preEntity.setAttribute('visible', true);
       selectedObjPos.setY(segmentElevationPosY);
-      preEntity.setAttribute('position', selectedObjPos);
-
+      if (inSegment) {
+        preEntity.setAttribute('position', selectedObjPos);
+      } else {
+        preEntity.setAttribute('position', {x: selectedObjPos.x, y: 0.2, z: selectedObjPos.z});
+      }
     }
   };
 
@@ -289,8 +297,13 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         ancestorOfSelectedEl.appendChild(customGroupEl);
         customGroupEl.classList.add('custom-group');
 
-        // set position y by elevation level of segment
-        customGroupEl.setAttribute('position', { y: segmentElevationPosY });
+        if (inSegment) {
+          // set position y by elevation level of segment
+          customGroupEl.setAttribute('position', { y: segmentElevationPosY });
+        } else {
+          // if we are creating element not inside segment-parent
+          customGroupEl.setAttribute('position', selectedObjPos);
+        }
       }
       customGroupEl.appendChild(newEntity);
     } else {
