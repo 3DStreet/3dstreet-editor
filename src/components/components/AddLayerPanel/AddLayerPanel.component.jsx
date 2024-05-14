@@ -209,7 +209,6 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
 
   // entity preview element
   let preEntity = document.createElement('a-entity');
-  let cameraFrontVec = new THREE.Vector3();
   let selectedObjPos = new THREE.Vector3();
   let segmentElevationPosY = 0;
   let segmentOfSelectedEl;
@@ -217,24 +216,6 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   preEntity.setAttribute('visible', false);
 
   AFRAME.scenes[0].appendChild(preEntity);
-
-  const previewEntity = () => {
-    if (selectedOption == 'Models: Buildings') {
-      preEntity.setAttribute('scale', { x: 0.1, y: 0.1, z: 0.1 });
-    } else {
-      preEntity.setAttribute('scale', { x: 0.5, y: 0.5, z: 0.5 });
-    }
-    /* place object in front of active camera */
-    const direction = new THREE.Vector3();
-    // active camera object
-    const activeCamera = AFRAME.INSPECTOR.camera;
-    activeCamera.getWorldDirection(direction);
-    cameraFrontVec.copy(activeCamera.position);
-    cameraFrontVec.add(direction.multiplyScalar(5));
-
-    // place preview entity in front of camera in 5 meters
-    preEntity.setAttribute('position', cameraFrontVec);
-  };
 
   const getParentSegmentEl = (element) => {
     if (element.className.includes('segment-parent')) {
