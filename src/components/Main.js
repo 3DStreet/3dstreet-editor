@@ -42,6 +42,7 @@ export default class Main extends Component {
         attributes: true
       }
     };
+
     Events.on('togglesidebar', (event) => {
       if (event.which === 'all') {
         if (this.state.visible.scenegraph || this.state.visible.attributes) {
@@ -196,6 +197,7 @@ export default class Main extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     const scene = this.state.sceneEl;
     const isEditor = !!this.state.inspectorEnabled;
     const sceneData = AFRAME.scenes[0].getAttribute('metadata', 'sceneTitle');
@@ -271,11 +273,12 @@ export default class Main extends Component {
             <Compass32Icon />
           </Button>
         )}
-        {this.state.inspectorEnabled && (
+        {currentUser && currentUser.isBeta ? (this.state.inspectorEnabled && (
           <div id="layerWithCategory">
             <AddLayerButton onClick={this.toggleAddLayerPanel} />
           </div>
-        )}
+          )
+        ) : ('')}
         {this.state.isAddLayerPanelOpen && (
           <AddLayerPanel
             onClose={this.toggleAddLayerPanel}
