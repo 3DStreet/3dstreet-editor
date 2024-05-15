@@ -52,7 +52,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
       index += 1;
     }
 
-    for (const categoryName of Object.keys(groupedObject)) {
+    for (const categoryName in groupedObject) {
       groupedArray.push({
         label: categoryName,
         options: groupedObject[categoryName]
