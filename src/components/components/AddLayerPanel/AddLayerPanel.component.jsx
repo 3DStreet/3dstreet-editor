@@ -33,8 +33,8 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
     let categoryName, mixinId;
 
     const groupedObject = {};
-    let ind = 0;
-    for (let mixinEl of Array.from(mixinElements)) {
+    let index = 0;
+    for (const mixinEl of mixinElements) {
       categoryName = mixinEl.getAttribute('category');
       if (!categoryName) continue;
       mixinId = mixinEl.id;
@@ -47,12 +47,12 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         icon: '',
         mixinId: mixinId,
         name: mixinId,
-        id: ind
+        id: index
       });
-      ind += 1;
+      index += 1;
     }
 
-    for (let categoryName of Object.keys(groupedObject)) {
+    for (const categoryName of Object.keys(groupedObject)) {
       groupedArray.push({
         label: categoryName,
         options: groupedObject[categoryName]
@@ -327,7 +327,7 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
   };
   return (
     <div
-      className={classNames(styles.panel, isAddLayerPanelOpen && styles.open)}
+      className={classNames(styles.panel, { [styles.open]: isAddLayerPanelOpen })}
     >
       <Button onClick={onClose} variant="custom" className={styles.closeButton}>
         <Chevron24Down />
@@ -347,9 +347,9 @@ const AddLayerPanel = ({ onClose, isAddLayerPanelOpen }) => {
         />
       </div>
       <div className={styles.cards}>
-        {selectedCards?.map((card, idx) => (
+        {selectedCards?.map((card) => (
           <div
-            key={Number(card.id + idx)}
+            key={card.id}
             className={styles.card}
             onMouseEnter={() => card.mixinId && cardMouseEnter(card.mixinId)}
             onMouseLeave={() => card.mixinId && cardMouseLeave(card.mixinId)}
