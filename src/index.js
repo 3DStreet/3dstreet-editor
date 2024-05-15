@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import MainWrapper from './components/MainWrapper';
-import Main from './components/Main';
 import { AuthProvider } from './contexts';
 import Events from './lib/Events';
 import { AssetsLoader } from './lib/assetsLoader';

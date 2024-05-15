@@ -21,43 +21,47 @@ const createInitialUsersCollection = async (author) => {
 };
 
 const isUserPro = async (user) => {
-  if(user) {
-    user.getIdToken(true)
-    .then(() => {
-      user.getIdTokenResult().then(idTokenResult => {
-        if (idTokenResult.claims.plan === "PRO") {
-          console.log("PRO PLAN USER")
-          return true;
-        } else {
-          console.log("FREE PLAN USER")
-          return false;
-        }
-      })
-    })
+  if (user) {
+    try {
+      await user.getIdToken(true);
+      const idTokenResult = await user.getIdTokenResult();
+      if (idTokenResult.claims.plan === "PRO") {
+        console.log("PRO PLAN USER");
+        return true;
+      } else {
+        console.log("FREE PLAN USER");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking PRO plan:", error);
+      return false;
+    }
   } else {
-    console.log('refreshIdTokens : currentUser not set')
+    console.log('refreshIdTokens: currentUser not set');
+    return false;
   }
-  return false;
 };
 
 const isUserBeta = async (user) => {
-  if(user) {
-    user.getIdToken(true)
-    .then(() => {
-      user.getIdTokenResult().then(idTokenResult => {
-        if (!!idTokenResult.claims.beta) {
-          console.log("BETA USER")
-          return true;
-        } else {
-          console.log("NOT BETA USER")
-          return false;
-        }
-      })
-    })
+  if (user) {
+    try {
+      await user.getIdToken(true);
+      const idTokenResult = await user.getIdTokenResult();
+      if (idTokenResult.claims.beta) {
+        console.log("BETA USER");
+        return true;
+      } else {
+        console.log("NOT BETA USER");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking BETA status:", error);
+      return false;
+    }
   } else {
-    console.log('refreshIdTokens : currentUser not set')
+    console.log('refreshIdTokens: currentUser not set');
+    return false;
   }
-  return false;
 };
 
 export {
