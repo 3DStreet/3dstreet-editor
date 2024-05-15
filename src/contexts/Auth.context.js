@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { createInitialUsersCollection, getUserByQuery, userFindByUidQuery } from '../api';
 import { auth } from '../services/firebase';
 import PropTypes from 'prop-types';
 import { isUserPro, isUserBeta } from '../api/user';
@@ -28,15 +27,6 @@ const AuthProvider = ({ children }) => {
 
       setCurrentUser(enrichedUser);
 
-      try {
-        const users = await getUserByQuery(userFindByUidQuery(user.uid));
-
-        if (users.empty) {
-          await createInitialUsersCollection(user.uid);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
     };
 
     const unsubscribe = auth.onAuthStateChanged((user) => {

@@ -198,7 +198,6 @@ export default class Main extends Component {
 
   render() {
     const { currentUser } = this.props;
-    console.log(currentUser); // this is null
     const scene = this.state.sceneEl;
     const isEditor = !!this.state.inspectorEnabled;
     const sceneData = AFRAME.scenes[0].getAttribute('metadata', 'sceneTitle');
