@@ -449,6 +449,70 @@ const GoogleSignInButtonSVG = ({ className }) => (
   </svg>
 );
 
+const Circle20Icon = ({ className }) => (
+  <svg
+    width="21"
+    height="20"
+    viewBox="0 0 21 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10.5 3.5C6.91015 3.5 4 6.41015 4 10C4 13.5898 6.91015 16.5 10.5 16.5C14.0899 16.5 17 13.5899 17 10C17 6.41015 14.0899 3.5 10.5 3.5ZM10.5 2C6.08172 2 2.5 5.58172 2.5 10C2.5 14.4183 6.08172 18 10.5 18C14.9183 18 18.5 14.4183 18.5 10C18.5 5.58172 14.9183 2 10.5 2Z"
+      fill="white"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10.5 14.25C10.0858 14.25 9.75 13.9142 9.75 13.5L9.75 10.75L7 10.75C6.58579 10.75 6.25 10.4142 6.25 10C6.25 9.58579 6.58579 9.25 7 9.25L9.75 9.25L9.75 6.5C9.75 6.08579 10.0858 5.75 10.5 5.75C10.9142 5.75 11.25 6.08579 11.25 6.5L11.25 9.25L14 9.25C14.4142 9.25 14.75 9.58579 14.75 10C14.75 10.4142 14.4142 10.75 14 10.75L11.25 10.75L11.25 13.5C11.25 13.9142 10.9142 14.25 10.5 14.25Z"
+      fill="#DBDBDB"
+    />
+  </svg>
+);
+
+const Chevron24Down = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    className={className}
+  >
+    <path
+      d="M14.1667 8.3335L10 12.5002L5.83335 8.3335H14.1667Z"
+      fill="#DBDBDB"
+    />
+  </svg>
+);
+
+const Plus20Circle = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    className={className}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M8 1.5C4.41015 1.5 1.5 4.41015 1.5 8C1.5 11.5898 4.41015 14.5 8 14.5C11.5899 14.5 14.5 11.5899 14.5 8C14.5 4.41015 11.5899 1.5 8 1.5ZM8 -6.99382e-07C3.58172 -1.08564e-06 1.08564e-06 3.58172 6.99382e-07 8C3.13124e-07 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 -3.13124e-07 8 -6.99382e-07Z"
+      fill="white"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M8 12.25C7.58579 12.25 7.25 11.9142 7.25 11.5L7.25 8.75L4.5 8.75C4.08579 8.75 3.75 8.41421 3.75 8C3.75 7.58579 4.08579 7.25 4.5 7.25L7.25 7.25L7.25 4.5C7.25 4.08579 7.58579 3.75 8 3.75C8.41421 3.75 8.75 4.08579 8.75 4.5L8.75 7.25L11.5 7.25C11.9142 7.25 12.25 7.58579 12.25 8C12.25 8.41421 11.9142 8.75 11.5 8.75L8.75 8.75L8.75 11.5C8.75 11.9142 8.41421 12.25 8 12.25Z"
+      fill="white"
+    />
+  </svg>
+);
+
 export {
   Camera32Icon,
   Save24Icon,
@@ -472,5 +536,8 @@ export {
   ArrowLeftIcon,
   ArrowRightIcon,
   LayersIcon,
-  GoogleSignInButtonSVG
+  GoogleSignInButtonSVG,
+  Circle20Icon,
+  Chevron24Down,
+  Plus20Circle
 };

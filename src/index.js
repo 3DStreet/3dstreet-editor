@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import Main from './components/Main';
+import MainWrapper from './components/MainWrapper';
 import { AuthProvider } from './contexts';
 import Events from './lib/Events';
 import { AssetsLoader } from './lib/assetsLoader';
@@ -74,7 +74,7 @@ Inspector.prototype = {
     const root = createRoot(div);
     root.render(
       <AuthProvider>
-        <Main />
+        <MainWrapper />
       </AuthProvider>
     );
 
