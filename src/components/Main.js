@@ -279,7 +279,7 @@ export default class Main extends Component {
           </div>
           )
         }
-        {this.state.isAddLayerPanelOpen && (
+        {this.state.inspectorEnabled && this.state.isAddLayerPanelOpen && (
           <AddLayerPanel
             onClose={this.toggleAddLayerPanel}
             isAddLayerPanelOpen={this.state.isAddLayerPanelOpen}
