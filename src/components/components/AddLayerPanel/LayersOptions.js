@@ -45,12 +45,6 @@ const LayersOptions = [
     label: 'Models: Buildings',
     mixinGroups: ['buildings'],
     onClick: () => console.log('Models: Buildings')
-  },
-  {
-    value: 'Models: stencils',
-    label: 'Models: stencils',
-    mixinGroups: ['stencils'],
-    onClick: () => console.log('Models: stencils')
   }
 ];
 
