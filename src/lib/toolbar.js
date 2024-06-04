@@ -6,31 +6,31 @@ export function inputStreetmix() {
     'https://streetmix.net/kfarr/3/example-street'
   );
 
+  // clrear scene data, create new blank scene.
+  // clearMetadata = true, clearUrlHash = false
+  STREET.utils.newScene(true, false);
+
   setTimeout(function () {
     window.location.hash = streetmixURL;
   });
 
-  const streetContainerEl = document.getElementById('street-container');
-
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
-  }
-
-  streetContainerEl.innerHTML =
-    '<a-entity street streetmix-loader="streetmixStreetURL: ' +
-    streetmixURL +
-    '""></a-entity>';
+  const streetContainerEl = document.getElementById('default-street');
+  streetContainerEl.setAttribute(
+    'streetmix-loader',
+    'streetmixStreetURL',
+    streetmixURL
+  );
 
   // update sceneGraph
   Events.emit('entitycreated', streetContainerEl.sceneEl);
 }
 
 export function createElementsForScenesFromJSON(streetData) {
-  const streetContainerEl = document.getElementById('street-container');
+  // clrear scene data, create new blank scene.
+  // clearMetadata = true, clearUrlHash = true, addDefaultStreet = false
+  STREET.utils.newScene(true, false, false);
 
-  while (streetContainerEl.firstChild) {
-    streetContainerEl.removeChild(streetContainerEl.lastChild);
-  }
+  const streetContainerEl = document.getElementById('street-container');
 
   if (!Array.isArray(streetData)) {
     console.error('Invalid data format. Expected an array.');
